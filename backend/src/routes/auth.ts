@@ -61,14 +61,14 @@ authRoutes.post('/request-otp', async (c) => {
     await storeOtp(c.env.KV, phone, otp);
   }
 
-  // Send SMS via provider or console in dev
-  await sendSms(phone, otp, c.env.SMS_API_KEY);
+  // Send SMS via Fast2SMS
+  const smsResult = await sendSms(phone, otp, c.env.SMS_API_KEY);
 
   return c.json({
     success: true,
-    message: 'OTP sent to mobile number',
+    message: smsResult.success ? 'OTP sent to mobile number via SMS' : (smsResult.error || 'OTP sent'),
     phone,
-    // If no SMS gateway configured, return OTP so user can log in without paid SMS credits
+    // Only return devOtp if NO real SMS gateway key is configured
     devOtp: c.env.SMS_API_KEY ? undefined : otp,
   });
 });

@@ -94,20 +94,48 @@ export async function verifyOtp(
   };
 }
 
-export async function sendSms(phone: string, otp: string, apiKey?: string): Promise<boolean> {
-  // Abstraction for SMS gateway (Fast2SMS / Twilio / MSG91)
-  console.log(`[SMS GATEWAY] Sending 6-digit OTP ${otp} to phone: ${phone}`);
+export async function sendSms(phone: string, otp: string, apiKey?: string): Promise<{ success: boolean; error?: string }> {
+  console.log(`[SMS GATEWAY] Preparing 6-digit OTP for phone: ${phone}`);
 
   if (!apiKey || apiKey === 'mock_sms_key') {
-    // Development / demo mock log
-    return true;
+    console.log(`[SMS GATEWAY (MOCK)] OTP ${otp} for phone ${phone}`);
+    return { success: true };
   }
 
   try {
-    // Example: Can integrate real SMS gateway HTTP endpoint here if apiKey is configured
-    return true;
-  } catch (err) {
-    console.error('Failed to send SMS:', err);
-    return false;
+    // Extract 10-digit Indian mobile number
+    const cleanNumber = phone.replace(/\D/g, '').slice(-10);
+    if (cleanNumber.length !== 10) {
+      console.error(`Invalid mobile number format: ${phone}`);
+      return { success: false, error: 'Please enter a valid 10-digit mobile number' };
+    }
+
+    console.log(`[Fast2SMS] Dispatching OTP via Fast2SMS to: ${cleanNumber}`);
+    const response = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+      method: 'POST',
+      headers: {
+        'authorization': apiKey.trim(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        route: 'otp',
+        variables_values: otp,
+        numbers: cleanNumber,
+      }),
+    });
+
+    const data: any = await response.json();
+    console.log(`[Fast2SMS Response]`, JSON.stringify(data));
+
+    if (data.return === true) {
+      return { success: true };
+    } else {
+      const errMsg = Array.isArray(data.message) ? data.message.join(', ') : (data.message || 'SMS delivery failed');
+      console.error(`[Fast2SMS Failure]`, errMsg);
+      return { success: false, error: errMsg };
+    }
+  } catch (err: any) {
+    console.error('Failed to send SMS via Fast2SMS:', err.message);
+    return { success: false, error: err.message };
   }
 }

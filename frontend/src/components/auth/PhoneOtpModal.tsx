@@ -23,7 +23,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
   const { t } = useLanguage();
 
   const [step, setStep] = useState<'phone' | 'otp' | 'role'>('phone');
-  const [phone, setPhone] = useState('9876543210');
+  const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [role, setRole] = useState<UserRole>(defaultRole);
   const [loading, setLoading] = useState(false);
@@ -56,19 +56,15 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
       const res = await api.requestOtp(phone, apiRole);
       if (res.devOtp) {
         setDevOtpHint(res.devOtp);
-        setOtp(res.devOtp); // Convenience in demo
       } else {
-        setDevOtpHint('123456');
-        setOtp('123456');
+        setDevOtpHint(null);
       }
+      setOtp(''); // User enters real SMS OTP
       setStep('otp');
       setResendTimer(30);
     } catch (err: any) {
-      console.warn('Backend offline, using mock OTP:', err.message);
-      setDevOtpHint('123456');
-      setOtp('123456');
-      setStep('otp');
-      setResendTimer(30);
+      console.error('Failed to request OTP:', err.message);
+      setError(err.message || 'Failed to send OTP SMS. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -91,10 +87,8 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
       onClose();
       if (onSuccess) onSuccess(verifiedRole);
     } catch (err: any) {
-      console.warn('Backend verify error, falling back to mock login:', err.message);
-      login(phone, role, 'mock-demo-jwt-token', 'usr_' + Date.now());
-      onClose();
-      if (onSuccess) onSuccess(role);
+      console.error('Failed to verify OTP:', err.message);
+      setError(err.message || 'Invalid or expired OTP. Please check and try again.');
     } finally {
       setLoading(false);
     }
