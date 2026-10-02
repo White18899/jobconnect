@@ -4,6 +4,12 @@ import { Button } from '../common/Button';
 import { useAuth, UserRole } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../services/api';
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  ConfirmationResult,
+} from '../../services/firebase';
 import { Phone, KeyRound, Shield, CheckCircle2, User, Store } from 'lucide-react';
 
 interface PhoneOtpModalProps {
@@ -31,6 +37,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
   const [devOtpHint, setDevOtpHint] = useState<string | null>(null);
   const [smsNotice, setSmsNotice] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(0);
+  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
 
   useEffect(() => {
     setRole(defaultRole);
@@ -52,6 +59,40 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
     setError(null);
     setLoading(true);
 
+    const formattedPhone = phone.startsWith('+91')
+      ? phone
+      : `+91${phone.replace(/\D/g, '').slice(-10)}`;
+
+    // 1. Try Firebase Real SMS first
+    if (auth) {
+      try {
+        if (!(window as any).recaptchaVerifier) {
+          (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            size: 'invisible',
+          });
+        }
+        const appVerifier = (window as any).recaptchaVerifier;
+        const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+        setConfirmationResult(confirmation);
+        setDevOtpHint(null);
+        setSmsNotice(null);
+        setOtp('');
+        setStep('otp');
+        setResendTimer(30);
+        setLoading(false);
+        return;
+      } catch (fbErr: any) {
+        console.warn('Firebase SMS dispatch attempt error, falling back to Cloudflare engine:', fbErr.message);
+        if ((window as any).recaptchaVerifier) {
+          try {
+            (window as any).recaptchaVerifier.clear();
+            (window as any).recaptchaVerifier = null;
+          } catch (e) {}
+        }
+      }
+    }
+
+    // 2. Cloudflare Edge / Fast2SMS fallback
     try {
       const apiRole = role === 'admin' ? 'worker' : role;
       const res = await api.requestOtp(phone, apiRole);
@@ -62,7 +103,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
         setDevOtpHint(null);
         setSmsNotice(null);
       }
-      setOtp(''); // User enters real SMS OTP
+      setOtp('');
       setStep('otp');
       setResendTimer(30);
     } catch (err: any) {
@@ -83,10 +124,16 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
     setLoading(true);
 
     try {
+      let firebaseToken: string | undefined;
+      if (confirmationResult) {
+        const userCred = await confirmationResult.confirm(otp);
+        firebaseToken = await userCred.user.getIdToken();
+      }
+
       const apiRole = role === 'admin' ? 'worker' : role;
       const res = await api.verifyOtp(phone, otp, apiRole);
       const verifiedRole = (res.user?.role as UserRole) || role;
-      login(phone, verifiedRole, res.token, res.user?.id);
+      login(phone, verifiedRole, res.token || firebaseToken, res.user?.id);
       onClose();
       if (onSuccess) onSuccess(verifiedRole);
     } catch (err: any) {
@@ -102,6 +149,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
     setOtp('');
     setError(null);
     setDevOtpHint(null);
+    setSmsNotice(null);
   };
 
   return (
@@ -121,6 +169,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
 
       {step === 'phone' ? (
         <form onSubmit={handleRequestOtp} className="space-y-4">
+          <div id="recaptcha-container"></div>
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               {t('auth.enter_phone')}

@@ -66,10 +66,12 @@ authRoutes.post('/request-otp', async (c) => {
 
   return c.json({
     success: true,
-    message: smsResult.success ? 'OTP sent to mobile number via SMS' : (smsResult.error || 'OTP sent'),
+    message: smsResult.success ? 'OTP sent to mobile number via SMS' : (smsResult.error || 'OTP generated'),
     phone,
-    // Only return devOtp if NO real SMS gateway key is configured
-    devOtp: c.env.SMS_API_KEY ? undefined : otp,
+    smsDelivered: smsResult.success,
+    smsError: smsResult.success ? undefined : smsResult.error,
+    // If SMS gateway failed (e.g. pending Fast2SMS website verification), provide code so user is not blocked
+    devOtp: smsResult.success ? undefined : otp,
   });
 });
 
