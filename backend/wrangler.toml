@@ -1,0 +1,27 @@
+name = "jobconnect-backend"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "development"
+UPI_ID = "jobconnect@icici"
+APP_NAME = "JobConnect"
+FRONTEND_URL = "http://localhost:5173"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "jobconnect-db"
+database_id = "local-jobconnect-db-id"
+migrations_dir = "src/db/migrations"
+
+# KV Namespace binding for OTP hash and rate limiting
+[[kv_namespaces]]
+binding = "KV"
+id = "local-jobconnect-kv-id"
+
+# R2 Bucket binding for private documents (ID proofs, selfies, business docs, payment receipts)
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "jobconnect-files"
