@@ -69,6 +69,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, currentTab, setCurr
               <button
                 onClick={() => {
                   logout();
+                  if (window.location.pathname.startsWith('/admin') || window.location.hash.startsWith('#admin')) {
+                    window.history.pushState(null, '', '/');
+                  }
                   setCurrentTab('landing');
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 transition"

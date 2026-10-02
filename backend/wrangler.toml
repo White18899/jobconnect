@@ -8,6 +8,7 @@ ENVIRONMENT = "production"
 UPI_ID = "jobconnect@icici"
 APP_NAME = "JobConnect"
 JWT_SECRET = "jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key"
+ADMIN_PASSWORD = "JobConnect@Admin2026"
 
 # Cloudflare D1 Database
 [[d1_databases]]

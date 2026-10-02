@@ -48,6 +48,12 @@ export const api = {
       body: JSON.stringify({ phone, otp, role }),
     }),
 
+  adminLogin: (password: string) =>
+    request<{ success: boolean; token: string; user: any }>('/auth/admin-login', {
+      method: 'POST',
+      body: JSON.stringify({ password }),
+    }),
+
   getMe: () => request<{ user: any; profile: any }>('/auth/me'),
 
   // Worker & Jobs

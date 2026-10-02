@@ -22,6 +22,7 @@ import { ApplicantsPage } from './pages/employer/ApplicantsPage';
 import { EmployerProfilePage } from './pages/employer/EmployerProfilePage';
 
 // Admin Pages
+import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { VerificationDetailPage } from './pages/admin/VerificationDetailPage';
 import { PaymentsLedgerPage } from './pages/admin/PaymentsLedgerPage';
@@ -34,8 +35,25 @@ export const App: React.FC = () => {
   const { user, role } = useAuth();
   const { t } = useLanguage();
 
-  // Navigation State
-  const [currentTab, setCurrentTab] = useState<string>('landing');
+  // Helper to check if URL path or hash indicates admin console
+  const checkIsAdminUrl = () => {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return (
+      path.startsWith('/admin') ||
+      path === '/admin' ||
+      hash.startsWith('#admin') ||
+      hash === '#admin'
+    );
+  };
+
+  // Navigation State initialized based on URL
+  const [currentTab, setCurrentTab] = useState<string>(() => {
+    if (checkIsAdminUrl()) {
+      return 'admin_dashboard';
+    }
+    return 'landing';
+  });
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [selectedJobIdForApplicants, setSelectedJobIdForApplicants] = useState<string | undefined>(undefined);
 
@@ -96,6 +114,26 @@ export const App: React.FC = () => {
       active = false;
     };
   }, []);
+
+  // Listen for browser navigation / URL hash changes (e.g. user visits /admin or #admin)
+  useEffect(() => {
+    const handleLocationChange = () => {
+      if (checkIsAdminUrl()) {
+        if (!currentTab.startsWith('admin_')) {
+          setCurrentTab('admin_dashboard');
+        }
+      } else if (currentTab.startsWith('admin_') && (!user || role !== 'admin')) {
+        setCurrentTab('landing');
+      }
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, [currentTab, user, role]);
 
   // Worker Action: Apply for a job
   const handleApplyJob = async (job: Job) => {
@@ -294,6 +332,24 @@ export const App: React.FC = () => {
 
   // Render Page Content based on currentTab & user role
   const renderContent = () => {
+    // 0. Protected Admin Route Gateway: Access restricted to direct URL + password
+    if (checkIsAdminUrl() || currentTab.startsWith('admin_')) {
+      if (!user || role !== 'admin') {
+        return (
+          <AdminLoginPage
+            onLoginSuccess={() => {
+              setCurrentTab('admin_dashboard');
+              showToast('Admin authenticated successfully');
+            }}
+            onBackToHome={() => {
+              window.history.pushState(null, '', '/');
+              setCurrentTab('landing');
+            }}
+          />
+        );
+      }
+    }
+
     // 1. Landing Page
     if (currentTab === 'landing') {
       return (
@@ -315,14 +371,6 @@ export const App: React.FC = () => {
               showToast(`Currently logged in as ${role}. Please logout to switch accounts.`);
             } else {
               setAuthDefaultRole('employer');
-              setIsAuthModalOpen(true);
-            }
-          }}
-          onOpenAdmin={() => {
-            if (user && role === 'admin') {
-              setCurrentTab('admin_dashboard');
-            } else {
-              setAuthDefaultRole('admin');
               setIsAuthModalOpen(true);
             }
           }}
@@ -492,9 +540,11 @@ export const App: React.FC = () => {
       </main>
 
       {/* Mobile Sticky Bottom Navigation */}
-      {currentTab !== 'landing' && currentTab !== 'job_detail' && (
-        <BottomNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      )}
+      {currentTab !== 'landing' &&
+        currentTab !== 'job_detail' &&
+        (!currentTab.startsWith('admin_') || (user && role === 'admin')) && (
+          <BottomNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        )}
 
       {/* Phone OTP Login & Role Selection Modal */}
       <PhoneOtpModal

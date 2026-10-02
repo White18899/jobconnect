@@ -189,4 +189,57 @@ authRoutes.get('/me', authMiddleware, async (c) => {
   });
 });
 
+// 4. Secure Admin Password Login (Accessed exclusively by direct URL)
+authRoutes.post('/admin-login', async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const password = body.password?.trim();
+  const configuredPassword = c.env.ADMIN_PASSWORD || 'JobConnect@Admin2026';
+
+  if (!password || password !== configuredPassword) {
+    return c.json({ error: 'Invalid admin password. Access denied.' }, 401);
+  }
+
+  // Find or use admin account from D1
+  let adminUser = await c.env.DB.prepare(
+    "SELECT id, phone, role, is_blocked, is_verified FROM users WHERE role = 'admin' LIMIT 1"
+  ).first<{ id: string; phone: string; role: 'admin'; is_blocked: number; is_verified: number }>();
+
+  if (!adminUser) {
+    const adminId = 'usr_admin_01';
+    await c.env.DB.prepare(
+      "INSERT OR IGNORE INTO users (id, phone, role, is_blocked, is_verified) VALUES (?, '+919999999999', 'admin', 0, 1)"
+    ).bind(adminId).run();
+    adminUser = {
+      id: adminId,
+      phone: '+919999999999',
+      role: 'admin',
+      is_blocked: 0,
+      is_verified: 1,
+    };
+  }
+
+  const secret = c.env.JWT_SECRET || 'jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key';
+  const token = await signJwt(
+    {
+      userId: adminUser.id,
+      phone: adminUser.phone,
+      role: 'admin',
+    },
+    secret,
+    7 * 86400
+  );
+
+  return c.json({
+    success: true,
+    token,
+    user: {
+      id: adminUser.id,
+      phone: adminUser.phone,
+      role: 'admin',
+      isVerified: true,
+    },
+  });
+});
+
 export default authRoutes;
+
