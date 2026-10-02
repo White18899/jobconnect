@@ -262,22 +262,17 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
               {t('auth.otp_sent_to')} <span className="font-bold text-slate-800">+91 {phone}</span>
             </p>
 
-            {smsNotice && (
-              <div className="mt-2.5 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left text-[11px] text-amber-900 leading-normal">
-                <p className="font-bold mb-0.5">Fast2SMS Notice:</p>
-                <p>{smsNotice}</p>
-                {devOtpHint && (
-                  <p className="mt-1 font-semibold text-slate-800">
-                    Use this OTP code: <span className="text-brand-900 tracking-wider font-mono text-xs font-bold">{devOtpHint}</span>
-                  </p>
-                )}
-              </div>
-            )}
-
-            {!smsNotice && devOtpHint && (
-              <span className="inline-block mt-2 px-2.5 py-1 bg-amber-50 text-amber-800 text-xs font-semibold rounded-lg border border-amber-200">
-                OTP Code: <b>{devOtpHint}</b>
-              </span>
+            {devOtpHint && (
+              <button
+                type="button"
+                onClick={() => setOtp(devOtpHint)}
+                className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-brand-900 text-xs font-semibold transition active:scale-95 shadow-xs"
+                title="Click to fill automatically"
+              >
+                <span>🔑 Code:</span>
+                <span className="font-mono font-bold tracking-widest text-slate-900 bg-white px-2 py-0.5 rounded-md border border-blue-200">{devOtpHint}</span>
+                <span className="text-[10px] text-brand-600 font-medium">(Tap to auto-fill)</span>
+              </button>
             )}
           </div>
 
