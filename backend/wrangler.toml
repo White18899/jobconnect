@@ -4,24 +4,24 @@ compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
 UPI_ID = "jobconnect@icici"
 APP_NAME = "JobConnect"
-FRONTEND_URL = "http://localhost:5173"
+JWT_SECRET = "jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key"
 
-# D1 Database binding
+# Cloudflare D1 Database
 [[d1_databases]]
 binding = "DB"
 database_name = "jobconnect-db"
-database_id = "local-jobconnect-db-id"
+database_id = "eba3b1ff-4cbb-4198-9775-8079c142bb5c"
 migrations_dir = "src/db/migrations"
 
-# KV Namespace binding for OTP hash and rate limiting
+# Cloudflare KV Namespace for OTP & Rate Limiting
 [[kv_namespaces]]
 binding = "KV"
-id = "local-jobconnect-kv-id"
+id = "043b4e5284154cd18a07a9deabef7843"
 
-# R2 Bucket binding for private documents (ID proofs, selfies, business docs, payment receipts)
+# Cloudflare R2 Bucket for Private File Storage
 [[r2_buckets]]
 binding = "FILES"
 bucket_name = "jobconnect-files"

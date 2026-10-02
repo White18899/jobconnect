@@ -1,6 +1,6 @@
-import { Job, Worker, Application } from './mockData';
+import { Job, Application } from './mockData';
 
-const BASE_URL = '/api';
+const BASE_URL = ((import.meta as any).env?.VITE_API_BASE_URL) || 'https://jobconnect-backend.white018899.workers.dev/api';
 
 export function getAuthToken(): string | null {
   return localStorage.getItem('jobconnect_token');
