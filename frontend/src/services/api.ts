@@ -37,7 +37,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 export const api = {
   // Auth
   requestOtp: (phone: string, role?: 'worker' | 'employer') =>
-    request<{ success: boolean; message: string; devOtp?: string }>('/auth/request-otp', {
+    request<{ success: boolean; message: string; devOtp?: string; smsDelivered?: boolean; smsError?: string }>('/auth/request-otp', {
       method: 'POST',
       body: JSON.stringify({ phone, role }),
     }),

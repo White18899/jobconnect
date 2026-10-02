@@ -29,6 +29,7 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [devOtpHint, setDevOtpHint] = useState<string | null>(null);
+  const [smsNotice, setSmsNotice] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(0);
 
   useEffect(() => {
@@ -56,8 +57,10 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
       const res = await api.requestOtp(phone, apiRole);
       if (res.devOtp) {
         setDevOtpHint(res.devOtp);
+        setSmsNotice(res.smsError || null);
       } else {
         setDevOtpHint(null);
+        setSmsNotice(null);
       }
       setOtp(''); // User enters real SMS OTP
       setStep('otp');
@@ -194,9 +197,22 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
             <p className="text-xs text-slate-500">
               {t('auth.otp_sent_to')} <span className="font-bold text-slate-800">+91 {phone}</span>
             </p>
-            {devOtpHint && (
+
+            {smsNotice && (
+              <div className="mt-2.5 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left text-[11px] text-amber-900 leading-normal">
+                <p className="font-bold mb-0.5">Fast2SMS Notice:</p>
+                <p>{smsNotice}</p>
+                {devOtpHint && (
+                  <p className="mt-1 font-semibold text-slate-800">
+                    Use this OTP code: <span className="text-brand-900 tracking-wider font-mono text-xs font-bold">{devOtpHint}</span>
+                  </p>
+                )}
+              </div>
+            )}
+
+            {!smsNotice && devOtpHint && (
               <span className="inline-block mt-2 px-2.5 py-1 bg-amber-50 text-amber-800 text-xs font-semibold rounded-lg border border-amber-200">
-                Demo OTP: <b>{devOtpHint}</b>
+                OTP Code: <b>{devOtpHint}</b>
               </span>
             )}
           </div>
