@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrandLogo } from '../../components/common/BrandLogo';
 import { GlassCard } from '../../components/common/GlassCard';
 import { Button } from '../../components/common/Button';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -175,7 +176,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </div>
 
       {/* Public Footer */}
-      <footer className="max-w-2xl mx-auto pt-8 border-t border-slate-200/60 text-center space-y-2">
+      <footer className="max-w-2xl mx-auto pt-8 border-t border-slate-200/60 text-center space-y-3">
+        <div className="flex items-center justify-center">
+          <BrandLogo size="sm" hideSubtitle />
+        </div>
         <div className="flex items-center justify-center gap-3 text-xs text-slate-400">
           <span>JobConnect India &copy; 2026</span>
           <span>&bull;</span>

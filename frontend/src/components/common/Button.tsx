@@ -28,11 +28,11 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantClasses = {
-    primary: 'bg-brand-900 hover:bg-brand-800 text-white shadow-brand-900/20 focus:ring-2 focus:ring-brand-900 focus:ring-offset-2',
-    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 focus:ring-2 focus:ring-slate-300',
-    outline: 'bg-white border-2 border-slate-300 hover:bg-slate-50 text-slate-800 focus:ring-2 focus:ring-slate-200',
-    danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20 focus:ring-2 focus:ring-rose-500 focus:ring-offset-2',
-    success: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2',
+    primary: 'bg-gradient-to-r from-brand-900 to-slate-900 hover:from-black hover:to-slate-950 text-white shadow-md shadow-brand-900/20 focus:ring-2 focus:ring-brand-900 focus:ring-offset-2 tracking-[-0.01em]',
+    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 focus:ring-2 focus:ring-slate-300 tracking-[-0.01em]',
+    outline: 'bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50/70 text-slate-800 focus:ring-2 focus:ring-slate-200 tracking-[-0.01em]',
+    danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20 focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 tracking-[-0.01em]',
+    success: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 tracking-[-0.01em]',
   };
 
   return (

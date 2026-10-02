@@ -2,7 +2,8 @@ import React from 'react';
 import { useAuth, UserRole } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
-import { Briefcase, ShieldCheck, User, Store, LogOut } from 'lucide-react';
+import { BrandLogo } from '../common/BrandLogo';
+import { ShieldCheck, User, Store, LogOut } from 'lucide-react';
 
 interface NavbarProps {
   onOpenLogin: (role?: UserRole) => void;
@@ -15,25 +16,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, currentTab, setCurr
   const { t } = useLanguage();
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 px-4 py-3 shadow-2xs">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 py-3 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.04)]">
       <div className="max-w-5xl mx-auto flex items-center justify-between">
         {/* Brand Logo */}
-        <div
+        <BrandLogo
+          size="md"
+          subtitle="Verified Hiring"
           onClick={() => setCurrentTab('landing')}
-          className="flex items-center gap-2.5 cursor-pointer select-none"
-        >
-          <div className="w-10 h-10 rounded-2xl bg-brand-900 flex items-center justify-center text-white shadow-md shadow-brand-900/20">
-            <Briefcase className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-xl font-extrabold tracking-tight text-slate-900 font-heading block leading-none">
-              Job<span className="text-brand-600">Connect</span>
-            </span>
-            <span className="text-[10px] text-slate-500 font-medium tracking-wide">
-              Verified Hiring
-            </span>
-          </div>
-        </div>
+        />
 
         {/* Center / Right controls */}
         <div className="flex items-center gap-2 sm:gap-3">

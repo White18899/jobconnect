@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
         brand: {
           50: '#eff6ff',

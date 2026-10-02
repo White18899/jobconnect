@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import { BrandLogo } from '../../components/common/BrandLogo';
 import { ShieldCheck, Lock, ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 
@@ -51,11 +52,11 @@ export const AdminLoginPage: React.FC<AdminLoginPageProps> = ({
 
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center mx-auto mb-3.5 shadow-lg shadow-slate-900/20">
-              <ShieldCheck className="w-7 h-7 text-amber-400" />
+            <div className="flex justify-center mb-4">
+              <BrandLogo size="md" subtitle="ADMIN CONSOLE" />
             </div>
             <h1 className="text-2xl font-black text-slate-900 font-heading tracking-tight">
-              Admin Console Access
+              Administrative Access
             </h1>
             <p className="text-xs text-slate-500 font-medium mt-1">
               Restricted portal &bull; Authorized personnel only

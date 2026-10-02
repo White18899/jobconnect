@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
+import { BrandLogo } from '../common/BrandLogo';
 import { useAuth, UserRole } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../services/api';
@@ -181,6 +182,9 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
 
       {step === 'phone' ? (
         <form onSubmit={handleRequestOtp} className="space-y-4">
+          <div className="flex justify-center pb-2">
+            <BrandLogo size="sm" subtitle="Verified Direct Hiring" />
+          </div>
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               {t('auth.enter_phone')}
