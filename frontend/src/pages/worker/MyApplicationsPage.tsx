@@ -49,7 +49,7 @@ export const MyApplicationsPage: React.FC<MyApplicationsPageProps> = ({
   });
 
   return (
-    <div className="max-w-xl mx-auto pb-16">
+    <div className="max-w-xl mx-auto pb-28">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 pt-1">
         <div>

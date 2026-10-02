@@ -25,7 +25,7 @@ export const EmployerProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto pb-20 space-y-4">
+    <div className="max-w-xl mx-auto pb-28 space-y-4">
       <div className="pt-1">
         <h1 className="text-2xl font-black text-slate-900 font-heading">
           Business Profile

@@ -397,7 +397,7 @@ export const App: React.FC = () => {
       </main>
 
       {/* Mobile Sticky Bottom Navigation */}
-      {currentTab !== 'landing' && (
+      {currentTab !== 'landing' && currentTab !== 'job_detail' && (
         <BottomNav currentTab={currentTab} setCurrentTab={setCurrentTab} />
       )}
 

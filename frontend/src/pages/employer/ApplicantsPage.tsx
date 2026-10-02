@@ -51,7 +51,7 @@ export const ApplicantsPage: React.FC<ApplicantsPageProps> = ({
   });
 
   return (
-    <div className="max-w-xl mx-auto pb-16 space-y-4">
+    <div className="max-w-xl mx-auto pb-28 space-y-4">
       <div className="pt-1">
         <h1 className="text-2xl font-black text-slate-900 font-heading">
           {t('nav.applicants')}

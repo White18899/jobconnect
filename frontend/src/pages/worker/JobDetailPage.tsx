@@ -31,14 +31,18 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({
   const { t } = useLanguage();
 
   return (
-    <div className="max-w-xl mx-auto pb-20 space-y-4">
-      {/* Back button */}
-      <button
-        onClick={onBack}
-        className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1.5 py-1"
-      >
-        <ArrowLeft className="w-4 h-4" /> Back to Job Feed
-      </button>
+    <div className="max-w-xl mx-auto pb-32 space-y-4">
+      {/* Top back navigation bar */}
+      <div className="flex items-center justify-between pt-1">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition shadow-2xs"
+        >
+          <ArrowLeft className="w-4 h-4 text-brand-900" />
+          <span>Back to Job Feed</span>
+        </button>
+        <span className="text-xs font-semibold text-slate-500">Job Overview</span>
+      </div>
 
       {/* Main Job Header Card */}
       <Card className="space-y-4">
@@ -137,10 +141,23 @@ export const JobDetailPage: React.FC<JobDetailPageProps> = ({
             </ul>
           </div>
         )}
+
+        {/* Inline Apply Button at end of card */}
+        <div className="pt-4 border-t border-slate-100">
+          <Button
+            size="lg"
+            variant={hasApplied ? 'secondary' : 'primary'}
+            fullWidth
+            disabled={hasApplied}
+            onClick={() => onApply(job)}
+          >
+            {hasApplied ? `${t('jobs.applied')} ✓` : t('jobs.apply_now')}
+          </Button>
+        </div>
       </Card>
 
-      {/* Sticky Bottom Apply Action Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xl z-30 max-w-xl mx-auto">
+      {/* Floating Bottom Sticky Bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200 shadow-xl z-40 max-w-xl mx-auto">
         <Button
           size="lg"
           variant={hasApplied ? 'secondary' : 'primary'}

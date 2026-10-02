@@ -21,7 +21,7 @@ export const MyJobsPage: React.FC<MyJobsPageProps> = ({
   const { t } = useLanguage();
 
   return (
-    <div className="max-w-xl mx-auto pb-16 space-y-4">
+    <div className="max-w-xl mx-auto pb-28 space-y-4">
       {/* Header with Post Job CTA */}
       <div className="flex items-center justify-between pt-1">
         <div>
