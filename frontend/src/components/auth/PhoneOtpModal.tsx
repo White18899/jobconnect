@@ -66,28 +66,37 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
     // 1. Try Firebase Real SMS first
     if (auth) {
       try {
-        if (!(window as any).recaptchaVerifier) {
-          (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-            size: 'invisible',
-          });
-        }
-        const appVerifier = (window as any).recaptchaVerifier;
-        const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
-        setConfirmationResult(confirmation);
-        setDevOtpHint(null);
-        setSmsNotice(null);
-        setOtp('');
-        setStep('otp');
-        setResendTimer(30);
-        setLoading(false);
-        return;
-      } catch (fbErr: any) {
-        console.warn('Firebase SMS dispatch attempt error, falling back to Cloudflare engine:', fbErr.message);
         if ((window as any).recaptchaVerifier) {
           try {
             (window as any).recaptchaVerifier.clear();
-            (window as any).recaptchaVerifier = null;
           } catch (e) {}
+          (window as any).recaptchaVerifier = null;
+        }
+
+        const recaptchaEl = document.getElementById('recaptcha-container');
+        if (recaptchaEl) {
+          const appVerifier = new RecaptchaVerifier(auth, recaptchaEl, {
+            size: 'invisible',
+          });
+          (window as any).recaptchaVerifier = appVerifier;
+
+          const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+          setConfirmationResult(confirmation);
+          setDevOtpHint(null);
+          setSmsNotice(null);
+          setOtp('');
+          setStep('otp');
+          setResendTimer(30);
+          setLoading(false);
+          return;
+        }
+      } catch (fbErr: any) {
+        console.warn('Firebase SMS dispatch error, falling back to Cloudflare engine:', fbErr.message);
+        if ((window as any).recaptchaVerifier) {
+          try {
+            (window as any).recaptchaVerifier.clear();
+          } catch (e) {}
+          (window as any).recaptchaVerifier = null;
         }
       }
     }
@@ -167,9 +176,11 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
         </div>
       )}
 
+      {/* Invisible container for Firebase Phone Auth reCAPTCHA */}
+      <div id="recaptcha-container"></div>
+
       {step === 'phone' ? (
         <form onSubmit={handleRequestOtp} className="space-y-4">
-          <div id="recaptcha-container"></div>
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               {t('auth.enter_phone')}
