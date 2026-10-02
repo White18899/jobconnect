@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth, UserRole } from './contexts/AuthContext';
 import { useLanguage } from './contexts/LanguageContext';
 import { Navbar } from './components/layout/Navbar';
 import { BottomNav } from './components/layout/BottomNav';
 import { PhoneOtpModal } from './components/auth/PhoneOtpModal';
+import { api } from './services/api';
 
 // Shared
 import { LandingPage } from './pages/shared/LandingPage';
@@ -30,7 +31,7 @@ import { UserManagementPage } from './pages/admin/UserManagementPage';
 import { INITIAL_JOBS, INITIAL_APPLICATIONS, Job, Application } from './services/mockData';
 
 export const App: React.FC = () => {
-  const { user, role, switchRole } = useAuth();
+  const { user, role } = useAuth();
   const { t } = useLanguage();
 
   // Navigation State
@@ -42,7 +43,7 @@ export const App: React.FC = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authDefaultRole, setAuthDefaultRole] = useState<UserRole>('worker');
 
-  // Dynamic Application and Job State (supports full interactive state changes!)
+  // Dynamic Application and Job State (populated from Cloudflare D1 Backend)
   const [jobs, setJobs] = useState<Job[]>(INITIAL_JOBS);
   const [applications, setApplications] = useState<Application[]>(INITIAL_APPLICATIONS);
   const [appliedJobIds, setAppliedJobIds] = useState<Set<string>>(
@@ -57,9 +58,69 @@ export const App: React.FC = () => {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
+  // Fetch real jobs from Cloudflare D1 Backend on mount
+  useEffect(() => {
+    let active = true;
+    const loadRealJobs = async () => {
+      try {
+        const res = await api.getJobs();
+        if (active && res.jobs && res.jobs.length > 0) {
+          const formattedJobs: Job[] = res.jobs.map((j: any) => ({
+            id: j.id,
+            employer_id: j.employer_id || 'ep_01',
+            business_name: j.business_name || 'Verified Employer',
+            business_type: j.business_type || 'Business',
+            employer_verified: j.employer_verified === 'verified' || j.employer_verified === true || j.employer_verified === 1,
+            title: j.title,
+            description: j.description || '',
+            category: j.category || 'General',
+            salary_min: Number(j.salary_min) || 15000,
+            salary_max: Number(j.salary_max) || 20000,
+            salary_period: (j.salary_period as any) || 'monthly',
+            location_area: j.location_area || 'Hyderabad',
+            location_city: j.location_city || 'Hyderabad',
+            working_hours: j.working_hours || '9:00 AM - 6:00 PM',
+            requirements: typeof j.requirements === 'string' ? JSON.parse(j.requirements) : (j.requirements || []),
+            vacancies: Number(j.vacancies) || 1,
+            status: (j.status as any) || 'open',
+            created_at: j.created_at || new Date().toISOString(),
+          }));
+          setJobs(formattedJobs);
+        }
+      } catch (err: any) {
+        console.warn('API getJobs error, fallback to initial jobs:', err.message);
+      }
+    };
+    loadRealJobs();
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Worker Action: Apply for a job
-  const handleApplyJob = (job: Job) => {
-    if (appliedJobIds.has(job.id)) return;
+  const handleApplyJob = async (job: Job) => {
+    if (!user) {
+      setAuthDefaultRole('worker');
+      setIsAuthModalOpen(true);
+      showToast('Please login with your mobile number to apply');
+      return;
+    }
+
+    if (role !== 'worker') {
+      showToast(`Logged in as ${role}. Only worker accounts can apply for jobs.`);
+      return;
+    }
+
+    if (appliedJobIds.has(job.id)) {
+      showToast('You have already applied for this job!');
+      return;
+    }
+
+    try {
+      await api.applyJob(job.id);
+    } catch (err: any) {
+      console.warn('Backend applyJob:', err.message);
+    }
 
     const newApp: Application = {
       id: 'app_' + Date.now(),
@@ -77,18 +138,18 @@ export const App: React.FC = () => {
       status: 'applied',
       applied_at: new Date().toISOString(),
       worker: {
-        id: 'wp_curr',
-        full_name: 'Ramesh Kumar Goud',
-        phone: '+91 9123456780',
-        skills: ['Mechanic', 'Welder'],
-        experience_years: 4.5,
-        preferred_area: 'Kukatpally',
-        city: 'Hyderabad',
-        expected_salary_min: 18000,
-        expected_salary_max: 24000,
-        salary_period: 'monthly',
+        id: user.id || 'wp_curr',
+        full_name: 'Verified Worker',
+        phone: user.phone,
+        skills: [job.category],
+        experience_years: 3,
+        preferred_area: job.location_area,
+        city: job.location_city,
+        expected_salary_min: job.salary_min,
+        expected_salary_max: job.salary_max,
+        salary_period: job.salary_period,
         id_proof_type: 'aadhaar_masked',
-        id_number_masked: 'XXXX-XXXX-4912',
+        id_number_masked: 'XXXX-XXXX-' + user.phone.slice(-4),
         verification_status: 'verified',
       },
     };
@@ -198,7 +259,25 @@ export const App: React.FC = () => {
   };
 
   // Employer Action: Post Job
-  const handleJobCreated = (newJob: Job) => {
+  const handleJobCreated = async (newJob: Job) => {
+    try {
+      await api.postJob({
+        title: newJob.title,
+        description: newJob.description,
+        category: newJob.category,
+        salary_min: newJob.salary_min,
+        salary_max: newJob.salary_max,
+        salary_period: newJob.salary_period,
+        location_area: newJob.location_area,
+        location_city: newJob.location_city,
+        working_hours: newJob.working_hours,
+        requirements: newJob.requirements,
+        vacancies: newJob.vacancies,
+      });
+    } catch (err: any) {
+      console.warn('Backend postJob:', err.message);
+    }
+
     setJobs([newJob, ...jobs]);
     setCurrentTab('employer_jobs');
     showToast(`Job "${newJob.title}" posted successfully!`);
@@ -220,16 +299,32 @@ export const App: React.FC = () => {
       return (
         <LandingPage
           onStartWorker={() => {
-            switchRole('worker');
-            setCurrentTab('jobs');
+            if (user && role === 'worker') {
+              setCurrentTab('jobs');
+            } else if (user && role !== 'worker') {
+              showToast(`Currently logged in as ${role}. Please logout to switch accounts.`);
+            } else {
+              setAuthDefaultRole('worker');
+              setIsAuthModalOpen(true);
+            }
           }}
           onStartEmployer={() => {
-            switchRole('employer');
-            setCurrentTab('employer_jobs');
+            if (user && role === 'employer') {
+              setCurrentTab('employer_jobs');
+            } else if (user && role !== 'employer') {
+              showToast(`Currently logged in as ${role}. Please logout to switch accounts.`);
+            } else {
+              setAuthDefaultRole('employer');
+              setIsAuthModalOpen(true);
+            }
           }}
           onOpenAdmin={() => {
-            switchRole('admin');
-            setCurrentTab('admin_dashboard');
+            if (user && role === 'admin') {
+              setCurrentTab('admin_dashboard');
+            } else {
+              setAuthDefaultRole('admin');
+              setIsAuthModalOpen(true);
+            }
           }}
         />
       );
@@ -406,9 +501,12 @@ export const App: React.FC = () => {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         defaultRole={authDefaultRole}
-        onSuccess={() => {
+        onSuccess={(loggedRole) => {
           setIsAuthModalOpen(false);
-          showToast('Logged in successfully!');
+          showToast(`Logged in successfully!`);
+          if (loggedRole === 'worker') setCurrentTab('jobs');
+          else if (loggedRole === 'employer') setCurrentTab('employer_jobs');
+          else if (loggedRole === 'admin') setCurrentTab('admin_dashboard');
         }}
       />
     </div>

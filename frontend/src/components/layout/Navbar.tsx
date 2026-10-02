@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth, UserRole } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
-import { Briefcase, ShieldCheck, User, Store, LogOut, ArrowRightLeft } from 'lucide-react';
+import { Briefcase, ShieldCheck, User, Store, LogOut } from 'lucide-react';
 
 interface NavbarProps {
   onOpenLogin: (role?: UserRole) => void;
@@ -11,7 +11,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, currentTab, setCurrentTab }) => {
-  const { user, role, logout, switchRole } = useAuth();
+  const { user, role, logout } = useAuth();
   const { t } = useLanguage();
 
   return (
@@ -37,69 +37,51 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, currentTab, setCurr
 
         {/* Center / Right controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Role Badge & Switcher for instant preview */}
-          {user && (
-            <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs">
-              <button
-                onClick={() => switchRole('worker')}
-                className={`px-3 py-1.5 rounded-xl font-semibold transition flex items-center gap-1.5 ${
-                  role === 'worker' ? 'bg-white text-brand-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <User className="w-3.5 h-3.5" />
-                <span>Worker</span>
-              </button>
-              <button
-                onClick={() => switchRole('employer')}
-                className={`px-3 py-1.5 rounded-xl font-semibold transition flex items-center gap-1.5 ${
-                  role === 'employer' ? 'bg-white text-brand-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <Store className="w-3.5 h-3.5" />
-                <span>Employer</span>
-              </button>
-              <button
-                onClick={() => switchRole('admin')}
-                className={`px-3 py-1.5 rounded-xl font-semibold transition flex items-center gap-1.5 ${
-                  role === 'admin' ? 'bg-brand-900 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Admin</span>
-              </button>
-            </div>
-          )}
-
-          {/* Language Switcher */}
+          {/* Multilingual Selector */}
           <LanguageSwitcher />
 
-          {/* User Status / Login Button */}
+          {/* Authenticated User Status or Login Button */}
           {user ? (
-            <div className="flex items-center gap-1.5">
-              {/* Mobile Role Switcher icon */}
+            <div className="flex items-center gap-2">
+              {/* Real User Role Badge */}
+              {role === 'worker' && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-brand-900 text-xs font-semibold">
+                  <User className="w-3.5 h-3.5" />
+                  <span>Worker</span>
+                  <span className="text-[11px] text-slate-500 font-normal hidden md:inline">{user.phone}</span>
+                </div>
+              )}
+              {role === 'employer' && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold">
+                  <Store className="w-3.5 h-3.5" />
+                  <span>Employer</span>
+                  <span className="text-[11px] text-slate-500 font-normal hidden md:inline">{user.phone}</span>
+                </div>
+              )}
+              {role === 'admin' && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs font-semibold">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Admin</span>
+                </div>
+              )}
+
+              {/* Logout Button */}
               <button
                 onClick={() => {
-                  const nextRole: UserRole = role === 'worker' ? 'employer' : role === 'employer' ? 'admin' : 'worker';
-                  switchRole(nextRole);
+                  logout();
+                  setCurrentTab('landing');
                 }}
-                className="sm:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200"
-                title={`Switch Role (Current: ${role})`}
-              >
-                <ArrowRightLeft className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={logout}
-                className="p-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 transition"
                 title={t('nav.logout')}
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">{t('nav.logout')}</span>
               </button>
             </div>
           ) : (
             <button
               onClick={() => onOpenLogin()}
-              className="px-4 py-2 rounded-xl bg-brand-900 text-white text-xs font-bold hover:bg-brand-800 transition"
+              className="px-4 py-2 rounded-xl bg-brand-900 text-white text-xs font-bold hover:bg-brand-800 transition shadow-xs"
             >
               {t('nav.login')}
             </button>

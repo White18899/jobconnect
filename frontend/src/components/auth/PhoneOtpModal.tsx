@@ -10,7 +10,7 @@ interface PhoneOtpModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultRole?: UserRole;
-  onSuccess?: () => void;
+  onSuccess?: (loggedRole: UserRole) => void;
 }
 
 export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
@@ -30,6 +30,10 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [devOtpHint, setDevOtpHint] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    setRole(defaultRole);
+  }, [defaultRole]);
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -60,7 +64,6 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
       setStep('otp');
       setResendTimer(30);
     } catch (err: any) {
-      // Fallback for purely client-side preview
       console.warn('Backend offline, using mock OTP:', err.message);
       setDevOtpHint('123456');
       setOtp('123456');
@@ -83,15 +86,15 @@ export const PhoneOtpModal: React.FC<PhoneOtpModalProps> = ({
     try {
       const apiRole = role === 'admin' ? 'worker' : role;
       const res = await api.verifyOtp(phone, otp, apiRole);
-      login(phone, res.user?.role || role, res.token, res.user?.id);
+      const verifiedRole = (res.user?.role as UserRole) || role;
+      login(phone, verifiedRole, res.token, res.user?.id);
       onClose();
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(verifiedRole);
     } catch (err: any) {
-      // Fallback for demo
       console.warn('Backend verify error, falling back to mock login:', err.message);
       login(phone, role, 'mock-demo-jwt-token', 'usr_' + Date.now());
       onClose();
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(role);
     } finally {
       setLoading(false);
     }

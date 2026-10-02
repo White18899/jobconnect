@@ -34,13 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return null;
       }
     }
-    // Default demo user so reviewer can explore Worker side immediately
-    return {
-      id: 'usr_wrk_01',
-      phone: '+91 9123456780',
-      role: 'worker',
-      isVerified: true,
-    };
+    return null;
   });
   const [loading, setLoading] = useState<boolean>(false);
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { GlassCard } from '../../components/common/GlassCard';
 import { Button } from '../../components/common/Button';
-import { useAuth, UserRole } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import {
   Briefcase,
@@ -27,7 +26,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onStartEmployer,
   onOpenAdmin,
 }) => {
-  const { switchRole } = useAuth();
   const { t } = useLanguage();
 
   return (
@@ -178,15 +176,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </div>
       </div>
 
-      {/* Admin Quick Switch (Convenience Bar) */}
-      <div className="max-w-2xl mx-auto text-center pt-4">
-        <button
-          onClick={onOpenAdmin}
-          className="text-xs font-semibold text-slate-400 hover:text-slate-700 underline"
-        >
-          Open Admin Panel (Verification Queue & Audit Logs)
-        </button>
-      </div>
+      {/* Footer & Staff Portal */}
+      <footer className="max-w-2xl mx-auto pt-8 border-t border-slate-200/60 text-center space-y-2.5">
+        <div className="flex items-center justify-center gap-3 text-xs text-slate-400">
+          <span>JobConnect India &copy; 2026</span>
+          <span>&bull;</span>
+          <span>Zero Commission</span>
+          <span>&bull;</span>
+          <span>Direct Hiring</span>
+        </div>
+        <div>
+          <button
+            onClick={onOpenAdmin}
+            className="text-[11px] font-medium text-slate-400 hover:text-slate-600 inline-flex items-center gap-1.5 transition"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+            <span>JobConnect Staff & Admin Verification Portal</span>
+          </button>
+        </div>
+      </footer>
     </div>
   );
 };

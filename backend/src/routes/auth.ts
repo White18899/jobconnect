@@ -68,8 +68,8 @@ authRoutes.post('/request-otp', async (c) => {
     success: true,
     message: 'OTP sent to mobile number',
     phone,
-    // Include devOtp in development or testing environments for seamless developer preview
-    devOtp: c.env.ENVIRONMENT === 'production' ? undefined : otp,
+    // If no SMS gateway configured, return OTP so user can log in without paid SMS credits
+    devOtp: c.env.SMS_API_KEY ? undefined : otp,
   });
 });
 
