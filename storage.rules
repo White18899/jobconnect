@@ -1,0 +1,47 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        (firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+         firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isUnlockedEmployer(workerId) {
+      let unlockDocPath = /databases/(default)/documents/workerUnlocks/$(request.auth.uid) + '_' + workerId;
+      return isAuthenticated() && firestore.exists(unlockDocPath) && firestore.get(unlockDocPath).data.status == 'ACTIVE';
+    }
+
+    // --- PAYMENT SCREENSHOTS ---
+    match /payments/{userId}/{fileName} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create, update: if isAuthenticated() 
+                           && request.auth.uid == userId 
+                           && request.resource.size < 5 * 1024 * 1024
+                           && request.resource.contentType.matches('image/.*|application/pdf');
+      allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+    }
+
+    // --- WORKER RESUMES ---
+    match /resumes/{workerId}/{fileName} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == workerId ||
+        isUnlockedEmployer(workerId) ||
+        isAdmin()
+      );
+      allow create, update: if isAuthenticated() 
+                           && request.auth.uid == workerId 
+                           && request.resource.size < 10 * 1024 * 1024
+                           && request.resource.contentType.matches('application/pdf|image/.*|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      allow delete: if isAuthenticated() && (request.auth.uid == workerId || isAdmin());
+    }
+  }
+}

@@ -1,0 +1,219 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- HELPER FUNCTIONS ---
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+        )
+      );
+    }
+
+    function isUnlockedEmployer(workerId) {
+      let unlockId = request.auth.uid + '_' + workerId;
+      let unlockDocPath = /databases/$(database)/documents/workerUnlocks/$(unlockId);
+
+      return isAuthenticated() &&
+             exists(unlockDocPath) &&
+             get(unlockDocPath).data.status == 'ACTIVE';
+    }
+
+    function hasAppliedToEmployer(employerId) {
+      let workerId = request.auth.uid;
+      let applicationId = workerId + '_' + employerId;
+      let relDocPath = /databases/$(database)/documents/workerEmployerApplications/$(applicationId);
+
+      return isAuthenticated() &&
+             exists(relDocPath) &&
+             get(relDocPath).data.hasApplied == true;
+    }
+
+    // --- USERS COLLECTION ---
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+
+      allow create: if isOwner(userId) &&
+                    request.resource.data.role != 'admin';
+
+      allow update: if (
+                      isOwner(userId) &&
+                      request.resource.data.role == resource.data.role
+                    ) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- WORKERS (PUBLIC PROFILE) ---
+    match /workers/{workerId} {
+      allow read: if isAuthenticated();
+
+      allow create: if isOwner(workerId) || isAdmin();
+
+      allow update: if (
+                      isOwner(workerId) &&
+                      !request.resource.data.diff(resource.data)
+                        .affectedKeys()
+                        .hasAny(['id', 'userId'])
+                    ) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- WORKER PRIVATE (SENSITIVE PII) ---
+    match /workerPrivate/{workerId} {
+      allow read: if isOwner(workerId) ||
+                  isUnlockedEmployer(workerId) ||
+                  isAdmin();
+
+      allow create: if isOwner(workerId) || isAdmin();
+
+      allow update: if isOwner(workerId) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- EMPLOYERS (PUBLIC PROFILE) ---
+    match /employers/{employerId} {
+      allow read: if isAuthenticated();
+
+      allow create: if isOwner(employerId) || isAdmin();
+
+      allow update: if (
+                      isOwner(employerId) &&
+                      !request.resource.data.diff(resource.data)
+                        .affectedKeys()
+                        .hasAny(['id', 'userId'])
+                    ) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- EMPLOYER PRIVATE (SENSITIVE BUSINESS DATA) ---
+    match /employerPrivate/{employerId} {
+      allow read: if isOwner(employerId) ||
+                  hasAppliedToEmployer(employerId) ||
+                  isAdmin();
+
+      allow create: if isOwner(employerId) || isAdmin();
+
+      allow update: if (
+                      isOwner(employerId) &&
+                      !request.resource.data.diff(resource.data)
+                        .affectedKeys()
+                        .hasAny(['unlockCredits'])
+                    ) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- JOBS COLLECTION ---
+    match /jobs/{jobId} {
+      allow read: if isAuthenticated();
+
+      allow create: if (
+                      isAuthenticated() &&
+                      request.resource.data.employerId == request.auth.uid
+                    ) || isAdmin();
+
+      allow update: if (
+                      isAuthenticated() &&
+                      resource.data.employerId == request.auth.uid &&
+                      !request.resource.data.diff(resource.data)
+                        .affectedKeys()
+                        .hasAny(['id', 'employerId', 'createdAt'])
+                    ) || isAdmin();
+
+      allow delete: if (
+                      isAuthenticated() &&
+                      resource.data.employerId == request.auth.uid
+                    ) || isAdmin();
+    }
+
+    // --- APPLICATIONS COLLECTION (Unique Job Applications) ---
+    match /applications/{appId} {
+      allow read: if isAuthenticated() && (
+        resource.data.workerId == request.auth.uid ||
+        resource.data.employerId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow create: if isAuthenticated() &&
+                    request.resource.data.workerId == request.auth.uid;
+
+      allow update: if isAuthenticated() && (
+        (
+          resource.data.workerId == request.auth.uid &&
+          request.resource.data.diff(resource.data)
+            .affectedKeys()
+            .hasOnly(['notes'])
+        ) ||
+        (
+          resource.data.employerId == request.auth.uid &&
+          request.resource.data.diff(resource.data)
+            .affectedKeys()
+            .hasOnly(['status'])
+        ) ||
+        isAdmin()
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // --- WORKER EMPLOYER APPLICATIONS (Deterministic Relationship Entitlement) ---
+    match /workerEmployerApplications/{relId} {
+      allow read: if isAuthenticated() && (
+        resource.data.workerId == request.auth.uid ||
+        resource.data.employerId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow create: if isAdmin();
+
+      allow update: if isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- PAYMENTS COLLECTION ---
+    match /payments/{paymentId} {
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+
+      allow create: if isAuthenticated() &&
+                    request.resource.data.userId == request.auth.uid &&
+                    request.resource.data.status == 'PENDING' &&
+                    request.resource.data.verifiedAt == null;
+
+      allow update: if isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // --- WORKER UNLOCKS COLLECTION ---
+    match /workerUnlocks/{unlockId} {
+      allow read: if isAuthenticated() && (
+        resource.data.employerId == request.auth.uid ||
+        resource.data.workerId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow create: if isAdmin();
+
+      allow update: if isAdmin();
+
+      allow delete: if isAdmin();
+    }
+  }
+}
