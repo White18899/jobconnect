@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JobWay (job-way.in) • India's Verified Blue-Collar Employment Platform</title>
-  <meta name="description" content="Direct hiring for skilled tradesmen and local businesses across India on job-way.in. Mechanics, Electricians, Plumbers, Cooks, and Drivers.">
+  <meta name="description" content="Welcome to JobWay. Direct hiring and transparent subscription plans for skilled tradesmen and local businesses across India.">
   <link rel="canonical" href="https://job-way.in/">
-  <meta property="og:title" content="JobWay (job-way.in) • Direct Hiring for Skilled Tradesmen">
-  <meta property="og:description" content="Connect with verified electricians, mechanics, plumbers, and tradesmen directly on job-way.in.">
+  <meta property="og:title" content="JobWay (job-way.in) • Verified Employment & Subscription Details">
+  <meta property="og:description" content="Welcome to JobWay. Direct hiring for mechanics, electricians, plumbers, cooks, and drivers.">
   <meta property="og:url" content="https://job-way.in/">
   <meta property="og:site_name" content="JobWay">
   
@@ -19,7 +19,7 @@
   <!-- Styles -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
 
   <!-- Top Announcement Bar -->
   <aside class="top-bar" aria-label="Official Banner">
@@ -34,9 +34,9 @@
     </div>
   </aside>
 
-  <!-- Site Header & Navbar -->
+  <!-- Site Header & Navbar (Logo on left, exactly Login and Sign In on right) -->
   <header class="site-header">
-    <div class="navbar-container">
+    <div class="navbar-container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="/" class="brand-logo" id="brand-logo-link">
         <div class="brand-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -49,30 +49,14 @@
         </div>
       </a>
 
-      <!-- Real Navigation Links -->
-      <nav style="display: flex; gap: 20px; align-items: center;" aria-label="Main Navigation">
-        <a href="#jobs-list-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          🔍 Browse Jobs
-        </a>
-        <a href="#trade-categories-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          🔧 Trade Categories
-        </a>
-        <a href="/employer.html" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          🏢 For Employers
-        </a>
-        <a href="#how-it-works-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          ✨ How It Works
-        </a>
-      </nav>
-
-      <!-- Right Header Actions: Auth State -->
+      <!-- Right Header Actions: Only Two Buttons (Login & Sign In) -->
       <div class="nav-right-actions">
-        <!-- Logged Out State: Only Two Buttons: Login & Sign In -->
+        <!-- Logged Out State -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
-          <a href="/login" class="btn-signin-header" style="text-decoration: none; padding: 9px 20px;">
+          <a href="/login" class="btn-signin-header" style="text-decoration: none; padding: 9px 22px; font-size: 13px;">
             Login
           </a>
-          <a href="/login" class="btn-post-job-header" style="text-decoration: none; padding: 9px 20px;">
+          <a href="/login" class="btn-post-job-header" style="text-decoration: none; padding: 9px 22px; font-size: 13px;">
             Sign In
           </a>
         </div>
@@ -92,186 +76,247 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section" id="hero-banner">
-    <div class="hero-container">
-      <div class="hero-pill">
-        ⚡ Zero Agency Fees • Direct Calls After Verification
+  <!-- 1. WELCOME SECTION -->
+  <section class="hero-section" id="welcome-section" style="padding: 64px 20px 48px; text-align: center; background: radial-gradient(circle at 50% 0%, #eff6ff 0%, #f8fafc 100%); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 860px; margin: 0 auto;">
+      
+      <div class="hero-pill" style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;">
+        ⚡ Zero Agency Commissions • Direct Verified Connections Across India
       </div>
-      <h1 class="hero-title">
-        Connecting Skilled <span>Tradesmen & Technicians</span> with Local Businesses
+
+      <h1 style="font-size: 42px; font-weight: 900; line-height: 1.2; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.02em;">
+        Welcome to <span style="color: var(--primary);">JobWay</span>
       </h1>
-      <p class="hero-desc">
-        India's first privacy-first blue-collar hiring network. Real-time Cloudflare D1 SQL database, masked candidate contact privacy, and verified employer profiles.
+
+      <p style="font-size: 18px; color: #475569; line-height: 1.6; max-width: 680px; margin: 0 auto 32px; font-weight: 500;">
+        India's first privacy-protected blue-collar hiring network. Connecting certified mechanics, electricians, plumbers, drivers, and cooks directly with local businesses.
       </p>
 
-      <!-- Unified Search Bar -->
-      <div class="search-bar-card" role="search">
-        <div class="search-field">
-          <span>🔧</span>
-          <select id="search-category" aria-label="Select Trade Category">
-            <option value="all">All Trade Specializations</option>
-            <option value="Mechanic">Two & Four Wheeler Mechanic</option>
-            <option value="Electrician">Licensed Electrician / Wireman</option>
-            <option value="Plumber">Plumber & Pipe Fitter</option>
-            <option value="Cook">Cook & Catering Master</option>
-            <option value="Driver">Heavy & Commercial Driver</option>
-            <option value="Helper">Workshop Helper & Labor</option>
-            <option value="Carpenter">Carpenter & Furniture Maker</option>
-            <option value="Welder">Fabricator & Welder</option>
-          </select>
-        </div>
-
-        <div class="search-field">
-          <span>📍</span>
-          <select id="search-city" aria-label="Select City">
-            <option value="all">All Cities (All India)</option>
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Visakhapatnam">Visakhapatnam</option>
-            <option value="Vijayawada">Vijayawada</option>
-            <option value="Bengaluru">Bengaluru</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Mumbai">Mumbai</option>
-          </select>
-        </div>
-
-        <div class="search-field">
-          <span>💰</span>
-          <select id="search-salary" aria-label="Select Minimum Salary">
-            <option value="all">Any Salary Range</option>
-            <option value="12000">₹12,000+ / month</option>
-            <option value="16000">₹16,000+ / month</option>
-            <option value="20000">₹20,000+ / month</option>
-            <option value="25000">₹25,000+ / month</option>
-          </select>
-        </div>
-
-        <button class="search-btn" id="search-btn" aria-label="Search Jobs">
-          <span>🔍</span> <span>Find Trade Vacancies</span>
-        </button>
+      <!-- Welcome Action Buttons -->
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 48px;">
+        <a href="/login" class="search-btn" style="padding: 14px 32px; font-size: 15px; text-decoration: none; border-radius: var(--radius-md); box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);">
+          <span>🔐</span> <span>Sign In to Access Portal →</span>
+        </a>
+        <a href="#subscription-plans" class="btn-apply-free" style="padding: 14px 28px; font-size: 15px; text-decoration: none; border-radius: var(--radius-md); background: white; color: #0f172a; border: 1.5px solid var(--border);">
+          <span>💳</span> <span>View Subscription Details ↓</span>
+        </a>
       </div>
 
-      <!-- Trade Categories Chips -->
-      <div class="trade-chips-wrap" id="trade-categories-section">
-        <button class="trade-chip active" data-trade="all">All Trades</button>
-        <button class="trade-chip" data-trade="Mechanic">🔧 Mechanics</button>
-        <button class="trade-chip" data-trade="Electrician">⚡ Electricians</button>
-        <button class="trade-chip" data-trade="Plumber">🚰 Plumbers</button>
-        <button class="trade-chip" data-trade="Cook">🍳 Cooks & Catering</button>
-        <button class="trade-chip" data-trade="Driver">🚚 Drivers</button>
-        <button class="trade-chip" data-trade="Carpenter">🪚 Carpenters</button>
-        <button class="trade-chip" data-trade="Welder">🔥 Welders</button>
-        <button class="trade-chip" data-trade="Helper">📦 Helpers</button>
+      <!-- Welcome Highlights Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; text-align: left;">
+        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 26px; margin-bottom: 10px;">👷</div>
+          <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">100% Free For Workers</h3>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+            No middlemen cut. Trade workers apply directly and keep 100% of their earned salary.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 26px; margin-bottom: 10px;">🔒</div>
+          <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Masked Contact Privacy</h3>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+            Candidate phone numbers and addresses are protected from spam until unlocked by verified employers.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 26px; margin-bottom: 10px;">⚡</div>
+          <h3 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Instant UPI Settlements</h3>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+            Zero hidden fees. Simple, transparent UPI unlock credits with real-time audit ledger verification.
+          </p>
+        </div>
       </div>
+
     </div>
   </section>
 
-  <!-- Main Content: Verified Vacancies Grid -->
-  <main class="main-content" id="jobs-list-section">
-    <div class="section-header">
-      <div>
-        <h2 class="section-title">Verified Trade Openings Across India</h2>
-        <p class="section-subtitle">Zero brokerage fees. Apply directly to verified local workshops and businesses.</p>
-      </div>
-      <div class="filter-bar">
-        <span class="category-tag" id="jobs-count-badge" style="font-size: 13px; padding: 6px 14px;">Loading vacancies...</span>
-      </div>
+  <!-- 2. SUBSCRIPTION DETAILS SECTION -->
+  <main style="flex: 1; max-width: 1200px; margin: 0 auto; padding: 56px 20px; width: 100%;" id="subscription-plans">
+    
+    <!-- Section Title -->
+    <div style="text-align: center; max-width: 720px; margin: 0 auto 44px;">
+      <span style="font-size: 12px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; background: var(--primary-light); padding: 5px 14px; border-radius: 999px;">
+        Transparent Pricing & Credits
+      </span>
+      <h2 style="font-size: 32px; font-weight: 900; color: #0f172a; margin: 12px 0 8px;">
+        Subscription Details & Plans
+      </h2>
+      <p style="font-size: 15px; color: var(--text-muted);">
+        Choose the plan that fits your needs. 100% free for job seekers, flexible pay-per-hire credits for employers.
+      </p>
     </div>
 
-    <!-- Job Cards Grid -->
-    <div class="jobs-grid" id="jobs-grid">
-      <!-- Rendered dynamically by app.js -->
-    </div>
-
-    <!-- How It Works Section -->
-    <section id="how-it-works-section" style="margin-top: 64px; background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px 32px; box-shadow: var(--shadow-sm);">
-      <div style="text-align: center; max-width: 650px; margin: 0 auto 36px;">
-        <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 8px;">
-          How JobWay Works For India's Blue-Collar Trades
-        </h2>
-        <p style="font-size: 14px; color: var(--text-muted);">
-          Connecting technicians with local employers without third-party recruitment agencies
-        </p>
+    <!-- Part A: Employer Candidate Unlock Subscriptions -->
+    <div style="margin-bottom: 48px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+        <span style="font-size: 22px;">🏢</span>
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; color: #0f172a;">Employer Candidate Unlock Plans</h3>
+          <span style="font-size: 12px; color: var(--text-muted);">Unlock verified candidate phone numbers & direct WhatsApp calling</span>
+        </div>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
-          <div style="font-size: 28px; margin-bottom: 12px;">👷</div>
-          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">100% Free For Trade Workers</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-            Electricians, mechanics, plumbers, and drivers apply directly with 1-click. No hidden commissions taken from your monthly wages.
-          </p>
+        
+        <!-- Plan 1: Starter Pack -->
+        <div style="background: white; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Starter Pack</div>
+          <div style="font-size: 34px; font-weight: 900; color: #0f172a; margin: 12px 0 4px;">₹149</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">1 Candidate Unlock</div>
+          
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: #475569; line-height: 2;">
+            <li>✓ 1 Verified candidate contact unmasked</li>
+            <li>✓ Direct calling & WhatsApp communication</li>
+            <li>✓ Verified trade experience notes</li>
+            <li>✓ Unlimited vacancy postings</li>
+            <li>✓ Zero agency commission</li>
+          </ul>
+
+          <div style="margin-top: auto;">
+            <a href="/login?role=employer" class="btn-demo-quick" style="display: block; text-align: center; padding: 12px; text-decoration: none; font-size: 13px; font-weight: 800;">
+              Get Starter (₹149) →
+            </a>
+          </div>
         </div>
 
-        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
-          <div style="font-size: 28px; margin-bottom: 12px;">🔒</div>
-          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">Privacy Protected Contacts</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-            Your phone number is shielded against telemarketers. Only verified employers who unlock your application can view your real number.
-          </p>
+        <!-- Plan 2: Growth Bundle (Most Popular) -->
+        <div style="background: white; border: 2.5px solid var(--primary); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; position: relative;">
+          <span style="position: absolute; top: -12px; right: 24px; background: var(--primary); color: white; font-size: 10px; font-weight: 900; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.06em;">
+            MOST POPULAR • SAVE 33%
+          </span>
+          <div style="font-size: 12px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em;">Growth Bundle</div>
+          <div style="font-size: 34px; font-weight: 900; color: #0f172a; margin: 12px 0 4px;">₹499</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">5 Candidate Unlocks (₹99 / contact)</div>
+          
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: #475569; line-height: 2;">
+            <li>✓ <strong>5 Verified candidate contacts unmasked</strong></li>
+            <li>✓ Direct calling & WhatsApp communication</li>
+            <li>✓ Priority applicant candidate recommendations</li>
+            <li>✓ Instant Cloudflare Edge D1 activation</li>
+            <li>✓ Valid for 365 days until consumed</li>
+          </ul>
+
+          <div style="margin-top: auto;">
+            <a href="/login?role=employer" class="search-btn" style="display: block; text-align: center; padding: 13px; text-decoration: none; font-size: 13px; font-weight: 800; border-radius: var(--radius-md);">
+              Get Growth Bundle (₹499) →
+            </a>
+          </div>
         </div>
 
-        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
-          <div style="font-size: 28px; margin-bottom: 12px;">🏢</div>
-          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">Direct Employer Calling</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-            Employers review verified trade experience and call candidates directly. Powered by Cloudflare D1 SQL Edge database.
-          </p>
-        </div>
-      </div>
-    </section>
-  </main>
+        <!-- Plan 3: Enterprise Fleet -->
+        <div style="background: white; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+          <div style="font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Enterprise Fleet</div>
+          <div style="font-size: 34px; font-weight: 900; color: #0f172a; margin: 12px 0 4px;">₹949</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 20px;">10 Candidate Unlocks (₹94 / contact)</div>
+          
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: #475569; line-height: 2;">
+            <li>✓ <strong>10 Verified candidate contacts unmasked</strong></li>
+            <li>✓ Multi-city hiring across Hyderabad, Vizag, Vijayawada</li>
+            <li>✓ Unlimited active vacancy postings</li>
+            <li>✓ Complete trade background records</li>
+            <li>✓ Dedicated priority support assistance</li>
+          </ul>
 
-  <!-- Job Details Modal -->
-  <div class="modal-overlay" id="job-detail-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div>
-          <span class="category-tag" id="modal-job-category">Mechanic</span>
-          <h3 class="modal-title" id="modal-job-title" style="margin-top: 6px;">Job Title</h3>
+          <div style="margin-top: auto;">
+            <a href="/login?role=employer" class="btn-demo-quick" style="display: block; text-align: center; padding: 12px; text-decoration: none; font-size: 13px; font-weight: 800;">
+              Get Enterprise (₹949) →
+            </a>
+          </div>
         </div>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div style="margin-bottom: 16px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-          <div>🏢 <strong id="modal-job-employer">Employer</strong> (Verified)</div>
-          <div>📍 <span id="modal-job-location">Location</span></div>
-          <div>💰 <span id="modal-job-salary" style="font-weight: 800; color: #0f172a;">Salary</span></div>
-          <div>⏰ <span id="modal-job-hours">Working Hours</span></div>
-        </div>
-        <div style="background: var(--surface-secondary); padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 13px;">
-          <h4 style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Job Description</h4>
-          <p id="modal-job-desc" style="color: var(--text-secondary);"></p>
-        </div>
-        <div style="background: var(--surface-secondary); padding: 14px; border-radius: var(--radius-md); margin-bottom: 20px; font-size: 13px;">
-          <h4 style="font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Requirements</h4>
-          <p id="modal-job-reqs" style="color: var(--text-secondary);"></p>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <button class="btn-apply-free" id="modal-apply-free-btn" style="padding: 12px;">Apply 100% Free</button>
-          <a href="/login.html?role=worker" class="btn-apply-priority" style="padding: 12px; text-decoration: none; justify-content: center;">⚡ Worker Login</a>
-        </div>
+
       </div>
     </div>
-  </div>
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toast-container" aria-live="polite"></div>
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <strong>JobWay (job-way.in)</strong> • Direct Blue-Collar Employment Network
-        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
-          Cloudflare Edge • D1 SQL Engine • Hono API
+    <!-- Part B: Trade Worker Subscription & Priority Plans -->
+    <div style="margin-bottom: 32px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+        <span style="font-size: 22px;">👷</span>
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; color: #0f172a;">Trade Worker Membership & Priority Plans</h3>
+          <span style="font-size: 12px; color: var(--text-muted);">For Electricians, Mechanics, Plumbers, Drivers, Cooks, and Technicians</span>
         </div>
       </div>
-      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <a href="/login.html?role=worker">👷 Worker Portal</a>
-        <a href="/login.html?role=employer">🏢 Employer Desk</a>
-        <a href="/login.html?role=admin">🛡️ Admin Ledger</a>
-        <a href="/login.html">🔐 Sign In / Register</a>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        
+        <!-- Worker Free Plan -->
+        <div style="background: white; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+          <div style="font-size: 12px; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">100% Free Forever</div>
+          <div style="font-size: 34px; font-weight: 900; color: #0f172a; margin: 12px 0 4px;">₹0</div>
+          <div style="font-size: 13px; font-weight: 700; color: #10b981; margin-bottom: 20px;">Standard Worker Membership</div>
+          
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: #475569; line-height: 2;">
+            <li>✓ <strong>100% Free job applications</strong></li>
+            <li>✓ Zero brokerage taken from wages</li>
+            <li>✓ Phone number shielded from spammers</li>
+            <li>✓ KYC verified trade profile</li>
+            <li>✓ Direct calls from genuine local employers</li>
+          </ul>
+
+          <div style="margin-top: auto;">
+            <a href="/login?role=worker" class="btn-apply-free" style="display: block; text-align: center; padding: 12px; text-decoration: none; font-size: 13px; font-weight: 800; background: #0f172a; color: white;">
+              Join Free as Worker →
+            </a>
+          </div>
+        </div>
+
+        <!-- Worker Priority Boost Plan -->
+        <div style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #fde68a; border-radius: var(--radius-xl); padding: 28px 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+          <div style="font-size: 12px; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em;">Optional Placement Boost</div>
+          <div style="font-size: 34px; font-weight: 900; color: #92400e; margin: 12px 0 4px;">₹299</div>
+          <div style="font-size: 13px; font-weight: 800; color: #b45309; margin-bottom: 20px;">7-Day Top Queue Placement</div>
+          
+          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: #78350f; line-height: 2;">
+            <li>✓ <strong>Featured at the very top</strong> of employer applicant queues</li>
+            <li>✓ ⚡ Gold Priority Applicant badge on your trade profile</li>
+            <li>✓ 5x higher chance of immediate employer callback</li>
+            <li>✓ Active for 7 full days across all applications</li>
+            <li>✓ Instant UPI activation via GPay, PhonePe, Paytm</li>
+          </ul>
+
+          <div style="margin-top: auto;">
+            <a href="/login?role=worker" class="btn-apply-priority" style="display: block; text-align: center; padding: 13px; text-decoration: none; font-size: 13px; font-weight: 900; border-radius: var(--radius-md);">
+              ⚡ Activate Priority Boost (₹299) →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Part C: Payment Settlement Guarantee -->
+    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 32px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 24px;">🛡️</span>
+        <div>
+          <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Official UPI Instant Payment Engine</div>
+          <div style="font-size: 12px; color: var(--text-muted);">UPI ID: <strong>jobconnect@icici</strong> • Supported on Google Pay, PhonePe, Paytm, BHIM</div>
+        </div>
+      </div>
+      <div style="font-size: 12px; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px;">
+        <span>✓</span> 256-Bit Encrypted • Verified via Cloudflare D1 Ledger
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="site-footer" style="margin-top: auto; border-top: 1px solid var(--border); background: white; padding: 24px 20px;">
+    <div class="footer-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <strong>JobWay (job-way.in)</strong> • India's Verified Blue-Collar Employment Platform
+        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+          Cloudflare Workers • D1 SQL Engine • Hono API
+        </div>
+      </div>
+      <div style="display: flex; gap: 18px; font-size: 13px; font-weight: 700;">
+        <a href="/login" style="color: var(--primary); text-decoration: none;">Login</a>
+        <a href="/login" style="color: var(--primary); text-decoration: none;">Sign In</a>
+        <a href="/worker" style="color: #64748b; text-decoration: none;">Worker Portal</a>
+        <a href="/employer" style="color: #64748b; text-decoration: none;">Employer Desk</a>
+        <a href="/admin" style="color: #64748b; text-decoration: none;">Admin Ledger</a>
       </div>
     </div>
   </footer>
