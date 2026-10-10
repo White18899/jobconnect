@@ -407,7 +407,7 @@ class JobConnectApi {
 
     if (approve) {
       if (pay.type === "employer_unlock") {
-        const count = pay.amount >= 949 ? 10 : (pay.amount >= 499 ? 5 : 1);
+        const count = pay.amount >= 450 ? 10 : (pay.amount >= 200 ? 5 : 1);
         this.addUnlockCredits(count);
       }
       if (pay.type === "worker_priority" && pay.target_id) {
