@@ -42,4 +42,20 @@ document.addEventListener('DOMContentLoaded', () => {
       checkSession();
     });
   }
+
+  // Scroll Reveal Animations
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+  }
 });

@@ -3,39 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Registration • JobWay (job-way.in)</title>
+  <title>Sign In • JobWay (job-way.in)</title>
   <meta name="description" content="Sign in or create your verified JobWay account with email verification. Powered by job-way.in SMTP.">
   <link rel="canonical" href="https://job-way.in/login">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .auth-mode-switch {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: var(--radius-lg);
-      margin-bottom: 22px;
+      background: var(--surface-secondary);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
       border: 1px solid var(--border);
+      gap: 3px;
     }
     .auth-mode-btn {
       background: transparent;
       border: none;
-      padding: 10px 8px;
-      font-size: 13px;
-      font-weight: 800;
-      color: #64748b;
-      border-radius: var(--radius-md);
+      padding: 8px 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       text-align: center;
+    }
+    .auth-mode-btn:hover {
+      color: var(--text-primary);
     }
     .auth-mode-btn.active {
       background: white;
-      color: var(--primary);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-xs);
     }
     .role-toggle-grid {
       display: grid;
@@ -44,44 +48,48 @@
       margin-bottom: 18px;
     }
     .role-toggle-card {
-      border: 2px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       background: white;
       text-align: left;
     }
+    .role-toggle-card:hover {
+      border-color: var(--border-strong);
+    }
     .role-toggle-card.selected {
       border-color: var(--primary);
-      background: #eff6ff;
+      background: var(--primary-light);
     }
     .code-input-field {
-      font-size: 26px !important;
-      letter-spacing: 10px !important;
+      font-size: 22px !important;
+      letter-spacing: 8px !important;
       text-align: center !important;
-      font-weight: 900 !important;
+      font-weight: 700 !important;
       font-family: monospace !important;
-      color: #1e3a8a !important;
-      background: #f8fafc !important;
-      border: 2px solid #93c5fd !important;
+      color: var(--text-primary) !important;
+      background: white !important;
+      border: 1px solid var(--border-strong) !important;
+      padding: 12px !important;
     }
     .code-input-field:focus {
       border-color: var(--primary) !important;
-      background: white !important;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15) !important;
+      box-shadow: 0 0 0 3px var(--primary-glow) !important;
     }
   </style>
 </head>
-<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+<body style="background: var(--bg-page); min-height: 100vh; display: flex; flex-direction: column;">
 
-  <!-- Header -->
-  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" class="brand-logo" style="text-decoration: none;">
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="navbar-container" style="max-width: 980px;">
+      <a href="/" class="brand-logo">
         <div class="brand-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
         </div>
         <div>
@@ -89,15 +97,16 @@
           <span class="brand-text-sub">job-way.in</span>
         </div>
       </a>
-      <a href="/" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
-        ← Back to Home
+      <a href="/" style="font-size: 13px; font-weight: 600; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>Back to Home</span>
       </a>
     </div>
   </header>
 
   <!-- Main Container -->
-  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 16px;">
-    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); width: 100%; max-width: 500px; padding: 32px 28px;">
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 16px;">
+    <div class="auth-card" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); width: 100%; max-width: 480px; padding: 32px 30px;">
 
       <!-- Mode Switcher Tabs -->
       <div class="auth-mode-switch">
@@ -105,10 +114,10 @@
           Sign In
         </button>
         <button type="button" class="auth-mode-btn" id="tab-mode-register">
-          Create Account
+          Register
         </button>
         <button type="button" class="auth-mode-btn" id="tab-mode-admin">
-          Admin Portal
+          Admin
         </button>
       </div>
 
@@ -116,42 +125,41 @@
       <!-- VIEW 1: SIGN IN (LOGIN)                                   -->
       <!-- ========================================================= -->
       <div id="view-login">
-        <div style="text-align: center; margin-bottom: 22px;">
-          <h1 style="font-size: 22px; font-weight: 900; color: #0f172a; margin-bottom: 4px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
             Sign In to JobWay
           </h1>
-          <p style="font-size: 13px; color: var(--text-muted);">
-            Enter your email and password to access your desk
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Enter your email and password to access your dashboard
           </p>
         </div>
 
         <form id="form-login" onsubmit="return false;">
-          <div class="form-group" style="margin-bottom: 16px;">
+          <div class="form-group">
             <label class="form-label" for="login-email">Email Address *</label>
             <input type="email" id="login-email" class="form-input" placeholder="you@domain.com" required autocomplete="email">
           </div>
 
-          <div class="form-group" style="margin-bottom: 12px;">
+          <div class="form-group" style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <label class="form-label" for="login-password" style="margin-bottom: 0;">Password *</label>
-              <button type="button" id="btn-show-forgot" style="background: none; border: none; font-size: 12px; color: var(--primary); font-weight: 700; cursor: pointer; padding: 0;">
+              <button type="button" id="btn-show-forgot" style="background: none; border: none; font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; padding: 0;">
                 Forgot Password?
               </button>
             </div>
-            <div style="position: relative;">
-              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
-            </div>
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
           </div>
 
-          <button type="button" class="search-btn" id="btn-submit-login" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px; margin-top: 14px;">
-            Sign In to Dashboard →
+          <button type="button" class="search-btn" id="btn-submit-login" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-top: 14px;">
+            <span>Sign In to Dashboard</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
 
-        <div style="text-align: center; margin-top: 18px; font-size: 13px; color: #64748b;">
-          Don't have an account yet?
-          <button type="button" id="link-goto-register" style="background: none; border: none; font-weight: 800; color: var(--primary); cursor: pointer; text-decoration: underline;">
-            Create verified account
+        <div style="text-align: center; margin-top: 18px; font-size: 13px; color: var(--text-secondary);">
+          Don't have an account?
+          <button type="button" id="link-goto-register" style="background: none; border: none; font-weight: 600; color: var(--primary); cursor: pointer; margin-left: 2px;">
+            Create account
           </button>
         </div>
       </div>
@@ -160,69 +168,75 @@
       <!-- VIEW 2: CREATE ACCOUNT (STEP 1 - DETAILS)                 -->
       <!-- ========================================================= -->
       <div id="view-register" style="display: none;">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="font-size: 22px; font-weight: 900; color: #0f172a; margin-bottom: 4px;">
+        <div style="text-align: center; margin-bottom: 22px;">
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
             Create Your Account
           </h1>
-          <p style="font-size: 12px; color: var(--text-muted);">
-            Email verification required • Powered by job-way.in SMTP
+          <p style="font-size: 12.5px; color: var(--text-secondary);">
+            Instant email verification • Powered by JobWay SMTP
           </p>
         </div>
 
         <!-- Role Selector -->
         <div class="role-toggle-grid">
           <div class="role-toggle-card selected" id="card-role-worker">
-            <div style="font-size: 20px; margin-bottom: 4px;">👷</div>
-            <div style="font-weight: 800; font-size: 13px; color: #0f172a;">Trade Worker</div>
-            <div style="font-size: 11px; color: #059669; font-weight: 700;">100% Free Forever</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
+              <div style="font-weight: 700; font-size: 13px; color: var(--text-primary);">Trade Worker</div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--success); font-weight: 600;">100% Free Forever</div>
           </div>
           <div class="role-toggle-card" id="card-role-employer">
-            <div style="font-size: 20px; margin-bottom: 4px;">🏢</div>
-            <div style="font-weight: 800; font-size: 13px; color: #0f172a;">Employer / Shop</div>
-            <div style="font-size: 11px; color: #64748b;">Direct Hiring Desk</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+              <div style="font-weight: 700; font-size: 13px; color: var(--text-primary);">Employer / Shop</div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">Direct Hiring Desk</div>
           </div>
         </div>
 
         <form id="form-register" onsubmit="return false;">
-          <div class="form-group" style="margin-bottom: 14px;">
+          <div class="form-group">
             <label class="form-label" id="label-reg-name" for="reg-name">Full Name *</label>
             <input type="text" id="reg-name" class="form-input" placeholder="e.g. Ramesh Kumar" required>
           </div>
 
-          <div class="form-group" style="margin-bottom: 14px;">
+          <div class="form-group">
             <label class="form-label" for="reg-email">Email Address *</label>
             <input type="email" id="reg-email" class="form-input" placeholder="name@domain.com" required autocomplete="email">
-            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">
-              We will send a 6-digit verification code to this email
+            <span style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; display: block;">
+              We will send a 6-digit confirmation code to this address
             </span>
           </div>
 
-          <div class="form-group" style="margin-bottom: 14px;">
+          <div class="form-group">
             <label class="form-label" for="reg-phone">Mobile Phone (Optional)</label>
             <div style="display: flex; gap: 8px;">
-              <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--radius-md); font-weight: 800; font-size: 12px; color: #334155;">+91</span>
+              <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
               <input type="tel" id="reg-phone" class="form-input" placeholder="98491 23434" maxlength="10">
             </div>
           </div>
 
-          <div class="form-group" style="margin-bottom: 18px;">
+          <div class="form-group" style="margin-bottom: 16px;">
             <label class="form-label" for="reg-password">Create Password * (Min 6 characters)</label>
             <input type="password" id="reg-password" class="form-input" placeholder="At least 6 characters..." required minlength="6" autocomplete="new-password">
           </div>
 
-          <div style="background: #f8fafc; border-left: 3px solid var(--primary); padding: 10px 12px; border-radius: 4px; font-size: 11px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
-            🔒 <strong>Verification Policy:</strong> Your account will only be registered in our database after you confirm the code sent to your email.
+          <div style="background: var(--bg-page); border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--radius-md); font-size: 11.5px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Your account activates immediately after verifying the one-time code sent to your email.</span>
           </div>
 
-          <button type="button" class="search-btn" id="btn-submit-reg-request" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px;">
-            <span>Send Verification Email →</span>
+          <button type="button" class="search-btn" id="btn-submit-reg-request" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px;">
+            <span>Send Verification Email</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
 
-        <div style="text-align: center; margin-top: 16px; font-size: 13px; color: #64748b;">
+        <div style="text-align: center; margin-top: 18px; font-size: 13px; color: var(--text-secondary);">
           Already registered?
-          <button type="button" id="link-goto-login" style="background: none; border: none; font-weight: 800; color: var(--primary); cursor: pointer; text-decoration: underline;">
-            Sign In here
+          <button type="button" id="link-goto-login" style="background: none; border: none; font-weight: 600; color: var(--primary); cursor: pointer; margin-left: 2px;">
+            Sign in
           </button>
         </div>
       </div>
@@ -231,19 +245,21 @@
       <!-- VIEW 3: VERIFY REGISTRATION CODE (STEP 2)                 -->
       <!-- ========================================================= -->
       <div id="view-verify-code" style="display: none;">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <div style="font-size: 32px; margin-bottom: 8px;">📬</div>
-          <h1 style="font-size: 20px; font-weight: 900; color: #0f172a; margin-bottom: 6px;">
+        <div style="text-align: center; margin-bottom: 22px;">
+          <div style="width: 44px; height: 44px; border-radius: var(--radius-full); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.025em;">
             Check Your Email
           </h1>
-          <p style="font-size: 13px; color: #475569; line-height: 1.5;">
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
             We sent a 6-digit confirmation code to<br>
             <strong id="display-verify-email" style="color: var(--primary);">you@domain.com</strong>
           </p>
         </div>
 
-        <div id="box-dev-code" style="display: none; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #065f46; text-align: center;">
-          <span>Demo / Quick-Test Code: </span><strong id="text-dev-code" style="font-size: 14px; letter-spacing: 2px;">123456</strong>
+        <div id="box-dev-code" style="display: none; background: var(--success-light); border: 1px solid var(--success-border); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: var(--success-text); text-align: center;">
+          <span>Demo / Quick-Test Code: </span><strong id="text-dev-code" style="font-size: 13.5px; letter-spacing: 2px; font-family: monospace;">123456</strong>
         </div>
 
         <form id="form-verify-code" onsubmit="return false;">
@@ -252,20 +268,21 @@
               Enter 6-Digit Code
             </label>
             <input type="text" id="verify-code-input" class="form-input code-input-field" placeholder="••••••" maxlength="6" required autofocus>
-            <span style="font-size: 11px; color: var(--text-muted); text-align: center; display: block; margin-top: 6px;">
+            <span style="font-size: 11.5px; color: var(--text-muted); text-align: center; display: block; margin-top: 6px;">
               Valid for 15 minutes • Sent from noreply@job-way.in
             </span>
           </div>
 
-          <button type="button" class="search-btn" id="btn-submit-verify-code" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px; margin-bottom: 12px;">
-            Verify Code & Activate Account ✓
+          <button type="button" class="search-btn" id="btn-submit-verify-code" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 12px;">
+            <span>Verify & Activate Account</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 12.5px;">
             <button type="button" id="btn-back-to-reg" style="background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline;">
               ← Change Email
             </button>
-            <button type="button" id="btn-resend-code" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer;">
+            <button type="button" id="btn-resend-code" style="background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer;">
               Resend Code
             </button>
           </div>
@@ -276,32 +293,33 @@
       <!-- VIEW 4: FORGOT PASSWORD                                   -->
       <!-- ========================================================= -->
       <div id="view-forgot-password" style="display: none;">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="font-size: 20px; font-weight: 900; color: #0f172a; margin-bottom: 4px;">
+        <div style="text-align: center; margin-bottom: 22px;">
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
             Reset Your Password
           </h1>
-          <p style="font-size: 13px; color: var(--text-muted);">
-            We will email you a 6-digit reset code
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Enter your email to receive a 6-digit recovery code
           </p>
         </div>
 
         <!-- Step 1: Request Reset Code -->
         <div id="forgot-step-1">
-          <div class="form-group" style="margin-bottom: 16px;">
+          <div class="form-group">
             <label class="form-label" for="forgot-email">Account Email Address *</label>
             <input type="email" id="forgot-email" class="form-input" placeholder="you@domain.com" required>
           </div>
-          <button type="button" class="search-btn" id="btn-forgot-request" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px; margin-bottom: 12px;">
-            Send Password Reset Code →
+          <button type="button" class="search-btn" id="btn-forgot-request" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 12px;">
+            <span>Send Password Reset Code</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
 
         <!-- Step 2: Verify Code and Set New Password -->
         <div id="forgot-step-2" style="display: none;">
-          <div style="background: #f1f5f9; border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 14px; font-size: 12px; color: #334155;">
+          <div style="background: var(--bg-page); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 14px; font-size: 12.5px; color: var(--text-secondary);">
             Reset code sent to <strong id="forgot-target-email"></strong>
           </div>
-          <div class="form-group" style="margin-bottom: 14px;">
+          <div class="form-group">
             <label class="form-label" for="forgot-code">6-Digit Reset Code *</label>
             <input type="text" id="forgot-code" class="form-input code-input-field" placeholder="123456" maxlength="6" required>
           </div>
@@ -309,13 +327,14 @@
             <label class="form-label" for="forgot-new-pass">New Password * (Min 6 chars)</label>
             <input type="password" id="forgot-new-pass" class="form-input" placeholder="Enter new password..." required minlength="6">
           </div>
-          <button type="button" class="search-btn" id="btn-forgot-verify" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px; margin-bottom: 12px;">
-            Set New Password & Log In ✓
+          <button type="button" class="search-btn" id="btn-forgot-verify" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 12px;">
+            <span>Update Password & Log In</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </button>
         </div>
 
         <div style="text-align: center; margin-top: 14px;">
-          <button type="button" id="btn-forgot-cancel" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; text-decoration: underline;">
+          <button type="button" id="btn-forgot-cancel" style="background: none; border: none; font-size: 12.5px; color: var(--text-muted); cursor: pointer; text-decoration: underline;">
             ← Back to Sign In
           </button>
         </div>
@@ -325,43 +344,46 @@
       <!-- VIEW 5: ADMIN PORTAL                                      -->
       <!-- ========================================================= -->
       <div id="view-admin" style="display: none;">
-        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: #991b1b; display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 18px;">🛡️</span>
-          <span>Master Platform Ledger & Admin Portal</span>
+        <div style="background: var(--danger-light); border: 1px solid var(--danger-border); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 20px; font-size: 12.5px; color: var(--danger-text); display: flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span style="font-weight: 600;">Platform Administrator Access</span>
         </div>
 
         <form id="form-admin" onsubmit="return false;">
           <div class="form-group" style="margin-bottom: 18px;">
             <label class="form-label" for="login-admin-pass">Master Admin Password *</label>
             <input type="password" id="login-admin-pass" class="form-input" placeholder="Enter master password..." required autocomplete="current-password">
-            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">
+            <span style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; display: block;">
               Protected administrative key
             </span>
           </div>
 
-          <button type="button" class="search-btn" id="btn-submit-admin" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px; margin-bottom: 14px;">
-            Sign In to Admin Ledger →
+          <button type="button" class="search-btn" id="btn-submit-admin" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 12px;">
+            <span>Sign In to Admin Ledger</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
 
-          <button type="button" class="btn-demo-quick" id="btn-demo-admin" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px;">
-            🛡️ 1-Click Administrator Testing
+          <button type="button" class="btn-signin-header" id="btn-demo-admin" style="width: 100%; justify-content: center; padding: 9px; font-size: 12.5px;">
+            <span>1-Click Administrator Testing</span>
           </button>
         </form>
       </div>
 
       <!-- ========================================================= -->
-      <!-- FAST 1-CLICK DEMO ACCOUNTS (UPDATED FOR EMAIL AUTH)       -->
+      <!-- FAST 1-CLICK DEMO ACCOUNTS                                -->
       <!-- ========================================================= -->
-      <div id="section-demo-accounts" style="margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
-        <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">
-          Instant 1-Click Demo Accounts
+      <div id="section-demo-accounts" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
+        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">
+          1-Click Demo Accounts
         </span>
         <div style="display: flex; flex-direction: column; gap: 8px;">
-          <button type="button" class="btn-demo-quick" id="btn-quick-worker" style="padding: 9px 12px; font-size: 12px; justify-content: center; display: flex; align-items: center; gap: 6px;">
-            <span>👷</span> <span>Log In as Worker (worker@job-way.in)</span>
+          <button type="button" class="btn-signin-header" id="btn-quick-worker" style="padding: 9px 12px; font-size: 12.5px; justify-content: center; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
+            <span>Log In as Worker (worker@job-way.in)</span>
           </button>
-          <button type="button" class="btn-demo-quick" id="btn-quick-employer" style="padding: 9px 12px; font-size: 12px; justify-content: center; display: flex; align-items: center; gap: 6px;">
-            <span>🏢</span> <span>Log In as Employer (employer@job-way.in)</span>
+          <button type="button" class="btn-signin-header" id="btn-quick-employer" style="padding: 9px 12px; font-size: 12.5px; justify-content: center; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+            <span>Log In as Employer (employer@job-way.in)</span>
           </button>
         </div>
       </div>
@@ -587,7 +609,7 @@
         const res = await window.jobApi.registerVerify({ email, code });
 
         btnSubmitVerifyCode.disabled = false;
-        btnSubmitVerifyCode.textContent = 'Verify Code & Activate Account ✓';
+        btnSubmitVerifyCode.textContent = 'Verify & Activate Account ✓';
 
         if (res.success) {
           showToast('Account verified! Redirecting to complete your trade profile...');
@@ -732,7 +754,7 @@
         btnForgotVerify.textContent = 'Updating password...';
         const res = await window.jobApi.forgotPasswordVerify(email, code, newPassword);
         btnForgotVerify.disabled = false;
-        btnForgotVerify.textContent = 'Set New Password & Log In ✓';
+        btnForgotVerify.textContent = 'Update Password & Log In ✓';
 
         if (res.success) {
           showToast('Password updated! Please log in.');

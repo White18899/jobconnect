@@ -8,106 +8,148 @@
   <link rel="canonical" href="https://job-way.in/admin.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+<body>
 
-  <!-- Header -->
-  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-      <a href="/" class="brand-logo" style="text-decoration: none;">
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="/" class="brand-logo">
         <div class="brand-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
         </div>
         <div>
           <span>JobWay</span>
-          <span class="brand-text-sub">job-way.in • Admin Desk</span>
+          <span class="brand-text-sub">Admin Console</span>
         </div>
       </a>
 
       <!-- Header Center Links -->
-      <nav style="display: flex; gap: 18px; align-items: center;">
-        <a href="/" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          🔍 Public Site
+      <nav style="display: flex; gap: 20px; align-items: center;">
+        <a href="/" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Public Site</span>
         </a>
-        <a href="#ledger-section" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
-          📑 Payment Ledger
+        <a href="#ledger-section" style="font-size: 13px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span>Payment Ledger</span>
         </a>
-        <a href="#jobs-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          💼 Job Listings
+        <a href="#jobs-section" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+          <span>Job Listings</span>
         </a>
       </nav>
 
       <!-- Admin Profile & Logout -->
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <div class="role-badge-box" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">
-          <span>🛡️</span>
+      <div class="nav-right-actions">
+        <div class="role-badge-box" style="background: var(--danger-light); border-color: var(--danger-border); color: var(--danger-text);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <span>Platform Administrator</span>
         </div>
         <button id="btn-admin-logout" class="btn-logout-header" title="Sign Out">
-          Sign Out ⎋
+          Sign Out
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Admin Content -->
-  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; width: 100%; flex: 1;">
+  <main class="main-content">
     
     <!-- Welcome Banner -->
-    <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b); color: white; padding: 28px 32px; border-radius: var(--radius-xl); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <div style="background: #0f172a; color: white; padding: 28px 32px; border-radius: var(--radius-xl); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border: 1px solid #1e293b; box-shadow: var(--shadow-sm);">
       <div>
-        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
-          🛡️ Root Administrator Access
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; margin-bottom: 12px; letter-spacing: 0.04em; text-transform: uppercase;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Root Administrator Console</span>
         </div>
-        <h1 style="font-size: 24px; font-weight: 900; margin-bottom: 6px;">
-          UPI Financial Ledger & Verification Console
+        <h1 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; letter-spacing: -0.025em;">
+          UPI Financial Ledger & Platform Console
         </h1>
-        <p style="color: #cbd5e1; font-size: 13px; max-width: 600px;">
-          Review incoming manual UPI settlements from workers and employers. Verify 12-digit bank reference numbers to unlock instant features.
+        <p style="color: #94a3b8; font-size: 13.5px; max-width: 600px; font-weight: 450;">
+          Verify 12-digit bank UTR numbers, audit candidate unlock settlements, and monitor active job listings on Cloudflare D1.
         </p>
       </div>
     </div>
 
     <!-- Stats Row -->
-    <div class="hub-stats-grid" style="margin-bottom: 28px;">
-      <div class="stat-card">
-        <div class="stat-card-label">Active Vacancies</div>
+    <div class="hub-stats-grid reveal-on-scroll stagger-group">
+      <div class="stat-card variant-primary">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Active Vacancies</span>
+          <div class="stat-card-icon primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+        </div>
         <div class="stat-card-value" id="kpi-jobs">0</div>
-        <div class="stat-card-sub">Published on Cloudflare D1</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot primary"></span>
+          <span>Published on Cloudflare D1</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Candidate Applications</div>
+
+      <div class="stat-card variant-primary">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Applications Submitted</span>
+          <div class="stat-card-icon primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+        </div>
         <div class="stat-card-value" id="kpi-apps">0</div>
-        <div class="stat-card-sub">Registered trade workers</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot primary"></span>
+          <span>Registered trade workers</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Pending Payment Reviews</div>
-        <div class="stat-card-value" style="color: #f59e0b;" id="kpi-pending">0</div>
-        <div class="stat-card-sub">Awaiting admin verification</div>
+
+      <div class="stat-card variant-accent">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Pending Verifications</span>
+          <div class="stat-card-icon accent">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div class="stat-card-value accent" id="kpi-pending">0</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot accent"></span>
+          <span>Awaiting admin review</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Verified Revenue</div>
-        <div class="stat-card-value" style="color: #10b981;" id="kpi-revenue">₹0</div>
-        <div class="stat-card-sub">Settled platform earnings</div>
+
+      <div class="stat-card variant-success">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Verified Revenue</span>
+          <div class="stat-card-icon success">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="stat-card-value success" id="kpi-revenue">₹0</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot success"></span>
+          <span>Settled platform earnings</span>
+        </div>
       </div>
     </div>
 
-    <!-- Section 1: Payment Ledger Table -->
-    <section id="ledger-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
-        <h2 style="font-size: 18px; font-weight: 900; color: #0f172a;">
-          📑 Manual UPI Settlements Ledger
-        </h2>
-        <span style="font-size: 12px; color: var(--text-muted);">
-          All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475).
-        </span>
+    <!-- Section 1: Payment Ledger Table (Panel Card Architecture) -->
+    <section id="ledger-section" class="panel-card reveal-on-scroll">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">
+            UPI Settlements Ledger
+          </h2>
+          <p class="panel-subtitle">
+            All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475).
+          </p>
+        </div>
       </div>
 
-      <div style="overflow-x: auto;">
+      <div class="data-table-wrapper">
         <table class="admin-table">
           <thead>
             <tr>
@@ -127,18 +169,20 @@
       </div>
     </section>
 
-    <!-- Section 2: All Active Vacancies -->
-    <section id="jobs-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
-        <h2 style="font-size: 18px; font-weight: 900; color: #0f172a;">
-          💼 Active Platform Vacancies
-        </h2>
-        <span style="font-size: 12px; color: var(--text-muted);">
-          Live postings across Hyderabad, Visakhapatnam, and Vijayawada.
-        </span>
+    <!-- Section 2: All Active Vacancies (Panel Card Architecture) -->
+    <section id="jobs-section" class="panel-card reveal-on-scroll">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">
+            Active Platform Vacancies
+          </h2>
+          <p class="panel-subtitle">
+            Live job postings across Hyderabad, Visakhapatnam, and Vijayawada.
+          </p>
+        </div>
       </div>
 
-      <div style="overflow-x: auto;">
+      <div class="data-table-wrapper">
         <table class="admin-table">
           <thead>
             <tr>
@@ -207,27 +251,27 @@
 
         tbody.innerHTML = payments.map(p => `
           <tr>
-            <td><strong style="font-family: monospace;">${p.id}</strong></td>
+            <td><span class="mono-code" style="color: var(--text-primary); font-weight: 600;">${p.id}</span></td>
             <td>
               <span class="status-badge ${p.type === 'worker_priority' ? 'priority' : 'pending'}">
                 ${p.type === 'worker_priority' ? 'Worker Boost' : 'Employer Unlocks'}
               </span>
             </td>
-            <td><strong>${p.user_name}</strong> (${p.user_role})</td>
-            <td><strong>₹${p.amount}</strong></td>
-            <td><span style="font-family: monospace; background: #f1f5f9; padding: 4px 8px; border-radius: 6px;">${p.utr_number}</span></td>
+            <td><strong>${p.user_name}</strong> <span style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">(${p.user_role})</span></td>
+            <td><strong class="tabular-nums" style="font-size: 13.5px; font-weight: 650; color: var(--text-primary);">₹${p.amount}</strong></td>
+            <td><span class="mono-tag">${p.utr_number}</span></td>
             <td><span class="status-badge ${p.status === 'verified' ? 'verified' : (p.status === 'rejected' ? 'danger' : 'pending')}">${p.status.toUpperCase()}</span></td>
             <td>
               ${p.status === 'pending_verification' ? `
-                <div style="display: flex; gap: 6px;">
-                  <button class="admin-approve-btn" data-id="${p.id}" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;">
-                    ✓ Verify & Activate
+                <div class="table-action-rail">
+                  <button class="btn-table-action success admin-approve-btn" data-id="${p.id}">
+                    <span>Approve</span>
                   </button>
-                  <button class="admin-reject-btn" data-id="${p.id}" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;">
-                    ✗ Reject
+                  <button class="btn-table-action danger admin-reject-btn" data-id="${p.id}">
+                    <span>Reject</span>
                   </button>
                 </div>
-              ` : `<span style="font-size: 12px; color: #64748b; font-weight: 700;">Completed</span>`}
+              ` : `<span class="mono-tag" style="font-size: 11px;">Settled</span>`}
             </td>
           </tr>
         `).join('');
@@ -256,14 +300,30 @@
       const jobsTbody = document.getElementById('admin-jobs-tbody');
       jobsTbody.innerHTML = allJobs.map(j => `
         <tr>
-          <td><strong style="font-family: monospace;">${j.id}</strong></td>
-          <td><strong>${j.title}</strong></td>
+          <td><span class="mono-code" style="color: var(--text-primary); font-weight: 600;">${j.id}</span></td>
+          <td><strong style="color: var(--text-primary);">${j.title}</strong></td>
           <td><span class="category-tag">${j.category}</span></td>
-          <td>${j.business_name}</td>
-          <td>${j.location_area}, ${j.location_city}</td>
-          <td>₹${j.salary_min?.toLocaleString()} - ₹${j.salary_max?.toLocaleString()}</td>
+          <td style="color: var(--text-secondary);">${j.business_name}</td>
+          <td style="color: var(--text-secondary);">${j.location_area}, ${j.location_city}</td>
+          <td><span class="tabular-nums" style="font-weight: 600; color: var(--text-primary);">₹${j.salary_min?.toLocaleString()} - ₹${j.salary_max?.toLocaleString()}</span></td>
         </tr>
       `).join('');
+
+      // Scroll reveal animation observer
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+      } else {
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+      }
     });
   </script>
 </body>

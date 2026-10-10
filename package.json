@@ -4,8 +4,8 @@
   "description": "JobConnect - India's Blue-Collar Employment Platform with Cloudflare Workers Backend and Vanilla HTML/CSS/JS Frontend",
   "private": true,
   "scripts": {
-    "start": "npx serve public -p 3000",
-    "dev": "npx serve public -p 3000",
+    "start": "serve -p 3000",
+    "dev": "serve -p 3000",
     "deploy:frontend": "wrangler pages deploy public --project-name=jobconnect-frontend",
     "backend:dev": "cd backend && npm run dev",
     "backend:build": "cd backend && npm run build",

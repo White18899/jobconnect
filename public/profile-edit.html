@@ -8,27 +8,28 @@
   <link rel="canonical" href="https://job-way.in/profile-edit">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .profile-card-section {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 24px;
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      border-radius: var(--radius-lg);
+      padding: 26px;
       margin-bottom: 24px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 0 #ffffff;
+      transition: var(--transition);
     }
     .profile-section-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #0f172a;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-light);
     }
     .avatar-upload-wrap {
       display: flex;
@@ -37,60 +38,64 @@
       flex-wrap: wrap;
     }
     .avatar-preview-box {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 3px solid var(--primary);
+      width: 88px;
+      height: 88px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--border);
       object-fit: cover;
-      background: #eff6ff;
+      background: var(--surface-secondary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 34px;
-      color: var(--primary);
+      color: var(--text-muted);
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      box-shadow: var(--shadow-xs);
     }
     .skill-chip {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 6px 14px;
-      background: #f1f5f9;
+      background: white;
       border: 1px solid var(--border);
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #334155;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 550;
+      color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       user-select: none;
     }
+    .skill-chip:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
     .skill-chip.active {
-      background: var(--primary);
+      background: var(--text-primary);
       color: white;
-      border-color: var(--primary);
+      border-color: var(--text-primary);
     }
     .linkedin-sync-card {
-      background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
-      border: 1.5px solid #bae6fd;
+      background: #ffffff;
+      border: 1px solid #bae6fd;
       border-radius: var(--radius-lg);
-      padding: 18px;
+      padding: 22px;
       margin-bottom: 24px;
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 0 #ffffff;
     }
     .education-item-card {
-      background: #f8fafc;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      margin-bottom: 16px;
+      background: #fafbfc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 12px;
       position: relative;
-      transition: all 0.2s ease;
+      transition: var(--transition);
     }
     .education-item-card:hover {
-      border-color: #cbd5e1;
+      border-color: var(--border);
       background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow-xs);
     }
     .education-item-header {
       display: flex;
@@ -104,145 +109,149 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 12.5px;
+      font-weight: 600;
       color: var(--primary);
     }
     .btn-remove-edu {
       background: none;
       border: none;
-      color: #ef4444;
+      color: var(--danger);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 4px;
       padding: 4px 8px;
-      border-radius: 4px;
-      transition: background 0.2s;
+      border-radius: var(--radius-xs);
+      transition: var(--transition);
     }
     .btn-remove-edu:hover {
-      background: #fee2e2;
+      background: var(--danger-light);
     }
   </style>
 </head>
-<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+<body>
 
   <!-- Site Header -->
-  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50;">
-    <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" class="brand-logo" style="text-decoration: none;">
+  <header class="site-header">
+    <div class="navbar-container" style="max-width: 1000px;">
+      <a href="/" class="brand-logo">
         <div class="brand-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
         </div>
         <div>
           <span>JobWay</span>
-          <span class="brand-text-sub">job-way.in • Profile Setup</span>
+          <span class="brand-text-sub">Profile Setup</span>
         </div>
       </a>
       <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="font-size: 12px; color: #64748b; font-weight: 700;" id="user-header-email"></span>
-        <a href="/worker.html" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
-          Skip to Dashboard →
+        <span style="font-size: 12.5px; color: var(--text-muted); font-weight: 500;" id="user-header-email"></span>
+        <a href="/worker.html" style="font-size: 13px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 4px;">
+          <span>Skip to Dashboard</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>
     </div>
   </header>
 
   <!-- Main Profile Edit Form -->
-  <main style="flex: 1; max-width: 900px; width: 100%; margin: 32px auto; padding: 0 16px 60px;">
+  <main class="main-content" style="max-width: 900px; padding-top: 32px;">
     
     <!-- Top Welcome Banner -->
-    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px 28px; margin-bottom: 24px; box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 24px; box-shadow: var(--shadow-xs); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
       <div>
-        <div style="display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 50px; margin-bottom: 8px;">
-          ✓ Step 2 of 2: Professional Profile Setup
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-full); margin-bottom: 8px; border: 1px solid var(--primary-border);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Step 2 of 2: Professional Profile Setup</span>
         </div>
-        <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 4px;">
+        <h1 style="font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px; letter-spacing: -0.025em;">
           Complete Your Trade Profile
         </h1>
-        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
-          Add your education, work experience, and profile details to connect with top employers.
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
+          Add your education, workshop experience, and trade skills to connect with employers.
         </p>
       </div>
-      <div style="text-align: right;">
-        <button type="button" class="search-btn" id="btn-save-profile-top" style="padding: 12px 24px; font-size: 14px;">
-          <span>Save Profile ✓</span>
+
+      <div>
+        <button type="button" class="search-btn" id="btn-save-profile-top" style="padding: 10px 22px; font-size: 13.5px;">
+          <span>Save Profile</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- 1. LINKEDIN AUTOFILL / SYNC BANNER                       -->
-    <!-- ========================================================= -->
+    <!-- 1. LINKEDIN AUTOFILL -->
     <div class="linkedin-sync-card">
       <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="background: #0077b5; color: white; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px;">
-            in
+          <div style="background: #0077b5; color: white; width: 34px; height: 34px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
           </div>
           <div>
-            <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">
+            <h3 style="font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin: 0;">
               Autofill with LinkedIn
             </h3>
-            <p style="font-size: 12px; color: #475569; margin: 2px 0 0;">
-              Paste your LinkedIn profile link to automatically import your name, photo, education & experience!
+            <p style="font-size: 12.5px; color: var(--text-secondary); margin: 2px 0 0;">
+              Paste your LinkedIn profile link to automatically import your name, photo, education & experience
             </p>
           </div>
         </div>
-        <span style="font-size: 11px; font-weight: 800; color: #0284c7; background: white; padding: 4px 10px; border-radius: 50px; border: 1px solid #bae6fd;">
-          ⚡ 1-Click Sync
+        <span style="font-size: 11px; font-weight: 600; color: #0284c7; background: #f0f9ff; padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid #bae6fd;">
+          1-Click Sync
         </span>
       </div>
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <input type="text" id="linkedin-input-url" class="form-input" style="flex: 1; min-width: 260px; background: white;" placeholder="e.g. linkedin.com/in/anand-verma-electrician">
-        <button type="button" id="btn-sync-linkedin" class="search-btn" style="background: #0077b5; padding: 10px 22px; font-size: 13px;">
-          <span>⚡ Import Details</span>
+        <button type="button" id="btn-sync-linkedin" class="search-btn" style="background: #0077b5; padding: 9px 20px; font-size: 13px;">
+          <span>Import Details</span>
         </button>
       </div>
-      <div id="linkedin-status-msg" style="display: none; font-size: 12px; margin-top: 8px; font-weight: 700; color: #0369a1;"></div>
+      <div id="linkedin-status-msg" style="display: none; font-size: 12px; margin-top: 8px; font-weight: 600; color: #0369a1;"></div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- 2. PROFILE PHOTO & BASIC DETAILS                          -->
-    <!-- ========================================================= -->
+    <!-- 2. PROFILE PHOTO & CONTACT INFO -->
     <div class="profile-card-section">
       <div class="profile-section-title">
-        <span style="font-size: 20px;">👤</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>Profile Photo & Contact Information</span>
       </div>
 
       <!-- Avatar Picker -->
       <div class="avatar-upload-wrap" style="margin-bottom: 22px;">
         <div class="avatar-preview-box" id="avatar-preview">
-          <span id="avatar-initials">👷</span>
+          <span id="avatar-initials">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
+          </span>
           <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover;">
         </div>
         <div>
-          <label style="font-size: 13px; font-weight: 800; color: #0f172a; display: block; margin-bottom: 6px;">
+          <label style="font-size: 13px; font-weight: 600; color: var(--text-primary); display: block; margin-bottom: 6px;">
             Profile Photo
           </label>
           <div style="display: flex; gap: 10px; align-items: center;">
             <input type="file" id="file-avatar-input" accept="image/*" style="display: none;">
-            <button type="button" id="btn-trigger-avatar" class="search-btn" style="padding: 8px 18px; font-size: 12px; background: white; color: var(--primary); border: 1.5px solid var(--primary);">
-              📷 Upload Image
+            <button type="button" id="btn-trigger-avatar" class="btn-signin-header" style="padding: 7px 16px; font-size: 12.5px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Upload Image</span>
             </button>
-            <button type="button" id="btn-remove-avatar" style="background: none; border: none; font-size: 12px; color: #ef4444; font-weight: 700; cursor: pointer; display: none;">
+            <button type="button" id="btn-remove-avatar" style="background: none; border: none; font-size: 12px; color: var(--danger); font-weight: 600; cursor: pointer; display: none;">
               Remove
             </button>
           </div>
-          <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px;">
-            Supports JPG, PNG, WebP up to 5MB. A clear face photo improves hiring trust.
+          <span style="font-size: 11.5px; color: var(--text-muted); display: block; margin-top: 4px;">
+            Supports JPG, PNG, WebP up to 5MB. Verified face photos improve employer trust.
           </span>
         </div>
       </div>
 
       <!-- Form Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
         <div class="form-group">
           <label class="form-label" for="worker-name">Full Legal Name *</label>
           <input type="text" id="worker-name" class="form-input" placeholder="e.g. Ramesh Kumar" required>
@@ -251,7 +260,7 @@
         <div class="form-group">
           <label class="form-label" for="worker-phone">Mobile Phone / WhatsApp *</label>
           <div style="display: flex; gap: 8px;">
-            <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-md); font-weight: 800; font-size: 13px; color: #334155;">+91</span>
+            <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
             <input type="tel" id="worker-phone" class="form-input" placeholder="98491 23434" maxlength="10" required>
           </div>
         </div>
@@ -276,16 +285,14 @@
       </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- 4. EDUCATION & TECHNICAL QUALIFICATIONS (MULTIPLE)        -->
-    <!-- ========================================================= -->
+    <!-- 3. EDUCATION QUALIFICATIONS -->
     <div class="profile-card-section">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px;">
         <div class="profile-section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
-          <span style="font-size: 20px;">🎓</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           <span>Education & Technical Qualifications</span>
         </div>
-        <button type="button" id="btn-add-education" class="search-btn" style="background: white; color: var(--primary); border: 1.5px solid var(--primary); padding: 8px 16px; font-size: 12px;">
+        <button type="button" id="btn-add-education" class="btn-signin-header" style="padding: 7px 14px; font-size: 12px;">
           <span>+ Add Another Qualification</span>
         </button>
       </div>
@@ -295,30 +302,28 @@
       </div>
 
       <div style="text-align: center; margin-top: 12px;">
-        <button type="button" id="btn-add-education-bottom" class="search-btn" style="background: #f1f5f9; color: #334155; border: 1.5px dashed #cbd5e1; padding: 10px 20px; font-size: 13px; width: 100%; justify-content: center;">
+        <button type="button" id="btn-add-education-bottom" class="btn-signin-header" style="border-style: dashed; padding: 10px 20px; font-size: 12.5px; width: 100%; justify-content: center;">
           <span>+ Add Another Degree, ITI or Technical Certificate</span>
         </button>
       </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- 5. TRADE EXPERIENCE & SKILLS ("EXPRESSNESS")              -->
-    <!-- ========================================================= -->
+    <!-- 4. TRADE EXPERIENCE & SKILLS -->
     <div class="profile-card-section">
       <div class="profile-section-title">
-        <span style="font-size: 20px;">💼</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         <span>Trade Experience, Skills & Salary Expectations</span>
       </div>
 
       <!-- Experience & Salary Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 20px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px;">
         <div class="form-group">
           <label class="form-label" for="worker-exp-years">Total Trade Experience (Years) *</label>
           <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 4.5" step="0.5" min="0" max="40" required>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="worker-past-company">Most Recent Workshop / Company Name</label>
+          <label class="form-label" for="worker-past-company">Most Recent Workshop / Employer Name</label>
           <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Sri Balaji Auto Care & Service">
         </div>
 
@@ -335,20 +340,20 @@
 
       <!-- Interactive Skill Chips -->
       <div class="form-group" style="margin-bottom: 20px;">
-        <label class="form-label">Trade Skills & Specialties (Click to Select / Deselect)</label>
+        <label class="form-label">Trade Skills & Specialties (Click to toggle)</label>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;" id="skills-cloud">
-          <span class="skill-chip active" data-skill="Two-Wheeler Mechanic">🏍️ Two-Wheeler Mechanic</span>
-          <span class="skill-chip active" data-skill="Engine Tuning">🔧 Engine Tuning</span>
-          <span class="skill-chip active" data-skill="Electrical Wiring">⚡ Electrical Wiring</span>
-          <span class="skill-chip" data-skill="Electrician">💡 Electrician</span>
-          <span class="skill-chip" data-skill="Plumber">🚰 Plumber</span>
-          <span class="skill-chip" data-skill="AC Repair">❄️ AC Technician</span>
-          <span class="skill-chip" data-skill="Welder">🔥 Welder</span>
-          <span class="skill-chip" data-skill="Commercial Driver">🚚 Driver</span>
-          <span class="skill-chip" data-skill="Cook">🍳 Cook / Chef</span>
-          <span class="skill-chip" data-skill="Carpenter">🪚 Carpenter</span>
-          <span class="skill-chip" data-skill="Painter">🖌️ Painter</span>
-          <span class="skill-chip" data-skill="General Helper">📦 Helper</span>
+          <span class="skill-chip active" data-skill="Two-Wheeler Mechanic">Two-Wheeler Mechanic</span>
+          <span class="skill-chip active" data-skill="Engine Tuning">Engine Tuning</span>
+          <span class="skill-chip active" data-skill="Electrical Wiring">Electrical Wiring</span>
+          <span class="skill-chip" data-skill="Electrician">Electrician</span>
+          <span class="skill-chip" data-skill="Plumber">Plumber</span>
+          <span class="skill-chip" data-skill="AC Repair">AC Technician</span>
+          <span class="skill-chip" data-skill="Welder">Welder</span>
+          <span class="skill-chip" data-skill="Commercial Driver">Commercial Driver</span>
+          <span class="skill-chip" data-skill="Cook">Cook / Catering</span>
+          <span class="skill-chip" data-skill="Carpenter">Carpenter</span>
+          <span class="skill-chip" data-skill="Painter">Painter</span>
+          <span class="skill-chip" data-skill="General Helper">Workshop Helper</span>
         </div>
       </div>
 
@@ -361,11 +366,13 @@
 
     <!-- Save Buttons Footer -->
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
-      <a href="/worker.html" style="font-size: 14px; font-weight: 700; color: #64748b; text-decoration: none;">
-        ← Back to Worker Desk
+      <a href="/worker.html" style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>Back to Worker Desk</span>
       </a>
-      <button type="button" class="search-btn" id="btn-save-profile-bottom" style="padding: 14px 34px; font-size: 15px;">
-        <span>Save Complete Profile & Enter Desk ✓</span>
+      <button type="button" class="search-btn" id="btn-save-profile-bottom" style="padding: 12px 28px; font-size: 14px;">
+        <span>Save Complete Profile & Enter Desk</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
     </div>
 
@@ -456,7 +463,7 @@
         card.innerHTML = `
           <div class="education-item-header">
             <div class="education-item-badge">
-              <span>📜</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               <span>Qualification #<span class="edu-card-num">${index}</span></span>
             </div>
             <button type="button" class="btn-remove-edu" title="Remove this qualification">
@@ -652,23 +659,25 @@
         }
 
         btnSyncLinkedin.disabled = true;
-        btnSyncLinkedin.innerHTML = '<span>⚡ Fetching Real Data...</span>';
+        btnSyncLinkedin.textContent = 'Extracting...';
         linkedinStatusMsg.style.display = 'block';
         linkedinStatusMsg.style.color = '#0284c7';
-        linkedinStatusMsg.textContent = 'Connecting to LinkedIn, parsing public metadata & photo...';
+        linkedinStatusMsg.textContent = 'Contacting LinkedIn sync service...';
 
-        const res = await window.jobApi.syncLinkedIn(url);
-
+        const res = await window.jobApi.syncLinkedInProfile(url);
         btnSyncLinkedin.disabled = false;
-        btnSyncLinkedin.innerHTML = '<span>⚡ Import Details</span>';
+        btnSyncLinkedin.textContent = 'Import Details';
 
         if (res.success && res.profile) {
           const p = res.profile;
           if (p.full_name) inputName.value = p.full_name;
+          if (p.experience_years !== undefined) inputExpYears.value = p.experience_years;
           if (p.past_company) inputPastCompany.value = p.past_company;
           if (p.experience_description) inputExpDesc.value = p.experience_description;
+          if (p.preferred_area) inputArea.value = p.preferred_area;
+          if (p.city) selectCity.value = p.city;
 
-          // Real Profile Photo from LinkedIn
+          // Photo
           if (p.photo_key) {
             activeAvatarData = p.photo_key;
             avatarImg.src = p.photo_key;
@@ -677,26 +686,14 @@
             btnRemoveAvatar.style.display = 'inline-block';
           }
 
-          // Matched city if recognized
-          if (p.city) {
-            const cityOpts = Array.from(selectCity.options).map(o => o.value.toLowerCase());
-            const matchedIdx = cityOpts.findIndex(c => p.city.toLowerCase().includes(c));
-            if (matchedIdx !== -1) {
-              selectCity.selectedIndex = matchedIdx;
-            }
-          }
-
-          // Multiple Qualifications from LinkedIn
+          // Educations
           if (Array.isArray(p.educations) && p.educations.length > 0) {
-            // Check if current cards are blank, replace or append
-            const existingCards = getEducationCardsData();
-            if (existingCards.length <= 1 && (!existingCards[0] || !existingCards[0].institute)) {
-              educationsContainer.innerHTML = '';
-            }
-            p.educations.forEach(edu => addEducationCard(edu));
-          } else if (p.education_institute) {
+            educationsContainer.innerHTML = '';
+            p.educations.forEach(e => addEducationCard(e));
+          } else if (p.education_level || p.education_institute) {
+            educationsContainer.innerHTML = '';
             addEducationCard({
-              level: p.education_level || 'Diploma / Polytechnic',
+              level: p.education_level || 'ITI Certificate',
               institute: p.education_institute,
               specialization: p.education_specialization || 'Technical Trade',
               year: 2021
@@ -712,11 +709,11 @@
             });
           }
 
-          linkedinStatusMsg.style.color = '#059669';
+          linkedinStatusMsg.style.color = 'var(--success)';
           linkedinStatusMsg.innerHTML = `✓ Real profile details extracted from LinkedIn for <strong>${p.full_name || 'Candidate'}</strong>!`;
           showToast(`Imported ${p.full_name}'s photo, qualifications & experience from LinkedIn!`);
         } else {
-          linkedinStatusMsg.style.color = '#ef4444';
+          linkedinStatusMsg.style.color = 'var(--danger)';
           linkedinStatusMsg.textContent = res.error || 'Failed to extract LinkedIn profile.';
         }
       });

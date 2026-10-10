@@ -1,0 +1,11 @@
+{
+  "public": "public",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/employer", "destination": "/employer.html" },
+    { "source": "/worker", "destination": "/worker.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/profile-edit", "destination": "/profile-edit.html" }
+  ]
+}

@@ -3,171 +3,253 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Dashboard • JobWay (job-way.in)</title>
+  <title>Worker Portal • JobWay (job-way.in)</title>
   <meta name="description" content="Worker Dashboard: Track job applications, view trade profile, and activate priority placement.">
   <link rel="canonical" href="https://job-way.in/worker.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+<body>
 
-  <!-- Header -->
-  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-      <a href="/" class="brand-logo" style="text-decoration: none;">
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="navbar-container">
+      <a href="/" class="brand-logo">
         <div class="brand-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
         </div>
         <div>
           <span>JobWay</span>
-          <span class="brand-text-sub">job-way.in • Worker Desk</span>
+          <span class="brand-text-sub">Worker Portal</span>
         </div>
       </a>
 
       <!-- Header Center Links -->
-      <nav style="display: flex; gap: 18px; align-items: center;">
-        <a href="/" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          🔍 Browse All Jobs
+      <nav style="display: flex; gap: 20px; align-items: center;">
+        <a href="/" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Find Jobs</span>
         </a>
-        <a href="#applications-section" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
-          📋 My Applications
+        <a href="#applications-section" style="font-size: 13px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>My Applications</span>
         </a>
-        <a href="#profile-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
-          👤 Trade Profile
+        <a href="#profile-section" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Trade Profile</span>
         </a>
       </nav>
 
       <!-- Worker Profile Badge & Logout -->
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="nav-right-actions">
         <div class="role-badge-box">
-          <span>👷</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
           <span id="worker-display-name">Ramesh Kumar</span>
         </div>
         <button id="btn-worker-logout" class="btn-logout-header" title="Sign Out">
-          Sign Out ⎋
+          Sign Out
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Worker Dashboard Content -->
-  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; width: 100%; flex: 1;">
+  <main class="main-content">
     
     <!-- Welcome Banner -->
-    <div style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white; padding: 28px 32px; border-radius: var(--radius-xl); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <div style="background: #0f172a; color: white; padding: 28px 32px; border-radius: var(--radius-xl); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border: 1px solid #1e293b; box-shadow: var(--shadow-sm);">
       <div>
-        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
-          <span>✓</span> KYC Verified Tradesman
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; margin-bottom: 12px; letter-spacing: 0.04em; text-transform: uppercase;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>KYC Verified Tradesman</span>
         </div>
-        <h1 style="font-size: 24px; font-weight: 900; margin-bottom: 6px;" id="welcome-worker-heading">
+        <h1 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
           Worker Portal: Ramesh Kumar Rao
         </h1>
-        <p style="color: #94a3b8; font-size: 13px; max-width: 600px;">
-          Track employers reviewing your applications, manage your trade profile, and activate priority placement.
+        <p style="color: #94a3b8; font-size: 13.5px; max-width: 600px; font-weight: 450;">
+          Track employer review status, update your verified trade qualifications, and manage priority placement.
         </p>
       </div>
 
-      <div style="display: flex; gap: 12px;">
-        <a href="/" class="btn-apply-free" style="padding: 12px 20px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: white; color: #0f172a;">
-          <span>🔍</span> <span>Find More Jobs</span>
+      <div style="display: flex; gap: 10px;">
+        <a href="/" class="btn-signin-header" style="background: white; color: #0f172a; padding: 10px 18px; font-size: 13px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Find More Jobs</span>
         </a>
       </div>
     </div>
 
     <!-- Stats Row -->
-    <div class="hub-stats-grid" style="margin-bottom: 28px;">
-      <div class="stat-card">
-        <div class="stat-card-label">Applications Submitted</div>
+    <div class="hub-stats-grid reveal-on-scroll stagger-group">
+      <div class="stat-card variant-primary">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Applications Submitted</span>
+          <div class="stat-card-icon primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+        </div>
         <div class="stat-card-value" id="stat-worker-apps">0</div>
-        <div class="stat-card-sub">Direct employer submissions</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot primary"></span>
+          <span>Direct employer submissions</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Shortlisted by Employers</div>
-        <div class="stat-card-value" style="color: #10b981;" id="stat-worker-shortlisted">0</div>
-        <div class="stat-card-sub">Employers preparing to call you</div>
+      <div class="stat-card variant-success">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Shortlisted Candidates</span>
+          <div class="stat-card-icon success">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="stat-card-value success" id="stat-worker-shortlisted">0</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot success"></span>
+          <span>Employers preparing to call you</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Priority Placement Status</div>
-        <div class="stat-card-value" style="color: #f59e0b; font-size: 20px;" id="stat-worker-priority">Active ⚡</div>
-        <div class="stat-card-sub">Featured at top of candidate queues</div>
+      <div class="stat-card variant-accent">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Placement Status</span>
+          <div class="stat-card-icon accent">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+        </div>
+        <div class="stat-card-value accent" id="stat-worker-priority">Active</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot accent"></span>
+          <span>Featured in candidate queues</span>
+        </div>
       </div>
     </div>
 
-    <!-- Section 1: My Applications -->
-    <section id="applications-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
+    <!-- Section 1: My Applications (Divided List Architecture) -->
+    <section id="applications-section" class="panel-card reveal-on-scroll">
+      <div class="panel-header">
         <div>
-          <h2 style="font-size: 18px; font-weight: 900; color: #0f172a;">
-            📋 My Submitted Applications
+          <h2 class="panel-title">
+            My Submitted Applications
           </h2>
-          <span style="font-size: 12px; color: var(--text-muted);">
+          <p class="panel-subtitle">
             Real-time status updates from verified hiring employers
-          </span>
+          </p>
         </div>
       </div>
 
-      <div id="worker-applications-list">
+      <div id="worker-applications-list" class="divided-list">
         <!-- Rendered by JavaScript -->
       </div>
     </section>
 
     <!-- Section 2: Worker Profile & Trade Details -->
-    <section id="profile-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-        <h2 style="font-size: 19px; font-weight: 900; color: #0f172a; margin: 0;">
-          👤 My Trade Profile Details
-        </h2>
-        <a href="/profile-edit.html" class="search-btn" style="padding: 9px 18px; font-size: 13px; text-decoration: none;">
-          <span>✏️ Edit Profile Details →</span>
+    <section id="profile-section" class="panel-card reveal-on-scroll">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">
+            Trade Profile Details
+          </h2>
+          <p class="panel-subtitle">
+            Visible to verified employers when reviewing applications
+          </p>
+        </div>
+        <a href="/profile-edit.html" class="btn-signin-header" style="font-size: 12.5px; padding: 7px 14px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span>Edit Profile</span>
         </a>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Full Legal Name</div>
-          <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-name">Ramesh Kumar Rao</div>
+
+      <div class="kv-grid">
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Full Legal Name</span>
+          </div>
+          <div class="kv-value" id="profile-name">Ramesh Kumar Rao</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Primary Trade & Skills</div>
-          <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-trade">Two & Four Wheeler Mechanic</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            <span>Primary Trade & Skills</span>
+          </div>
+          <div class="kv-value" id="profile-trade">Two & Four Wheeler Mechanic</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Total Trade Experience</div>
-          <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-exp">4+ Years Hands-on Experience</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Total Trade Experience</span>
+          </div>
+          <div class="kv-value" id="profile-exp">4+ Years Hands-on Experience</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Education & Qualifications</div>
-          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-edu">ITI Certificate (Automobile)</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <span>Education & Qualifications</span>
+          </div>
+          <div class="kv-value" id="profile-edu">ITI Certificate (Automobile)</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Past Workshop / Employer</div>
-          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-company">Sri Balaji Auto Care & Service</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span>Past Workshop / Employer</span>
+          </div>
+          <div class="kv-value" id="profile-company">Sri Balaji Auto Care & Service</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Verified Email (Account)</div>
-          <div style="font-size: 15px; font-weight: 800; margin-top: 4px; color: var(--primary);" id="profile-email">worker@job-way.in</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Verified Email</span>
+          </div>
+          <div class="kv-value" id="profile-email" style="color: var(--primary);">worker@job-way.in</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Trade Contact Phone</div>
-          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-phone">+91 98491 23434</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Trade Contact Phone</span>
+          </div>
+          <div class="kv-value" id="profile-phone">+91 98491 23434</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Home Area & City</div>
-          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Home Area & City</span>
+          </div>
+          <div class="kv-value" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Trade Account Status</div>
-          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-account-status">
-            <span style="color: #059669;">✓ Verified Trade Professional</span>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Account Status</span>
+          </div>
+          <div class="kv-value" id="profile-account-status">
+            <span style="color: var(--success); display: inline-flex; align-items: center; gap: 5px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Verified Trade Professional</span>
+            </span>
           </div>
         </div>
-        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">LinkedIn Profile Sync</div>
-          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-linkedin">
-            <span style="color: #0284c7;">✓ Connected & Synced</span>
+
+        <div class="kv-item">
+          <div class="kv-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
+            <span>LinkedIn Profile Sync</span>
+          </div>
+          <div class="kv-value" id="profile-linkedin">
+            <span style="color: #0284c7; display: inline-flex; align-items: center; gap: 5px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Connected & Synced</span>
+            </span>
           </div>
         </div>
       </div>
@@ -179,25 +261,24 @@
   <div class="modal-overlay" id="worker-boost-modal" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 class="modal-title">⚡ Activate Application Priority Boost</h3>
+        <h3 class="modal-title">Activate Priority Placement</h3>
         <button class="modal-close-btn" id="close-boost-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1.5px solid #fde68a; border-radius: var(--radius-lg); padding: 18px; margin-bottom: 20px;">
-          <h4 style="font-size: 16px; font-weight: 800; color: #92400e; margin-bottom: 6px;">
+        <div style="background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--accent-text); margin-bottom: 4px;">
             ₹149 for 7 Days Featured Placement
           </h4>
-          <p style="font-size: 12px; color: #b45309; line-height: 1.5;">
-            Move your profile to the top of the employer's applicant list. Employers review priority applicants first before others.
+          <p style="font-size: 12.5px; color: var(--accent-text); line-height: 1.5;">
+            Featured at the top of candidate queues. Employers review priority applications first before standard applicants.
           </p>
         </div>
 
         <!-- UPI Instructions -->
         <div class="form-group" style="text-align: center; margin-bottom: 20px;">
           <label class="form-label">Scan UPI QR or Pay to Official VPA</label>
-          <div style="background: white; border: 2px dashed #cbd5e1; border-radius: var(--radius-lg); padding: 16px; display: inline-block; margin: 10px 0;">
-            <!-- Simple SVG QR placeholder -->
-            <svg width="140" height="140" viewBox="0 0 100 100" fill="#0f172a">
+          <div style="background: white; border: 1.5px dashed var(--border); border-radius: var(--radius-lg); padding: 18px; display: inline-block; margin: 10px 0;">
+            <svg width="120" height="120" viewBox="0 0 100 100" fill="#0f172a">
               <rect width="30" height="30" x="10" y="10"/>
               <rect width="18" height="18" fill="white" x="16" y="16"/>
               <rect width="30" height="30" x="60" y="10"/>
@@ -208,20 +289,20 @@
               <rect width="10" height="10" x="60" y="60"/>
               <rect width="10" height="10" x="80" y="80"/>
             </svg>
-            <div style="font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 6px;">
-              UPI ID: <span style="font-family: monospace; color: var(--primary);">jobconnect@icici</span>
+            <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-top: 8px;">
+              UPI ID: <span class="mono-tag primary" style="font-size: 13px; font-weight: 600;">jobconnect@icici</span>
             </div>
-            <div style="font-size: 11px; color: #64748b;">Amount: ₹149.00</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 3px;">Amount: <span class="tabular-nums" style="font-weight: 600; color: var(--text-primary);">₹149.00</span></div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="boost-utr-input">Enter 12-Digit Bank UTR / Reference Number *</label>
-          <input type="text" id="boost-utr-input" class="form-input" placeholder="e.g. 428901239841" maxlength="16" required>
+          <label class="form-label" for="boost-utr-input">12-Digit Bank UTR / Reference Number *</label>
+          <input type="text" id="boost-utr-input" class="form-input" style="font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.04em;" placeholder="e.g. 428901239841" maxlength="16" required>
         </div>
 
-        <button class="search-btn" id="btn-submit-boost" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px;">
-          Submit UTR for Admin Verification →
+        <button class="search-btn" id="btn-submit-boost" style="width: 100%; justify-content: center; padding: 12px; font-size: 13.5px;">
+          Submit Reference for Verification →
         </button>
       </div>
     </div>
@@ -292,15 +373,21 @@
         }
         if (document.getElementById('profile-account-status')) {
           document.getElementById('profile-account-status').innerHTML =
-            `<span style="color: #059669; font-weight: 800;">✓ Email Verified & Active Trade Profile</span>`;
+            `<span style="color: var(--success); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Email Verified & Active Trade Profile</span>
+            </span>`;
         }
         if (document.getElementById('profile-linkedin')) {
           if (profile.linkedin_synced === 1 || profile.linkedin_url) {
             document.getElementById('profile-linkedin').innerHTML =
-              `<span style="color: #0284c7; font-weight: 800;">✓ Synced from LinkedIn</span>`;
+              `<span style="color: #0284c7; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Synced from LinkedIn</span>
+              </span>`;
           } else {
             document.getElementById('profile-linkedin').innerHTML =
-              `<a href="/profile-edit.html" style="color: #64748b; text-decoration: underline;">Not Connected • Connect</a>`;
+              `<a href="/profile-edit.html" style="color: var(--text-secondary); text-decoration: underline;">Not Connected • Connect</a>`;
           }
         }
       });
@@ -337,41 +424,42 @@
         if (currentApps.length === 0) {
           container.innerHTML = `
             <div style="text-align: center; padding: 48px; color: var(--text-muted);">
-              <p style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">You haven't applied to any vacancies yet.</p>
-              <a href="/" class="btn-apply-free" style="display: inline-block; text-decoration: none;">Browse Available Trade Jobs →</a>
+              <p style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--text-secondary);">You haven't applied to any vacancies yet.</p>
+              <a href="/" class="btn-signin-header" style="display: inline-flex; margin-top: 6px;">Browse Available Trade Jobs →</a>
             </div>
           `;
           return;
         }
 
         container.innerHTML = currentApps.map(app => `
-          <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: var(--shadow-sm);">
+          <div class="divided-row">
             <div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                <h3 style="font-size: 16px; font-weight: 800; color: #0f172a;">${app.job_title}</h3>
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                <h3 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0;">${app.job_title}</h3>
                 <span class="category-tag">${app.worker_category}</span>
-                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority">⚡ PRIORITY BOOSTED</span>' : ''}
+                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority">Priority Boosted</span>' : ''}
               </div>
-              <div style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">
-                Employer: <strong>${app.employer_name}</strong> • Applied: ${app.applied_date}
+              <div style="font-size: 13px; color: var(--text-secondary);">
+                Employer: <strong style="color: var(--text-primary); font-weight: 600;">${app.employer_name}</strong> • Applied: <span class="mono-tag" style="font-size: 11px;">${app.applied_date}</span>
               </div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
                 Experience on file: ${app.worker_experience} Years
               </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <span class="status-badge ${app.status === 'shortlisted' ? 'verified' : 'pending'}" style="font-size: 12px; padding: 6px 12px;">
+            <div class="action-rail">
+              <span class="status-badge ${app.status === 'shortlisted' ? 'verified' : 'pending'}">
                 ${app.status.toUpperCase()}
               </span>
 
               ${app.priority !== 'PRIORITY_ACTIVE' ? `
-                <button class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" style="padding: 8px 14px; font-size: 12px;">
-                  ⚡ Boost Application ₹149
+                <button class="btn-apply-priority trigger-boost-btn" data-id="${app.id}">
+                  Boost App (₹149)
                 </button>
               ` : `
-                <span style="font-size: 12px; font-weight: 800; color: #059669; background: #ecfdf5; padding: 6px 12px; border-radius: var(--radius-md);">
-                  ✓ Top Placement Active
+                <span class="action-rail-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Top Placement Active</span>
                 </span>
               `}
             </div>
@@ -416,6 +504,22 @@
         boostUtrInput.value = '';
         showToast('Payment submitted for Admin verification! Badge will activate once verified.');
       });
+
+      // Scroll reveal animation observer
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
+      } else {
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+      }
     });
   </script>
 </body>
