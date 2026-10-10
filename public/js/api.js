@@ -3,7 +3,9 @@
  * Connects to live Cloudflare Worker API with automatic LocalStorage fallback
  */
 
-const API_BASE_URL = 'https://jobconnect-backend.white018899.workers.dev/api';
+const API_BASE_URL = (typeof window !== 'undefined' && window.location.hostname.includes('job-way.in'))
+  ? 'https://api.job-way.in/api'
+  : 'https://jobconnect-backend.white018899.workers.dev/api';
 
 // Initial fallback mock data if network is offline
 const INITIAL_JOBS = [

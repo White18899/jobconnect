@@ -20,8 +20,8 @@ app.use('*', async (c, next) => {
   const allowedOrigin = c.env.FRONTEND_URL || '*';
   const corsMiddleware = cors({
     origin: allowedOrigin === '*' ? '*' : (origin) => {
-      // Allow localhost for dev and configured frontend URL
-      if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.endsWith('.pages.dev')) {
+      // Allow localhost for dev, pages.dev, and job-way.in production domains
+      if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.endsWith('.pages.dev') || origin.includes('job-way.in')) {
         return origin;
       }
       return allowedOrigin;
