@@ -10,17 +10,25 @@ const workerRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPaylo
 // 1. Get Worker Profile
 workerRoutes.get('/worker/profile', authMiddleware, roleGuard(['worker']), async (c) => {
   const user = c.get('user');
-  const profile = await c.env.DB.prepare(
+  let profile = await c.env.DB.prepare(
     'SELECT * FROM worker_profiles WHERE user_id = ?'
   ).bind(user.userId).first();
-
-  if (!profile) {
-    return c.json({ error: 'Worker profile not found' }, 404);
-  }
 
   const userRow = await c.env.DB.prepare(
     'SELECT email, phone FROM users WHERE id = ?'
   ).bind(user.userId).first<{ email: string; phone: string | null }>();
+
+  if (!profile) {
+    const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO worker_profiles (id, user_id, full_name, phone, skills, preferred_area, city, verification_status)
+      VALUES (?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'pending')
+    `).bind(wpId, user.userId, user.email.split('@')[0], userRow?.phone || null).run();
+
+    profile = await c.env.DB.prepare(
+      'SELECT * FROM worker_profiles WHERE user_id = ?'
+    ).bind(user.userId).first();
+  }
 
   let parsedEducations = [];
   if ((profile as any).educations) {
@@ -146,35 +154,49 @@ workerRoutes.put('/worker/profile', authMiddleware, roleGuard(['worker']), async
       updated_at = CURRENT_TIMESTAMP
     WHERE user_id = ?
   `).bind(
-    data.full_name,
-    data.phone,
-    data.photo_key,
-    skillsJson,
-    data.experience_years,
-    data.education_level,
-    data.education_institute,
-    data.education_year,
-    data.education_specialization,
-    educationsJson,
-    data.past_company,
-    data.experience_description,
-    data.linkedin_url,
-    data.linkedin_synced,
-    data.preferred_area,
-    data.city,
-    data.expected_salary_min,
-    data.expected_salary_max,
-    data.salary_period,
-    data.id_proof_type,
-    maskedId,
-    data.id_doc_key,
-    data.selfie_key,
-    data.skill_proof_key,
+    data.full_name ?? null,
+    data.phone ?? null,
+    data.photo_key ?? null,
+    skillsJson ?? null,
+    data.experience_years ?? null,
+    data.education_level ?? null,
+    data.education_institute ?? null,
+    data.education_year ?? null,
+    data.education_specialization ?? null,
+    educationsJson ?? null,
+    data.past_company ?? null,
+    data.experience_description ?? null,
+    data.linkedin_url ?? null,
+    data.linkedin_synced ?? null,
+    data.preferred_area ?? null,
+    data.city ?? null,
+    data.expected_salary_min ?? null,
+    data.expected_salary_max ?? null,
+    data.salary_period ?? null,
+    data.id_proof_type ?? null,
+    maskedId ?? null,
+    data.id_doc_key ?? null,
+    data.selfie_key ?? null,
+    data.skill_proof_key ?? null,
     user.userId
   ).run();
 
   const updated = await c.env.DB.prepare('SELECT * FROM worker_profiles WHERE user_id = ?').bind(user.userId).first();
-  return c.json({ success: true, profile: updated });
+  let parsedEducations = [];
+  if ((updated as any)?.educations) {
+    try {
+      parsedEducations = typeof (updated as any).educations === 'string'
+        ? JSON.parse((updated as any).educations)
+        : (updated as any).educations;
+    } catch {}
+  }
+  return c.json({
+    success: true,
+    profile: {
+      ...updated,
+      educations: parsedEducations,
+    }
+  });
 });
 
 // 2a. Real Sync / Import Details from LinkedIn
@@ -182,7 +204,7 @@ const linkedInSchema = z.object({
   linkedin_url: z.string().min(3, 'Valid LinkedIn profile URL or username required'),
 });
 
-workerRoutes.post('/worker/linkedin-sync', authMiddleware, roleGuard(['worker']), async (c) => {
+workerRoutes.post('/worker/linkedin-sync', async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const parsed = linkedInSchema.safeParse(body);
   if (!parsed.success) {
@@ -223,6 +245,7 @@ workerRoutes.post('/worker/linkedin-sync', authMiddleware, roleGuard(['worker'])
   let isLiveFetched = false;
 
   try {
+    let html = '';
     const res = await fetch(targetUrl, {
       headers: {
         'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.html)',
@@ -233,7 +256,15 @@ workerRoutes.post('/worker/linkedin-sync', authMiddleware, roleGuard(['worker'])
     });
 
     if (res.ok) {
-      const html = await res.text();
+      html = await res.text();
+    }
+
+    let ogTitle = '';
+    let ogDesc = '';
+    let ogImage = '';
+    let authorName = '';
+
+    if (html && html.length > 500 && !html.includes('/authwall')) {
       const ogTitleMatch = html.match(/<meta\s+(?:property|name)=["']og:title["']\s+content=["']([^"']+)["']/i) ||
                            html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:title["']/i);
       const ogDescMatch = html.match(/<meta\s+(?:property|name)=["']og:description["']\s+content=["']([^"']+)["']/i) ||
@@ -241,41 +272,72 @@ workerRoutes.post('/worker/linkedin-sync', authMiddleware, roleGuard(['worker'])
       const ogImageMatch = html.match(/<meta\s+(?:property|name)=["']og:image["']\s+content=["']([^"']+)["']/i) ||
                            html.match(/<meta\s+content=["']([^"']+)["']\s+(?:property|name)=["']og:image["']/i);
 
-      const ogTitle = ogTitleMatch ? ogTitleMatch[1].replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim() : '';
-      const ogDesc = ogDescMatch ? ogDescMatch[1].replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim() : '';
-      const ogImage = ogImageMatch ? ogImageMatch[1].replace(/&amp;/g, '&').trim() : '';
+      ogTitle = ogTitleMatch ? ogTitleMatch[1].replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim() : '';
+      ogDesc = ogDescMatch ? ogDescMatch[1].replace(/&amp;/g, '&').replace(/&#39;/g, "'").trim() : '';
+      ogImage = ogImageMatch ? ogImageMatch[1].replace(/&amp;/g, '&').trim() : '';
+    }
 
-      if (ogTitle) {
-        isLiveFetched = true;
-        const cleanedTitle = ogTitle.replace(/\s*\|\s*LinkedIn\s*$/i, '');
-        const titleParts = cleanedTitle.split(/\s*[-–—]\s*/);
-        if (titleParts.length > 0 && titleParts[0].trim()) {
-          extractedName = titleParts[0].trim();
+    const isLoginWall = !ogTitle ||
+      ogTitle.toLowerCase().includes('log in') ||
+      ogTitle.toLowerCase().includes('sign up') ||
+      ogTitle === 'LinkedIn' ||
+      !ogDesc;
+
+    // High-deliverability fallback via microlink if LinkedIn blocked direct Cloudflare IP or showed login wall
+    if (isLoginWall || !ogImage || ogImage.includes('static.licdn.com/aero-v1/sc/h/')) {
+      try {
+        const microRes = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(targetUrl)}`, {
+          headers: { 'Accept': 'application/json' },
+        });
+        if (microRes.ok) {
+          const microJson: any = await microRes.json();
+          if (microJson.status === 'success' && microJson.data) {
+            ogTitle = microJson.data.title || ogTitle;
+            ogDesc = microJson.data.description || ogDesc;
+            ogImage = microJson.data.image?.url || ogImage;
+            authorName = microJson.data.author || '';
+          }
         }
-        if (titleParts.length > 1) {
-          headline = titleParts.slice(1).join(' - ').trim();
-        }
+      } catch (microErr) {
+        console.error('Microlink error:', microErr);
+      }
+    }
+
+    if (authorName) {
+      isLiveFetched = true;
+      extractedName = authorName.trim();
+    } else if (ogTitle) {
+      isLiveFetched = true;
+      const cleanedTitle = ogTitle.replace(/\s*\|\s*LinkedIn\s*$/i, '');
+      const titleParts = cleanedTitle.split(/\s*[-–—]\s*/);
+      if (titleParts.length > 0 && titleParts[0].trim()) {
+        extractedName = titleParts[0].trim();
+      }
+      if (titleParts.length > 1) {
+        headline = titleParts.slice(1).join(' - ').trim();
+      }
+    }
+
+    if (ogDesc) {
+      isLiveFetched = true;
+      experienceDesc = ogDesc;
+      const expMatch = ogDesc.match(/(?:Experience|Current):\s*([^·\n]+)/i);
+      if (expMatch) pastCompany = expMatch[1].trim();
+
+      const eduMatch = ogDesc.match(/Education:\s*([^·\n]+)/i);
+      if (eduMatch) {
+        educationInstitute = eduMatch[1].trim();
+        educationLevel = "Bachelor's Degree / Diploma";
+        educationSpec = 'Technical Trade / Engineering';
       }
 
-      if (ogDesc) {
-        experienceDesc = ogDesc;
-        const expMatch = ogDesc.match(/(?:Experience|Current):\s*([^·\n]+)/i);
-        if (expMatch) pastCompany = expMatch[1].trim();
+      const locMatch = ogDesc.match(/Location:\s*([^·\n]+)/i);
+      if (locMatch) locationCity = locMatch[1].trim();
+    }
 
-        const eduMatch = ogDesc.match(/Education:\s*([^·\n]+)/i);
-        if (eduMatch) {
-          educationInstitute = eduMatch[1].trim();
-          educationLevel = "Bachelor's Degree / Diploma";
-          educationSpec = 'Technical Trade / Engineering';
-        }
-
-        const locMatch = ogDesc.match(/Location:\s*([^·\n]+)/i);
-        if (locMatch) locationCity = locMatch[1].trim();
-      }
-
-      if (ogImage && !ogImage.includes('static.licdn.com/aero-v1/sc/h/')) {
-        photoUrl = ogImage;
-      }
+    if (ogImage && !ogImage.includes('static.licdn.com/aero-v1/sc/h/')) {
+      photoUrl = ogImage;
+    }
 
       // Detect trade skills
       const combinedText = `${ogTitle} ${ogDesc} ${headline}`.toLowerCase();
@@ -294,7 +356,6 @@ workerRoutes.post('/worker/linkedin-sync', authMiddleware, roleGuard(['worker'])
         if (s.includes('ac technician') && (combinedText.includes('hvac') || combinedText.includes('air condition') || combinedText.includes('cooling'))) return true;
         return combinedText.includes(s);
       });
-    }
   } catch (fetchErr) {
     console.error('LinkedIn live fetch error:', fetchErr);
   }

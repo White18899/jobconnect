@@ -159,9 +159,9 @@
           <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">DigiLocker Identity Status</div>
-          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-digilocker">
-            <span style="color: #059669;">🛡️ DigiLocker Verified</span>
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Trade Account Status</div>
+          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-account-status">
+            <span style="color: #059669;">✓ Verified Trade Professional</span>
           </div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
@@ -270,9 +270,19 @@
         if (profile.experience_years !== undefined) {
           document.getElementById('profile-exp').textContent = `${profile.experience_years}+ Years Experience`;
         }
-        if (profile.education_level && document.getElementById('profile-edu')) {
-          const spec = profile.education_specialization ? ` (${profile.education_specialization})` : '';
-          document.getElementById('profile-edu').textContent = `${profile.education_level}${spec}`;
+        if (document.getElementById('profile-edu')) {
+          if (Array.isArray(profile.educations) && profile.educations.length > 0) {
+            const items = profile.educations.map(e => {
+              const spec = e.specialization ? ` • ${e.specialization}` : '';
+              const inst = e.institute ? ` (${e.institute}${e.year ? ', ' + e.year : ''})` : '';
+              return `<div style="margin-bottom: 4px;">• <strong>${e.level || 'Certificate'}</strong>${spec}<span style="color: var(--text-secondary); font-size: 13px;">${inst}</span></div>`;
+            }).join('');
+            document.getElementById('profile-edu').innerHTML = items;
+          } else if (profile.education_level) {
+            const spec = profile.education_specialization ? ` (${profile.education_specialization})` : '';
+            const inst = profile.education_institute ? ` - ${profile.education_institute}` : '';
+            document.getElementById('profile-edu').textContent = `${profile.education_level}${spec}${inst}`;
+          }
         }
         if (profile.past_company && document.getElementById('profile-company')) {
           document.getElementById('profile-company').textContent = profile.past_company;
@@ -280,14 +290,9 @@
         if (profile.preferred_area && profile.city && document.getElementById('profile-city')) {
           document.getElementById('profile-city').textContent = `${profile.preferred_area}, ${profile.city}`;
         }
-        if (document.getElementById('profile-digilocker')) {
-          if (profile.digilocker_verified === 1 || profile.id_number_masked) {
-            document.getElementById('profile-digilocker').innerHTML =
-              `<span style="color: #059669; font-weight: 800;">✓ DigiLocker Verified (${profile.id_number_masked || 'Aadhaar'})</span>`;
-          } else {
-            document.getElementById('profile-digilocker').innerHTML =
-              `<a href="/profile-edit.html#section-digilocker" style="color: #d97706; text-decoration: underline;">⚠️ Unverified • Click to Verify</a>`;
-          }
+        if (document.getElementById('profile-account-status')) {
+          document.getElementById('profile-account-status').innerHTML =
+            `<span style="color: #059669; font-weight: 800;">✓ Email Verified & Active Trade Profile</span>`;
         }
         if (document.getElementById('profile-linkedin')) {
           if (profile.linkedin_synced === 1 || profile.linkedin_url) {

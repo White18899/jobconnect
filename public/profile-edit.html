@@ -78,6 +78,53 @@
       padding: 18px;
       margin-bottom: 24px;
     }
+    .education-item-card {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .education-item-card:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .education-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .education-item-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .btn-remove-edu {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .btn-remove-edu:hover {
+      background: #fee2e2;
+    }
   </style>
 </head>
 <body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
@@ -230,42 +277,27 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- 4. EDUCATION DETAILS                                      -->
+    <!-- 4. EDUCATION & TECHNICAL QUALIFICATIONS (MULTIPLE)        -->
     <!-- ========================================================= -->
     <div class="profile-card-section">
-      <div class="profile-section-title">
-        <span style="font-size: 20px;">🎓</span>
-        <span>Education & Technical Qualifications</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px;">
+        <div class="profile-section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+          <span style="font-size: 20px;">🎓</span>
+          <span>Education & Technical Qualifications</span>
+        </div>
+        <button type="button" id="btn-add-education" class="search-btn" style="background: white; color: var(--primary); border: 1.5px solid var(--primary); padding: 8px 16px; font-size: 12px;">
+          <span>+ Add Another Qualification</span>
+        </button>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
-        <div class="form-group">
-          <label class="form-label" for="edu-level">Highest Qualification Level</label>
-          <select id="edu-level" class="form-input">
-            <option value="ITI Certificate">ITI Certificate (Industrial Training Institute)</option>
-            <option value="Diploma / Polytechnic">Diploma / Polytechnic</option>
-            <option value="10th Standard / SSC">10th Standard / Matriculation</option>
-            <option value="12th Standard / Inter">12th Standard / Intermediate</option>
-            <option value="Bachelor's Degree">Bachelor's Degree / Graduate</option>
-            <option value="Vocational Certification">Vocational / Skill Training Certificate</option>
-            <option value="Practical Experience">Practical Trade Learner (No Formal Schooling)</option>
-          </select>
-        </div>
+      <div id="educations-container">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
 
-        <div class="form-group">
-          <label class="form-label" for="edu-institute">School / College / ITI Institute Name</label>
-          <input type="text" id="edu-institute" class="form-input" placeholder="e.g. Govt ITI Mallepally, Hyderabad">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="edu-spec">Trade / Course Specialization</label>
-          <input type="text" id="edu-spec" class="form-input" placeholder="e.g. Two-Wheeler Mechanic, Electrician, Wireman">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="edu-year">Year of Passing / Completion</label>
-          <input type="number" id="edu-year" class="form-input" placeholder="e.g. 2021" min="1980" max="2026">
-        </div>
+      <div style="text-align: center; margin-top: 12px;">
+        <button type="button" id="btn-add-education-bottom" class="search-btn" style="background: #f1f5f9; color: #334155; border: 1.5px dashed #cbd5e1; padding: 10px 20px; font-size: 13px; width: 100%; justify-content: center;">
+          <span>+ Add Another Degree, ITI or Technical Certificate</span>
+        </button>
       </div>
     </div>
 
@@ -359,15 +391,16 @@
       const inputPhone = document.getElementById('worker-phone');
       const selectCity = document.getElementById('worker-city');
       const inputArea = document.getElementById('worker-area');
-      const selectEduLevel = document.getElementById('edu-level');
-      const inputEduInstitute = document.getElementById('edu-institute');
-      const inputEduSpec = document.getElementById('edu-spec');
-      const inputEduYear = document.getElementById('edu-year');
       const inputExpYears = document.getElementById('worker-exp-years');
       const inputPastCompany = document.getElementById('worker-past-company');
       const inputSalaryMin = document.getElementById('worker-salary-min');
       const inputSalaryMax = document.getElementById('worker-salary-max');
       const inputExpDesc = document.getElementById('worker-exp-desc');
+
+      // Education Repeater Container & Add Buttons
+      const educationsContainer = document.getElementById('educations-container');
+      const btnAddEdu = document.getElementById('btn-add-education');
+      const btnAddEduBottom = document.getElementById('btn-add-education-bottom');
 
       // Avatar Elements
       const avatarPreview = document.getElementById('avatar-preview');
@@ -394,23 +427,159 @@
         setTimeout(() => t.remove(), 4000);
       }
 
-      // Load Existing Profile
+      // =========================================================
+      // DYNAMIC MULTIPLE EDUCATION QUALIFICATIONS REPEATER
+      // =========================================================
+      const EDU_LEVEL_OPTIONS = [
+        { val: 'ITI Certificate', label: 'ITI Certificate (Industrial Training Institute)' },
+        { val: 'Diploma / Polytechnic', label: 'Diploma / Polytechnic (State Board)' },
+        { val: '10th Standard / SSC', label: '10th Standard / Matriculation' },
+        { val: '12th Standard / Inter', label: '12th Standard / Intermediate / HSC' },
+        { val: "Bachelor's Degree", label: "Bachelor's Degree / Graduate (B.Tech / B.Sc / BA)" },
+        { val: 'Vocational Certification', label: 'Vocational / Skill Training Certificate' },
+        { val: 'Trade Apprenticeship', label: 'Trade Apprenticeship / Govt Apprenticeship' },
+        { val: "Master's Degree", label: "Master's Degree / Post-Graduate" },
+        { val: 'Practical Experience', label: 'Practical Trade Learner (No Formal Schooling)' }
+      ];
+
+      function createEducationCard(data = {}, index = 1) {
+        const card = document.createElement('div');
+        card.className = 'education-item-card';
+        const cardId = data.id || ('edu_' + Math.random().toString(36).substring(2, 9));
+        card.dataset.id = cardId;
+
+        const levelOptionsHtml = EDU_LEVEL_OPTIONS.map(opt => {
+          const isSel = (data.level && (data.level === opt.val || data.level.toLowerCase().includes(opt.val.split(' ')[0].toLowerCase()))) ? 'selected' : '';
+          return `<option value="${opt.val}" ${isSel}>${opt.label}</option>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div class="education-item-header">
+            <div class="education-item-badge">
+              <span>📜</span>
+              <span>Qualification #<span class="edu-card-num">${index}</span></span>
+            </div>
+            <button type="button" class="btn-remove-edu" title="Remove this qualification">
+              ✕ Remove
+            </button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Qualification / Certificate Level</label>
+              <select class="form-input edu-input-level">
+                ${levelOptionsHtml}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">School / College / ITI Institute Name</label>
+              <input type="text" class="form-input edu-input-institute" placeholder="e.g. Govt ITI Mallepally, Hyderabad" value="${data.institute || ''}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trade / Course Specialization</label>
+              <input type="text" class="form-input edu-input-spec" placeholder="e.g. Two-Wheeler Mechanic, Electrician, Wireman" value="${data.specialization || ''}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Year of Passing / Completion</label>
+              <input type="number" class="form-input edu-input-year" placeholder="e.g. 2021" min="1980" max="2026" value="${data.year || ''}">
+            </div>
+          </div>
+        `;
+
+        card.querySelector('.btn-remove-edu').addEventListener('click', () => {
+          const total = educationsContainer.querySelectorAll('.education-item-card').length;
+          if (total <= 1) {
+            card.querySelector('.edu-input-institute').value = '';
+            card.querySelector('.edu-input-spec').value = '';
+            card.querySelector('.edu-input-year').value = '';
+            showToast('Cleared qualification fields.');
+          } else {
+            card.remove();
+            updateEducationCardNumbers();
+            showToast('Qualification removed.');
+          }
+        });
+
+        return card;
+      }
+
+      function updateEducationCardNumbers() {
+        const cards = educationsContainer.querySelectorAll('.education-item-card');
+        cards.forEach((card, idx) => {
+          const numSpan = card.querySelector('.edu-card-num');
+          if (numSpan) numSpan.textContent = idx + 1;
+        });
+      }
+
+      function addEducationCard(data = {}) {
+        const currentCount = educationsContainer.querySelectorAll('.education-item-card').length;
+        const card = createEducationCard(data, currentCount + 1);
+        educationsContainer.appendChild(card);
+        return card;
+      }
+
+      function getEducationCardsData() {
+        const cards = educationsContainer.querySelectorAll('.education-item-card');
+        const results = [];
+        cards.forEach(card => {
+          const level = card.querySelector('.edu-input-level').value;
+          const institute = card.querySelector('.edu-input-institute').value.trim();
+          const specialization = card.querySelector('.edu-input-spec').value.trim();
+          const year = parseInt(card.querySelector('.edu-input-year').value, 10) || undefined;
+          if (institute || specialization || year || level) {
+            results.push({
+              id: card.dataset.id,
+              level,
+              institute,
+              specialization,
+              year
+            });
+          }
+        });
+        return results;
+      }
+
+      btnAddEdu.addEventListener('click', () => {
+        const card = addEducationCard();
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showToast('New qualification card added!');
+      });
+
+      btnAddEduBottom.addEventListener('click', () => {
+        const card = addEducationCard();
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        showToast('New qualification card added!');
+      });
+
+      // =========================================================
+      // LOAD EXISTING PROFILE
+      // =========================================================
       const profile = await window.jobApi.getWorkerProfile();
       if (profile) {
         inputName.value = profile.full_name || user.name || '';
         inputPhone.value = (profile.phone || user.phone || '').replace(/^\+91\s?/, '');
         if (profile.city) selectCity.value = profile.city;
         inputArea.value = profile.preferred_area || '';
-        if (profile.education_level) selectEduLevel.value = profile.education_level;
-        inputEduInstitute.value = profile.education_institute || '';
-        inputEduSpec.value = profile.education_specialization || '';
-        if (profile.education_year) inputEduYear.value = profile.education_year;
         if (profile.experience_years !== undefined) inputExpYears.value = profile.experience_years;
         inputPastCompany.value = profile.past_company || '';
         if (profile.expected_salary_min) inputSalaryMin.value = profile.expected_salary_min;
         if (profile.expected_salary_max) inputSalaryMax.value = profile.expected_salary_max;
         inputExpDesc.value = profile.experience_description || '';
         if (profile.linkedin_url) linkedinInputUrl.value = profile.linkedin_url;
+
+        // Populate Multiple Educations
+        educationsContainer.innerHTML = '';
+        if (Array.isArray(profile.educations) && profile.educations.length > 0) {
+          profile.educations.forEach(edu => addEducationCard(edu));
+        } else if (profile.education_level || profile.education_institute) {
+          addEducationCard({
+            level: profile.education_level,
+            institute: profile.education_institute,
+            specialization: profile.education_specialization,
+            year: profile.education_year
+          });
+        } else {
+          addEducationCard(); // 1 default qualification card
+        }
 
         // Photo
         if (profile.photo_key) {
@@ -433,6 +602,8 @@
             }
           } catch {}
         }
+      } else {
+        addEducationCard();
       }
 
       // Skill chips click toggle
@@ -470,20 +641,21 @@
       });
 
       // =========================================================
-      // LINKEDIN AUTOFILL
+      // LINKEDIN AUTOFILL (REAL METADATA FETCHING)
       // =========================================================
       btnSyncLinkedin.addEventListener('click', async () => {
         const url = linkedinInputUrl.value.trim();
-        if (!url || url.length < 4) {
+        if (!url || url.length < 3) {
           alert('Please enter a valid LinkedIn profile URL or username.');
           linkedinInputUrl.focus();
           return;
         }
 
         btnSyncLinkedin.disabled = true;
-        btnSyncLinkedin.innerHTML = '<span>⚡ Syncing...</span>';
+        btnSyncLinkedin.innerHTML = '<span>⚡ Fetching Real Data...</span>';
         linkedinStatusMsg.style.display = 'block';
-        linkedinStatusMsg.textContent = 'Connecting to LinkedIn and extracting professional trade data...';
+        linkedinStatusMsg.style.color = '#0284c7';
+        linkedinStatusMsg.textContent = 'Connecting to LinkedIn, parsing public metadata & photo...';
 
         const res = await window.jobApi.syncLinkedIn(url);
 
@@ -493,16 +665,46 @@
         if (res.success && res.profile) {
           const p = res.profile;
           if (p.full_name) inputName.value = p.full_name;
-          if (p.experience_years) inputExpYears.value = p.experience_years;
           if (p.past_company) inputPastCompany.value = p.past_company;
           if (p.experience_description) inputExpDesc.value = p.experience_description;
-          if (p.education_level) selectEduLevel.value = p.education_level;
-          if (p.education_institute) inputEduInstitute.value = p.education_institute;
-          if (p.education_specialization) inputEduSpec.value = p.education_specialization;
-          if (p.education_year) inputEduYear.value = p.education_year;
+
+          // Real Profile Photo from LinkedIn
+          if (p.photo_key) {
+            activeAvatarData = p.photo_key;
+            avatarImg.src = p.photo_key;
+            avatarImg.style.display = 'block';
+            avatarInitials.style.display = 'none';
+            btnRemoveAvatar.style.display = 'inline-block';
+          }
+
+          // Matched city if recognized
+          if (p.city) {
+            const cityOpts = Array.from(selectCity.options).map(o => o.value.toLowerCase());
+            const matchedIdx = cityOpts.findIndex(c => p.city.toLowerCase().includes(c));
+            if (matchedIdx !== -1) {
+              selectCity.selectedIndex = matchedIdx;
+            }
+          }
+
+          // Multiple Qualifications from LinkedIn
+          if (Array.isArray(p.educations) && p.educations.length > 0) {
+            // Check if current cards are blank, replace or append
+            const existingCards = getEducationCardsData();
+            if (existingCards.length <= 1 && (!existingCards[0] || !existingCards[0].institute)) {
+              educationsContainer.innerHTML = '';
+            }
+            p.educations.forEach(edu => addEducationCard(edu));
+          } else if (p.education_institute) {
+            addEducationCard({
+              level: p.education_level || 'Diploma / Polytechnic',
+              institute: p.education_institute,
+              specialization: p.education_specialization || 'Technical Trade',
+              year: 2021
+            });
+          }
 
           // Skills selection
-          if (Array.isArray(p.skills)) {
+          if (Array.isArray(p.skills) && p.skills.length > 0) {
             document.querySelectorAll('.skill-chip').forEach(chip => {
               if (p.skills.includes(chip.dataset.skill)) {
                 chip.classList.add('active');
@@ -510,10 +712,12 @@
             });
           }
 
-          linkedinStatusMsg.innerHTML = '✓ Successfully autofilled profile data from LinkedIn!';
-          showToast('Autofilled name, experience, education & skills from LinkedIn!');
+          linkedinStatusMsg.style.color = '#059669';
+          linkedinStatusMsg.innerHTML = `✓ Real profile details extracted from LinkedIn for <strong>${p.full_name || 'Candidate'}</strong>!`;
+          showToast(`Imported ${p.full_name}'s photo, qualifications & experience from LinkedIn!`);
         } else {
-          linkedinStatusMsg.textContent = 'Failed to extract LinkedIn profile.';
+          linkedinStatusMsg.style.color = '#ef4444';
+          linkedinStatusMsg.textContent = res.error || 'Failed to extract LinkedIn profile.';
         }
       });
 
@@ -537,6 +741,8 @@
         }
 
         const selectedSkills = Array.from(document.querySelectorAll('.skill-chip.active')).map(c => c.dataset.skill);
+        const educationsData = getEducationCardsData();
+        const primaryEdu = educationsData[0] || {};
 
         const payload = {
           full_name: name,
@@ -544,10 +750,11 @@
           photo_key: activeAvatarData || undefined,
           skills: selectedSkills,
           experience_years: parseFloat(inputExpYears.value) || 0,
-          education_level: selectEduLevel.value,
-          education_institute: inputEduInstitute.value.trim(),
-          education_specialization: inputEduSpec.value.trim(),
-          education_year: parseInt(inputEduYear.value, 10) || undefined,
+          education_level: primaryEdu.level || 'ITI Certificate',
+          education_institute: primaryEdu.institute || '',
+          education_specialization: primaryEdu.specialization || '',
+          education_year: primaryEdu.year || undefined,
+          educations: educationsData,
           past_company: inputPastCompany.value.trim(),
           experience_description: inputExpDesc.value.trim(),
           preferred_area: inputArea.value.trim() || 'City Center',
@@ -573,7 +780,7 @@
         btn2.textContent = 'Save Complete Profile & Enter Desk ✓';
 
         if (res.success) {
-          showToast('Profile and qualifications saved successfully! Redirecting...');
+          showToast('Profile and multiple qualifications saved successfully! Redirecting...');
           setTimeout(() => {
             window.location.href = '/worker.html';
           }, 600);
