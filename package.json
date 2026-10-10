@@ -1,31 +1,19 @@
 {
   "name": "jobconnect",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "JobConnect - India's Blue-Collar Employment Platform with Cloudflare Workers Backend and Vanilla HTML/CSS/JS Frontend",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "firebase": "^12.19.0",
-    "lucide-react": "^1.52.0",
-    "next": "16.4.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "tailwind-merge": "^3.7.0"
+    "start": "npx serve public -p 3000",
+    "dev": "npx serve public -p 3000",
+    "deploy:frontend": "wrangler pages deploy public --project-name=jobconnect-frontend",
+    "backend:dev": "cd backend && npm run dev",
+    "backend:build": "cd backend && npm run build",
+    "backend:deploy": "cd backend && npm run deploy",
+    "backend:migrate": "cd backend && npm run db:migrate:remote"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
-    "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.0",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "serve": "^14.2.4",
+    "wrangler": "^3.101.0"
   }
 }

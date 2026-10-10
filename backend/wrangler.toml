@@ -1,0 +1,28 @@
+name = "jobconnect-backend"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+UPI_ID = "jobconnect@icici"
+APP_NAME = "JobConnect"
+JWT_SECRET = "jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key"
+ADMIN_PASSWORD = "JobConnect@Admin2026"
+
+# Cloudflare D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "jobconnect-db"
+database_id = "eba3b1ff-4cbb-4198-9775-8079c142bb5c"
+migrations_dir = "src/db/migrations"
+
+# Cloudflare KV Namespace for OTP & Rate Limiting
+[[kv_namespaces]]
+binding = "KV"
+id = "043b4e5284154cd18a07a9deabef7843"
+
+# Cloudflare R2 Bucket for Private File Storage
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "jobconnect-files"
