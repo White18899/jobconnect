@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Trade Profile • JobWay (job-way.in)</title>
+  <meta name="description" content="Set up your verified JobWay profile. Education, trade experience, skills, and LinkedIn autofill.">
+  <link rel="canonical" href="https://job-way.in/profile-edit">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .profile-card-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .profile-section-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .avatar-upload-wrap {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .avatar-preview-box {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      color: var(--primary);
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .skill-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .linkedin-sync-card {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+      border: 1.5px solid #bae6fd;
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Site Header -->
+  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50;">
+    <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <a href="/" class="brand-logo" style="text-decoration: none;">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <div>
+          <span>JobWay</span>
+          <span class="brand-text-sub">job-way.in • Profile Setup</span>
+        </div>
+      </a>
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="font-size: 12px; color: #64748b; font-weight: 700;" id="user-header-email"></span>
+        <a href="/worker.html" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
+          Skip to Dashboard →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Profile Edit Form -->
+  <main style="flex: 1; max-width: 900px; width: 100%; margin: 32px auto; padding: 0 16px 60px;">
+    
+    <!-- Top Welcome Banner -->
+    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px 28px; margin-bottom: 24px; box-shadow: var(--shadow-sm); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; color: var(--primary); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 50px; margin-bottom: 8px;">
+          ✓ Step 2 of 2: Professional Profile Setup
+        </div>
+        <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 4px;">
+          Complete Your Trade Profile
+        </h1>
+        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">
+          Add your education, work experience, and profile details to connect with top employers.
+        </p>
+      </div>
+      <div style="text-align: right;">
+        <button type="button" class="search-btn" id="btn-save-profile-top" style="padding: 12px 24px; font-size: 14px;">
+          <span>Save Profile ✓</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 1. LINKEDIN AUTOFILL / SYNC BANNER                       -->
+    <!-- ========================================================= -->
+    <div class="linkedin-sync-card">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: #0077b5; color: white; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px;">
+            in
+          </div>
+          <div>
+            <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">
+              Autofill with LinkedIn
+            </h3>
+            <p style="font-size: 12px; color: #475569; margin: 2px 0 0;">
+              Paste your LinkedIn profile link to automatically import your name, photo, education & experience!
+            </p>
+          </div>
+        </div>
+        <span style="font-size: 11px; font-weight: 800; color: #0284c7; background: white; padding: 4px 10px; border-radius: 50px; border: 1px solid #bae6fd;">
+          ⚡ 1-Click Sync
+        </span>
+      </div>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="linkedin-input-url" class="form-input" style="flex: 1; min-width: 260px; background: white;" placeholder="e.g. linkedin.com/in/anand-verma-electrician">
+        <button type="button" id="btn-sync-linkedin" class="search-btn" style="background: #0077b5; padding: 10px 22px; font-size: 13px;">
+          <span>⚡ Import Details</span>
+        </button>
+      </div>
+      <div id="linkedin-status-msg" style="display: none; font-size: 12px; margin-top: 8px; font-weight: 700; color: #0369a1;"></div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 2. PROFILE PHOTO & BASIC DETAILS                          -->
+    <!-- ========================================================= -->
+    <div class="profile-card-section">
+      <div class="profile-section-title">
+        <span style="font-size: 20px;">👤</span>
+        <span>Profile Photo & Contact Information</span>
+      </div>
+
+      <!-- Avatar Picker -->
+      <div class="avatar-upload-wrap" style="margin-bottom: 22px;">
+        <div class="avatar-preview-box" id="avatar-preview">
+          <span id="avatar-initials">👷</span>
+          <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div>
+          <label style="font-size: 13px; font-weight: 800; color: #0f172a; display: block; margin-bottom: 6px;">
+            Profile Photo
+          </label>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="file" id="file-avatar-input" accept="image/*" style="display: none;">
+            <button type="button" id="btn-trigger-avatar" class="search-btn" style="padding: 8px 18px; font-size: 12px; background: white; color: var(--primary); border: 1.5px solid var(--primary);">
+              📷 Upload Image
+            </button>
+            <button type="button" id="btn-remove-avatar" style="background: none; border: none; font-size: 12px; color: #ef4444; font-weight: 700; cursor: pointer; display: none;">
+              Remove
+            </button>
+          </div>
+          <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px;">
+            Supports JPG, PNG, WebP up to 5MB. A clear face photo improves hiring trust.
+          </span>
+        </div>
+      </div>
+
+      <!-- Form Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+        <div class="form-group">
+          <label class="form-label" for="worker-name">Full Legal Name *</label>
+          <input type="text" id="worker-name" class="form-input" placeholder="e.g. Ramesh Kumar" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-phone">Mobile Phone / WhatsApp *</label>
+          <div style="display: flex; gap: 8px;">
+            <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-md); font-weight: 800; font-size: 13px; color: #334155;">+91</span>
+            <input type="tel" id="worker-phone" class="form-input" placeholder="98491 23434" maxlength="10" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-city">City *</label>
+          <select id="worker-city" class="form-input">
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Visakhapatnam">Visakhapatnam</option>
+            <option value="Vijayawada">Vijayawada</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi NCR</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-area">Preferred Work Area / Locality *</label>
+          <input type="text" id="worker-area" class="form-input" placeholder="e.g. KPHB Colony, Kukatpally" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 4. EDUCATION DETAILS                                      -->
+    <!-- ========================================================= -->
+    <div class="profile-card-section">
+      <div class="profile-section-title">
+        <span style="font-size: 20px;">🎓</span>
+        <span>Education & Technical Qualifications</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+        <div class="form-group">
+          <label class="form-label" for="edu-level">Highest Qualification Level</label>
+          <select id="edu-level" class="form-input">
+            <option value="ITI Certificate">ITI Certificate (Industrial Training Institute)</option>
+            <option value="Diploma / Polytechnic">Diploma / Polytechnic</option>
+            <option value="10th Standard / SSC">10th Standard / Matriculation</option>
+            <option value="12th Standard / Inter">12th Standard / Intermediate</option>
+            <option value="Bachelor's Degree">Bachelor's Degree / Graduate</option>
+            <option value="Vocational Certification">Vocational / Skill Training Certificate</option>
+            <option value="Practical Experience">Practical Trade Learner (No Formal Schooling)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edu-institute">School / College / ITI Institute Name</label>
+          <input type="text" id="edu-institute" class="form-input" placeholder="e.g. Govt ITI Mallepally, Hyderabad">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edu-spec">Trade / Course Specialization</label>
+          <input type="text" id="edu-spec" class="form-input" placeholder="e.g. Two-Wheeler Mechanic, Electrician, Wireman">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="edu-year">Year of Passing / Completion</label>
+          <input type="number" id="edu-year" class="form-input" placeholder="e.g. 2021" min="1980" max="2026">
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 5. TRADE EXPERIENCE & SKILLS ("EXPRESSNESS")              -->
+    <!-- ========================================================= -->
+    <div class="profile-card-section">
+      <div class="profile-section-title">
+        <span style="font-size: 20px;">💼</span>
+        <span>Trade Experience, Skills & Salary Expectations</span>
+      </div>
+
+      <!-- Experience & Salary Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 20px;">
+        <div class="form-group">
+          <label class="form-label" for="worker-exp-years">Total Trade Experience (Years) *</label>
+          <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 4.5" step="0.5" min="0" max="40" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-past-company">Most Recent Workshop / Company Name</label>
+          <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Sri Balaji Auto Care & Service">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-salary-min">Expected Min Monthly Salary (₹)</label>
+          <input type="number" id="worker-salary-min" class="form-input" placeholder="e.g. 18000" step="500">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-salary-max">Expected Max Monthly Salary (₹)</label>
+          <input type="number" id="worker-salary-max" class="form-input" placeholder="e.g. 24000" step="500">
+        </div>
+      </div>
+
+      <!-- Interactive Skill Chips -->
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label class="form-label">Trade Skills & Specialties (Click to Select / Deselect)</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;" id="skills-cloud">
+          <span class="skill-chip active" data-skill="Two-Wheeler Mechanic">🏍️ Two-Wheeler Mechanic</span>
+          <span class="skill-chip active" data-skill="Engine Tuning">🔧 Engine Tuning</span>
+          <span class="skill-chip active" data-skill="Electrical Wiring">⚡ Electrical Wiring</span>
+          <span class="skill-chip" data-skill="Electrician">💡 Electrician</span>
+          <span class="skill-chip" data-skill="Plumber">🚰 Plumber</span>
+          <span class="skill-chip" data-skill="AC Repair">❄️ AC Technician</span>
+          <span class="skill-chip" data-skill="Welder">🔥 Welder</span>
+          <span class="skill-chip" data-skill="Commercial Driver">🚚 Driver</span>
+          <span class="skill-chip" data-skill="Cook">🍳 Cook / Chef</span>
+          <span class="skill-chip" data-skill="Carpenter">🪚 Carpenter</span>
+          <span class="skill-chip" data-skill="Painter">🖌️ Painter</span>
+          <span class="skill-chip" data-skill="General Helper">📦 Helper</span>
+        </div>
+      </div>
+
+      <!-- Experience Description -->
+      <div class="form-group">
+        <label class="form-label" for="worker-exp-desc">Trade Experience Summary & Highlights</label>
+        <textarea id="worker-exp-desc" class="form-input" rows="4" placeholder="Describe your hands-on trade experience (e.g. Overhauling two-wheeler engines, servicing brake pads, troubleshooting wiring issues, machinery repair)..."></textarea>
+      </div>
+    </div>
+
+    <!-- Save Buttons Footer -->
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+      <a href="/worker.html" style="font-size: 14px; font-weight: 700; color: #64748b; text-decoration: none;">
+        ← Back to Worker Desk
+      </a>
+      <button type="button" class="search-btn" id="btn-save-profile-bottom" style="padding: 14px 34px; font-size: 15px;">
+        <span>Save Complete Profile & Enter Desk ✓</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = window.jobApi.getCurrentUser();
+      if (!user) {
+        window.location.href = '/login.html?role=worker';
+        return;
+      }
+
+      document.getElementById('user-header-email').textContent = user.email || 'worker@job-way.in';
+
+      // Elements
+      const inputName = document.getElementById('worker-name');
+      const inputPhone = document.getElementById('worker-phone');
+      const selectCity = document.getElementById('worker-city');
+      const inputArea = document.getElementById('worker-area');
+      const selectEduLevel = document.getElementById('edu-level');
+      const inputEduInstitute = document.getElementById('edu-institute');
+      const inputEduSpec = document.getElementById('edu-spec');
+      const inputEduYear = document.getElementById('edu-year');
+      const inputExpYears = document.getElementById('worker-exp-years');
+      const inputPastCompany = document.getElementById('worker-past-company');
+      const inputSalaryMin = document.getElementById('worker-salary-min');
+      const inputSalaryMax = document.getElementById('worker-salary-max');
+      const inputExpDesc = document.getElementById('worker-exp-desc');
+
+      // Avatar Elements
+      const avatarPreview = document.getElementById('avatar-preview');
+      const avatarInitials = document.getElementById('avatar-initials');
+      const avatarImg = document.getElementById('avatar-img');
+      const fileAvatarInput = document.getElementById('file-avatar-input');
+      const btnTriggerAvatar = document.getElementById('btn-trigger-avatar');
+      const btnRemoveAvatar = document.getElementById('btn-remove-avatar');
+
+      // LinkedIn Elements
+      const linkedinInputUrl = document.getElementById('linkedin-input-url');
+      const btnSyncLinkedin = document.getElementById('btn-sync-linkedin');
+      const linkedinStatusMsg = document.getElementById('linkedin-status-msg');
+
+      let activeAvatarData = '';
+
+      function showToast(msg, type = 'success') {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 4000);
+      }
+
+      // Load Existing Profile
+      const profile = await window.jobApi.getWorkerProfile();
+      if (profile) {
+        inputName.value = profile.full_name || user.name || '';
+        inputPhone.value = (profile.phone || user.phone || '').replace(/^\+91\s?/, '');
+        if (profile.city) selectCity.value = profile.city;
+        inputArea.value = profile.preferred_area || '';
+        if (profile.education_level) selectEduLevel.value = profile.education_level;
+        inputEduInstitute.value = profile.education_institute || '';
+        inputEduSpec.value = profile.education_specialization || '';
+        if (profile.education_year) inputEduYear.value = profile.education_year;
+        if (profile.experience_years !== undefined) inputExpYears.value = profile.experience_years;
+        inputPastCompany.value = profile.past_company || '';
+        if (profile.expected_salary_min) inputSalaryMin.value = profile.expected_salary_min;
+        if (profile.expected_salary_max) inputSalaryMax.value = profile.expected_salary_max;
+        inputExpDesc.value = profile.experience_description || '';
+        if (profile.linkedin_url) linkedinInputUrl.value = profile.linkedin_url;
+
+        // Photo
+        if (profile.photo_key) {
+          activeAvatarData = profile.photo_key;
+          avatarImg.src = profile.photo_key;
+          avatarImg.style.display = 'block';
+          avatarInitials.style.display = 'none';
+          btnRemoveAvatar.style.display = 'inline-block';
+        }
+
+        // Skills parse
+        if (profile.skills) {
+          try {
+            const parsedSkills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
+            if (Array.isArray(parsedSkills)) {
+              document.querySelectorAll('.skill-chip').forEach(chip => {
+                const s = chip.dataset.skill;
+                chip.classList.toggle('active', parsedSkills.includes(s));
+              });
+            }
+          } catch {}
+        }
+      }
+
+      // Skill chips click toggle
+      document.querySelectorAll('.skill-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          chip.classList.toggle('active');
+        });
+      });
+
+      // Photo Upload Handlers
+      btnTriggerAvatar.addEventListener('click', () => fileAvatarInput.click());
+      fileAvatarInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          activeAvatarData = event.target.result;
+          avatarImg.src = activeAvatarData;
+          avatarImg.style.display = 'block';
+          avatarInitials.style.display = 'none';
+          btnRemoveAvatar.style.display = 'inline-block';
+          showToast('Profile image loaded!');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      btnRemoveAvatar.addEventListener('click', () => {
+        activeAvatarData = '';
+        avatarImg.src = '';
+        avatarImg.style.display = 'none';
+        avatarInitials.style.display = 'block';
+        btnRemoveAvatar.style.display = 'none';
+        fileAvatarInput.value = '';
+      });
+
+      // =========================================================
+      // LINKEDIN AUTOFILL
+      // =========================================================
+      btnSyncLinkedin.addEventListener('click', async () => {
+        const url = linkedinInputUrl.value.trim();
+        if (!url || url.length < 4) {
+          alert('Please enter a valid LinkedIn profile URL or username.');
+          linkedinInputUrl.focus();
+          return;
+        }
+
+        btnSyncLinkedin.disabled = true;
+        btnSyncLinkedin.innerHTML = '<span>⚡ Syncing...</span>';
+        linkedinStatusMsg.style.display = 'block';
+        linkedinStatusMsg.textContent = 'Connecting to LinkedIn and extracting professional trade data...';
+
+        const res = await window.jobApi.syncLinkedIn(url);
+
+        btnSyncLinkedin.disabled = false;
+        btnSyncLinkedin.innerHTML = '<span>⚡ Import Details</span>';
+
+        if (res.success && res.profile) {
+          const p = res.profile;
+          if (p.full_name) inputName.value = p.full_name;
+          if (p.experience_years) inputExpYears.value = p.experience_years;
+          if (p.past_company) inputPastCompany.value = p.past_company;
+          if (p.experience_description) inputExpDesc.value = p.experience_description;
+          if (p.education_level) selectEduLevel.value = p.education_level;
+          if (p.education_institute) inputEduInstitute.value = p.education_institute;
+          if (p.education_specialization) inputEduSpec.value = p.education_specialization;
+          if (p.education_year) inputEduYear.value = p.education_year;
+
+          // Skills selection
+          if (Array.isArray(p.skills)) {
+            document.querySelectorAll('.skill-chip').forEach(chip => {
+              if (p.skills.includes(chip.dataset.skill)) {
+                chip.classList.add('active');
+              }
+            });
+          }
+
+          linkedinStatusMsg.innerHTML = '✓ Successfully autofilled profile data from LinkedIn!';
+          showToast('Autofilled name, experience, education & skills from LinkedIn!');
+        } else {
+          linkedinStatusMsg.textContent = 'Failed to extract LinkedIn profile.';
+        }
+      });
+
+      // =========================================================
+      // SAVE PROFILE HANDLER
+      // =========================================================
+      async function saveFullProfile() {
+        const name = inputName.value.trim();
+        const phone = inputPhone.value.trim().replace(/\D/g, '');
+
+        if (!name || name.length < 2) {
+          alert('Please enter your full legal name.');
+          inputName.focus();
+          return;
+        }
+
+        if (phone && phone.length < 10) {
+          alert('Please enter a valid 10-digit mobile phone number.');
+          inputPhone.focus();
+          return;
+        }
+
+        const selectedSkills = Array.from(document.querySelectorAll('.skill-chip.active')).map(c => c.dataset.skill);
+
+        const payload = {
+          full_name: name,
+          phone: phone ? `+91 ${phone}` : undefined,
+          photo_key: activeAvatarData || undefined,
+          skills: selectedSkills,
+          experience_years: parseFloat(inputExpYears.value) || 0,
+          education_level: selectEduLevel.value,
+          education_institute: inputEduInstitute.value.trim(),
+          education_specialization: inputEduSpec.value.trim(),
+          education_year: parseInt(inputEduYear.value, 10) || undefined,
+          past_company: inputPastCompany.value.trim(),
+          experience_description: inputExpDesc.value.trim(),
+          preferred_area: inputArea.value.trim() || 'City Center',
+          city: selectCity.value,
+          expected_salary_min: parseInt(inputSalaryMin.value, 10) || undefined,
+          expected_salary_max: parseInt(inputSalaryMax.value, 10) || undefined,
+          salary_period: 'monthly',
+          linkedin_url: linkedinInputUrl.value.trim() || undefined,
+        };
+
+        const btn1 = document.getElementById('btn-save-profile-top');
+        const btn2 = document.getElementById('btn-save-profile-bottom');
+        btn1.disabled = true;
+        btn2.disabled = true;
+        btn1.textContent = 'Saving...';
+        btn2.textContent = 'Saving Profile...';
+
+        const res = await window.jobApi.updateWorkerProfile(payload);
+
+        btn1.disabled = false;
+        btn2.disabled = false;
+        btn1.textContent = 'Save Profile ✓';
+        btn2.textContent = 'Save Complete Profile & Enter Desk ✓';
+
+        if (res.success) {
+          showToast('Profile and qualifications saved successfully! Redirecting...');
+          setTimeout(() => {
+            window.location.href = '/worker.html';
+          }, 600);
+        } else {
+          alert('Failed to save profile. Please check details and try again.');
+        }
+      }
+
+      document.getElementById('btn-save-profile-top').addEventListener('click', saveFullProfile);
+      document.getElementById('btn-save-profile-bottom').addEventListener('click', saveFullProfile);
+    });
+  </script>
+</body>
+</html>

@@ -2,7 +2,10 @@
 
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
-    phone TEXT NOT NULL UNIQUE,
+    email TEXT UNIQUE,
+    password_hash TEXT,
+    password_salt TEXT,
+    phone TEXT,
     role TEXT NOT NULL CHECK(role IN ('worker', 'employer', 'admin')),
     is_blocked INTEGER NOT NULL DEFAULT 0,
     is_verified INTEGER NOT NULL DEFAULT 0,
@@ -10,13 +13,27 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TABLE IF NOT EXISTS worker_profiles (
     id TEXT PRIMARY KEY,
     user_id TEXT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     full_name TEXT NOT NULL,
     photo_key TEXT,
+    phone TEXT,
     skills TEXT NOT NULL,
     experience_years REAL DEFAULT 0,
+    education_level TEXT,
+    education_institute TEXT,
+    education_year INTEGER,
+    education_specialization TEXT,
+    educations TEXT,
+    past_company TEXT,
+    experience_description TEXT,
+    linkedin_url TEXT,
+    linkedin_synced INTEGER DEFAULT 0,
+    digilocker_verified INTEGER DEFAULT 0,
+    digilocker_ref TEXT,
+    digilocker_name TEXT,
     preferred_area TEXT NOT NULL,
     city TEXT NOT NULL,
     expected_salary_min INTEGER,
@@ -163,6 +180,7 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_phone ON users(phone);
 CREATE INDEX IF NOT EXISTS idx_jobs_city_category ON jobs(location_city, category, status);
 CREATE INDEX IF NOT EXISTS idx_applications_job ON applications(job_id);

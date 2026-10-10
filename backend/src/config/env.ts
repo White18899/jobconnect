@@ -8,12 +8,20 @@ export interface Env {
   UPI_ID?: string;
   ENVIRONMENT?: string;
   FRONTEND_URL?: string;
+  SMTP_HOST?: string;
+  SMTP_PORT?: string;
+  SMTP_USER?: string;
+  SMTP_PASS?: string;
+  SMTP_FROM?: string;
+  SMTP_SECURE?: string;
 }
 
 export interface UserTokenPayload {
   userId: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   role: 'worker' | 'employer' | 'admin';
   exp?: number;
   iat?: number;
 }
+

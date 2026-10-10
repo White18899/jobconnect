@@ -117,16 +117,21 @@
 
     <!-- Section 2: Worker Profile & Trade Details -->
     <section id="profile-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
-      <h2 style="font-size: 18px; font-weight: 900; color: #0f172a; margin-bottom: 16px;">
-        👤 My Trade Profile Details
-      </h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <h2 style="font-size: 19px; font-weight: 900; color: #0f172a; margin: 0;">
+          👤 My Trade Profile Details
+        </h2>
+        <a href="/profile-edit.html" class="search-btn" style="padding: 9px 18px; font-size: 13px; text-decoration: none;">
+          <span>✏️ Edit Profile Details →</span>
+        </a>
+      </div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
           <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Full Legal Name</div>
           <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-name">Ramesh Kumar Rao</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Primary Trade</div>
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Primary Trade & Skills</div>
           <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-trade">Two & Four Wheeler Mechanic</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
@@ -134,16 +139,36 @@
           <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-exp">4+ Years Hands-on Experience</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Registered Phone</div>
-          <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-phone">+91 98491 23434</div>
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Education & Qualifications</div>
+          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-edu">ITI Certificate (Automobile)</div>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Past Workshop / Employer</div>
+          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-company">Sri Balaji Auto Care & Service</div>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Verified Email (Account)</div>
+          <div style="font-size: 15px; font-weight: 800; margin-top: 4px; color: var(--primary);" id="profile-email">worker@job-way.in</div>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Trade Contact Phone</div>
+          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-phone">+91 98491 23434</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
           <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Home Area & City</div>
-          <div style="font-size: 16px; font-weight: 800; margin-top: 4px;" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
+          <div style="font-size: 15px; font-weight: 800; margin-top: 4px;" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
         </div>
         <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">Privacy Protection</div>
-          <div style="font-size: 13px; font-weight: 700; color: #10b981; margin-top: 4px;">🛡️ Phone Number Masked Until Employer Unlocks</div>
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">DigiLocker Identity Status</div>
+          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-digilocker">
+            <span style="color: #059669;">🛡️ DigiLocker Verified</span>
+          </div>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">LinkedIn Profile Sync</div>
+          <div style="font-size: 14px; font-weight: 800; margin-top: 4px;" id="profile-linkedin">
+            <span style="color: #0284c7;">✓ Connected & Synced</span>
+          </div>
         </div>
       </div>
     </section>
@@ -216,11 +241,64 @@
         return;
       }
 
-      // Populate user info
+      // Populate basic user info
       document.getElementById('worker-display-name').textContent = user.name || 'Ramesh Kumar';
       document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${user.name || 'Ramesh Kumar Rao'}`;
       document.getElementById('profile-name').textContent = user.name || 'Ramesh Kumar Rao';
-      if (user.phone) document.getElementById('profile-phone').textContent = user.phone;
+      if (user.email && document.getElementById('profile-email')) {
+        document.getElementById('profile-email').textContent = user.email;
+      }
+      if (user.phone && document.getElementById('profile-phone')) {
+        document.getElementById('profile-phone').textContent = user.phone;
+      }
+
+      // Fetch and populate rich profile details
+      window.jobApi.getWorkerProfile().then(profile => {
+        if (!profile) return;
+        if (profile.full_name) {
+          document.getElementById('profile-name').textContent = profile.full_name;
+          document.getElementById('worker-display-name').textContent = profile.full_name;
+        }
+        if (profile.skills) {
+          try {
+            const skills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
+            if (Array.isArray(skills) && skills.length > 0) {
+              document.getElementById('profile-trade').textContent = skills.slice(0, 3).join(', ');
+            }
+          } catch {}
+        }
+        if (profile.experience_years !== undefined) {
+          document.getElementById('profile-exp').textContent = `${profile.experience_years}+ Years Experience`;
+        }
+        if (profile.education_level && document.getElementById('profile-edu')) {
+          const spec = profile.education_specialization ? ` (${profile.education_specialization})` : '';
+          document.getElementById('profile-edu').textContent = `${profile.education_level}${spec}`;
+        }
+        if (profile.past_company && document.getElementById('profile-company')) {
+          document.getElementById('profile-company').textContent = profile.past_company;
+        }
+        if (profile.preferred_area && profile.city && document.getElementById('profile-city')) {
+          document.getElementById('profile-city').textContent = `${profile.preferred_area}, ${profile.city}`;
+        }
+        if (document.getElementById('profile-digilocker')) {
+          if (profile.digilocker_verified === 1 || profile.id_number_masked) {
+            document.getElementById('profile-digilocker').innerHTML =
+              `<span style="color: #059669; font-weight: 800;">✓ DigiLocker Verified (${profile.id_number_masked || 'Aadhaar'})</span>`;
+          } else {
+            document.getElementById('profile-digilocker').innerHTML =
+              `<a href="/profile-edit.html#section-digilocker" style="color: #d97706; text-decoration: underline;">⚠️ Unverified • Click to Verify</a>`;
+          }
+        }
+        if (document.getElementById('profile-linkedin')) {
+          if (profile.linkedin_synced === 1 || profile.linkedin_url) {
+            document.getElementById('profile-linkedin').innerHTML =
+              `<span style="color: #0284c7; font-weight: 800;">✓ Synced from LinkedIn</span>`;
+          } else {
+            document.getElementById('profile-linkedin').innerHTML =
+              `<a href="/profile-edit.html" style="color: #64748b; text-decoration: underline;">Not Connected • Connect</a>`;
+          }
+        }
+      });
 
       // Logout handler
       document.getElementById('btn-worker-logout').addEventListener('click', () => {
