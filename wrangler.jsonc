@@ -2,21 +2,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "jobway-frontend",
   "compatibility_date": "2026-10-01",
+  "workers_dev": true,
   "observability": {
     "enabled": true
   },
   "assets": {
     "directory": "./public",
     "not_found_handling": "single-page-application"
-  },
-  "routes": [
-    {
-      "pattern": "job-way.in",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.job-way.in",
-      "custom_domain": true
-    }
-  ]
+  }
 }
