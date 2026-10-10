@@ -21,16 +21,16 @@
 </head>
 <body>
 
-  <!-- Top Cloudflare Status Bar -->
-  <aside class="top-bar" aria-label="Cloudflare Status">
+  <!-- Top Customer Announcement Bar -->
+  <aside class="top-bar" aria-label="Official Banner">
     <div class="edge-badge">
       <span class="edge-dot"></span>
-      <span id="edge-status-text">Cloudflare Worker API: Checking Edge Node...</span>
+      <span>⚡ 10,000+ Verified Blue-Collar Trade Jobs Across India • 100% Free For Workers</span>
     </div>
     <div style="display: flex; gap: 16px;">
       <span>🇮🇳 English / हिन्दी / తెలుగు</span>
       <span style="color: #64748b;">•</span>
-      <span>UPI Instant Settlements Active</span>
+      <span>🔒 Privacy-Protected Phone Contacts</span>
     </div>
   </aside>
 
@@ -66,13 +66,30 @@
         </button>
       </nav>
 
-      <!-- Right Actions: Role Display & Credits -->
+      <!-- Right Header Actions: Auth & Profile -->
       <div class="nav-right-actions">
-        <div class="role-badge-box" id="current-role-badge">
-          👷 Worker Mode
+        <!-- Logged Out State -->
+        <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
+          <button class="btn-signin-header" id="header-signin-btn">
+            🔐 Sign In / Register
+          </button>
+          <button class="btn-post-job-header" id="header-post-job-cta">
+            + Post a Job
+          </button>
         </div>
-        <div class="credit-pill" id="credit-pill" style="display: none;">
-          ⚡ <span id="credit-count">3</span> Unlocks Left
+
+        <!-- Logged In State -->
+        <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
+          <div class="role-badge-box" id="header-user-badge">
+            <span id="header-user-icon">👤</span>
+            <span id="header-user-name">User</span>
+          </div>
+          <div class="credit-pill" id="credit-pill" style="display: none;">
+            ⚡ <span id="credit-count">0</span> Unlocks Left
+          </div>
+          <button class="btn-logout-header" id="header-logout-btn" title="Sign Out">
+            Sign Out ⎋
+          </button>
         </div>
       </div>
     </div>
@@ -484,6 +501,123 @@
           <input type="text" id="bundle-utr-input" class="form-input" placeholder="e.g. UPI/428912304910/HDFC" required>
         </div>
         <button class="search-btn" id="submit-bundle-payment-btn" style="width: 100%; justify-content: center;">Submit Payment Proof</button>
+      </div>
+    </div>
+  <!-- MODAL: Sign In / Register Modal (Mobile OTP & Admin Password) -->
+  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="auth-modal-title">Sign In to JobWay</h3>
+          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+            Access verified trade vacancies, worker applications & admin ledger
+          </p>
+        </div>
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Auth Mode Tabs -->
+        <div class="auth-tabs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 20px;">
+          <button class="auth-tab-btn active" id="tab-auth-otp" type="button">
+            📱 Mobile OTP Sign In
+          </button>
+          <button class="auth-tab-btn" id="tab-auth-admin" type="button">
+            🛡️ Admin Portal
+          </button>
+        </div>
+
+        <!-- Section 1: Mobile Phone OTP Form -->
+        <div id="auth-otp-section">
+          <!-- Step 1: Phone & Role Selection -->
+          <div id="otp-step-1">
+            <div class="form-group">
+              <label class="form-label">I am signing in as:</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <label class="role-radio-box active" id="role-choice-worker">
+                  <input type="radio" name="auth-role" value="worker" checked style="display: none;">
+                  <span style="font-size: 20px;">👷</span>
+                  <div>
+                    <strong>Worker</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Trade Jobs & Profile</div>
+                  </div>
+                </label>
+                <label class="role-radio-box" id="role-choice-employer">
+                  <input type="radio" name="auth-role" value="employer" style="display: none;">
+                  <span style="font-size: 20px;">🏢</span>
+                  <div>
+                    <strong>Employer</strong>
+                    <div style="font-size: 11px; color: var(--text-muted);">Hiring & Candidates</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="auth-phone-input">Mobile Phone Number *</label>
+              <div style="display: flex; gap: 8px;">
+                <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 13px;">+91</span>
+                <input type="tel" id="auth-phone-input" class="form-input" placeholder="98491 23434" maxlength="10" required>
+              </div>
+            </div>
+
+            <button class="search-btn" id="send-otp-btn" style="width: 100%; justify-content: center; padding: 12px;">
+              Send Verification OTP →
+            </button>
+          </div>
+
+          <!-- Step 2: Enter OTP -->
+          <div id="otp-step-2" style="display: none;">
+            <div style="background: var(--primary-light); border: 1px solid var(--primary-border); padding: 12px 14px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 12px; color: var(--primary);">
+              Verification code sent to <strong id="otp-target-phone">+91 ••••• •••••</strong>
+              <div id="otp-dev-hint" style="font-weight: 700; margin-top: 4px; color: #1e3a8a;">Demo Code: 123456</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="auth-otp-input">Enter 6-Digit Verification Code *</label>
+              <input type="text" id="auth-otp-input" class="form-input" placeholder="123456" maxlength="6" style="font-size: 18px; letter-spacing: 6px; text-align: center; font-weight: 900;" required>
+            </div>
+
+            <button class="search-btn" id="verify-otp-btn" style="width: 100%; justify-content: center; padding: 12px; margin-bottom: 8px;">
+              Verify Code & Sign In
+            </button>
+            <button type="button" id="back-to-phone-btn" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; display: block; margin: 0 auto;">
+              ← Change Mobile Number
+            </button>
+          </div>
+
+          <!-- Quick One-Tap Demo Profiles -->
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); text-align: center;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">
+              Instant 1-Click Demo Profiles
+            </span>
+            <div style="display: flex; gap: 8px; justify-content: center;">
+              <button type="button" class="btn-demo-quick" id="demo-login-worker">
+                👷 Worker (Ramesh)
+              </button>
+              <button type="button" class="btn-demo-quick" id="demo-login-employer">
+                🏢 Employer (Sri Balaji)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Admin Password Form -->
+        <div id="auth-admin-section" style="display: none;">
+          <div class="form-group">
+            <label class="form-label" for="admin-pass-input">Administrator Master Password *</label>
+            <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter admin password..." required>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">Default access: JobConnect@Admin2026</span>
+          </div>
+
+          <button class="search-btn" id="admin-login-submit-btn" style="width: 100%; justify-content: center; padding: 12px; margin-bottom: 14px;">
+            Sign In to Admin Ledger →
+          </button>
+
+          <button type="button" class="btn-demo-quick" id="demo-login-admin" style="width: 100%; justify-content: center;">
+            🛡️ 1-Click Admin Demo Login
+          </button>
+        </div>
       </div>
     </div>
   </div>

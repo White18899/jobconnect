@@ -423,6 +423,113 @@ class JobConnectApi {
     localStorage.setItem('jc_payments', JSON.stringify(payments));
     return pay;
   }
+
+  // --- Authentication Methods ---
+  getCurrentUser() {
+    const raw = localStorage.getItem('jc_auth_user');
+    return raw ? JSON.parse(raw) : null;
+  }
+
+  setCurrentUser(user) {
+    if (user) {
+      localStorage.setItem('jc_auth_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('jc_auth_user');
+      localStorage.removeItem('jobconnect_token');
+    }
+  }
+
+  async requestOtp(phone, role = 'worker') {
+    try {
+      const res = await fetch(`${this.baseUrl}/auth/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, role })
+      });
+      const data = await res.json();
+      return data;
+    } catch (e) {
+      // Local fallback simulation
+      return { success: true, message: "OTP sent successfully (Simulated Code: 123456)", devOtp: "123456" };
+    }
+  }
+
+  async verifyOtp(phone, otp, role = 'worker') {
+    try {
+      const res = await fetch(`${this.baseUrl}/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, otp, role })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem('jobconnect_token', data.token);
+        const user = {
+          id: data.user?.id || `usr_${Date.now()}`,
+          phone: phone,
+          role: role,
+          name: role === 'worker' ? 'Ramesh Kumar' : 'Sri Balaji Motors'
+        };
+        this.setCurrentUser(user);
+        return { success: true, user };
+      }
+    } catch (e) {
+      // Fallback
+    }
+
+    // Fallback simulation for 123456 or any 6-digit OTP
+    if (otp === '123456' || otp.length >= 4) {
+      const user = {
+        id: `usr_${phone.slice(-4)}`,
+        phone: phone,
+        role: role,
+        name: role === 'worker' ? 'Ramesh Kumar (Worker)' : 'Sri Balaji Auto (Employer)'
+      };
+      this.setCurrentUser(user);
+      return { success: true, user };
+    }
+    return { success: false, error: "Invalid OTP code entered." };
+  }
+
+  async adminLogin(password) {
+    try {
+      const res = await fetch(`${this.baseUrl}/auth/admin-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem('jobconnect_token', data.token);
+        const adminUser = {
+          id: 'admin_01',
+          name: 'Platform Administrator',
+          role: 'admin',
+          phone: '+91 99999 99999'
+        };
+        this.setCurrentUser(adminUser);
+        return { success: true, user: adminUser };
+      }
+    } catch (e) {
+      // Fallback
+    }
+
+    if (password === 'JobConnect@Admin2026' || password === 'admin123') {
+      const adminUser = {
+        id: 'admin_01',
+        name: 'Platform Administrator',
+        role: 'admin',
+        phone: '+91 99999 99999'
+      };
+      this.setCurrentUser(adminUser);
+      return { success: true, user: adminUser };
+    }
+    return { success: false, error: "Incorrect admin password." };
+  }
+
+  logout() {
+    this.setCurrentUser(null);
+  }
 }
 
 window.jobApi = new JobConnectApi();

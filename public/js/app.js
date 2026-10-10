@@ -5,18 +5,27 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
   // App State
-  let currentRole = 'worker'; // 'worker' | 'employer' | 'admin'
   let currentJobs = [];
   let selectedJob = null;
   let targetPaymentAppId = null;
   let targetUnlockAppId = null;
+  let selectedAuthRole = 'worker';
 
-  // DOM Elements
+  // Navigation & Header Elements
   const tabBtns = document.querySelectorAll('.nav-tab-btn');
   const viewSections = document.querySelectorAll('.view-section');
-  const currentRoleBadge = document.getElementById('current-role-badge');
   const creditPill = document.getElementById('credit-pill');
   const creditCount = document.getElementById('credit-count');
+  const authLoggedOut = document.getElementById('auth-logged-out');
+  const authLoggedIn = document.getElementById('auth-logged-in');
+  const headerSigninBtn = document.getElementById('header-signin-btn');
+  const headerPostJobCta = document.getElementById('header-post-job-cta');
+  const headerLogoutBtn = document.getElementById('header-logout-btn');
+  const headerUserName = document.getElementById('header-user-name');
+  const headerUserIcon = document.getElementById('header-user-icon');
+  const brandLogoLink = document.getElementById('brand-logo-link');
+
+  // Search & Filter Elements
   const jobsGrid = document.getElementById('jobs-grid');
   const jobsCountBadge = document.getElementById('jobs-count-badge');
   const tradeChips = document.querySelectorAll('.trade-chip');
@@ -24,18 +33,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   const searchCity = document.getElementById('search-city');
   const searchSalary = document.getElementById('search-salary');
   const searchBtn = document.getElementById('search-btn');
-  const edgeStatusText = document.getElementById('edge-status-text');
 
   // Modals
+  const authModal = document.getElementById('auth-modal');
   const jobDetailModal = document.getElementById('job-detail-modal');
   const priorityModal = document.getElementById('priority-modal');
   const postJobModal = document.getElementById('post-job-modal');
   const unlockModal = document.getElementById('unlock-modal');
   const buyCreditsModal = document.getElementById('buy-credits-modal');
 
+  // Auth Modal Elements
+  const authTabOtp = document.getElementById('auth-tab-otp');
+  const authTabAdmin = document.getElementById('auth-tab-admin');
+  const authOtpSection = document.getElementById('auth-otp-section');
+  const authAdminSection = document.getElementById('auth-admin-section');
+  const roleChoiceWorker = document.getElementById('role-choice-worker');
+  const roleChoiceEmployer = document.getElementById('role-choice-employer');
+  const authPhoneInput = document.getElementById('auth-phone-input');
+  const sendOtpBtn = document.getElementById('send-otp-btn');
+  const otpStep1 = document.getElementById('otp-step-1');
+  const otpStep2 = document.getElementById('otp-step-2');
+  const otpTargetPhone = document.getElementById('otp-target-phone');
+  const otpDevHint = document.getElementById('otp-dev-hint');
+  const authOtpInput = document.getElementById('auth-otp-input');
+  const verifyOtpBtn = document.getElementById('verify-otp-btn');
+  const backToPhoneBtn = document.getElementById('back-to-phone-btn');
+  const demoLoginWorker = document.getElementById('demo-login-worker');
+  const demoLoginEmployer = document.getElementById('demo-login-employer');
+  const demoLoginAdmin = document.getElementById('demo-login-admin');
+  const adminPassInput = document.getElementById('admin-pass-input');
+  const adminLoginSubmitBtn = document.getElementById('admin-login-submit-btn');
+
   // Toast System
   function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
+    if (!container) return;
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     const icon = type === 'success' ? '✓' : (type === 'error' ? '⚠️' : 'ℹ️');
@@ -49,61 +81,307 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 4000);
   }
 
-  // 1. Cloudflare Edge Health Ping
-  async function pingEdge() {
-    try {
-      const health = await window.jobApi.checkHealth();
-      if (health.status === 'ok') {
-        edgeStatusText.textContent = `Cloudflare Worker API: Connected (${health.environment})`;
-      } else {
-        edgeStatusText.textContent = `Cloudflare Edge: Hybrid Mode (Local Cache Active)`;
+  // 1. Session & Auth State Management
+  function refreshAuthState() {
+    const user = window.jobApi.getCurrentUser();
+    if (user) {
+      if (authLoggedOut) authLoggedOut.style.display = 'none';
+      if (authLoggedIn) authLoggedIn.style.display = 'flex';
+      if (headerUserName) headerUserName.textContent = user.name || user.role;
+
+      if (user.role === 'worker') {
+        if (headerUserIcon) headerUserIcon.textContent = '👷';
+        if (creditPill) creditPill.style.display = 'none';
+      } else if (user.role === 'employer') {
+        if (headerUserIcon) headerUserIcon.textContent = '🏢';
+        if (creditPill) creditPill.style.display = 'inline-flex';
+        updateCreditDisplay();
+      } else if (user.role === 'admin') {
+        if (headerUserIcon) headerUserIcon.textContent = '🛡️';
+        if (creditPill) creditPill.style.display = 'none';
       }
-    } catch {
-      edgeStatusText.textContent = `Cloudflare Edge: Hybrid Mode (Active)`;
+    } else {
+      if (authLoggedOut) authLoggedOut.style.display = 'flex';
+      if (authLoggedIn) authLoggedIn.style.display = 'none';
+      if (creditPill) creditPill.style.display = 'none';
     }
   }
-  pingEdge();
 
-  // 2. Navigation Tab Switching
+  function updateCreditDisplay() {
+    if (!creditCount) return;
+    const credits = window.jobApi.getUnlockCredits();
+    creditCount.textContent = credits;
+  }
+
+  // Open Auth Modal helper
+  function openAuthModal(preferredRole = 'worker') {
+    if (!authModal) return;
+    if (preferredRole === 'admin') {
+      if (authTabAdmin) authTabAdmin.click();
+    } else {
+      if (authTabOtp) authTabOtp.click();
+      if (preferredRole === 'employer') {
+        if (roleChoiceEmployer) roleChoiceEmployer.click();
+      } else {
+        if (roleChoiceWorker) roleChoiceWorker.click();
+      }
+    }
+    if (otpStep1) otpStep1.style.display = 'block';
+    if (otpStep2) otpStep2.style.display = 'none';
+    authModal.classList.add('active');
+  }
+
+  // 2. Navigation Tab Switching with Role Gating
   function switchTab(viewId) {
     tabBtns.forEach(b => b.classList.toggle('active', b.dataset.view === viewId));
     viewSections.forEach(s => s.classList.toggle('active', s.id === viewId));
 
     if (viewId === 'view-jobs') {
-      currentRole = 'worker';
-      currentRoleBadge.textContent = '👷 Worker Mode';
-      creditPill.style.display = 'none';
       loadJobs();
     } else if (viewId === 'view-employer') {
-      currentRole = 'employer';
-      currentRoleBadge.textContent = '🏢 Employer Mode';
-      creditPill.style.display = 'inline-flex';
       updateCreditDisplay();
       renderEmployerHub();
     } else if (viewId === 'view-worker-portal') {
-      currentRole = 'worker';
-      currentRoleBadge.textContent = '👷 Worker Portal';
-      creditPill.style.display = 'none';
       renderWorkerPortal();
     } else if (viewId === 'view-admin') {
-      currentRole = 'admin';
-      currentRoleBadge.textContent = '🛡️ Admin Desk';
-      creditPill.style.display = 'none';
       renderAdminDesk();
     }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.view));
+    btn.addEventListener('click', () => {
+      const targetView = btn.dataset.view;
+      const user = window.jobApi.getCurrentUser();
+
+      if (targetView === 'view-employer') {
+        if (!user || user.role !== 'employer') {
+          openAuthModal('employer');
+          showToast('Please sign in as Employer to access Employer Desk.', 'info');
+          return;
+        }
+      } else if (targetView === 'view-worker-portal') {
+        if (!user || user.role !== 'worker') {
+          openAuthModal('worker');
+          showToast('Please sign in with your mobile number to view Worker Portal.', 'info');
+          return;
+        }
+      } else if (targetView === 'view-admin') {
+        if (!user || user.role !== 'admin') {
+          openAuthModal('admin');
+          showToast('Please enter administrator password to access Admin Ledger.', 'info');
+          return;
+        }
+      }
+
+      switchTab(targetView);
+    });
   });
 
-  function updateCreditDisplay() {
-    const credits = window.jobApi.getUnlockCredits();
-    creditCount.textContent = credits;
+  if (brandLogoLink) {
+    brandLogoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab('view-jobs');
+    });
   }
 
-  // 3. Jobs Rendering & Filtering
+  // 3. Header Action Buttons
+  if (headerSigninBtn) {
+    headerSigninBtn.addEventListener('click', () => {
+      openAuthModal('worker');
+    });
+  }
+
+  if (headerPostJobCta) {
+    headerPostJobCta.addEventListener('click', () => {
+      const user = window.jobApi.getCurrentUser();
+      if (user && user.role === 'employer') {
+        if (postJobModal) postJobModal.classList.add('active');
+      } else {
+        openAuthModal('employer');
+        showToast('Please sign in as Employer to post a job vacancy.', 'info');
+      }
+    });
+  }
+
+  if (headerLogoutBtn) {
+    headerLogoutBtn.addEventListener('click', () => {
+      window.jobApi.logout();
+      refreshAuthState();
+      switchTab('view-jobs');
+      showToast('You have been signed out successfully.');
+    });
+  }
+
+  // 4. Auth Modal Interaction Handlers
+  if (authTabOtp) {
+    authTabOtp.addEventListener('click', () => {
+      authTabOtp.classList.add('active');
+      if (authTabAdmin) authTabAdmin.classList.remove('active');
+      if (authOtpSection) authOtpSection.style.display = 'block';
+      if (authAdminSection) authAdminSection.style.display = 'none';
+    });
+  }
+
+  if (authTabAdmin) {
+    authTabAdmin.addEventListener('click', () => {
+      authTabAdmin.classList.add('active');
+      if (authTabOtp) authTabOtp.classList.remove('active');
+      if (authAdminSection) authAdminSection.style.display = 'block';
+      if (authOtpSection) authOtpSection.style.display = 'none';
+    });
+  }
+
+  if (roleChoiceWorker) {
+    roleChoiceWorker.addEventListener('click', () => {
+      selectedAuthRole = 'worker';
+      roleChoiceWorker.classList.add('active');
+      if (roleChoiceEmployer) roleChoiceEmployer.classList.remove('active');
+    });
+  }
+
+  if (roleChoiceEmployer) {
+    roleChoiceEmployer.addEventListener('click', () => {
+      selectedAuthRole = 'employer';
+      roleChoiceEmployer.classList.add('active');
+      if (roleChoiceWorker) roleChoiceWorker.classList.remove('active');
+    });
+  }
+
+  if (sendOtpBtn) {
+    sendOtpBtn.addEventListener('click', async () => {
+      const rawPhone = authPhoneInput.value.trim().replace(/\D/g, '');
+      if (rawPhone.length < 10) {
+        alert('Please enter a valid 10-digit mobile phone number.');
+        return;
+      }
+      sendOtpBtn.disabled = true;
+      sendOtpBtn.textContent = 'Sending OTP...';
+      const res = await window.jobApi.requestOtp(rawPhone);
+      sendOtpBtn.disabled = false;
+      sendOtpBtn.textContent = 'Send Verification OTP →';
+
+      if (otpStep1) otpStep1.style.display = 'none';
+      if (otpStep2) otpStep2.style.display = 'block';
+      if (otpTargetPhone) otpTargetPhone.textContent = `+91 ${rawPhone}`;
+      if (otpDevHint && res.devOtp) {
+        otpDevHint.textContent = `Demo Code: ${res.devOtp}`;
+        if (authOtpInput) authOtpInput.value = res.devOtp;
+      }
+      showToast(`Verification code sent to +91 ${rawPhone}!`);
+    });
+  }
+
+  if (verifyOtpBtn) {
+    verifyOtpBtn.addEventListener('click', async () => {
+      const rawPhone = authPhoneInput.value.trim().replace(/\D/g, '');
+      const otp = authOtpInput.value.trim();
+      if (otp.length < 4) {
+        alert('Please enter the 6-digit verification code.');
+        return;
+      }
+      verifyOtpBtn.disabled = true;
+      verifyOtpBtn.textContent = 'Verifying...';
+      const res = await window.jobApi.verifyOtp(rawPhone, otp, selectedAuthRole);
+      verifyOtpBtn.disabled = false;
+      verifyOtpBtn.textContent = 'Verify Code & Sign In';
+
+      if (res.success) {
+        if (authModal) authModal.classList.remove('active');
+        refreshAuthState();
+        showToast(`Signed in successfully as ${selectedAuthRole === 'worker' ? 'Worker' : 'Employer'}!`);
+        if (selectedAuthRole === 'employer') {
+          switchTab('view-employer');
+        } else {
+          switchTab('view-worker-portal');
+        }
+      } else {
+        alert(res.error || 'Invalid OTP entered. Please try again.');
+      }
+    });
+  }
+
+  if (backToPhoneBtn) {
+    backToPhoneBtn.addEventListener('click', () => {
+      if (otpStep2) otpStep2.style.display = 'none';
+      if (otpStep1) otpStep1.style.display = 'block';
+    });
+  }
+
+  // 1-Click Instant Demo Profiles
+  if (demoLoginWorker) {
+    demoLoginWorker.addEventListener('click', () => {
+      window.jobApi.setCurrentUser({
+        id: 'wrk-1',
+        name: 'Ramesh Kumar (Worker)',
+        role: 'worker',
+        phone: '+91 98491 23434'
+      });
+      if (authModal) authModal.classList.remove('active');
+      refreshAuthState();
+      switchTab('view-worker-portal');
+      showToast('Signed in with Worker Profile (Ramesh Kumar)!');
+    });
+  }
+
+  if (demoLoginEmployer) {
+    demoLoginEmployer.addEventListener('click', () => {
+      window.jobApi.setCurrentUser({
+        id: 'emp-1',
+        name: 'Sri Balaji Auto (Employer)',
+        role: 'employer',
+        phone: '+91 98490 11223'
+      });
+      if (authModal) authModal.classList.remove('active');
+      refreshAuthState();
+      switchTab('view-employer');
+      showToast('Signed in with Employer Profile (Sri Balaji Auto)!');
+    });
+  }
+
+  if (demoLoginAdmin) {
+    demoLoginAdmin.addEventListener('click', () => {
+      window.jobApi.setCurrentUser({
+        id: 'admin_01',
+        name: 'Platform Administrator',
+        role: 'admin',
+        phone: '+91 99999 99999'
+      });
+      if (authModal) authModal.classList.remove('active');
+      refreshAuthState();
+      switchTab('view-admin');
+      showToast('Signed in as Platform Administrator!');
+    });
+  }
+
+  if (adminLoginSubmitBtn) {
+    adminLoginSubmitBtn.addEventListener('click', async () => {
+      const pass = adminPassInput.value.trim();
+      if (!pass) {
+        alert('Please enter administrator password.');
+        return;
+      }
+      adminLoginSubmitBtn.disabled = true;
+      adminLoginSubmitBtn.textContent = 'Authenticating...';
+      const res = await window.jobApi.adminLogin(pass);
+      adminLoginSubmitBtn.disabled = false;
+      adminLoginSubmitBtn.textContent = 'Sign In to Admin Ledger →';
+
+      if (res.success) {
+        if (authModal) authModal.classList.remove('active');
+        refreshAuthState();
+        switchTab('view-admin');
+        showToast('Administrator authenticated successfully!');
+      } else {
+        alert(res.error || 'Incorrect admin password.');
+      }
+    });
+  }
+
+  // 5. Jobs Rendering & Filtering
   async function loadJobs(filters = {}) {
+    if (!jobsGrid) return;
     jobsGrid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 48px; color: #64748b;">
         <div style="display: inline-block; width: 32px; height: 32px; border: 3px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
@@ -116,6 +394,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function renderJobsList(jobs) {
+    if (!jobsCountBadge || !jobsGrid) return;
     jobsCountBadge.textContent = `${jobs.length} Verified Vacancies`;
     
     if (jobs.length === 0) {
@@ -127,11 +406,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `;
       document.getElementById('reset-filters-btn')?.addEventListener('click', () => {
-        searchCategory.value = 'all';
-        searchCity.value = 'all';
-        searchSalary.value = 'all';
+        if (searchCategory) searchCategory.value = 'all';
+        if (searchCity) searchCity.value = 'all';
+        if (searchSalary) searchSalary.value = 'all';
         tradeChips.forEach(c => c.classList.remove('active'));
-        tradeChips[0].classList.add('active');
+        if (tradeChips[0]) tradeChips[0].classList.add('active');
         loadJobs();
       });
       return;
@@ -182,28 +461,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Filter Search Triggers
-  searchBtn.addEventListener('click', () => {
-    loadJobs({
-      category: searchCategory.value,
-      city: searchCity.value,
-      minSalary: searchSalary.value !== 'all' ? searchSalary.value : undefined
+  if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+      loadJobs({
+        category: searchCategory ? searchCategory.value : undefined,
+        city: searchCity ? searchCity.value : undefined,
+        minSalary: (searchSalary && searchSalary.value !== 'all') ? searchSalary.value : undefined
+      });
     });
-  });
+  }
 
   tradeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       tradeChips.forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       const category = chip.dataset.trade;
-      searchCategory.value = category;
-      loadJobs({ category: category !== 'all' ? category : undefined, city: searchCity.value });
+      if (searchCategory) searchCategory.value = category;
+      loadJobs({
+        category: category !== 'all' ? category : undefined,
+        city: searchCity ? searchCity.value : undefined
+      });
     });
   });
 
-  // 4. Job Details & Apply Modal
+  // 6. Job Details & Apply Modal
   async function openJobModal(jobId) {
     selectedJob = await window.jobApi.getJobById(jobId);
-    if (!selectedJob) return;
+    if (!selectedJob || !jobDetailModal) return;
 
     document.getElementById('modal-job-title').textContent = selectedJob.title;
     document.getElementById('modal-job-category').textContent = selectedJob.category;
@@ -217,52 +501,63 @@ document.addEventListener('DOMContentLoaded', async () => {
     jobDetailModal.classList.add('active');
   }
 
-  document.getElementById('modal-apply-free-btn').addEventListener('click', async () => {
+  document.getElementById('modal-apply-free-btn')?.addEventListener('click', async () => {
     if (!selectedJob) return;
-    await window.jobApi.applyJob(selectedJob.id, {
+    const user = window.jobApi.getCurrentUser();
+    const workerInfo = user ? {
+      id: user.id || "wrk-1",
+      name: user.name || "Ramesh Kumar Rao",
+      category: selectedJob.category,
+      experience: 4,
+      city: selectedJob.location_city,
+      phone: user.phone || "+91 98491 23434"
+    } : {
       id: "wrk-1",
       name: "Ramesh Kumar Rao",
       category: selectedJob.category,
       experience: 4,
       city: selectedJob.location_city,
       phone: "+91 98491 23434"
-    }, false);
-    jobDetailModal.classList.remove('active');
+    };
+
+    await window.jobApi.applyJob(selectedJob.id, workerInfo, false);
+    if (jobDetailModal) jobDetailModal.classList.remove('active');
     showToast(`Standard Application submitted for "${selectedJob.title}"! Employer notified.`);
   });
 
-  document.getElementById('modal-apply-boost-btn').addEventListener('click', () => {
-    jobDetailModal.classList.remove('active');
+  document.getElementById('modal-apply-boost-btn')?.addEventListener('click', () => {
+    if (jobDetailModal) jobDetailModal.classList.remove('active');
     if (selectedJob) openPriorityModal(selectedJob.id);
   });
 
-  // 5. Priority Boost Modal Flow
+  // 7. Priority Boost Modal Flow
   function openPriorityModal(jobId) {
     const job = currentJobs.find(j => j.id === jobId) || selectedJob;
-    if (!job) return;
+    if (!job || !priorityModal) return;
     targetPaymentAppId = jobId;
     document.getElementById('priority-job-name').textContent = job.title;
     document.getElementById('priority-utr-input').value = '';
     priorityModal.classList.add('active');
   }
 
-  document.getElementById('submit-priority-utr-btn').addEventListener('click', async () => {
+  document.getElementById('submit-priority-utr-btn')?.addEventListener('click', async () => {
     const utr = document.getElementById('priority-utr-input').value.trim();
     if (!utr || utr.length < 8) {
       alert('Please enter a valid 12-digit transaction UTR / Ref Number.');
       return;
     }
 
+    const user = window.jobApi.getCurrentUser();
     const app = await window.jobApi.applyJob(targetPaymentAppId, {
-      id: "wrk-1",
-      name: "Ramesh Kumar Rao",
+      id: user?.id || "wrk-1",
+      name: user?.name || "Ramesh Kumar Rao",
       experience: 4,
       city: "Hyderabad"
     }, true);
 
     window.jobApi.submitPayment({
       type: "worker_priority",
-      userName: "Ramesh Kumar Rao",
+      userName: user?.name || "Ramesh Kumar Rao",
       userRole: "worker",
       plan: "Priority Boost (₹299)",
       amount: 299,
@@ -270,16 +565,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       targetId: app.id
     });
 
-    priorityModal.classList.remove('active');
+    if (priorityModal) priorityModal.classList.remove('active');
     showToast('Priority Boost payment submitted! Admin is verifying your transaction.', 'success');
   });
 
-  // 6. Post New Job (Employer)
-  document.getElementById('open-post-job-btn').addEventListener('click', () => {
-    postJobModal.classList.add('active');
+  // 8. Post New Job (Employer)
+  document.getElementById('open-post-job-btn')?.addEventListener('click', () => {
+    if (postJobModal) postJobModal.classList.add('active');
   });
 
-  document.getElementById('post-job-form').addEventListener('submit', async (e) => {
+  document.getElementById('post-job-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const title = document.getElementById('post-title').value.trim();
     const category = document.getElementById('post-category').value;
@@ -308,19 +603,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       requirements: "Experienced trade worker needed"
     });
 
-    postJobModal.classList.remove('active');
+    if (postJobModal) postJobModal.classList.remove('active');
     showToast(`Vacancy "${title}" published on Cloudflare Edge!`);
     renderEmployerHub();
   });
 
-  // 7. Employer Hub Rendering
+  // 9. Employer Hub Rendering
   function renderEmployerHub() {
     const apps = window.jobApi.getApplications();
     const applicantsList = document.getElementById('applicants-list');
-    document.getElementById('stat-total-apps').textContent = apps.length;
-    document.getElementById('stat-unlocked-apps').textContent = apps.filter(a => a.unlocked).length;
+    const statTotal = document.getElementById('stat-total-apps');
+    const statUnlocked = document.getElementById('stat-unlocked-apps');
+    if (statTotal) statTotal.textContent = apps.length;
+    if (statUnlocked) statUnlocked.textContent = apps.filter(a => a.unlocked).length;
     updateCreditDisplay();
 
+    if (!applicantsList) return;
     if (apps.length === 0) {
       applicantsList.innerHTML = `<div style="text-align: center; padding: 40px; color: #64748b;">No candidate applications received yet.</div>`;
       return;
@@ -377,37 +675,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 8. Unlock Contact Modal
+  // 10. Unlock Contact Modal
   function openUnlockModal(appId) {
     targetUnlockAppId = appId;
     const apps = window.jobApi.getApplications();
     const app = apps.find(a => a.id === appId);
-    if (!app) return;
+    if (!app || !unlockModal) return;
 
     document.getElementById('unlock-worker-name').textContent = app.worker_name;
     document.getElementById('unlock-avail-credits').textContent = window.jobApi.getUnlockCredits();
     unlockModal.classList.add('active');
   }
 
-  document.getElementById('confirm-unlock-btn').addEventListener('click', () => {
+  document.getElementById('confirm-unlock-btn')?.addEventListener('click', () => {
     const result = window.jobApi.unlockWorker(targetUnlockAppId);
-    unlockModal.classList.remove('active');
+    if (unlockModal) unlockModal.classList.remove('active');
 
     if (result.success) {
       showToast(`Contact info unlocked for ${result.app.worker_name}! (${result.remainingCredits} credits remaining)`);
       renderEmployerHub();
     } else if (result.needCredits) {
-      buyCreditsModal.classList.add('active');
+      if (buyCreditsModal) buyCreditsModal.classList.add('active');
     } else {
       showToast(result.message, 'error');
     }
   });
 
   document.getElementById('open-buy-credits-btn')?.addEventListener('click', () => {
-    buyCreditsModal.classList.add('active');
+    if (buyCreditsModal) buyCreditsModal.classList.add('active');
   });
 
-  document.getElementById('submit-bundle-payment-btn').addEventListener('click', () => {
+  document.getElementById('submit-bundle-payment-btn')?.addEventListener('click', () => {
     const utr = document.getElementById('bundle-utr-input').value.trim();
     const plan = document.getElementById('bundle-plan-select').value;
     const amount = plan === '5_WORKERS' ? 499 : (plan === '10_WORKERS' ? 949 : 149);
@@ -417,23 +715,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    const user = window.jobApi.getCurrentUser();
     window.jobApi.submitPayment({
       type: "employer_unlock",
-      userName: "Employer Workspace",
+      userName: user?.name || "Employer Workspace",
       userRole: "employer",
       plan: `Unlock Plan (${amount === 499 ? '5 Unlocks' : (amount === 949 ? '10 Unlocks' : '1 Unlock')})`,
       amount,
       utrNumber: utr
     });
 
-    buyCreditsModal.classList.remove('active');
+    if (buyCreditsModal) buyCreditsModal.classList.remove('active');
     showToast('Payment submitted for Admin verification! Credits will be credited once verified.');
   });
 
-  // 9. Worker Portal Rendering
+  // 11. Worker Portal Rendering
   function renderWorkerPortal() {
     const apps = window.jobApi.getApplications();
     const list = document.getElementById('worker-my-apps-list');
+    if (!list) return;
     
     list.innerHTML = apps.map(a => `
       <div style="background: white; border: 1px solid #e2e8f0; padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 12px;">
@@ -451,16 +751,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     `).join('');
   }
 
-  // 10. Admin Desk & Ledger
+  // 12. Admin Desk & Ledger
   function renderAdminDesk() {
     const payments = window.jobApi.getPayments();
     const apps = window.jobApi.getApplications();
     const tbody = document.getElementById('admin-ledger-tbody');
 
-    document.getElementById('admin-kpi-jobs').textContent = currentJobs.length;
-    document.getElementById('admin-kpi-apps').textContent = apps.length;
-    document.getElementById('admin-kpi-pending').textContent = payments.filter(p => p.status === 'pending_verification').length;
+    const kpiJobs = document.getElementById('admin-kpi-jobs');
+    const kpiApps = document.getElementById('admin-kpi-apps');
+    const kpiPending = document.getElementById('admin-kpi-pending');
+    if (kpiJobs) kpiJobs.textContent = currentJobs.length;
+    if (kpiApps) kpiApps.textContent = apps.length;
+    if (kpiPending) kpiPending.textContent = payments.filter(p => p.status === 'pending_verification').length;
 
+    if (!tbody) return;
     tbody.innerHTML = payments.map(p => `
       <tr>
         <td><strong style="font-family: monospace;">${p.id}</strong></td>
@@ -516,6 +820,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Initial load
+  // Initial Boot
+  refreshAuthState();
   loadJobs();
 });
