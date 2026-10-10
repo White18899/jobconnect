@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Ledger • JobWay (job-way.in)</title>
+  <meta name="description" content="Administrator Platform Ledger: Verify UPI payments, audit candidate unlocks, and manage job listings.">
+  <link rel="canonical" href="https://job-way.in/admin.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <a href="/" class="brand-logo" style="text-decoration: none;">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <div>
+          <span>JobWay</span>
+          <span class="brand-text-sub">job-way.in • Admin Desk</span>
+        </div>
+      </a>
+
+      <!-- Header Center Links -->
+      <nav style="display: flex; gap: 18px; align-items: center;">
+        <a href="/" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          🔍 Public Site
+        </a>
+        <a href="#ledger-section" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
+          📑 Payment Ledger
+        </a>
+        <a href="#jobs-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          💼 Job Listings
+        </a>
+      </nav>
+
+      <!-- Admin Profile & Logout -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="role-badge-box" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">
+          <span>🛡️</span>
+          <span>Platform Administrator</span>
+        </div>
+        <button id="btn-admin-logout" class="btn-logout-header" title="Sign Out">
+          Sign Out ⎋
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Admin Content -->
+  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 20px; width: 100%; flex: 1;">
+    
+    <!-- Welcome Banner -->
+    <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b); color: white; padding: 28px 32px; border-radius: var(--radius-xl); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.05em; text-transform: uppercase;">
+          🛡️ Root Administrator Access
+        </div>
+        <h1 style="font-size: 24px; font-weight: 900; margin-bottom: 6px;">
+          UPI Financial Ledger & Verification Console
+        </h1>
+        <p style="color: #cbd5e1; font-size: 13px; max-width: 600px;">
+          Review incoming manual UPI settlements from workers and employers. Verify 12-digit bank reference numbers to unlock instant features.
+        </p>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="hub-stats-grid" style="margin-bottom: 28px;">
+      <div class="stat-card">
+        <div class="stat-card-label">Active Vacancies</div>
+        <div class="stat-card-value" id="kpi-jobs">0</div>
+        <div class="stat-card-sub">Published on Cloudflare D1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Candidate Applications</div>
+        <div class="stat-card-value" id="kpi-apps">0</div>
+        <div class="stat-card-sub">Registered trade workers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Pending Payment Reviews</div>
+        <div class="stat-card-value" style="color: #f59e0b;" id="kpi-pending">0</div>
+        <div class="stat-card-sub">Awaiting admin verification</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Verified Revenue</div>
+        <div class="stat-card-value" style="color: #10b981;" id="kpi-revenue">₹0</div>
+        <div class="stat-card-sub">Settled platform earnings</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Payment Ledger Table -->
+    <section id="ledger-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
+        <h2 style="font-size: 18px; font-weight: 900; color: #0f172a;">
+          📑 Manual UPI Settlements Ledger
+        </h2>
+        <span style="font-size: 12px; color: var(--text-muted);">
+          All transactions logged from Worker Priority Boosts (₹299) and Employer Unlock Bundles (₹149 - ₹949).
+        </span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Tx ID</th>
+              <th>Type</th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <th>Bank UTR / Ref</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-ledger-tbody">
+            <!-- Rendered by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 2: All Active Vacancies -->
+    <section id="jobs-section" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 24px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 14px;">
+        <h2 style="font-size: 18px; font-weight: 900; color: #0f172a;">
+          💼 Active Platform Vacancies
+        </h2>
+        <span style="font-size: 12px; color: var(--text-muted);">
+          Live postings across Hyderabad, Visakhapatnam, and Vijayawada.
+        </span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Headline</th>
+              <th>Category</th>
+              <th>Employer Business</th>
+              <th>Location</th>
+              <th>Salary (₹/mo)</th>
+            </tr>
+          </thead>
+          <tbody id="admin-jobs-tbody">
+            <!-- Rendered by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check auth
+      const user = window.jobApi.getCurrentUser();
+      if (!user || user.role !== 'admin') {
+        window.location.href = '/login.html?role=admin';
+        return;
+      }
+
+      // Logout handler
+      document.getElementById('btn-admin-logout').addEventListener('click', () => {
+        window.jobApi.logout();
+        window.location.href = '/';
+      });
+
+      function showToast(msg, type = 'success') {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+      }
+
+      const allJobs = await window.jobApi.getJobs();
+
+      function renderLedger() {
+        const payments = window.jobApi.getPayments();
+        const apps = window.jobApi.getApplications();
+        const tbody = document.getElementById('admin-ledger-tbody');
+
+        const verifiedRev = payments
+          .filter(p => p.status === 'verified')
+          .reduce((sum, p) => sum + (p.amount || 0), 0);
+
+        document.getElementById('kpi-jobs').textContent = allJobs.length;
+        document.getElementById('kpi-apps').textContent = apps.length;
+        document.getElementById('kpi-pending').textContent = payments.filter(p => p.status === 'pending_verification').length;
+        document.getElementById('kpi-revenue').textContent = `₹${verifiedRev.toLocaleString()}`;
+
+        tbody.innerHTML = payments.map(p => `
+          <tr>
+            <td><strong style="font-family: monospace;">${p.id}</strong></td>
+            <td>
+              <span class="status-badge ${p.type === 'worker_priority' ? 'priority' : 'pending'}">
+                ${p.type === 'worker_priority' ? 'Worker Boost' : 'Employer Unlocks'}
+              </span>
+            </td>
+            <td><strong>${p.user_name}</strong> (${p.user_role})</td>
+            <td><strong>₹${p.amount}</strong></td>
+            <td><span style="font-family: monospace; background: #f1f5f9; padding: 4px 8px; border-radius: 6px;">${p.utr_number}</span></td>
+            <td><span class="status-badge ${p.status === 'verified' ? 'verified' : (p.status === 'rejected' ? 'danger' : 'pending')}">${p.status.toUpperCase()}</span></td>
+            <td>
+              ${p.status === 'pending_verification' ? `
+                <div style="display: flex; gap: 6px;">
+                  <button class="admin-approve-btn" data-id="${p.id}" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;">
+                    ✓ Verify & Activate
+                  </button>
+                  <button class="admin-reject-btn" data-id="${p.id}" style="background: #ef4444; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; cursor: pointer;">
+                    ✗ Reject
+                  </button>
+                </div>
+              ` : `<span style="font-size: 12px; color: #64748b; font-weight: 700;">Completed</span>`}
+            </td>
+          </tr>
+        `).join('');
+
+        document.querySelectorAll('.admin-approve-btn').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            window.jobApi.verifyPayment(id, true);
+            showToast(`Payment ${id} verified and credits/badge activated!`);
+            renderLedger();
+          });
+        });
+
+        document.querySelectorAll('.admin-reject-btn').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            window.jobApi.verifyPayment(id, false);
+            showToast(`Payment ${id} marked rejected.`, 'error');
+            renderLedger();
+          });
+        });
+      }
+      renderLedger();
+
+      // Render Jobs Table
+      const jobsTbody = document.getElementById('admin-jobs-tbody');
+      jobsTbody.innerHTML = allJobs.map(j => `
+        <tr>
+          <td><strong style="font-family: monospace;">${j.id}</strong></td>
+          <td><strong>${j.title}</strong></td>
+          <td><span class="category-tag">${j.category}</span></td>
+          <td>${j.business_name}</td>
+          <td>${j.location_area}, ${j.location_city}</td>
+          <td>₹${j.salary_min?.toLocaleString()} - ₹${j.salary_max?.toLocaleString()}</td>
+        </tr>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

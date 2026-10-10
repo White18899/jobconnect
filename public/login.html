@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In • JobWay (job-way.in)</title>
+  <meta name="description" content="Sign in to your JobWay Worker or Employer account. Mobile OTP verification.">
+  <link rel="canonical" href="https://job-way.in/login.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: #f8fafc; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid var(--border); padding: 14px 24px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <a href="/" class="brand-logo" style="text-decoration: none;">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <div>
+          <span>JobWay</span>
+          <span class="brand-text-sub">job-way.in • रोज़गार मंच</span>
+        </div>
+      </a>
+      <a href="/" style="font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none;">
+        ← Back to Job Openings
+      </a>
+    </div>
+  </header>
+
+  <!-- Login Container -->
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 16px;">
+    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); width: 100%; max-width: 480px; padding: 32px 28px;">
+      
+      <!-- Brand & Heading -->
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 6px;">
+          Welcome to JobWay
+        </h1>
+        <p style="font-size: 13px; color: var(--text-muted);">
+          Sign in to access your direct employment dashboard
+        </p>
+      </div>
+
+      <!-- Role Selection Tabs -->
+      <div class="auth-tabs" style="display: grid; grid-template-columns: 1fr 1fr 1fr; margin-bottom: 24px;">
+        <button class="auth-tab-btn active" id="tab-btn-worker" type="button">
+          👷 Worker
+        </button>
+        <button class="auth-tab-btn" id="tab-btn-employer" type="button">
+          🏢 Employer
+        </button>
+        <button class="auth-tab-btn" id="tab-btn-admin" type="button">
+          🛡️ Admin
+        </button>
+      </div>
+
+      <!-- OTP Section (Worker / Employer) -->
+      <div id="section-otp-auth">
+        <!-- Role Info Banner -->
+        <div id="role-info-banner" style="background: var(--primary-light); border: 1px solid var(--primary-border); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+          <span id="role-info-icon" style="font-size: 18px;">👷</span>
+          <span id="role-info-text">Signing in as <strong>Worker</strong> to view applications & profile</span>
+        </div>
+
+        <!-- Step 1: Enter Mobile Phone -->
+        <div id="login-step-phone">
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" for="login-phone-input">Mobile Phone Number *</label>
+            <div style="display: flex; gap: 8px;">
+              <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 11px 14px; border-radius: var(--radius-md); font-weight: 800; font-size: 13px; color: #334155;">+91</span>
+              <input type="tel" id="login-phone-input" class="form-input" placeholder="98491 23434" maxlength="10" required autofocus>
+            </div>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">
+              We will send a 6-digit SMS verification code to your phone
+            </span>
+          </div>
+
+          <button class="search-btn" id="btn-send-otp" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px;">
+            Send Verification OTP →
+          </button>
+        </div>
+
+        <!-- Step 2: Enter OTP Code -->
+        <div id="login-step-otp" style="display: none;">
+          <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 16px; font-size: 12px; color: #065f46;">
+            OTP sent to <strong id="display-target-phone">+91 ••••• •••••</strong>
+            <div id="display-dev-code" style="font-weight: 800; margin-top: 4px; color: #047857;">
+              Demo Code: 123456
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label class="form-label" for="login-otp-input">Enter 6-Digit Verification Code *</label>
+            <input type="text" id="login-otp-input" class="form-input" placeholder="123456" maxlength="6" style="font-size: 20px; letter-spacing: 6px; text-align: center; font-weight: 900;" required>
+          </div>
+
+          <button class="search-btn" id="btn-verify-otp" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px; margin-bottom: 10px;">
+            Verify Code & Enter Dashboard
+          </button>
+
+          <button type="button" id="btn-change-phone" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; display: block; margin: 0 auto; text-decoration: underline;">
+            ← Change Mobile Number
+          </button>
+        </div>
+
+        <!-- Quick 1-Click Fast Demos -->
+        <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 12px;">
+            Instant 1-Click Testing (Bypass SMS)
+          </span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button type="button" class="btn-demo-quick" id="btn-demo-worker" style="padding: 10px 14px; font-size: 12px; justify-content: center; display: flex; align-items: center; gap: 6px;">
+              <span>👷</span> <span>Log In as Worker (Ramesh Kumar - Mechanic)</span>
+            </button>
+            <button type="button" class="btn-demo-quick" id="btn-demo-employer" style="padding: 10px 14px; font-size: 12px; justify-content: center; display: flex; align-items: center; gap: 6px;">
+              <span>🏢</span> <span>Log In as Employer (Sri Balaji Auto - 3 Unlocks)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Section -->
+      <div id="section-admin-auth" style="display: none;">
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 20px; font-size: 12px; color: #991b1b; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🛡️</span>
+          <span>Administrator Master Ledger Access</span>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="login-admin-pass">Master Admin Password *</label>
+          <input type="password" id="login-admin-pass" class="form-input" placeholder="Enter master password..." required>
+          <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">
+            Default Master Key: <code>JobConnect@Admin2026</code>
+          </span>
+        </div>
+
+        <button class="search-btn" id="btn-admin-login" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px; margin-bottom: 14px;">
+          Sign In to Admin Ledger →
+        </button>
+
+        <button type="button" class="btn-demo-quick" id="btn-demo-admin" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px;">
+          🛡️ 1-Click Administrator Access
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let activeRole = 'worker'; // 'worker' | 'employer' | 'admin'
+
+      const tabWorker = document.getElementById('tab-btn-worker');
+      const tabEmployer = document.getElementById('tab-btn-employer');
+      const tabAdmin = document.getElementById('tab-btn-admin');
+
+      const sectionOtp = document.getElementById('section-otp-auth');
+      const sectionAdmin = document.getElementById('section-admin-auth');
+
+      const roleInfoBanner = document.getElementById('role-info-banner');
+      const roleInfoIcon = document.getElementById('role-info-icon');
+      const roleInfoText = document.getElementById('role-info-text');
+
+      const stepPhone = document.getElementById('login-step-phone');
+      const stepOtp = document.getElementById('login-step-otp');
+      const phoneInput = document.getElementById('login-phone-input');
+      const otpInput = document.getElementById('login-otp-input');
+      const displayPhone = document.getElementById('display-target-phone');
+      const displayDevCode = document.getElementById('display-dev-code');
+
+      const btnSendOtp = document.getElementById('btn-send-otp');
+      const btnVerifyOtp = document.getElementById('btn-verify-otp');
+      const btnChangePhone = document.getElementById('btn-change-phone');
+
+      const btnDemoWorker = document.getElementById('btn-demo-worker');
+      const btnDemoEmployer = document.getElementById('btn-demo-employer');
+      const btnDemoAdmin = document.getElementById('btn-demo-admin');
+
+      const adminPassInput = document.getElementById('login-admin-pass');
+      const btnAdminLogin = document.getElementById('btn-admin-login');
+
+      function showToast(msg, type = 'success') {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+      }
+
+      function setRole(role) {
+        activeRole = role;
+        tabWorker.classList.toggle('active', role === 'worker');
+        tabEmployer.classList.toggle('active', role === 'employer');
+        tabAdmin.classList.toggle('active', role === 'admin');
+
+        if (role === 'admin') {
+          sectionOtp.style.display = 'none';
+          sectionAdmin.style.display = 'block';
+        } else {
+          sectionAdmin.style.display = 'none';
+          sectionOtp.style.display = 'block';
+          stepPhone.style.display = 'block';
+          stepOtp.style.display = 'none';
+
+          if (role === 'worker') {
+            roleInfoIcon.textContent = '👷';
+            roleInfoText.innerHTML = 'Signing in as <strong>Worker</strong> to view applications & profile';
+            phoneInput.placeholder = '98491 23434';
+          } else {
+            roleInfoIcon.textContent = '🏢';
+            roleInfoText.innerHTML = 'Signing in as <strong>Employer</strong> to hire tradesmen & view applicants';
+            phoneInput.placeholder = '98490 11223';
+          }
+        }
+      }
+
+      // Read URL Query params (e.g., login.html?role=employer)
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedRole = urlParams.get('role');
+      if (requestedRole === 'employer') setRole('employer');
+      else if (requestedRole === 'admin') setRole('admin');
+      else setRole('worker');
+
+      tabWorker.addEventListener('click', () => setRole('worker'));
+      tabEmployer.addEventListener('click', () => setRole('employer'));
+      tabAdmin.addEventListener('click', () => setRole('admin'));
+
+      // Send OTP
+      btnSendOtp.addEventListener('click', async () => {
+        const phone = phoneInput.value.trim().replace(/\D/g, '');
+        if (phone.length < 10) {
+          alert('Please enter a valid 10-digit mobile phone number.');
+          return;
+        }
+
+        btnSendOtp.disabled = true;
+        btnSendOtp.textContent = 'Sending SMS OTP...';
+        const res = await window.jobApi.requestOtp(phone, activeRole);
+        btnSendOtp.disabled = false;
+        btnSendOtp.textContent = 'Send Verification OTP →';
+
+        displayPhone.textContent = `+91 ${phone}`;
+        if (res.devOtp) {
+          displayDevCode.textContent = `Demo Code: ${res.devOtp}`;
+          otpInput.value = res.devOtp;
+        }
+        stepPhone.style.display = 'none';
+        stepOtp.style.display = 'block';
+        showToast(`Verification code sent to +91 ${phone}!`);
+      });
+
+      // Verify OTP
+      btnVerifyOtp.addEventListener('click', async () => {
+        const phone = phoneInput.value.trim().replace(/\D/g, '');
+        const otp = otpInput.value.trim();
+        if (otp.length < 4) {
+          alert('Please enter the 6-digit verification code.');
+          return;
+        }
+
+        btnVerifyOtp.disabled = true;
+        btnVerifyOtp.textContent = 'Verifying...';
+        const res = await window.jobApi.verifyOtp(phone, otp, activeRole);
+        btnVerifyOtp.disabled = false;
+        btnVerifyOtp.textContent = 'Verify Code & Enter Dashboard';
+
+        if (res.success) {
+          showToast('Authentication successful! Redirecting...');
+          setTimeout(() => {
+            if (activeRole === 'employer') {
+              window.location.href = '/employer.html';
+            } else {
+              window.location.href = '/worker.html';
+            }
+          }, 600);
+        } else {
+          alert(res.error || 'Invalid OTP code. Please try again.');
+        }
+      });
+
+      btnChangePhone.addEventListener('click', () => {
+        stepOtp.style.display = 'none';
+        stepPhone.style.display = 'block';
+      });
+
+      // 1-Click Worker Demo
+      btnDemoWorker.addEventListener('click', () => {
+        window.jobApi.setCurrentUser({
+          id: 'wrk-1',
+          name: 'Ramesh Kumar Rao',
+          role: 'worker',
+          trade: 'Mechanic',
+          phone: '+91 98491 23434'
+        });
+        showToast('Signed in as Worker (Ramesh Kumar)!');
+        setTimeout(() => {
+          window.location.href = '/worker.html';
+        }, 500);
+      });
+
+      // 1-Click Employer Demo
+      btnDemoEmployer.addEventListener('click', () => {
+        window.jobApi.setCurrentUser({
+          id: 'emp-1',
+          name: 'Sri Balaji Auto Care & Service',
+          role: 'employer',
+          phone: '+91 98490 11223'
+        });
+        showToast('Signed in as Employer (Sri Balaji Auto)!');
+        setTimeout(() => {
+          window.location.href = '/employer.html';
+        }, 500);
+      });
+
+      // Admin Password Login
+      btnAdminLogin.addEventListener('click', async () => {
+        const pass = adminPassInput.value.trim();
+        if (!pass) {
+          alert('Please enter administrator password.');
+          return;
+        }
+        btnAdminLogin.disabled = true;
+        btnAdminLogin.textContent = 'Authenticating...';
+        const res = await window.jobApi.adminLogin(pass);
+        btnAdminLogin.disabled = false;
+        btnAdminLogin.textContent = 'Sign In to Admin Ledger →';
+
+        if (res.success) {
+          showToast('Admin authenticated! Redirecting to Ledger...');
+          setTimeout(() => {
+            window.location.href = '/admin.html';
+          }, 500);
+        } else {
+          alert(res.error || 'Incorrect admin password.');
+        }
+      });
+
+      // 1-Click Admin Demo
+      btnDemoAdmin.addEventListener('click', () => {
+        window.jobApi.setCurrentUser({
+          id: 'admin_01',
+          name: 'Platform Administrator',
+          role: 'admin',
+          phone: '+91 99999 99999'
+        });
+        showToast('Administrator authenticated!');
+        setTimeout(() => {
+          window.location.href = '/admin.html';
+        }, 500);
+      });
+    });
+  </script>
+</body>
+</html>

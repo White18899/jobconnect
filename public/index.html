@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JobWay (job-way.in) • India's Verified Blue-Collar Employment Platform</title>
-  <meta name="description" content="Direct hiring for skilled tradesmen and local businesses across India on job-way.in. Cloudflare Edge powered.">
+  <meta name="description" content="Direct hiring for skilled tradesmen and local businesses across India on job-way.in. Mechanics, Electricians, Plumbers, Cooks, and Drivers.">
   <link rel="canonical" href="https://job-way.in/">
   <meta property="og:title" content="JobWay (job-way.in) • Direct Hiring for Skilled Tradesmen">
   <meta property="og:description" content="Connect with verified electricians, mechanics, plumbers, and tradesmen directly on job-way.in.">
@@ -21,7 +21,7 @@
 </head>
 <body>
 
-  <!-- Top Customer Announcement Bar -->
+  <!-- Top Announcement Bar -->
   <aside class="top-bar" aria-label="Official Banner">
     <div class="edge-badge">
       <span class="edge-dot"></span>
@@ -37,9 +37,8 @@
   <!-- Site Header & Navbar -->
   <header class="site-header">
     <div class="navbar-container">
-      <a href="#" class="brand-logo" id="brand-logo-link">
+      <a href="/" class="brand-logo" id="brand-logo-link">
         <div class="brand-icon">
-          <!-- Hammer & Wrench SVG Icon -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
           </svg>
@@ -50,44 +49,45 @@
         </div>
       </a>
 
-      <!-- Portal View Tabs -->
-      <nav class="nav-tabs" aria-label="Portal Navigation">
-        <button class="nav-tab-btn active" data-view="view-jobs" id="nav-btn-jobs">
-          🔍 Find Jobs
-        </button>
-        <button class="nav-tab-btn" data-view="view-employer" id="nav-btn-employer">
-          🏢 Employer Desk
-        </button>
-        <button class="nav-tab-btn" data-view="view-worker-portal" id="nav-btn-worker">
-          👷 Worker Portal
-        </button>
-        <button class="nav-tab-btn" data-view="view-admin" id="nav-btn-admin">
-          🛡️ Admin Ledger
-        </button>
+      <!-- Real Navigation Links -->
+      <nav style="display: flex; gap: 20px; align-items: center;" aria-label="Main Navigation">
+        <a href="#jobs-list-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          🔍 Browse Jobs
+        </a>
+        <a href="#trade-categories-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          🔧 Trade Categories
+        </a>
+        <a href="/employer.html" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          🏢 For Employers
+        </a>
+        <a href="#how-it-works-section" style="font-size: 13px; font-weight: 700; color: #334155; text-decoration: none;">
+          ✨ How It Works
+        </a>
       </nav>
 
-      <!-- Right Header Actions: Auth & Profile -->
+      <!-- Right Header Actions: Auth State -->
       <div class="nav-right-actions">
         <!-- Logged Out State -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
-          <button class="btn-signin-header" id="header-signin-btn">
-            🔐 Sign In / Register
-          </button>
-          <button class="btn-post-job-header" id="header-post-job-cta">
+          <a href="/login.html?role=worker" class="btn-signin-header" style="text-decoration: none;">
+            👷 Worker Login
+          </a>
+          <a href="/login.html?role=employer" class="btn-signin-header" style="text-decoration: none; background: var(--surface-secondary);">
+            🏢 Employer Login
+          </a>
+          <a href="/employer.html" class="btn-post-job-header" style="text-decoration: none;">
             + Post a Job
-          </button>
+          </a>
         </div>
 
         <!-- Logged In State -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
-          <div class="role-badge-box" id="header-user-badge">
-            <span id="header-user-icon">👤</span>
-            <span id="header-user-name">User</span>
-          </div>
-          <div class="credit-pill" id="credit-pill" style="display: none;">
-            ⚡ <span id="credit-count">0</span> Unlocks Left
-          </div>
-          <button class="btn-logout-header" id="header-logout-btn" title="Sign Out">
+          <a href="#" id="home-dashboard-link" class="role-badge-box" style="text-decoration: none;">
+            <span id="home-user-icon">👤</span>
+            <span id="home-user-name">My Dashboard</span>
+            <span style="font-size: 11px; color: var(--primary); font-weight: 800;">→</span>
+          </a>
+          <button class="btn-logout-header" id="home-logout-btn" title="Sign Out">
             Sign Out ⎋
           </button>
         </div>
@@ -135,7 +135,6 @@
             <option value="Bengaluru">Bengaluru</option>
             <option value="Chennai">Chennai</option>
             <option value="Mumbai">Mumbai</option>
-            <option value="Delhi">Delhi NCR</option>
           </select>
         </div>
 
@@ -150,168 +149,83 @@
           </select>
         </div>
 
-        <button class="search-btn" id="search-btn">
-          <span>Search</span>
-          <span>→</span>
+        <button class="search-btn" id="search-btn" aria-label="Search Jobs">
+          <span>🔍</span> <span>Find Trade Vacancies</span>
         </button>
       </div>
 
-      <!-- Quick Trade Category Pills -->
-      <div class="trade-chips-row">
+      <!-- Trade Categories Chips -->
+      <div class="trade-chips-wrap" id="trade-categories-section">
         <button class="trade-chip active" data-trade="all">All Trades</button>
-        <button class="trade-chip" data-trade="Mechanic">Mechanic</button>
-        <button class="trade-chip" data-trade="Electrician">Electrician</button>
-        <button class="trade-chip" data-trade="Plumber">Plumber</button>
-        <button class="trade-chip" data-trade="Cook">Cook</button>
-        <button class="trade-chip" data-trade="Driver">Driver</button>
-        <button class="trade-chip" data-trade="Helper">Helper</button>
+        <button class="trade-chip" data-trade="Mechanic">🔧 Mechanics</button>
+        <button class="trade-chip" data-trade="Electrician">⚡ Electricians</button>
+        <button class="trade-chip" data-trade="Plumber">🚰 Plumbers</button>
+        <button class="trade-chip" data-trade="Cook">🍳 Cooks & Catering</button>
+        <button class="trade-chip" data-trade="Driver">🚚 Drivers</button>
+        <button class="trade-chip" data-trade="Carpenter">🪚 Carpenters</button>
+        <button class="trade-chip" data-trade="Welder">🔥 Welders</button>
+        <button class="trade-chip" data-trade="Helper">📦 Helpers</button>
       </div>
     </div>
   </section>
 
-  <!-- Main Content Area -->
-  <main class="main-content">
+  <!-- Main Content: Verified Vacancies Grid -->
+  <main class="main-content" id="jobs-list-section">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Verified Trade Openings Across India</h2>
+        <p class="section-subtitle">Zero brokerage fees. Apply directly to verified local workshops and businesses.</p>
+      </div>
+      <div class="filter-bar">
+        <span class="category-tag" id="jobs-count-badge" style="font-size: 13px; padding: 6px 14px;">Loading vacancies...</span>
+      </div>
+    </div>
 
-    <!-- VIEW 1: Find Jobs (Worker Feed) -->
-    <section class="view-section active" id="view-jobs" aria-label="Job Feed">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Verified Job Vacancies</h2>
-          <p class="section-subtitle">Real-time openings posted by verified garages, factories, shops, and contracting agencies.</p>
-        </div>
-        <span class="category-tag" id="jobs-count-badge">Loading Vacancies...</span>
+    <!-- Job Cards Grid -->
+    <div class="jobs-grid" id="jobs-grid">
+      <!-- Rendered dynamically by app.js -->
+    </div>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works-section" style="margin-top: 64px; background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 40px 32px; box-shadow: var(--shadow-sm);">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 36px;">
+        <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 8px;">
+          How JobWay Works For India's Blue-Collar Trades
+        </h2>
+        <p style="font-size: 14px; color: var(--text-muted);">
+          Connecting technicians with local employers without third-party recruitment agencies
+        </p>
       </div>
 
-      <div class="jobs-grid" id="jobs-grid">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-    </section>
-
-    <!-- VIEW 2: Employer Desk -->
-    <section class="view-section" id="view-employer" aria-label="Employer Desk">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Employer Recruitment Desk</h2>
-          <p class="section-subtitle">Manage your posted trade requirements and review screened candidate profiles.</p>
-        </div>
-        <div style="display: flex; gap: 10px;">
-          <button class="btn-apply-priority" id="open-buy-credits-btn">
-            ⚡ Buy Unlock Bundle
-          </button>
-          <button class="btn-apply-free" id="open-post-job-btn" style="background: var(--primary);">
-            + Post New Vacancy
-          </button>
-        </div>
-      </div>
-
-      <!-- Quick Stats -->
-      <div class="hub-stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">Received Applications</div>
-          <div class="stat-card-value" id="stat-total-apps">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Unlocked Contacts</div>
-          <div class="stat-card-value" id="stat-unlocked-apps" style="color: var(--success);">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Profile Privacy Status</div>
-          <div class="stat-card-value" style="font-size: 18px; color: var(--primary); margin-top: 10px;">
-            🔒 Aadhaar & Phone Masked
-          </div>
-        </div>
-      </div>
-
-      <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 16px;">Candidate Applications Queue</h3>
-      <div class="applicants-list" id="applicants-list">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-    </section>
-
-    <!-- VIEW 3: Worker Portal -->
-    <section class="view-section" id="view-worker-portal" aria-label="Worker Portal">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Worker Trade Dashboard</h2>
-          <p class="section-subtitle">Your trade identity, masked credentials, and live application statuses.</p>
-        </div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px; align-items: start;">
-        <!-- Worker Profile Card -->
-        <div style="background: white; border-radius: var(--radius-xl); border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow-sm);">
-          <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; margin-bottom: 16px;">
-            👷
-          </div>
-          <h3 style="font-size: 18px; font-weight: 800;">Ramesh Kumar Rao</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); font-weight: 600;">Two-Wheeler Senior Mechanic</p>
-          <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; line-height: 1.8;">
-            <div><strong>Experience:</strong> 4 Years</div>
-            <div><strong>Preferred City:</strong> Hyderabad (KPHB Colony)</div>
-            <div><strong>Expected Salary:</strong> ₹22,000 / month</div>
-            <div><strong>Aadhaar ID:</strong> •••• •••• 9182 (Verified ✓)</div>
-            <div><strong>Profile Protection:</strong> Active 🔒</div>
-          </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+          <div style="font-size: 28px; margin-bottom: 12px;">👷</div>
+          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">100% Free For Trade Workers</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            Electricians, mechanics, plumbers, and drivers apply directly with 1-click. No hidden commissions taken from your monthly wages.
+          </p>
         </div>
 
-        <!-- My Applications Tracker -->
-        <div style="background: white; border-radius: var(--radius-xl); border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow-sm);">
-          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 16px;">My Submitted Applications</h3>
-          <div id="worker-my-apps-list">
-            <!-- Rendered dynamically by app.js -->
-          </div>
+        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🔒</div>
+          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">Privacy Protected Contacts</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            Your phone number is shielded against telemarketers. Only verified employers who unlock your application can view your real number.
+          </p>
+        </div>
+
+        <div style="background: var(--surface-secondary); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🏢</div>
+          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 8px;">Direct Employer Calling</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            Employers review verified trade experience and call candidates directly. Powered by Cloudflare D1 SQL Edge database.
+          </p>
         </div>
       </div>
     </section>
-
-    <!-- VIEW 4: Admin Oversight Ledger -->
-    <section class="view-section" id="view-admin" aria-label="Admin Verification Ledger">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Administrative Verification Ledger</h2>
-          <p class="section-subtitle">Review incoming UPI payments (UTR receipts), verify transactions, and credit unlock allowances.</p>
-        </div>
-      </div>
-
-      <!-- Admin KPIs -->
-      <div class="hub-stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">Active Jobs on D1</div>
-          <div class="stat-card-value" id="admin-kpi-jobs">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Total Applications</div>
-          <div class="stat-card-value" id="admin-kpi-apps">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Pending UPI Verifications</div>
-          <div class="stat-card-value" id="admin-kpi-pending" style="color: var(--accent);">0</div>
-        </div>
-      </div>
-
-      <div class="data-table-wrapper">
-        <table class="data-table" aria-label="Payment Ledger">
-          <thead>
-            <tr>
-              <th>Payment ID</th>
-              <th>Type</th>
-              <th>Payer</th>
-              <th>Amount</th>
-              <th>UTR / Reference</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="admin-ledger-tbody">
-            <!-- Rendered dynamically by app.js -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
   </main>
 
-  <!-- MODAL 1: Job Details & Apply Modal -->
+  <!-- Job Details Modal -->
   <div class="modal-overlay" id="job-detail-modal" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-header">
@@ -338,291 +252,13 @@
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <button class="btn-apply-free" id="modal-apply-free-btn" style="padding: 12px;">Apply 100% Free</button>
-          <button class="btn-apply-priority" id="modal-apply-boost-btn" style="padding: 12px;">⚡ Priority Boost (₹299)</button>
+          <a href="/login.html?role=worker" class="btn-apply-priority" style="padding: 12px; text-decoration: none; justify-content: center;">⚡ Worker Login</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: Priority Boost UPI Payment Modal -->
-  <div class="modal-overlay" id="priority-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">⚡ Boost Application to Top (₹299)</h3>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-          Applying for: <strong id="priority-job-name">Job</strong>.<br>
-          Priority boost places your trade profile directly on top of the employer's screening queue.
-        </p>
-
-        <div class="upi-instruction-box">
-          <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block;">Official UPI ID (Scan or Pay via GPay / PhonePe / Paytm)</span>
-          <div class="upi-id-badge">jobconnect@icici</div>
-          <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">₹299.00</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="priority-utr-input">Enter 12-Digit Transaction UTR / Ref Number *</label>
-          <input type="text" id="priority-utr-input" class="form-input" placeholder="e.g. 428912304910" required>
-        </div>
-
-        <button class="search-btn" id="submit-priority-utr-btn" style="width: 100%; justify-content: center;">
-          Submit UTR for Verification
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 3: Post New Job (Employer) -->
-  <div class="modal-overlay" id="post-job-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">+ Post a New Trade Vacancy</h3>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="post-job-form">
-          <div class="form-group">
-            <label class="form-label" for="post-title">Job Title *</label>
-            <input type="text" id="post-title" class="form-input" placeholder="e.g. Senior Bike Mechanic Wanted" required>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label" for="post-category">Trade Category *</label>
-              <select id="post-category" class="form-select" required>
-                <option value="Mechanic">Mechanic</option>
-                <option value="Electrician">Electrician</option>
-                <option value="Plumber">Plumber</option>
-                <option value="Cook">Cook</option>
-                <option value="Driver">Driver</option>
-                <option value="Helper">Helper</option>
-                <option value="Carpenter">Carpenter</option>
-                <option value="Welder">Welder</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="post-city">City *</label>
-              <select id="post-city" class="form-select" required>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Visakhapatnam">Visakhapatnam</option>
-                <option value="Vijayawada">Vijayawada</option>
-                <option value="Bengaluru">Bengaluru</option>
-                <option value="Mumbai">Mumbai</option>
-              </select>
-            </div>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label" for="post-salary-min">Min Monthly Salary (₹) *</label>
-              <input type="number" id="post-salary-min" class="form-input" value="16000" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="post-salary-max">Max Monthly Salary (₹) *</label>
-              <input type="number" id="post-salary-max" class="form-input" value="22000" required>
-            </div>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label" for="post-area">Area / Colony *</label>
-              <input type="text" id="post-area" class="form-input" placeholder="e.g. KPHB Colony" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="post-vacancies">Number of Openings</label>
-              <input type="number" id="post-vacancies" class="form-input" value="2" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="post-business">Your Business / Workshop Name *</label>
-            <input type="text" id="post-business" class="form-input" placeholder="e.g. Sri Balaji Motors" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="post-hours">Working Hours</label>
-            <input type="text" id="post-hours" class="form-input" value="9:00 AM - 6:30 PM">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="post-desc">Job Description & Experience Needed *</label>
-            <textarea id="post-desc" class="form-textarea" rows="3" placeholder="Briefly describe required experience and day-to-day duties..." required></textarea>
-          </div>
-          <button type="submit" class="search-btn" style="width: 100%; justify-content: center;">Publish Vacancy to Edge</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 4: Unlock Contact Confirmation -->
-  <div class="modal-overlay" id="unlock-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">🔓 Unlock Candidate Contact Details</h3>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-          Candidate: <strong id="unlock-worker-name">Worker Name</strong>.<br>
-          Unlocking reveals verified direct phone number, full address, and resume download.
-        </p>
-        <div style="background: var(--primary-light); border: 1px solid var(--primary-border); padding: 14px; border-radius: var(--radius-md); margin-bottom: 20px; font-size: 13px;">
-          Available Unlock Credits: <strong id="unlock-avail-credits" style="color: var(--primary);">0</strong><br>
-          Cost for this unlock: <strong>1 Credit</strong>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <button class="btn-apply-free modal-close-btn" style="padding: 12px;">Cancel</button>
-          <button class="search-btn" id="confirm-unlock-btn" style="padding: 12px; justify-content: center;">Confirm & Unlock</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 5: Purchase Unlock Credits Bundle -->
-  <div class="modal-overlay" id="buy-credits-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 class="modal-title">⚡ Purchase Candidate Unlock Credits</h3>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="bundle-plan-select">Choose Package</label>
-          <select id="bundle-plan-select" class="form-select">
-            <option value="5_WORKERS" selected>Growth Bundle • 5 Unlocks (₹499 — Save ₹246)</option>
-            <option value="1_WORKER">Starter Pack • 1 Unlock (₹149)</option>
-            <option value="10_WORKERS">Enterprise Fleet • 10 Unlocks (₹949 — Save ₹541)</option>
-          </select>
-        </div>
-        <div class="upi-instruction-box">
-          <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); display: block;">Official UPI ID for Employers</span>
-          <div class="upi-id-badge">jobconnect@icici</div>
-          <p style="font-size: 11px; color: var(--text-secondary);">Scan via Google Pay / PhonePe / Paytm / BHIM</p>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="bundle-utr-input">Transaction UTR / Reference Number *</label>
-          <input type="text" id="bundle-utr-input" class="form-input" placeholder="e.g. UPI/428912304910/HDFC" required>
-        </div>
-        <button class="search-btn" id="submit-bundle-payment-btn" style="width: 100%; justify-content: center;">Submit Payment Proof</button>
-      </div>
-    </div>
-  <!-- MODAL: Sign In / Register Modal (Mobile OTP & Admin Password) -->
-  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true">
-    <div class="modal-card" style="max-width: 480px;">
-      <div class="modal-header">
-        <div>
-          <h3 class="modal-title" id="auth-modal-title">Sign In to JobWay</h3>
-          <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
-            Access verified trade vacancies, worker applications & admin ledger
-          </p>
-        </div>
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <!-- Auth Mode Tabs -->
-        <div class="auth-tabs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 20px;">
-          <button class="auth-tab-btn active" id="tab-auth-otp" type="button">
-            📱 Mobile OTP Sign In
-          </button>
-          <button class="auth-tab-btn" id="tab-auth-admin" type="button">
-            🛡️ Admin Portal
-          </button>
-        </div>
-
-        <!-- Section 1: Mobile Phone OTP Form -->
-        <div id="auth-otp-section">
-          <!-- Step 1: Phone & Role Selection -->
-          <div id="otp-step-1">
-            <div class="form-group">
-              <label class="form-label">I am signing in as:</label>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <label class="role-radio-box active" id="role-choice-worker">
-                  <input type="radio" name="auth-role" value="worker" checked style="display: none;">
-                  <span style="font-size: 20px;">👷</span>
-                  <div>
-                    <strong>Worker</strong>
-                    <div style="font-size: 11px; color: var(--text-muted);">Trade Jobs & Profile</div>
-                  </div>
-                </label>
-                <label class="role-radio-box" id="role-choice-employer">
-                  <input type="radio" name="auth-role" value="employer" style="display: none;">
-                  <span style="font-size: 20px;">🏢</span>
-                  <div>
-                    <strong>Employer</strong>
-                    <div style="font-size: 11px; color: var(--text-muted);">Hiring & Candidates</div>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="auth-phone-input">Mobile Phone Number *</label>
-              <div style="display: flex; gap: 8px;">
-                <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-md); font-weight: 700; font-size: 13px;">+91</span>
-                <input type="tel" id="auth-phone-input" class="form-input" placeholder="98491 23434" maxlength="10" required>
-              </div>
-            </div>
-
-            <button class="search-btn" id="send-otp-btn" style="width: 100%; justify-content: center; padding: 12px;">
-              Send Verification OTP →
-            </button>
-          </div>
-
-          <!-- Step 2: Enter OTP -->
-          <div id="otp-step-2" style="display: none;">
-            <div style="background: var(--primary-light); border: 1px solid var(--primary-border); padding: 12px 14px; border-radius: var(--radius-md); margin-bottom: 16px; font-size: 12px; color: var(--primary);">
-              Verification code sent to <strong id="otp-target-phone">+91 ••••• •••••</strong>
-              <div id="otp-dev-hint" style="font-weight: 700; margin-top: 4px; color: #1e3a8a;">Demo Code: 123456</div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="auth-otp-input">Enter 6-Digit Verification Code *</label>
-              <input type="text" id="auth-otp-input" class="form-input" placeholder="123456" maxlength="6" style="font-size: 18px; letter-spacing: 6px; text-align: center; font-weight: 900;" required>
-            </div>
-
-            <button class="search-btn" id="verify-otp-btn" style="width: 100%; justify-content: center; padding: 12px; margin-bottom: 8px;">
-              Verify Code & Sign In
-            </button>
-            <button type="button" id="back-to-phone-btn" style="background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; display: block; margin: 0 auto;">
-              ← Change Mobile Number
-            </button>
-          </div>
-
-          <!-- Quick One-Tap Demo Profiles -->
-          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); text-align: center;">
-            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">
-              Instant 1-Click Demo Profiles
-            </span>
-            <div style="display: flex; gap: 8px; justify-content: center;">
-              <button type="button" class="btn-demo-quick" id="demo-login-worker">
-                👷 Worker (Ramesh)
-              </button>
-              <button type="button" class="btn-demo-quick" id="demo-login-employer">
-                🏢 Employer (Sri Balaji)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 2: Admin Password Form -->
-        <div id="auth-admin-section" style="display: none;">
-          <div class="form-group">
-            <label class="form-label" for="admin-pass-input">Administrator Master Password *</label>
-            <input type="password" id="admin-pass-input" class="form-input" placeholder="Enter admin password..." required>
-            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">Default access: JobConnect@Admin2026</span>
-          </div>
-
-          <button class="search-btn" id="admin-login-submit-btn" style="width: 100%; justify-content: center; padding: 12px; margin-bottom: 14px;">
-            Sign In to Admin Ledger →
-          </button>
-
-          <button type="button" class="btn-demo-quick" id="demo-login-admin" style="width: 100%; justify-content: center;">
-            🛡️ 1-Click Admin Demo Login
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
+  <!-- Toast Container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Footer -->
@@ -630,12 +266,15 @@
     <div class="footer-container">
       <div>
         <strong>JobWay (job-way.in)</strong> • Direct Blue-Collar Employment Network
-        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Powered by Cloudflare Workers, Cloudflare D1 SQL, and Cloudflare Pages</div>
+        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+          Cloudflare Edge • D1 SQL Engine • Hono API
+        </div>
       </div>
-      <div style="display: flex; gap: 20px;">
-        <a href="#privacy">Privacy Protection</a>
-        <a href="#terms">Terms of Service</a>
-        <a href="#safety">Worker Safety Guidelines</a>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <a href="/login.html?role=worker">👷 Worker Portal</a>
+        <a href="/login.html?role=employer">🏢 Employer Desk</a>
+        <a href="/login.html?role=admin">🛡️ Admin Ledger</a>
+        <a href="/login.html">🔐 Sign In / Register</a>
       </div>
     </div>
   </footer>

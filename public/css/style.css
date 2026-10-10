@@ -1023,20 +1023,32 @@ button, input, select, textarea {
   box-shadow: var(--shadow-sm);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .search-bar-card {
-    grid-template-columns: 1fr;
-  }
-  .applicant-card {
-    grid-template-columns: 1fr;
-  }
-  .navbar-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .nav-tabs {
-    overflow-x: auto;
-  }
+/* Admin Table Styles */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.admin-table th {
+  background: var(--surface-secondary);
+  color: var(--text-muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--border);
+}
+
+.admin-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+  background: #f8fafc;
 }
 
