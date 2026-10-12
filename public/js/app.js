@@ -227,4 +227,29 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
   }
+
+  // =========================================================================
+  // 3. Live Dispatch Ticker Rotation
+  // =========================================================================
+  const tickerMsgEl = document.getElementById('dispatch-ticker-msg');
+  if (tickerMsgEl) {
+    const dispatchEvents = [
+      '🔧 Two-Wheeler Mechanic hired by Sri Balaji Auto • KPHB, Hyderabad • 3m ago',
+      '⚡ Apex Electrical hired Commercial Electrician • Visakhapatnam • 7m ago',
+      '🚚 FastMove Logistics verified Heavy Goods Driver • Madhapur • 14m ago',
+      '💧 Krishna Plumbing matched Residential Pipe Fitter • Vijayawada • 21m ago',
+      '❄️ Vetted AC Technician deployed for emergency service • Bangalore • 28m ago'
+    ];
+    let dispatchIndex = 0;
+    setInterval(() => {
+      dispatchIndex = (dispatchIndex + 1) % dispatchEvents.length;
+      tickerMsgEl.style.opacity = '0';
+      tickerMsgEl.style.transform = 'translateY(-6px)';
+      setTimeout(() => {
+        tickerMsgEl.textContent = dispatchEvents[dispatchIndex];
+        tickerMsgEl.style.opacity = '1';
+        tickerMsgEl.style.transform = 'translateY(0)';
+      }, 260);
+    }, 4200);
+  }
 });
