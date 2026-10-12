@@ -265,26 +265,83 @@ body.editorial-page a {
 .nav-right-actions {
   display: flex;
   align-items: center;
-  gap: 1.2vw;
+  gap: 10px;
+}
+
+.nav-right-actions .project-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-xs);
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .nav-btn-link {
   font-size: var(--font-size-xs);
   font-weight: 500;
   color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Minimalist Swiss Logout Button Reset & Style */
+button.nav-btn-link,
+.btn-logout,
+#btn-worker-logout,
+#btn-employer-logout,
+#btn-admin-logout,
+#home-logout-btn {
+  background: transparent !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border-radius: var(--radius-xs) !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 550 !important;
+  font-family: var(--font-sans) !important;
+  color: #52525b !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  line-height: 1 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+button.nav-btn-link:hover,
+.btn-logout:hover,
+#btn-worker-logout:hover,
+#btn-employer-logout:hover,
+#btn-admin-logout:hover,
+#home-logout-btn:hover {
+  background: #f4f4f5 !important;
+  border-color: #09090b !important;
+  color: #09090b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
 
 .nav-btn-solid {
   background: #000000;
   color: #ffffff !important;
-  padding: 0.45vw 1.2vw;
+  padding: 6px 14px;
   border-radius: var(--radius-xs);
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   font-weight: 600;
   transition: opacity 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  line-height: 1;
+  text-decoration: none;
 }
 
 .nav-btn-solid:hover {
@@ -830,12 +887,52 @@ body.editorial-page a {
 
 .footer-text {
   font-size: var(--font-size-xs);
-  line-height: 150%;
+  line-height: 160%;
   color: var(--color-text-secondary);
 }
 
 .footer-text a {
   color: var(--color-text);
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer-link {
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+  text-decoration: none;
+  position: relative;
+  width: fit-content;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  line-height: 1.4;
+}
+
+.footer-link:hover {
+  opacity: 0.7;
+  transform: translateX(2px);
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-text);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.footer-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 /* ==============================
