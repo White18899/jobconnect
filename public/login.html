@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/side-rays.css">
   <style>
     .auth-mode-switch {
       display: grid;
@@ -150,6 +151,9 @@
   </style>
 </head>
 <body style="background: var(--bg-page); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Dynamic WebGL SideRays Background (React Bits) -->
+  <div id="side-rays-bg" class="side-rays-fixed-bg" data-ray-color-1="#ffffff" data-ray-color-2="#94a3b8" data-intensity="1.6" data-spread="2.2" data-origin="top-right" data-saturation="0" data-blend="0.7" data-falloff="1.6" data-opacity="0.8"></div>
 
   <!-- Site Header -->
   <header class="site-header">
@@ -909,5 +913,6 @@
 
     });
   </script>
+  <script src="js/side-rays.js"></script>
 </body>
 </html>
