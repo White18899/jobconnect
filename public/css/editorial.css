@@ -1095,8 +1095,9 @@ button.nav-btn-link:hover,
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
-  gap: 20px !important;
-  padding: 24px 28px !important;
+  gap: 12px !important;
+  padding: 20px 24px !important;
+  border-radius: var(--radius-l);
 }
 
 .portal-welcome-top {
@@ -1109,24 +1110,27 @@ button.nav-btn-link:hover,
 }
 
 .portal-welcome-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  width: 100%;
-  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  gap: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: 0;
 }
 
 .portal-stat-pill {
   position: relative;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: var(--radius-md);
-  padding: 13px 18px;
+  border-radius: var(--radius-s);
+  padding: 8px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 3px;
-  min-height: 84px;
+  gap: 2px;
+  min-height: 52px;
+  width: 145px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
   overflow: hidden;
@@ -1135,7 +1139,7 @@ button.nav-btn-link:hover,
 .portal-stat-pill:hover {
   border-color: rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 .portal-stat-pill::after {
@@ -1169,26 +1173,36 @@ button.nav-btn-link:hover,
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
 }
 
 .portal-stat-pill-label {
-  font-size: 10.5px;
+  font-size: 9px;
   font-weight: 600;
   color: #71717a;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .portal-stat-pill-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f4f4f5;
   color: #09090b;
+  flex-shrink: 0;
+}
+
+.portal-stat-pill-icon svg {
+  width: 10px;
+  height: 10px;
 }
 
 .portal-stat-pill-icon.primary {
@@ -1207,11 +1221,11 @@ button.nav-btn-link:hover,
 }
 
 .portal-stat-pill-val {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 700;
   font-family: var(--font-mono);
   color: #09090b;
-  line-height: 1.1;
+  line-height: 1.15;
   margin: 1px 0;
 }
 
@@ -1224,17 +1238,41 @@ button.nav-btn-link:hover,
 }
 
 .portal-stat-pill-sub {
-  font-size: 11px;
+  font-size: 9.5px;
   color: #71717a;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.portal-stat-pill-sub .stat-pulse-dot {
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 860px) {
   .portal-welcome-stats {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .portal-stat-pill {
+    flex: 1 1 calc(33.333% - 8px);
+    min-width: 115px;
+    width: auto;
+  }
+}
+
+@media (max-width: 540px) {
+  .portal-stat-pill {
+    flex: 1 1 100%;
+    min-width: 100%;
   }
 }
 

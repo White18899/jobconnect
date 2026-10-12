@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       allJobs = await window.jobApi.getJobs();
       if (headerVacanciesCount) {
-        headerVacanciesCount.textContent = `(${allJobs.length})`;
+        headerVacanciesCount.textContent = `(${String(allJobs.length).padStart(2, '0')})`;
       }
       renderFilteredJobs();
     } catch (err) {

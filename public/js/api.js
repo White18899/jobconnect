@@ -28,25 +28,6 @@ const INITIAL_JOBS = [
   },
   {
     id: "job_02",
-    title: "Robotic Cell Maintenance & Calibration Specialist",
-    description: "Preventive maintenance and precision teach-pendant recalibration for 6-axis automotive welding and pick-and-place robots. End-effector pneumatic and servo drive servicing.",
-    category: "Automation",
-    salary_min: 32000,
-    salary_max: 45000,
-    salary_period: "monthly",
-    location_area: "Sanathnagar Industrial Zone",
-    location_city: "Hyderabad",
-    working_hours: "8:30 AM - 5:30 PM",
-    requirements: "ITI/Diploma with Fanuc/KUKA robot programming experience, servo drive troubleshooting",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-03",
-    business_name: "RoboTech Industrial Systems",
-    business_type: "Smart Robotics Integration",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_03",
     title: "5-Axis CNC Milling Center Specialist (DMG Mori / Mazak)",
     description: "Setup, workpiece alignment, and precision operation of 5-axis simultaneous CNC milling centers for aerospace turbine components. GD&T tolerance within ±5 microns.",
     category: "CNC Machining",
@@ -65,26 +46,7 @@ const INITIAL_JOBS = [
     employer_verified: "verified"
   },
   {
-    id: "job_04",
-    title: "CNC Turn-Mill & CMM Dimensional Metrologist",
-    description: "High-precision turning-milling center operation combined with coordinate measuring machine (CMM Zeiss) inspection and surface roughness testing for medical implants.",
-    category: "CNC Machining",
-    salary_min: 30000,
-    salary_max: 42000,
-    salary_period: "monthly",
-    location_area: "Autonagar Industrial Hub",
-    location_city: "Visakhapatnam",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "3+ years CNC turning/milling, CMM Calypso or Mitutoyo metrology experience",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-05",
-    business_name: "Matrix Precision Micro-Machining",
-    business_type: "Precision Tooling",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_05",
+    id: "job_03",
     title: "Electric Vehicle High-Voltage Battery Specialist",
     description: "Diagnostics and servicing of 400V/800V lithium-ion battery packs, BMS cell balancing, high-voltage insulation resistance testing, and contactor maintenance.",
     category: "EV Systems",
@@ -103,26 +65,7 @@ const INITIAL_JOBS = [
     employer_verified: "verified"
   },
   {
-    id: "job_06",
-    title: "EV Powertrain & Inverter Calibration Tech",
-    description: "Motor dyno testing, permanent magnet synchronous motor (PMSM) stator diagnostics, inverter IGBT module replacement, and DC fast charging validation (CCS2).",
-    category: "EV Systems",
-    salary_min: 32000,
-    salary_max: 44000,
-    salary_period: "monthly",
-    location_area: "Sri City Industrial Zone",
-    location_city: "Tirupati",
-    working_hours: "8:30 AM - 5:30 PM",
-    requirements: "ITI/Diploma in Automotive/Electrical, hands-on EV inverter and motor troubleshooting",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-07",
-    business_name: "ElectroMotion Technologies",
-    business_type: "EV Systems Manufacturing",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_07",
+    id: "job_04",
     title: "Utility Solar Inverter & HT Switchgear Specialist",
     description: "Testing and commissioning of 1MW central solar inverters, 33kV vacuum circuit breakers (VCB), SCADA remote telemetry monitoring, and earth pit resistance auditing on utility solar farms.",
     category: "Solar & Grid",
@@ -141,26 +84,7 @@ const INITIAL_JOBS = [
     employer_verified: "verified"
   },
   {
-    id: "job_08",
-    title: "Commercial Rooftop Solar & Microgrid Engineer",
-    description: "Design verification, string inverter stringing, bidirectional net metering sync, battery energy storage system (BESS) integration, and thermographic drone IR inspections.",
-    category: "Solar & Grid",
-    salary_min: 28000,
-    salary_max: 38000,
-    salary_period: "monthly",
-    location_area: "Madhapur Hi-Tech Corridor",
-    location_city: "Hyderabad",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "Solar PV installer certification, experience in HT panel interconnection and net-metering",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-09",
-    business_name: "Helios Solar & Power Systems",
-    business_type: "Solar EPC Contracting",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_09",
+    id: "job_05",
     title: "Aerospace TIG Welder (Titanium & Inconel Alloys)",
     description: "ASME Section IX and AWS D17.1 certified Gas Tungsten Arc Welding (GTAW) on thin-wall titanium hydraulic tubing and Inconel thrust chambers. 100% radiographic X-ray pass rate required.",
     category: "Precision Welding",
@@ -179,26 +103,7 @@ const INITIAL_JOBS = [
     employer_verified: "verified"
   },
   {
-    id: "job_10",
-    title: "Cryogenic Pressure Vessel & Pipe Fabricator",
-    description: "GTAW/SMAW welding of cryogenic LNG storage tanks, stainless steel 316L pressure manifolds, helium leak testing, and hydro testing up to 350 bar.",
-    category: "Precision Welding",
-    salary_min: 30000,
-    salary_max: 42000,
-    salary_period: "monthly",
-    location_area: "Gajuwaka Heavy Industrial Area",
-    location_city: "Visakhapatnam",
-    working_hours: "8:30 AM - 5:30 PM",
-    requirements: "IBR / ASME certified pipe welder, ability to read isometric fabrication P&ID blueprints",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-10",
-    business_name: "CryoTech Heavy Engineering",
-    business_type: "Cryogenic & Pressure Systems",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_11",
+    id: "job_06",
     title: "Industrial Chiller & Cleanroom HVAC Specialist",
     description: "Overhaul and preventive maintenance of 500-ton centrifugal chillers (Trane/Carrier), cleanroom laminar airflow HEPA filter certification (ISO Class 5), and BMS BACnet automation tuning.",
     category: "HVAC Systems",
@@ -214,25 +119,6 @@ const INITIAL_JOBS = [
     created_at: "2026-10-10",
     business_name: "Apex Cleanroom Environmental Systems",
     business_type: "Cleanroom & HVAC Engineering",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_12",
-    title: "Vision Inspection Systems & Sensor Calibration Specialist",
-    description: "Integration of Cognex / Keyence high-speed machine vision cameras, laser profilometers, industrial Ethernet/IP networks, and photoelectric sensor calibration on automated high-speed lines.",
-    category: "Automation",
-    salary_min: 32000,
-    salary_max: 44000,
-    salary_period: "monthly",
-    location_area: "Jeedimetla Industrial Area",
-    location_city: "Hyderabad",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "Experience in industrial machine vision software, optics, lighting setup, and PLC triggers",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-11",
-    business_name: "OptiScan Automated Inspection Technologies",
-    business_type: "Industrial Vision & AI",
     employer_verified: "verified"
   }
 ];
@@ -260,7 +146,7 @@ const INITIAL_APPLICATIONS = [
   },
   {
     id: "app_102",
-    job_id: "job_03",
+    job_id: "job_02",
     job_title: "5-Axis CNC Milling Center Specialist (DMG Mori / Mazak)",
     employer_name: "AeroCraft Precision Engineering Ltd",
     worker_id: "wrk-2",
@@ -315,9 +201,11 @@ class JobConnectApi {
 
   initStorage() {
     const existing = localStorage.getItem('jc_jobs');
-    // Overwrite legacy non-technical entries or empty storage
-    if (!existing || existing.includes('Two-Wheeler') || existing.includes('Sweet Maker') || existing.includes('Delivery Driver') || existing.includes('Plumbing')) {
+    const version = localStorage.getItem('jc_jobs_version');
+    // Overwrite legacy entries or previous 12-jobs list to guarantee 6 distinct technical jobs
+    if (!existing || version !== 'v6_distinct' || (existing && JSON.parse(existing).length !== 6) || existing.includes('Two-Wheeler') || existing.includes('Sweet Maker') || existing.includes('Delivery Driver') || existing.includes('Plumbing')) {
       localStorage.setItem('jc_jobs', JSON.stringify(INITIAL_JOBS));
+      localStorage.setItem('jc_jobs_version', 'v6_distinct');
     }
     const existingApps = localStorage.getItem('jc_apps');
     if (!existingApps || existingApps.includes('Two-Wheeler')) {
