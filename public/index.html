@@ -188,7 +188,7 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
         
         <!-- Plan 1: Starter Pack -->
-        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; transition: var(--transition);">
+        <div class="craft-card" style="padding: 26px; display: flex; flex-direction: column;">
           <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Starter Pack</div>
           <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹75</div>
           <div style="font-size: 12.5px; font-weight: 600; color: var(--primary); margin-bottom: 18px;">1 Candidate Contact Unlock</div>
@@ -213,15 +213,15 @@
           </ul>
 
           <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="btn-apply-free" style="display: block; text-align: center; padding: 10px;">
+            <a href="/login.html?role=employer" class="btn-signin-header" style="display: flex; justify-content: center; width: 100%; padding: 11px; font-weight: 600; background: var(--surface-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md); box-shadow: inset 0 1px 0 0 #ffffff;">
               Select Starter (₹75)
             </a>
           </div>
         </div>
 
         <!-- Plan 2: Growth Bundle (Recommended) -->
-        <div style="background: white; border: 1.5px solid var(--primary); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; position: relative; transition: var(--transition);">
-          <span style="position: absolute; top: -11px; right: 20px; background: var(--primary); color: white; font-size: 10.5px; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-full); letter-spacing: 0.04em; text-transform: uppercase;">
+        <div class="craft-card" style="border: 2px solid var(--primary); padding: 26px; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 14px -2px rgba(30, 64, 175, 0.2), 0 18px 36px -6px rgba(30, 64, 175, 0.15), inset 0 1px 0 0 #ffffff;">
+          <span style="position: absolute; top: -11px; right: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); color: white; font-size: 10.5px; font-weight: 700; padding: 3px 12px; border-radius: var(--radius-full); letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 2px 6px rgba(30, 64, 175, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.35);">
             Most Popular
           </span>
           <div style="font-size: 12px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.04em;">Growth Bundle</div>
@@ -248,14 +248,14 @@
           </ul>
 
           <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="search-btn" style="display: block; text-align: center; padding: 10px;">
+            <a href="/login.html?role=employer" class="craft-btn-primary" style="display: flex; justify-content: center; width: 100%; padding: 11px; text-decoration: none;">
               Get Growth Bundle (₹249)
             </a>
           </div>
         </div>
 
         <!-- Plan 3: Enterprise Fleet -->
-        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; transition: var(--transition);">
+        <div class="craft-card" style="padding: 26px; display: flex; flex-direction: column;">
           <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Enterprise Fleet</div>
           <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹475</div>
           <div style="font-size: 12.5px; font-weight: 600; color: var(--primary); margin-bottom: 18px;">10 Candidate Unlocks (₹47 / contact)</div>
@@ -280,7 +280,7 @@
           </ul>
 
           <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="btn-apply-free" style="display: block; text-align: center; padding: 10px;">
+            <a href="/login.html?role=employer" class="btn-signin-header" style="display: flex; justify-content: center; width: 100%; padding: 11px; font-weight: 600; background: var(--surface-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md); box-shadow: inset 0 1px 0 0 #ffffff;">
               Select Enterprise (₹475)
             </a>
           </div>

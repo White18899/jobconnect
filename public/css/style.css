@@ -608,8 +608,6 @@ button, input, select, textarea {
 }
 
 .search-btn {
-  background: var(--primary);
-.search-btn {
   background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
   color: white;
   border: 1px solid #172554;
