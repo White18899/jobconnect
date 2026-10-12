@@ -38,9 +38,9 @@
       color: var(--text-primary);
     }
     .auth-mode-btn.active {
-      background: white;
+      background: var(--surface-tertiary);
       color: var(--text-primary);
-      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), inset 0 1px 0 0 #ffffff;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     }
     .role-toggle-grid {
       display: grid;
@@ -54,19 +54,20 @@
       padding: 14px;
       cursor: pointer;
       transition: var(--transition);
-      background: rgba(255, 255, 255, 0.92);
-      box-shadow: inset 0 1px 0 0 #ffffff;
+      background: var(--surface-craft);
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
       text-align: left;
     }
     .role-toggle-card:hover {
       border-color: var(--border-strong);
       transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05), inset 0 1px 0 0 #ffffff;
+      background: var(--surface-craft-hover);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     }
     .role-toggle-card.selected {
       border-color: var(--primary);
       background: var(--primary-light);
-      box-shadow: 0 0 0 1px var(--primary), inset 0 1px 0 0 #ffffff;
+      box-shadow: 0 0 0 1px var(--primary), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
     }
     .code-input-field {
       font-size: 22px !important;
@@ -75,22 +76,22 @@
       font-weight: 700 !important;
       font-family: monospace !important;
       color: var(--text-primary) !important;
-      background: white !important;
+      background: rgba(8, 12, 20, 0.8) !important;
       border: 1px solid var(--border-strong) !important;
       padding: 12px !important;
-      box-shadow: inset 0 1px 2px 0 rgba(15, 23, 42, 0.06) !important;
+      box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.4) !important;
     }
     .code-input-field:focus {
       border-color: var(--primary) !important;
-      box-shadow: 0 0 0 3px var(--primary-glow), inset 0 1px 0 0 #ffffff !important;
+      box-shadow: 0 0 0 3px var(--primary-glow), inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
     }
     .auth-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 232, 240, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: var(--radius-xl);
-      box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 24px 38px -6px rgba(15, 23, 42, 0.09), inset 0 1px 0 0 #ffffff;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
       width: 100%;
       max-width: 480px;
       padding: 34px 32px;
@@ -111,16 +112,17 @@
       border-radius: var(--radius-md);
       border: 1px solid var(--border-strong);
       font-size: 13.5px;
-      background: #ffffff;
+      background: rgba(8, 12, 20, 0.75);
       color: var(--text-primary);
-      box-shadow: inset 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+      box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
       outline: none;
       transition: var(--transition);
       box-sizing: border-box;
     }
     .form-input:focus {
+      background: rgba(15, 23, 42, 0.95);
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow), inset 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+      box-shadow: 0 0 0 3px var(--primary-glow), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     }
     .btn-demo-quick {
       display: flex;
@@ -137,10 +139,10 @@
       color: var(--text-secondary);
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: inset 0 1px 0 0 #ffffff;
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     }
     .btn-demo-quick:hover {
-      background: #ffffff;
+      background: var(--surface-tertiary);
       border-color: var(--border-strong);
       color: var(--text-primary);
       box-shadow: var(--shadow-xs);
