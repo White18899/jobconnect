@@ -510,16 +510,16 @@ button, input, select, textarea {
    Hero Section
    ========================================================================== */
 .hero-section {
-  background: transparent;
+  background: radial-gradient(ellipse 70% 45% at 50% -10%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.015) 50%, transparent 75%);
   border-bottom: 1px solid var(--border);
-  padding: 64px 20px 48px;
+  padding: 68px 20px 52px;
   text-align: center;
   position: relative;
   z-index: 1;
 }
 
 .hero-container {
-  max-width: 840px;
+  max-width: 980px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -528,35 +528,50 @@ button, input, select, textarea {
 .hero-pill {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: rgba(11, 17, 28, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-strong);
-  padding: 5px 14px;
+  gap: 8px;
+  background: rgba(11, 17, 28, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 5px 16px;
   border-radius: var(--radius-full);
   font-size: 12px;
   font-weight: 550;
-  color: var(--text-primary);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-  margin-bottom: 20px;
+  color: #cbd5e1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  margin-bottom: 22px;
+  letter-spacing: 0.01em;
+}
+
+.status-beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px #ffffff;
+  animation: beacon-pulse 2.2s infinite ease-in-out;
+}
+
+@keyframes beacon-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
 }
 
 .hero-title {
-  font-size: 40px;
+  font-size: 44px;
   font-weight: 800;
-  line-height: 1.18;
-  letter-spacing: -0.035em;
+  line-height: 1.15;
+  letter-spacing: -0.038em;
   margin-bottom: 16px;
   color: var(--text-primary);
 }
 
 .hero-title span {
-  background: linear-gradient(180deg, #ffffff 0%, #e4e4e7 40%, #a1a1aa 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 55%, #94a3b8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ffffff;
-  filter: drop-shadow(0 2px 16px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 2px 18px rgba(255, 255, 255, 0.3));
   display: inline-block;
 }
 
@@ -564,48 +579,122 @@ button, input, select, textarea {
   font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.6;
-  max-width: 620px;
+  max-width: 640px;
   margin: 0 auto 36px;
   font-weight: 450;
 }
 
 /* ==========================================================================
-   Search Bar Component
+   Monolithic Floating Trade Terminal Deck (Architectural Centerpiece)
    ========================================================================== */
-.search-bar-card {
-  background: rgba(15, 23, 42, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  padding: 8px;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 20px 32px -6px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr auto;
-  gap: 8px;
-  align-items: center;
-  max-width: 900px;
+.trade-terminal-deck {
+  max-width: 940px;
   margin: 0 auto;
+  background: linear-gradient(180deg, rgba(16, 24, 40, 0.85) 0%, rgba(9, 14, 24, 0.92) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.4),
+    0 24px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 45px -10px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  padding: 18px 22px 22px;
+  position: relative;
+  text-align: left;
+  transition: var(--transition-slow);
 }
 
-.search-field {
+.trade-terminal-deck:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.4),
+    0 28px 60px -12px rgba(0, 0, 0, 0.85),
+    0 0 55px -8px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Terminal Header Strip */
+.terminal-header-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11.5px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.terminal-node-status {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 12px;
-  background: rgba(8, 12, 20, 0.6);
-  border-radius: var(--radius-md);
+  color: #94a3b8;
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+
+.terminal-radar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.terminal-stats-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.terminal-tag-verified {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10.5px;
+  color: #ffffff;
+}
+
+/* Omnibar Search Grid */
+.terminal-omnibar {
+  display: grid;
+  grid-template-columns: 1.6fr 1.1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+  background: rgba(6, 10, 18, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px;
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  margin-bottom: 14px;
+}
+
+.terminal-omnibar .search-field {
+  background: rgba(15, 23, 42, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
   transition: var(--transition);
 }
 
-.search-field:focus-within {
-  background: rgba(15, 23, 42, 0.95);
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+.terminal-omnibar .search-field:focus-within {
+  background: rgba(22, 33, 56, 0.7);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
 }
 
-.search-field select, .search-field input {
+.terminal-omnibar .search-field select,
+.terminal-omnibar .search-field input {
   border: none;
   background: transparent;
   width: 100%;
@@ -615,12 +704,12 @@ button, input, select, textarea {
   outline: none;
 }
 
-.search-field select option {
+.terminal-omnibar .search-field select option {
   background: #0f172a;
   color: #f8fafc;
 }
 
-.search-field select {
+.terminal-omnibar .search-field select {
   cursor: pointer;
 }
 
@@ -653,42 +742,139 @@ button, input, select, textarea {
   box-shadow: var(--shadow-craft-pressed);
 }
 
-/* Quick Trade Chips */
-.trade-chips-row {
+/* Integrated Trade Shelf */
+.terminal-trade-shelf {
   display: flex;
-  justify-content: center;
-  gap: 8px;
+  align-items: center;
+  gap: 7px;
   flex-wrap: wrap;
-  margin-top: 22px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.trade-chip {
-  background: rgba(11, 17, 28, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
+.terminal-shelf-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+.terminal-trade-shelf .trade-chip {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 6px 12px;
   font-size: 12px;
   font-weight: 550;
-  padding: 6px 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   border-radius: var(--radius-full);
-  cursor: pointer;
+  color: #cbd5e1;
   transition: var(--transition);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
 }
 
-.trade-chip:hover {
-  background: var(--surface-secondary);
-  color: var(--text-primary);
-  border-color: var(--border-strong);
+.terminal-trade-shelf .trade-chip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-.trade-chip.active {
+.terminal-trade-shelf .trade-chip.active {
   background: #ffffff;
-  color: #09090b;
-  font-weight: 650;
+  color: #05070b;
+  font-weight: 700;
   border-color: #ffffff;
-  box-shadow: 0 2px 14px rgba(255, 255, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 14px rgba(255, 255, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Terminal Footer Action Bar */
+.terminal-footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.terminal-actions-cluster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-terminal-worker {
+  background: #ffffff;
+  color: #05070b;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+.btn-terminal-worker:hover {
+  background: #e4e4e7;
+  color: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.4);
+}
+
+.btn-terminal-employer {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.btn-terminal-employer:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.12);
+}
+
+.terminal-badge-free {
+  font-size: 10px;
+  background: #05070b;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.terminal-meta-hints {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #8494ab;
+  font-weight: 500;
 }
 
 /* ==========================================================================
@@ -2393,6 +2579,36 @@ div[id],
 }
 
 @media (max-width: 768px) {
+  .hero-title {
+    font-size: 32px;
+  }
+  .trade-terminal-deck {
+    padding: 14px;
+  }
+  .terminal-omnibar {
+    grid-template-columns: 1fr;
+  }
+  .terminal-trade-shelf {
+    justify-content: center;
+  }
+  .terminal-footer-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .terminal-actions-cluster {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-terminal-worker,
+  .btn-terminal-employer {
+    width: 100%;
+    justify-content: center;
+  }
+  .terminal-meta-hints {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
   .trade-pass-container {
     grid-template-columns: 1fr;
   }
