@@ -12,11 +12,11 @@
   --primary-border: rgba(255, 255, 255, 0.22);
   --primary-glow: rgba(255, 255, 255, 0.25);
 
-  /* Neutrals (High-Contrast Cosmic Obsidian Dark Slate Scale) */
-  --bg-page: #05070b;
-  --surface: #0a0f18;
-  --surface-secondary: #111827;
-  --surface-tertiary: #182234;
+  /* Neutrals (High-Contrast Pure Obsidian & Monochromatic Scale) */
+  --bg-page: #000000;
+  --surface: #0a0a0c;
+  --surface-secondary: #121215;
+  --surface-tertiary: #1a1a1f;
   
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
