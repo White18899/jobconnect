@@ -67,6 +67,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  function getTradeIcon(category = '') {
+    const cat = (category || '').toLowerCase();
+    if (cat.includes('mechanic')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`;
+    } else if (cat.includes('electrician')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+    } else if (cat.includes('driver')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>`;
+    } else if (cat.includes('plumber')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`;
+    } else if (cat.includes('cook')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>`;
+    } else if (cat.includes('ac')) {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>`;
+    }
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+  }
+
   function renderFilteredJobs() {
     if (!homeJobsGrid) return;
     const query = (homeSearchQuery?.value || '').trim().toLowerCase();
@@ -100,16 +118,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     if (jobsCountBadge) {
-      jobsCountBadge.innerHTML = `<span>Showing ${filtered.length} Verified Vacanc${filtered.length === 1 ? 'y' : 'ies'}</span>`;
+      jobsCountBadge.innerHTML = `<span>${filtered.length} Active Vacanc${filtered.length === 1 ? 'y' : 'ies'}</span>`;
     }
 
     if (filtered.length === 0) {
       homeJobsGrid.innerHTML = `
-        <div class="craft-card" style="grid-column: 1 / -1; padding: 48px 24px; text-align: center;">
-          <div style="font-size: 28px; margin-bottom: 8px;">🔍</div>
-          <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">No matching trade vacancies found</h4>
-          <p style="font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px;">Try clearing filters or selecting "All Trades" to see all verified direct job openings across India.</p>
-          <button type="button" class="btn-signin-header" id="btn-reset-filters" style="margin: 0 auto;">Reset All Filters</button>
+        <div class="precision-row-empty">
+          <div style="font-size: 26px; margin-bottom: 8px;">🔍</div>
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">No matching trade vacancies found</h4>
+          <p style="font-size: 12.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px;">Try clearing filters or selecting "All Trades" to see all verified direct job openings across India.</p>
+          <button type="button" class="btn-signin-header" id="btn-reset-filters" style="margin: 0 auto; padding: 6px 16px; font-size: 12px;">Reset All Filters</button>
         </div>
       `;
       document.getElementById('btn-reset-filters')?.addEventListener('click', () => {
@@ -124,49 +142,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     homeJobsGrid.innerHTML = filtered.map(job => `
-      <div class="job-card craft-card">
-        <div>
-          <div class="job-card-top">
-            <span class="category-tag">${escapeHtml(job.category || 'Trade')}</span>
-            <span class="craft-badge-verified" style="font-size: 10.5px; padding: 2px 7px;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Verified Employer</span>
-            </span>
+      <div class="precision-row-item">
+        <div class="p-row-left">
+          <div class="p-row-icon" title="${escapeHtml(job.category || 'Trade')}">
+            ${getTradeIcon(job.category)}
           </div>
-
-          <h3 class="job-card-title" style="margin-bottom: 8px; font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.35;">
-            ${escapeHtml(job.title)}
-          </h3>
-
-          <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-            <span>🏢</span>
-            <span>${escapeHtml(job.business_name || 'Vetted Business')}</span>
+          <div class="p-row-content">
+            <div class="p-row-header">
+              <h3 class="p-row-title">${escapeHtml(job.title)}</h3>
+              <span class="p-row-cat-badge">${escapeHtml(job.category || 'Trade')}</span>
+              <span class="p-row-verified-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Vetted Employer</span>
+              </span>
+            </div>
+            <div class="p-row-details">
+              <span class="p-detail-company">🏢 ${escapeHtml(job.business_name || 'Vetted Business')}</span>
+              <span class="p-detail-sep">•</span>
+              <span class="p-detail-location">📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'India')}</span>
+              <span class="p-detail-sep">•</span>
+              <span class="p-detail-vacancies">${escapeHtml(job.vacancies || 1)} Open Position${(job.vacancies || 1) > 1 ? 's' : ''}</span>
+            </div>
           </div>
-
-          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; display: flex; align-items: center; gap: 5px;">
-            <span>📍</span>
-            <span>${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'India')}</span>
-          </div>
-
-          <div style="margin-bottom: 16px; display: flex; align-items: baseline; gap: 6px;">
-            <span style="font-size: 20px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; font-family: var(--font-mono);">
-              ₹${(job.salary_min || 15000).toLocaleString('en-IN')} - ₹${(job.salary_max || 25000).toLocaleString('en-IN')}
-            </span>
-            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">/ month</span>
-          </div>
-
-          <p style="font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-            ${escapeHtml(job.description || job.requirements || 'Immediate opening with direct local employer interview.')}
-          </p>
         </div>
 
-        <div style="border-top: 1px solid var(--border-light); padding-top: 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-          <span class="craft-chip-etched" style="font-size: 11px;">
-            ${escapeHtml(job.vacancies || 1)} Vacanc${job.vacancies === 1 ? 'y' : 'ies'}
-          </span>
-          <a href="/login.html?mode=signup&role=worker&job=${job.id}" class="craft-btn-primary" style="padding: 7px 14px; font-size: 12px; text-decoration: none;">
-            <span>Apply Direct (Free)</span>
-            <span style="font-weight: 700;">→</span>
+        <div class="p-row-right">
+          <div class="p-row-wage">
+            <span class="p-wage-amt">₹${(job.salary_min || 15000).toLocaleString('en-IN')} – ₹${(job.salary_max || 25000).toLocaleString('en-IN')}</span>
+            <span class="p-wage-period">/ month</span>
+          </div>
+          <a href="/login.html?mode=signup&role=worker&job=${job.id}" class="p-row-apply-btn" title="Direct WhatsApp & Interview Connect">
+            <span>Apply Direct</span>
+            <span class="p-arrow">→</span>
           </a>
         </div>
       </div>
