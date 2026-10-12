@@ -3,322 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobWay • India's Verified Blue-Collar Employment Network</title>
-  <meta name="description" content="JobWay: Direct verified hiring for mechanics, electricians, plumbers, drivers, and cooks across India. Zero agency commissions.">
+  <title>JobWay • India's Verified Trade Employment Network</title>
+  <meta name="description" content="JobWay: Direct verified employment network for mechanics, electricians, plumbers, drivers, and cooks across India. Zero agency brokerage.">
   <link rel="canonical" href="https://job-way.in/">
-  <meta property="og:title" content="JobWay • Verified Employment & Subscription Details">
-  <meta property="og:description" content="Direct hiring for blue-collar professionals with masked privacy and instant UPI settlements.">
+  <meta property="og:title" content="JobWay • India's Verified Trade Employment Network">
+  <meta property="og:description" content="Direct verified employment network for certified tradesmen & vetted workshops with zero brokerage.">
   <meta property="og:url" content="https://job-way.in/">
   <meta property="og:site_name" content="JobWay">
-  
-  <!-- Fonts -->
+
+  <!-- Fonts: Geist, Geist Mono & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <link rel="stylesheet" href="css/side-rays.css?v=2">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/editorial.css?v=1">
 </head>
-<body>
+<body class="editorial-page">
 
-  <!-- Dynamic WebGL SideRays Background (React Bits) -->
-  <div id="side-rays-bg" class="side-rays-fixed-bg" data-ray-color-1="#ffffff" data-ray-color-2="#64748b" data-intensity="1.35" data-spread="2.4" data-origin="top-right" data-saturation="0" data-blend="0.8" data-falloff="1.8" data-opacity="0.7"></div>
-
-  <!-- Site Header & Navbar -->
-  <header class="site-header">
-    <div class="navbar-container">
-      <a href="/" class="brand-logo" id="brand-logo-link">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-        </div>
-        <div>
-          <span>JobWay</span>
-          <span class="brand-text-sub">job-way.in</span>
-        </div>
+  <!-- Top Editorial Navbar -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar">
+      <a class="nav-logo" href="/" id="brand-logo-link">
+        <span class="link-line">©JobWay</span>
       </a>
+
+      <!-- Desktop Center Editorial Links -->
+      <div class="nav-links-wrapper">
+        <a class="nav-link" href="#vacancies">
+          <span class="link-line">Vacancies</span>
+          <span class="nav-link-count" id="header-vacancies-count">(12)</span>
+        </a>
+        <a class="nav-link" href="#approach">
+          <span class="link-line">Approach</span>
+        </a>
+        <a class="nav-link" href="#credentials">
+          <span class="link-line">Skill Pass</span>
+          <span class="nav-link-count">(KYC)</span>
+        </a>
+        <a class="nav-link" href="/worker.html">
+          <span class="link-line">Network</span>
+          <span class="nav-link-count">(5 Hubs)</span>
+        </a>
+      </div>
 
       <!-- Right Header Actions -->
       <div class="nav-right-actions">
         <!-- Logged Out State -->
-        <div id="auth-logged-out" style="display: flex; align-items: center; gap: 8px;">
-          <a href="/login.html?mode=login" class="btn-signin-header">
+        <div id="auth-logged-out" style="display: flex; align-items: center; gap: 1vw;">
+          <a href="/login.html?mode=login" class="nav-btn-link link-line">
             Sign In
           </a>
-          <a href="/login.html?mode=signup" class="btn-post-job-header">
-            Get Started
+          <a href="/login.html?mode=signup" class="nav-btn-solid">
+            Post Vacancy →
           </a>
         </div>
 
         <!-- Logged In State -->
-        <div id="auth-logged-in" style="display: none; align-items: center; gap: 8px;">
-          <a href="#" id="home-dashboard-link" class="role-badge-box">
-            <span id="home-user-icon" style="display: inline-flex; align-items: center;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </span>
-            <span id="home-user-name">Dashboard</span>
-            <span style="color: var(--primary); font-weight: 700;">→</span>
+        <div id="auth-logged-in" style="display: none; align-items: center; gap: 1vw;">
+          <a href="#" id="home-dashboard-link" class="nav-btn-solid">
+            <span id="home-user-name">Dashboard</span> →
           </a>
-          <button class="btn-logout-header" id="home-logout-btn" title="Sign Out">
+          <button class="nav-btn-link link-line" id="home-logout-btn" title="Sign Out">
             Sign Out
           </button>
         </div>
       </div>
-    </div>
+    </nav>
   </header>
 
-  <!-- DIV 1: HERO & INTERACTIVE TRADE COMMAND TERMINAL -->
-  <div class="hero-section" id="welcome-section">
-    <div class="hero-container">
-      
-      <div class="hero-pill">
-        <span class="status-beacon-dot"></span>
-        <span>India's Direct Trade Network • 100% Free For Workers</span>
+  <main>
+    <!-- HERO SECTION: SPLIT TYPOGRAPHY & 3D INTERACTIVE CARD -->
+    <section class="home-hero">
+      <div class="home-hero-pill">
+        <span class="beacon-pulse"></span>
+        <span>India's Direct Verified Trade Network • 100% Free For Workers</span>
       </div>
 
-      <h1 class="hero-title">
-        India's modern network for <br>
-        <span>verified trade employment</span>
-      </h1>
-
-      <p class="hero-desc">
-        Connect certified mechanics, electricians, plumbers, drivers, and technicians directly with vetted local businesses. Privacy protected, zero agency brokerage.
-      </p>
-
-      <!-- Sleek Minimalist Hero Hub (Zero Input Fields) -->
-      <div class="hero-minimal-hub">
+      <!-- Signature Word Split: JOB [3D Rotating Card Slot] WAY -->
+      <div class="home-title-wrapper">
+        <div class="home-title-box-1">
+          <img class="home-title-letter" src="assets/letters/j.svg" alt="J">
+          <img class="home-title-letter" src="assets/letters/o.svg" alt="O">
+          <img class="home-title-letter" src="assets/letters/b.svg" alt="B">
+        </div>
         
-
-
-        <!-- Architectural Feature Pillars -->
-        <div class="hero-feature-pillars">
-          <div class="pillar-card">
-            <div class="pillar-header">
-              <div class="pillar-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              </div>
-              <span class="pillar-title">Direct WhatsApp Unlock</span>
-            </div>
-            <p class="pillar-desc">Call or chat directly with shop and garage owners. Zero agency brokerage.</p>
-          </div>
-
-          <div class="pillar-card">
-            <div class="pillar-header">
-              <div class="pillar-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-              </div>
-              <span class="pillar-title">UIDAI & Trade Verified</span>
-            </div>
-            <p class="pillar-desc">Every candidate carries a digital skill pass with anti-spam phone shielding.</p>
-          </div>
-
-          <div class="pillar-card">
-            <div class="pillar-header">
-              <div class="pillar-icon">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <span class="pillar-title">Instant Direct Hiring</span>
-            </div>
-            <p class="pillar-desc">Average candidate response under 20 minutes across 5 active hub cities.</p>
-          </div>
+        <div class="home-title-image-box">
+          <img class="home-title-image-1" src="assets/hero/trade-1.jpg" alt="Master Two-Wheeler Mechanic">
+          <img class="home-title-image-2" src="assets/hero/trade-2.jpg" alt="Industrial Automation Electrician">
+          <img class="home-title-image-3" src="assets/hero/trade-3.jpg" alt="Master Welder & Fabricator">
+          <img class="home-title-image-4" src="assets/hero/trade-4.jpg" alt="HVAC Systems Specialist">
         </div>
 
-        <!-- Hairline Telemetry Ribbon (Minimal Proof Metrics) -->
-        <div class="minimal-telemetry-ribbon">
-          <div class="telemetry-node">
-            <span class="telemetry-value">840+</span>
-            <span class="telemetry-label">Live Openings</span>
-          </div>
-          <div class="telemetry-sep"></div>
-          <div class="telemetry-node">
-            <span class="telemetry-value">0%</span>
-            <span class="telemetry-label">Brokerage Fee</span>
-          </div>
-          <div class="telemetry-sep"></div>
-          <div class="telemetry-node">
-            <span class="telemetry-value">Direct</span>
-            <span class="telemetry-label">WhatsApp Unlock</span>
-          </div>
-          <div class="telemetry-sep"></div>
-          <div class="telemetry-node">
-            <span class="telemetry-value">5 Cities</span>
-            <span class="telemetry-label">Hyd • Vizag • Blr +</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <!-- DIV 2: LIVE VERIFIED TRADE VACANCIES FEED -->
-  <div class="main-content" id="live-jobs-section" style="padding-top: 24px; padding-bottom: 56px;">
-    <div class="section-header">
-      <div>
-        <div class="overline-label" style="display: flex; align-items: center; gap: 7px; color: #10b981; margin-bottom: 5px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em;">
-          <span class="live-dot-pulse"></span>
-          <span>LIVE VERIFIED NETWORK OPENINGS</span>
-        </div>
-        <h2 class="section-title">Verified Trade Vacancies</h2>
-        <p class="section-subtitle">Real-time local trade openings with direct employer unlock and zero commission deduction.</p>
-      </div>
-      <div id="jobs-count-badge" class="craft-chip-etched">
-        <span>Loading Openings...</span>
-      </div>
-    </div>
-
-    <!-- Trade Category Filter Shelf -->
-    <div class="vacancies-filter-bar" id="trade-chips-container">
-      <button type="button" class="trade-chip active" data-category="all">
-        <span>All Trades</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="Mechanic">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        <span>Mechanic</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="Electrician">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        <span>Electrician</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="Driver">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
-        <span>Driver</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="Plumber">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-        <span>Plumber</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="Cook">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
-        <span>Cook & Sweets</span>
-      </button>
-      <button type="button" class="trade-chip" data-category="AC Tech">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>
-        <span>AC Tech</span>
-      </button>
-    </div>
-
-    <!-- Dynamic Jobs Grid -->
-    <div class="jobs-grid" id="home-jobs-grid">
-      <!-- Populated dynamically via JavaScript -->
-    </div>
-  </div>
-
-  <!-- DIV 3: THE JOBWAY VERIFIED TRADE PASS & DIRECT CONTACT -->
-  <div class="trade-pass-section" id="trade-pass-section" style="background: rgba(255, 255, 255, 0.02); padding: 56px 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; z-index: 1;">
-    <div class="trade-pass-container" style="margin: 0 auto;">
-      
-      <!-- Left: Interactive Holographic Trade Pass Mockup -->
-      <div class="trade-pass-card">
-        <div class="trade-pass-badge-header">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 24px; height: 24px; border-radius: 6px; background: #ffffff; color: #09090b; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">JW</div>
-            <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.04em; text-transform: uppercase;">JobWay Trade Pass</span>
-          </div>
-          <span class="craft-badge-verified">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>KYC Verified</span>
-          </span>
-        </div>
-
-        <div class="trade-pass-avatar-wrap">
-          <div class="trade-pass-avatar">RK</div>
-          <div>
-            <h4 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 2px;">Ramesh Kumar</h4>
-            <div style="font-size: 13px; font-weight: 600; color: var(--primary);">Master Two-Wheeler Mechanic</div>
-            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">📍 KPHB, Hyderabad • 5+ Years Experience</div>
-          </div>
-        </div>
-
-        <div class="trade-pass-skills-list">
-          <span class="craft-chip-etched">🔧 Engine Overhaul</span>
-          <span class="craft-chip-etched">⚡ BS-6 Electricals</span>
-          <span class="craft-chip-etched">📜 ITI Certified</span>
-          <span class="craft-chip-etched">⭐ 4.9 Rating (18 Jobs)</span>
-        </div>
-
-        <div class="trade-pass-security-footer">
-          <div>
-            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Direct Contact Shield</div>
-            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-primary);">+91 98•••••104</div>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 10px; font-weight: 700; color: var(--success-text); text-transform: uppercase;">Aadhaar Vetted</div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary);">UIDAI 2026-OK</div>
-          </div>
+        <div class="home-title-box-2">
+          <img class="home-title-letter" src="assets/letters/w.svg" alt="W">
+          <img class="home-title-letter" src="assets/letters/a.svg" alt="A">
+          <img class="home-title-letter" src="assets/letters/y.svg" alt="Y">
         </div>
       </div>
 
-      <!-- Right: Why JobWay Is Different -->
-      <div>
-        <div class="craft-pill" style="margin-bottom: 14px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>Unique Verification Standard</span>
-        </div>
-        <h2 style="font-size: 30px; font-weight: 800; color: var(--text-primary); line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.03em;">
-          Every tradesman carries a <br>
-          <span style="color: var(--primary);">verified digital credential</span>
+      <!-- Hero Subtitle & City Brackets -->
+      <div class="home-hero-subtitle-wrapper">
+        <h1 class="home-hero-subtitle">
+          <span class="text-in">India's direct network for verified tradesmen</span>
+        </h1>
+        <h2 class="home-hero-subtitle">
+          <span class="text-in">& vetted workshops — zero middleman brokerage</span>
         </h2>
-        <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
-          Traditional classified sites are filled with unvetted candidates, spammers, and hidden agent commissions. JobWay is built from the ground up for India's genuine physical trade workforce.
+        <p class="home-hero-bracket">
+          <span>[ Hyderabad • Visakhapatnam • Bengaluru • Chennai ]</span>
         </p>
+      </div>
 
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
+      <!-- Approach / Info Bar with Hairline Divider -->
+      <div class="infos-box scroll-in-group" id="approach">
+        <div class="border"></div>
+        <div class="infos-box-left">
+          <p class="text-box">
+            <span class="scroll-in bracket-tag">[ Approach ]</span>
+          </p>
+        </div>
+        <div class="infos-box-right">
+          <p class="infos-box-text">
+            <span class="text-box"><span class="scroll-in text-indent text-numb">Direct employment network</span></span>
+            <span class="text-box"><span class="scroll-in">connecting certified mechanics,</span></span>
+            <span class="text-box"><span class="scroll-in">electricians, and technicians</span></span>
+            <span class="text-box"><span class="scroll-in">with vetted local employers.</span></span>
+          </p>
+          <a class="cta text-box anchor" href="/login.html?mode=signup">
+            <div class="scroll-in">
+              <div class="cta-text">
+                <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span class="link-line">Start Direct Hiring</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED VACANCIES SHOWCASE GRID -->
+    <section class="home-work" id="vacancies">
+      <div class="home-work-header scroll-in-group">
+        <div>
+          <div class="bracket-tag" style="margin-bottom: 6px;">[ Open Positions ]</div>
+          <h3 class="home-work-header-title text-box">
+            <span class="scroll-in">Selected </span>
+            <span class="scroll-in">vacancies</span>
+          </h3>
+        </div>
+
+        <!-- Editorial Trade Filters -->
+        <div class="home-work-filters" id="trade-filters-container">
+          <button type="button" class="editorial-filter active" data-category="all">
+            <span>All (12)</span>
+          </button>
+          <button type="button" class="editorial-filter" data-category="Mechanic">
+            <span>Mechanic (04)</span>
+          </button>
+          <button type="button" class="editorial-filter" data-category="Electrician">
+            <span>Electrician (03)</span>
+          </button>
+          <button type="button" class="editorial-filter" data-category="Driver">
+            <span>Driver (02)</span>
+          </button>
+          <button type="button" class="editorial-filter" data-category="Plumber">
+            <span>Plumber (02)</span>
+          </button>
+          <button type="button" class="editorial-filter" data-category="Cook">
+            <span>Cook (01)</span>
+          </button>
+        </div>
+
+        <a class="cta text-box anchor" href="/worker.html">
+          <div class="scroll-in">
+            <div class="cta-text">
+              <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <span class="link-line">See all jobs</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2-Column Showcase Grid -->
+      <div class="home-work-grid" id="home-jobs-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- VERIFIED SKILL PASS EDITORIAL SECTION -->
+    <section class="editorial-pass-section" id="credentials">
+      <div class="border"></div>
+      <div class="pass-editorial-grid">
+        <!-- Left: Verified Digital Skill Pass Mockup -->
+        <div class="editorial-pass-card">
+          <div class="editorial-pass-header">
+            <span class="editorial-pass-logo">JobWay Trade Pass • UIDAI Vetted</span>
+            <span class="project-card-badge project-card-badge-verified">KYC Active</span>
+          </div>
+
+          <div class="pass-worker-profile">
+            <div class="pass-worker-avatar">RK</div>
             <div>
-              <strong style="font-size: 14px; color: var(--text-primary);">100% Zero Worker Deductions</strong>
-              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Workers keep every single rupee of their monthly salary without middleman commission.</p>
+              <div class="pass-worker-name">Ramesh Kumar</div>
+              <div class="pass-worker-trade">Master Two-Wheeler Mechanic • 5+ Yrs Exp</div>
             </div>
           </div>
 
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255, 255, 255, 0.12); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
-            <div>
-              <strong style="font-size: 14px; color: var(--text-primary);">Masked Anti-Spam Privacy Guard</strong>
-              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Phone numbers remain shielded until a genuine, KYC-vetted local business unlocks them.</p>
-            </div>
+          <div class="pass-skills-tags">
+            <span class="pass-skill-tag">🔧 Engine Overhaul</span>
+            <span class="pass-skill-tag">⚡ BS-6 Electricals</span>
+            <span class="pass-skill-tag">📜 ITI Certified</span>
+            <span class="pass-skill-tag">⭐ 4.9 Rating (18 Jobs)</span>
           </div>
 
-          <div style="display: flex; gap: 12px; align-items: flex-start;">
-            <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); color: #fbbf24; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
+          <div class="pass-footer-metrics">
             <div>
-              <strong style="font-size: 14px; color: var(--text-primary);">Direct WhatsApp & Call Contact</strong>
-              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">No complicated portal messaging. Employers call or message candidates directly on WhatsApp.</p>
+              <div style="font-size: 10px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Direct Contact Shield</div>
+              <div style="font-family: var(--font-mono); font-weight: 600; font-size: 13px;">+91 98•••••104</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 10px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Aadhaar Verification</div>
+              <div style="font-family: var(--font-mono); font-size: 12px; color: #10b981; font-weight: 600;">UIDAI 2026-OK</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Editorial Narrative -->
+        <div>
+          <div class="bracket-tag" style="margin-bottom: 8px;">[ Standards ]</div>
+          <h2 style="font-size: var(--font-size-xl); font-weight: 400; line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 1.5vw;">
+            Every tradesman carries a <br>
+            verified digital credential
+          </h2>
+          <p style="font-size: var(--font-size-s); color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 2.2vw;">
+            No unvetted candidates, spammers, or hidden agency commissions. Candidates carry authenticated digital skill passes with phone shielding. Employers unlock direct WhatsApp numbers with zero deductions from worker pay.
+          </p>
+
+          <div style="display: flex; gap: 3vw;">
+            <div>
+              <div style="font-size: var(--font-size-l); font-weight: 600; font-family: var(--font-mono);">0%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Worker Commission</div>
+            </div>
+            <div>
+              <div style="font-size: var(--font-size-l); font-weight: 600; font-family: var(--font-mono);">&lt;20m</div>
+              <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Avg Employer Response</div>
+            </div>
+            <div>
+              <div style="font-size: var(--font-size-l); font-weight: 600; font-family: var(--font-mono);">100%</div>
+              <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Direct WhatsApp Unlock</div>
             </div>
           </div>
         </div>
       </div>
+    </section>
+  </main>
 
+  <!-- EDITORIAL FOOTER -->
+  <footer class="editorial-footer">
+    <div class="footer-left">
+      <span class="footer-brand">©2026 JobWay</span>
+      <span class="footer-copy">India's Verified Blue-Collar Employment Network • job-way.in</span>
     </div>
-  </div>
-
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <div style="font-weight: 700; color: var(--text-primary); font-size: 13.5px;">JobWay (job-way.in)</div>
-        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-          India's Verified Blue-Collar Employment Network • Cloudflare Edge Architecture
-        </div>
+    <div class="footer-right">
+      <div class="footer-box">
+        <span class="bracket-tag">[ Network ]</span>
+        <p class="footer-text">
+          Direct WhatsApp and phone contact connecting certified trade professionals with verified workshops across India.
+        </p>
       </div>
-      <div style="display: flex; gap: 18px; font-size: 13px; font-weight: 550;">
-        <a href="/login.html?mode=login" style="color: var(--primary);">Sign In</a>
-        <a href="/worker.html" style="color: var(--text-secondary);">Worker Portal</a>
-        <a href="/employer.html" style="color: var(--text-secondary);">Employer Desk</a>
-        <a href="/admin.html" style="color: var(--text-secondary);">Admin Ledger</a>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Hubs ]</span>
+        <p class="footer-text">
+          Hyderabad • Visakhapatnam<br>
+          Bengaluru • Chennai<br>
+          Vijayawada
+        </p>
+      </div>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Portals ]</span>
+        <p class="footer-text">
+          <a class="link-line" href="/worker.html">Worker Desk</a><br>
+          <a class="link-line" href="/employer.html">Employer Terminal</a><br>
+          <a class="link-line" href="/admin.html">Admin Ledger</a><br>
+          <a class="link-line" href="/login.html">Sign In</a>
+        </p>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/side-rays.js"></script>
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>
 </body>

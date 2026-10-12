@@ -1,17 +1,18 @@
 /**
  * JobWay Public Landing Page Controller
- * Pure Vanilla JavaScript • No React • Cloudflare Edge Integration
+ * Editorial Swiss Architecture • Staggered CSS Animations • Cloudflare Edge
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // =========================================================================
+  // 1. Session State Check
+  // =========================================================================
   const authLoggedOut = document.getElementById('auth-logged-out');
   const authLoggedIn = document.getElementById('auth-logged-in');
   const homeDashboardLink = document.getElementById('home-dashboard-link');
   const homeUserName = document.getElementById('home-user-name');
-  const homeUserIcon = document.getElementById('home-user-icon');
   const homeLogoutBtn = document.getElementById('home-logout-btn');
 
-  // Check Session State
   function checkSession() {
     const user = window.jobApi?.getCurrentUser();
     if (user) {
@@ -20,14 +21,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (homeUserName) homeUserName.textContent = `${user.name} (${user.role.toUpperCase()})`;
 
       if (user.role === 'employer') {
-        if (homeUserIcon) homeUserIcon.textContent = '🏢';
-        if (homeDashboardLink) homeDashboardLink.href = '/employer';
+        if (homeDashboardLink) homeDashboardLink.href = '/employer.html';
       } else if (user.role === 'admin') {
-        if (homeUserIcon) homeUserIcon.textContent = '🛡️';
-        if (homeDashboardLink) homeDashboardLink.href = '/admin';
+        if (homeDashboardLink) homeDashboardLink.href = '/admin.html';
       } else {
-        if (homeUserIcon) homeUserIcon.textContent = '👷';
-        if (homeDashboardLink) homeDashboardLink.href = '/worker';
+        if (homeDashboardLink) homeDashboardLink.href = '/worker.html';
       }
     } else {
       if (authLoggedOut) authLoggedOut.style.display = 'flex';
@@ -44,140 +42,111 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // =========================================================================
-  // 1. Live Job Explorer & Real-Time Filtering
+  // 2. Signature Hero Title & 3D Interactive Card Animation
+  // =========================================================================
+  function initHeroAnimations() {
+    const box1 = document.querySelector('.home-title-box-1');
+    const box2 = document.querySelector('.home-title-box-2');
+    const imageBox = document.querySelector('.home-title-image-box');
+
+    // Stagger letter reveals
+    const letters = document.querySelectorAll('.home-title-letter');
+    letters.forEach((letter, index) => {
+      letter.style.setProperty('--stagger-delay', `${0.1 + index * 0.08}s`);
+    });
+
+    const textInElements = document.querySelectorAll('.text-in');
+    textInElements.forEach((el, index) => {
+      el.style.setProperty('--stagger-delay', `${0.3 + index * 0.12}s`);
+    });
+
+    if (box1 && box2 && imageBox) {
+      box1.classList.remove('is-animated');
+      box2.classList.remove('is-animated');
+      imageBox.classList.remove('is-animated');
+
+      // Trigger box inward slide
+      setTimeout(() => {
+        box1.classList.add('is-animated');
+        box2.classList.add('is-animated');
+      }, 550);
+
+      // Trigger 3D image rotation & reveal
+      setTimeout(() => {
+        imageBox.classList.add('is-animated');
+      }, 950);
+
+      // Start 4-image infinite carousel
+      setTimeout(() => {
+        const carouselImages = document.querySelectorAll(
+          '.home-title-image-1, .home-title-image-2, .home-title-image-3, .home-title-image-4'
+        );
+        carouselImages.forEach(img => img.classList.add('is-animated'));
+      }, 1000);
+    }
+  }
+  initHeroAnimations();
+
+  // =========================================================================
+  // 3. Scroll-In Intersection Observer (Hairlines, Numbers & Text)
+  // =========================================================================
+  function initScrollObserver() {
+    const groups = document.querySelectorAll('.scroll-in-group');
+    const borders = document.querySelectorAll('.border');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        if (entry.target.classList.contains('scroll-in-group')) {
+          const scrollEls = entry.target.querySelectorAll('.scroll-in');
+          scrollEls.forEach((el, idx) => {
+            el.style.setProperty('--stagger-delay', `${idx * 0.07}s`);
+            el.classList.add('is-visible');
+          });
+        }
+
+        if (entry.target.classList.contains('border')) {
+          entry.target.classList.add('is-visible');
+        }
+
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+
+    groups.forEach(g => observer.observe(g));
+    borders.forEach(b => observer.observe(b));
+  }
+  initScrollObserver();
+
+  // =========================================================================
+  // 4. Dynamic Showcase Vacancies Feed
   // =========================================================================
   const homeJobsGrid = document.getElementById('home-jobs-grid');
-  const jobsCountBadge = document.getElementById('jobs-count-badge');
-  const homeSearchQuery = document.getElementById('home-search-query');
-  const homeSearchCity = document.getElementById('home-search-city');
-  const homeSearchSalary = document.getElementById('home-search-salary');
-  const homeBtnSearch = document.getElementById('home-btn-search');
-  const tradeChips = document.querySelectorAll('.trade-chip[data-category]');
+  const headerVacanciesCount = document.getElementById('header-vacancies-count');
+  const filterButtons = document.querySelectorAll('.editorial-filter[data-category]');
 
   let allJobs = [];
   let activeCategory = 'all';
 
-  async function fetchAndRenderJobs() {
-    if (!homeJobsGrid) return;
-    try {
-      allJobs = await window.jobApi.getJobs();
-      renderFilteredJobs();
-    } catch (err) {
-      console.error('Error fetching jobs:', err);
-    }
-  }
+  const TRADE_IMAGES = {
+    mechanic: 'assets/trades/mechanic.jpg',
+    electrician: 'assets/trades/electrician.jpg',
+    driver: 'assets/trades/driver.jpg',
+    cook: 'assets/trades/cook.jpg',
+    plumber: 'assets/trades/plumber.jpg',
+    actech: 'assets/trades/actech.jpg'
+  };
 
-  function getTradeIcon(category = '') {
+  function getJobImage(category = '') {
     const cat = (category || '').toLowerCase();
-    if (cat.includes('mechanic')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`;
-    } else if (cat.includes('electrician')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
-    } else if (cat.includes('driver')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>`;
-    } else if (cat.includes('plumber')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`;
-    } else if (cat.includes('cook')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>`;
-    } else if (cat.includes('ac')) {
-      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>`;
-    }
-    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-  }
-
-  function renderFilteredJobs() {
-    if (!homeJobsGrid) return;
-    const query = (homeSearchQuery?.value || '').trim().toLowerCase();
-    const city = homeSearchCity?.value || 'all';
-    const minSalary = parseInt(homeSearchSalary?.value || '0', 10);
-
-    const filtered = allJobs.filter(job => {
-      // Category filter
-      if (activeCategory !== 'all') {
-        const catMatch = (job.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
-                         (job.title || '').toLowerCase().includes(activeCategory.toLowerCase());
-        if (!catMatch) return false;
-      }
-      // City filter
-      if (city !== 'all') {
-        if ((job.location_city || '').toLowerCase() !== city.toLowerCase()) return false;
-      }
-      // Min salary filter
-      if (minSalary > 0) {
-        if ((job.salary_max || job.salary_min || 0) < minSalary) return false;
-      }
-      // Text query
-      if (query) {
-        const titleMatch = (job.title || '').toLowerCase().includes(query);
-        const descMatch = (job.description || '').toLowerCase().includes(query);
-        const reqMatch = (job.requirements || '').toLowerCase().includes(query);
-        const bizMatch = (job.business_name || '').toLowerCase().includes(query);
-        if (!titleMatch && !descMatch && !reqMatch && !bizMatch) return false;
-      }
-      return true;
-    });
-
-    if (jobsCountBadge) {
-      jobsCountBadge.innerHTML = `<span>${filtered.length} Active Vacanc${filtered.length === 1 ? 'y' : 'ies'}</span>`;
-    }
-
-    if (filtered.length === 0) {
-      homeJobsGrid.innerHTML = `
-        <div class="precision-row-empty">
-          <div style="font-size: 26px; margin-bottom: 8px;">🔍</div>
-          <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">No matching trade vacancies found</h4>
-          <p style="font-size: 12.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto 16px;">Try clearing filters or selecting "All Trades" to see all verified direct job openings across India.</p>
-          <button type="button" class="btn-signin-header" id="btn-reset-filters" style="margin: 0 auto; padding: 6px 16px; font-size: 12px;">Reset All Filters</button>
-        </div>
-      `;
-      document.getElementById('btn-reset-filters')?.addEventListener('click', () => {
-        if (homeSearchQuery) homeSearchQuery.value = '';
-        if (homeSearchCity) homeSearchCity.value = 'all';
-        if (homeSearchSalary) homeSearchSalary.value = '0';
-        activeCategory = 'all';
-        tradeChips.forEach(c => c.classList.toggle('active', c.dataset.category === 'all'));
-        renderFilteredJobs();
-      });
-      return;
-    }
-
-    homeJobsGrid.innerHTML = filtered.map(job => `
-      <div class="precision-row-item">
-        <div class="p-row-left">
-          <div class="p-row-icon" title="${escapeHtml(job.category || 'Trade')}">
-            ${getTradeIcon(job.category)}
-          </div>
-          <div class="p-row-content">
-            <div class="p-row-header">
-              <h3 class="p-row-title">${escapeHtml(job.title)}</h3>
-              <span class="p-row-cat-badge">${escapeHtml(job.category || 'Trade')}</span>
-              <span class="p-row-verified-badge">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>Vetted Employer</span>
-              </span>
-            </div>
-            <div class="p-row-details">
-              <span class="p-detail-company">🏢 ${escapeHtml(job.business_name || 'Vetted Business')}</span>
-              <span class="p-detail-sep">•</span>
-              <span class="p-detail-location">📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'India')}</span>
-              <span class="p-detail-sep">•</span>
-              <span class="p-detail-vacancies">${escapeHtml(job.vacancies || 1)} Open Position${(job.vacancies || 1) > 1 ? 's' : ''}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="p-row-right">
-          <div class="p-row-wage">
-            <span class="p-wage-amt">₹${(job.salary_min || 15000).toLocaleString('en-IN')} – ₹${(job.salary_max || 25000).toLocaleString('en-IN')}</span>
-            <span class="p-wage-period">/ month</span>
-          </div>
-          <a href="/login.html?mode=signup&role=worker&job=${job.id}" class="p-row-apply-btn" title="Direct WhatsApp & Interview Connect">
-            <span>Apply Direct</span>
-            <span class="p-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    `).join('');
+    if (cat.includes('mechanic')) return TRADE_IMAGES.mechanic;
+    if (cat.includes('electrician') || cat.includes('wireman')) return TRADE_IMAGES.electrician;
+    if (cat.includes('driver')) return TRADE_IMAGES.driver;
+    if (cat.includes('cook') || cat.includes('chef') || cat.includes('sweet')) return TRADE_IMAGES.cook;
+    if (cat.includes('plumber') || cat.includes('pipe')) return TRADE_IMAGES.plumber;
+    if (cat.includes('ac') || cat.includes('hvac')) return TRADE_IMAGES.actech;
+    return TRADE_IMAGES.mechanic;
   }
 
   function escapeHtml(str) {
@@ -190,43 +159,92 @@ document.addEventListener('DOMContentLoaded', async () => {
       .replace(/'/g, '&#39;');
   }
 
-  // Event Listeners for Filters
-  homeSearchQuery?.addEventListener('input', () => renderFilteredJobs());
-  homeSearchCity?.addEventListener('change', () => renderFilteredJobs());
-  homeSearchSalary?.addEventListener('change', () => renderFilteredJobs());
-  homeBtnSearch?.addEventListener('click', (e) => {
-    e.preventDefault();
-    renderFilteredJobs();
-    document.getElementById('live-jobs-section')?.scrollIntoView({ behavior: 'smooth' });
-  });
+  async function fetchAndRenderJobs() {
+    if (!homeJobsGrid) return;
+    try {
+      allJobs = await window.jobApi.getJobs();
+      if (headerVacanciesCount) {
+        headerVacanciesCount.textContent = `(${allJobs.length})`;
+      }
+      renderFilteredJobs();
+    } catch (err) {
+      console.error('Error fetching vacancies:', err);
+    }
+  }
 
-  tradeChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      tradeChips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      activeCategory = chip.dataset.category || 'all';
+  function renderFilteredJobs() {
+    if (!homeJobsGrid) return;
+
+    const filtered = allJobs.filter(job => {
+      if (activeCategory !== 'all') {
+        const catMatch = (job.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
+                         (job.title || '').toLowerCase().includes(activeCategory.toLowerCase());
+        if (!catMatch) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      homeJobsGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 4vw; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-s);">
+          <p style="font-size: var(--font-size-m); font-weight: 500; margin-bottom: 0.5vw;">No vacancies found in this trade</p>
+          <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-bottom: 1.5vw;">Try selecting "All" to browse all active trade vacancies.</p>
+          <button type="button" class="nav-btn-solid" id="btn-reset-editorial-filter">Show All Vacancies</button>
+        </div>
+      `;
+      document.getElementById('btn-reset-editorial-filter')?.addEventListener('click', () => {
+        activeCategory = 'all';
+        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.category === 'all'));
+        renderFilteredJobs();
+      });
+      return;
+    }
+
+    homeJobsGrid.innerHTML = filtered.map((job, index) => {
+      const coverImg = getJobImage(job.category);
+      const minSal = (job.salary_min || 16000).toLocaleString('en-IN');
+      const maxSal = (job.salary_max || 25000).toLocaleString('en-IN');
+      const vacanciesCount = job.vacancies || 1;
+
+      return `
+        <a class="project-card" href="/login.html?mode=signup&role=worker&job=${encodeURIComponent(job.id)}">
+          <div class="project-card-box">
+            <img class="project-card-image" src="${coverImg}" alt="${escapeHtml(job.title)}" loading="lazy">
+            <div class="project-card-badges">
+              <span class="project-card-badge">₹${minSal} – ₹${maxSal} / mo</span>
+              <span class="project-card-badge project-card-badge-verified">Verified Employer</span>
+              <span class="project-card-badge" style="background: rgba(0,0,0,0.8); color: #fff;">${vacanciesCount} Open</span>
+            </div>
+          </div>
+
+          <div class="project-card-title-box">
+            <div class="project-card-title-left">
+              <span class="project-card-title-number">${String(index + 1).padStart(2, '0')}</span>
+              <span class="project-card-title">${escapeHtml(job.title)}</span>
+            </div>
+            <svg class="project-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+
+          <div class="project-card-meta">
+            🏢 ${escapeHtml(job.business_name || 'Verified Workshop')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Hyderabad')}
+          </div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  // Filter click handlers
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.dataset.category || 'all';
       renderFilteredJobs();
     });
   });
 
-  // Initial load
+  // Fetch jobs immediately
   await fetchAndRenderJobs();
-
-  // =========================================================================
-  // 2. Scroll Reveal Observer
-  // =========================================================================
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
-  } else {
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
-  }
 });
