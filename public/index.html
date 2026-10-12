@@ -69,8 +69,8 @@
     </div>
   </header>
 
-  <!-- 1. HERO SECTION -->
-  <section class="hero-section" id="welcome-section">
+  <!-- DIV 1: HERO & LIVE TRADE SEARCH -->
+  <div class="hero-section" id="welcome-section">
     <div class="hero-container">
       
       <div class="hero-pill">
@@ -122,7 +122,7 @@
       </div>
 
       <!-- Quick Trade Filter Chips -->
-      <div class="trade-chips-row" id="trade-chips-container" style="margin-bottom: 32px;">
+      <div class="trade-chips-row" id="trade-chips-container" style="margin-bottom: 28px;">
         <button type="button" class="trade-chip active" data-category="all">All Trades</button>
         <button type="button" class="trade-chip" data-category="Mechanic">🔧 Mechanic</button>
         <button type="button" class="trade-chip" data-category="Electrician">⚡ Electrician</button>
@@ -133,94 +133,22 @@
       </div>
 
       <!-- Primary Action Buttons -->
-      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 40px;">
-        <a href="/login.html?mode=signup&role=worker" class="craft-btn-primary" style="padding: 11px 24px; font-size: 13.5px; text-decoration: none;">
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a href="/login.html?mode=signup&role=worker" class="craft-btn-primary" style="padding: 12px 24px; font-size: 14px; text-decoration: none;">
           <span>Register as Trade Worker (Free)</span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a href="/login.html?mode=signup&role=employer" class="craft-btn-accent" style="padding: 11px 24px; font-size: 13.5px; text-decoration: none;">
+        <a href="/login.html?mode=signup&role=employer" class="craft-btn-accent" style="padding: 12px 24px; font-size: 14px; text-decoration: none;">
           <span>Post a Vacancy (Employers)</span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         </a>
       </div>
 
-      <!-- Value Proposition Grid -->
-      <div class="reveal-on-scroll stagger-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; text-align: left;">
-        
-        <!-- Card 1 -->
-        <div class="craft-card" style="padding: 24px;">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); margin-bottom: 14px; border: 1px solid var(--primary-border);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/>
-              <path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/>
-              <path d="M4 15v-3a8 8 0 0 1 16 0v3"/>
-            </svg>
-          </div>
-          <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">100% Free For Workers</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-            No middlemen cuts or hidden deduction from wages. Tradesmen keep 100% of their earned salary.
-          </p>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="craft-card" style="padding: 24px;">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary); margin-bottom: 14px; border: 1px solid var(--border);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-          </div>
-          <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Masked Contact Privacy</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-            Candidate phone numbers and addresses are protected from spam until unlocked by verified employers.
-          </p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="craft-card" style="padding: 24px;">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--accent-text); margin-bottom: 14px; border: 1px solid var(--accent-border);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </div>
-          <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Instant UPI Settlements</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-            Simple, transparent unlock credits activated via Google Pay, PhonePe, and Paytm with live ledger audit.
-          </p>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
 
-  <!-- 2. LIVE PLATFORM TELEMETRY BAR -->
-  <section style="padding: 0 20px;">
-    <div class="telemetry-strip reveal-on-scroll">
-      <div class="telemetry-cell">
-        <div class="telemetry-value" style="color: var(--primary);">1,420+</div>
-        <div class="telemetry-label">Verified Tradesmen</div>
-        <div class="telemetry-sub">KYC & Trade Certified</div>
-      </div>
-      <div class="telemetry-cell">
-        <div class="telemetry-value" style="color: #0284c7;">380+</div>
-        <div class="telemetry-label">Vetted Employers</div>
-        <div class="telemetry-sub">Workshops & Contractors</div>
-      </div>
-      <div class="telemetry-cell">
-        <div class="telemetry-value" style="color: var(--success);">₹0</div>
-        <div class="telemetry-label">Worker Commission</div>
-        <div class="telemetry-sub">Keep 100% of your earnings</div>
-      </div>
-      <div class="telemetry-cell">
-        <div class="telemetry-value" style="color: var(--accent);">&lt; 48h</div>
-        <div class="telemetry-label">Direct Hire Speed</div>
-        <div class="telemetry-sub">Direct WhatsApp & Calling</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. FEATURED LIVE VACANCIES FEED -->
-  <section class="main-content" style="padding-top: 10px; padding-bottom: 36px;" id="live-jobs-section">
+  <!-- DIV 2: LIVE VERIFIED TRADE VACANCIES FEED -->
+  <div class="main-content" id="live-jobs-section" style="padding-top: 16px; padding-bottom: 48px;">
     <div class="section-header">
       <div>
         <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Direct Hiring Openings</div>
@@ -236,11 +164,11 @@
     <div class="jobs-grid" id="home-jobs-grid">
       <!-- Populated dynamically via JavaScript -->
     </div>
-  </section>
+  </div>
 
-  <!-- 4. UNIQUE ELEMENT: THE JOBWAY VERIFIED TRADE PASS SHOWCASE -->
-  <section style="background: radial-gradient(circle at 50% 50%, rgba(239, 246, 255, 0.7) 0%, transparent 80%); padding: 56px 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
-    <div class="trade-pass-container">
+  <!-- DIV 3: THE JOBWAY VERIFIED TRADE PASS & DIRECT CONTACT -->
+  <div class="trade-pass-section" id="trade-pass-section" style="background: radial-gradient(circle at 50% 50%, rgba(239, 246, 255, 0.7) 0%, transparent 80%); padding: 56px 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="trade-pass-container" style="margin: 0 auto;">
       
       <!-- Left: Interactive Holographic Trade Pass Mockup -->
       <div class="trade-pass-card">
@@ -325,366 +253,7 @@
       </div>
 
     </div>
-  </section>
-
-  <!-- 5. HOW IT WORKS IN 3 STEPS -->
-  <section class="main-content" style="padding-top: 48px; padding-bottom: 48px;">
-    <div style="text-align: center; max-width: 600px; margin: 0 auto 32px;">
-      <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Simple Process</div>
-      <h2 class="section-title" style="font-size: 28px;">How JobWay Works</h2>
-      <p class="section-subtitle">Direct connections with zero bureaucracy in 3 easy steps.</p>
-
-      <!-- Worker / Employer Tab Toggle -->
-      <div style="display: inline-flex; background: var(--surface-secondary); padding: 4px; border-radius: var(--radius-full); border: 1px solid var(--border); margin-top: 18px; gap: 4px;">
-        <button type="button" id="tab-how-worker" class="trade-chip active" style="border: none; padding: 6px 18px;">For Trade Job Seekers</button>
-        <button type="button" id="tab-how-employer" class="trade-chip" style="border: none; padding: 6px 18px; background: transparent; color: var(--text-secondary);">For Hiring Employers</button>
-      </div>
-    </div>
-
-    <!-- Steps for Workers -->
-    <div id="steps-worker-view" class="step-grid">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Create Trade Profile</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Add your trade (Mechanic, Electrician, Driver, Cook), years of physical experience, and preferred city.
-        </p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Verify Credentials</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Get your Trade Pass activated with verified KYC and skill records to rank at the top of candidate queues.
-        </p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Get Hired Directly</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Receive direct phone calls and WhatsApp messages from local business owners with zero brokerage.
-        </p>
-      </div>
-    </div>
-
-    <!-- Steps for Employers (Hidden by default) -->
-    <div id="steps-employer-view" class="step-grid" style="display: none;">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Post Trade Vacancy</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Specify role requirements, salary ranges, and shift timings in 60 seconds.
-        </p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Filter Verified Candidates</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Review applicants with verified trade experience, skill test scores, and police/background checks.
-        </p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Direct Unlock via UPI</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
-          Unmask candidate phone numbers instantly starting at ₹49/contact and call them directly.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. SUBSCRIPTION DETAILS & PLANS SECTION -->
-  <main class="main-content" id="subscription-plans">
-    
-    <!-- Section Header -->
-    <div style="text-align: center; max-width: 640px; margin: 0 auto 48px;">
-      <span style="font-size: 11.5px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; background: var(--primary-light); padding: 4px 12px; border-radius: var(--radius-full); border: 1px solid var(--primary-border);">
-        Transparent Pricing
-      </span>
-      <h2 style="font-size: 30px; font-weight: 800; color: var(--text-primary); margin: 14px 0 8px; letter-spacing: -0.03em;">
-        Simple, predictable plans
-      </h2>
-      <p style="font-size: 15px; color: var(--text-secondary);">
-        100% free for trade job seekers. Flexible pay-as-you-grow candidate unlock credits for hiring businesses.
-      </p>
-    </div>
-
-    <!-- Part A: Employer Candidate Unlock Subscriptions -->
-    <div class="reveal-on-scroll" style="margin-bottom: 48px;">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
-        <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
-            <path d="M9 22v-4h6v4"/>
-            <path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/>
-          </svg>
-        </div>
-        <div>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary);">Employer Candidate Unlock Plans</h3>
-          <span style="font-size: 12.5px; color: var(--text-muted);">Unmask verified candidate phone numbers for direct WhatsApp and phone calling</span>
-        </div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-        
-        <!-- Plan 1: Starter Pack -->
-        <div class="craft-card" style="padding: 26px; display: flex; flex-direction: column;">
-          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Starter Pack</div>
-          <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹75</div>
-          <div style="font-size: 12.5px; font-weight: 600; color: var(--primary); margin-bottom: 18px;">1 Candidate Contact Unlock</div>
-          
-          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>1 Verified contact unmasked</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Direct call & WhatsApp access</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Verified trade experience notes</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Unlimited vacancy postings</span>
-            </li>
-          </ul>
-
-          <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="btn-signin-header" style="display: flex; justify-content: center; width: 100%; padding: 11px; font-weight: 600; background: var(--surface-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md); box-shadow: inset 0 1px 0 0 #ffffff;">
-              Select Starter (₹75)
-            </a>
-          </div>
-        </div>
-
-        <!-- Plan 2: Growth Bundle (Recommended) -->
-        <div class="craft-card" style="border: 2px solid var(--primary); padding: 26px; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 14px -2px rgba(30, 64, 175, 0.2), 0 18px 36px -6px rgba(30, 64, 175, 0.15), inset 0 1px 0 0 #ffffff;">
-          <span style="position: absolute; top: -11px; right: 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); color: white; font-size: 10.5px; font-weight: 700; padding: 3px 12px; border-radius: var(--radius-full); letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 2px 6px rgba(30, 64, 175, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.35);">
-            Most Popular
-          </span>
-          <div style="font-size: 12px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.04em;">Growth Bundle</div>
-          <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹249</div>
-          <div style="font-size: 12.5px; font-weight: 600; color: var(--primary); margin-bottom: 18px;">5 Candidate Unlocks (₹49 / contact)</div>
-          
-          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>5 Verified contacts unmasked</strong></span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Direct call & WhatsApp access</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Priority candidate recommendations</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Instant Cloudflare D1 ledger credit</span>
-            </li>
-          </ul>
-
-          <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="craft-btn-primary" style="display: flex; justify-content: center; width: 100%; padding: 11px; text-decoration: none;">
-              Get Growth Bundle (₹249)
-            </a>
-          </div>
-        </div>
-
-        <!-- Plan 3: Enterprise Fleet -->
-        <div class="craft-card" style="padding: 26px; display: flex; flex-direction: column;">
-          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Enterprise Fleet</div>
-          <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹475</div>
-          <div style="font-size: 12.5px; font-weight: 600; color: var(--primary); margin-bottom: 18px;">10 Candidate Unlocks (₹47 / contact)</div>
-          
-          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>10 Verified contacts unmasked</strong></span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Multi-city candidate pools</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Unlimited vacancy postings</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Dedicated priority support</span>
-            </li>
-          </ul>
-
-          <div style="margin-top: auto;">
-            <a href="/login.html?role=employer" class="btn-signin-header" style="display: flex; justify-content: center; width: 100%; padding: 11px; font-weight: 600; background: var(--surface-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md); box-shadow: inset 0 1px 0 0 #ffffff;">
-              Select Enterprise (₹475)
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Part B: Trade Worker Subscription & Priority Plans -->
-    <div style="margin-bottom: 40px;">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
-        <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="8.5" cy="7" r="4"/>
-            <polyline points="17 11 19 13 23 9"/>
-          </svg>
-        </div>
-        <div>
-          <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary);">Trade Worker Membership Plans</h3>
-          <span style="font-size: 12.5px; color: var(--text-muted);">For Electricians, Mechanics, Plumbers, Drivers, Cooks, and Technicians</span>
-        </div>
-      </div>
-
-      <div class="reveal-on-scroll stagger-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-        
-        <!-- Worker Free Plan -->
-        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; transition: var(--transition);">
-          <div style="font-size: 12px; font-weight: 600; color: var(--success); text-transform: uppercase; letter-spacing: 0.04em;">100% Free Forever</div>
-          <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹0</div>
-          <div style="font-size: 12.5px; font-weight: 600; color: var(--success); margin-bottom: 18px;">Standard Worker Membership</div>
-          
-          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>100% Free job applications</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Zero brokerage from wages</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Phone number shielded from spammers</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>KYC verified profile status</span>
-            </li>
-          </ul>
-
-          <div style="margin-top: auto;">
-            <a href="/login.html?role=worker" class="btn-apply-free" style="display: block; text-align: center; padding: 10px;">
-              Join Free as Worker
-            </a>
-          </div>
-        </div>
-
-        <!-- Worker Priority Boost Plan -->
-        <div style="background: white; border: 1px solid var(--accent-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-xs); display: flex; flex-direction: column; transition: var(--transition);">
-          <div style="font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em;">Optional Boost</div>
-          <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); margin: 8px 0 2px; letter-spacing: -0.03em;">₹149</div>
-          <div style="font-size: 12.5px; font-weight: 600; color: var(--accent); margin-bottom: 18px;">7-Day Top Queue Placement</div>
-          
-          <ul style="list-style: none; padding: 0; margin: 0 0 24px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Featured at the top of candidate queues</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Verified Priority badge on profile</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>5x faster employer callbacks</span>
-            </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Instant UPI activation via QR / ID</span>
-            </li>
-          </ul>
-
-          <div style="margin-top: auto;">
-            <a href="/login.html?role=worker" class="btn-apply-priority" style="display: block; text-align: center; padding: 10px;">
-              Activate Priority (₹149)
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Part C: Trust & Payment Settlement -->
-    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 32px;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="14" x="2" y="5" rx="2"/>
-            <line x1="2" y1="10" x2="22" y2="10"/>
-          </svg>
-        </div>
-        <div>
-          <div style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Direct UPI Settlement Engine</div>
-          <div style="font-size: 12px; color: var(--text-muted);">UPI ID: <span style="font-family: monospace; font-weight: 600; color: var(--text-primary);">jobconnect@icici</span> • Supported on GPay, PhonePe, Paytm, BHIM</div>
-        </div>
-      </div>
-      <div style="font-size: 12px; font-weight: 600; color: var(--success); display: flex; align-items: center; gap: 6px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <span>Cloudflare D1 Ledger Audited</span>
-      </div>
-    </div>
-
-    <!-- 6. FREQUENTLY ASKED QUESTIONS SECTION -->
-    <section style="margin-top: 56px;" id="faq-section">
-      <div style="text-align: center; max-width: 600px; margin: 0 auto 28px;">
-        <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Got Questions?</div>
-        <h2 class="section-title" style="font-size: 26px;">Frequently Asked Questions</h2>
-        <p class="section-subtitle">Everything you need to know about India's direct trade employment network.</p>
-      </div>
-
-      <div class="faq-wrap">
-        <div class="faq-item">
-          <button type="button" class="faq-trigger">
-            <span>Is JobWay completely free for blue-collar job seekers?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            Yes, 100% free forever. Tradesmen, mechanics, drivers, electricians, and cooks never pay any registration fee, brokerage, or commission from their wages. You keep 100% of your earnings.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-trigger">
-            <span>How does candidate phone number unmasking work for employers?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            To prevent spam, candidate phone numbers and home addresses are masked initially. Employers review candidate trade experience, certifications, and test scores. When you find a match, 1 unlock credit unmasks the candidate's verified direct phone number for instant calling and WhatsApp.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-trigger">
-            <span>How does UPI settlement work for unlock credits?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            Employers can purchase unlock bundles (starting at ₹75 for 1 contact or ₹249 for 5 contacts) instantly via Google Pay, PhonePe, Paytm, or BHIM. Credits are audited and stored securely on Cloudflare D1 ledgers with zero delays.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-trigger">
-            <span>Which cities are currently supported on JobWay?</span>
-            <span class="faq-icon">▼</span>
-          </button>
-          <div class="faq-answer">
-            JobWay is actively operating across Hyderabad, Visakhapatnam, Vijayawada, Guntur, and Bangalore, with pan-India expansion rolling out for verified commercial drivers and industrial technicians.
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+  </div>
 
   <!-- Site Footer -->
   <footer class="site-footer">

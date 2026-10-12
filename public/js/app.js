@@ -206,57 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await fetchAndRenderJobs();
 
   // =========================================================================
-  // 2. How It Works Tab Switcher
-  // =========================================================================
-  const tabWorker = document.getElementById('tab-how-worker');
-  const tabEmployer = document.getElementById('tab-how-employer');
-  const viewWorker = document.getElementById('steps-worker-view');
-  const viewEmployer = document.getElementById('steps-employer-view');
-
-  if (tabWorker && tabEmployer && viewWorker && viewEmployer) {
-    tabWorker.addEventListener('click', () => {
-      tabWorker.classList.add('active');
-      tabWorker.style.background = 'var(--text-primary)';
-      tabWorker.style.color = '#ffffff';
-
-      tabEmployer.classList.remove('active');
-      tabEmployer.style.background = 'transparent';
-      tabEmployer.style.color = 'var(--text-secondary)';
-
-      viewWorker.style.display = 'grid';
-      viewEmployer.style.display = 'none';
-    });
-
-    tabEmployer.addEventListener('click', () => {
-      tabEmployer.classList.add('active');
-      tabEmployer.style.background = 'var(--text-primary)';
-      tabEmployer.style.color = '#ffffff';
-
-      tabWorker.classList.remove('active');
-      tabWorker.style.background = 'transparent';
-      tabWorker.style.color = 'var(--text-secondary)';
-
-      viewWorker.style.display = 'none';
-      viewEmployer.style.display = 'grid';
-    });
-  }
-
-  // =========================================================================
-  // 3. FAQ Accordion Toggle
-  // =========================================================================
-  document.querySelectorAll('.faq-trigger').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const parent = trigger.closest('.faq-item');
-      const wasActive = parent.classList.contains('active');
-      document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
-      if (!wasActive) {
-        parent.classList.add('active');
-      }
-    });
-  });
-
-  // =========================================================================
-  // 4. Scroll Reveal Observer
+  // 2. Scroll Reveal Observer
   // =========================================================================
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries) => {
