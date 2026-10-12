@@ -2109,3 +2109,262 @@ div[id],
   color: var(--text-secondary);
   box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04), inset 0 1px 0 0 #ffffff;
 }
+
+/* ==========================================================================
+   Home Page Feature Components: Telemetry, Trade Pass, Steps & FAQ
+   ========================================================================== */
+
+/* Telemetry Strip */
+.telemetry-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 48px auto;
+  max-width: 1040px;
+}
+
+.telemetry-cell {
+  background: var(--surface-craft);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  text-align: left;
+  box-shadow: var(--shadow-craft);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.telemetry-cell:hover {
+  transform: translateY(-2px);
+  border-color: rgba(191, 219, 254, 0.95);
+  box-shadow: var(--shadow-craft-hover);
+}
+
+.telemetry-cell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+}
+
+.telemetry-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 4px;
+}
+
+.telemetry-label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.telemetry-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+/* Interactive Trade Pass Card Mockup */
+.trade-pass-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1080px;
+  margin: 64px auto;
+  padding: 0 20px;
+}
+
+.trade-pass-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 245, 249, 0.92) 100%);
+  border: 1.5px solid rgba(191, 219, 254, 0.9);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  position: relative;
+  box-shadow: 
+    0 4px 6px -1px rgba(15, 23, 42, 0.05),
+    0 24px 44px -8px rgba(30, 64, 175, 0.16),
+    inset 0 1px 0 0 #ffffff;
+  overflow: hidden;
+  transition: var(--transition-slow);
+}
+
+.trade-pass-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(30, 64, 175, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.trade-pass-badge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.trade-pass-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.trade-pass-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(30, 64, 175, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border: 2px solid white;
+}
+
+.trade-pass-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.trade-pass-security-footer {
+  background: rgba(248, 250, 252, 0.85);
+  border: 1px dashed rgba(203, 213, 225, 0.9);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* How It Works Steps */
+.step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.step-card {
+  background: var(--surface-craft);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  position: relative;
+  box-shadow: var(--shadow-craft);
+  transition: var(--transition);
+}
+
+.step-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(191, 219, 254, 0.95);
+  box-shadow: var(--shadow-craft-hover);
+}
+
+.step-number {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+
+/* FAQ Accordion */
+.faq-wrap {
+  max-width: 780px;
+  margin: 36px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: var(--surface-craft);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs), inset 0 1px 0 #ffffff;
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  border-color: rgba(191, 219, 254, 0.95);
+}
+
+.faq-trigger {
+  width: 100%;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  letter-spacing: -0.015em;
+}
+
+.faq-icon {
+  font-size: 16px;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 20px 18px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .trade-pass-container {
+    grid-template-columns: 1fr;
+  }
+}

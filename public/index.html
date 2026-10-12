@@ -90,17 +90,57 @@
         Connect certified mechanics, electricians, plumbers, drivers, and technicians directly with vetted local businesses. Privacy protected, zero agency brokerage.
       </p>
 
+      <!-- Search Bar Component -->
+      <div class="search-bar-card" style="margin-bottom: 20px;">
+        <div class="search-field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="home-search-query" placeholder="Search trade role (e.g. Mechanic, Electrician, Plumber, Driver)...">
+        </div>
+        <div class="search-field">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-7.5-8-12a8 8 0 1 1 16 0c0 4.5-8 12-8 12z"/><circle cx="12" cy="9" r="3"/></svg>
+          <select id="home-search-city">
+            <option value="all">All Locations (India)</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Visakhapatnam">Visakhapatnam</option>
+            <option value="Vijayawada">Vijayawada</option>
+            <option value="Bangalore">Bangalore</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <select id="home-search-salary">
+            <option value="0">Any Wage Range</option>
+            <option value="15000">₹15,000+ / mo</option>
+            <option value="20000">₹20,000+ / mo</option>
+            <option value="25000">₹25,000+ / mo</option>
+          </select>
+        </div>
+        <button type="button" class="search-btn" id="home-btn-search">
+          <span>Search Jobs</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <!-- Quick Trade Filter Chips -->
+      <div class="trade-chips-row" id="trade-chips-container" style="margin-bottom: 32px;">
+        <button type="button" class="trade-chip active" data-category="all">All Trades</button>
+        <button type="button" class="trade-chip" data-category="Mechanic">🔧 Mechanic</button>
+        <button type="button" class="trade-chip" data-category="Electrician">⚡ Electrician</button>
+        <button type="button" class="trade-chip" data-category="Driver">🚗 Driver</button>
+        <button type="button" class="trade-chip" data-category="Plumber">🚰 Plumber</button>
+        <button type="button" class="trade-chip" data-category="Cook">🍳 Cook & Sweets</button>
+        <button type="button" class="trade-chip" data-category="AC Tech">❄️ AC Tech</button>
+      </div>
+
       <!-- Primary Action Buttons -->
-      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 56px;">
-        <a href="/login.html" class="search-btn" style="padding: 12px 28px; font-size: 14px;">
-          <span>Enter Portal</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
-          </svg>
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 40px;">
+        <a href="/login.html?mode=signup&role=worker" class="craft-btn-primary" style="padding: 11px 24px; font-size: 13.5px; text-decoration: none;">
+          <span>Register as Trade Worker (Free)</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a href="#subscription-plans" class="btn-apply-free" style="padding: 12px 24px; font-size: 14px;">
-          View Pricing & Plans
+        <a href="/login.html?mode=signup&role=employer" class="craft-btn-accent" style="padding: 11px 24px; font-size: 13.5px; text-decoration: none;">
+          <span>Post a Vacancy (Employers)</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         </a>
       </div>
 
@@ -108,8 +148,8 @@
       <div class="reveal-on-scroll stagger-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; text-align: left;">
         
         <!-- Card 1 -->
-        <div style="background: white; border: 1px solid rgba(226, 232, 240, 0.85); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 0 #ffffff; transition: var(--transition);" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='rgba(226, 232, 240, 0.85)'">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary); margin-bottom: 14px;">
+        <div class="craft-card" style="padding: 24px;">
+          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); margin-bottom: 14px; border: 1px solid var(--primary-border);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/>
               <path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/>
@@ -123,8 +163,8 @@
         </div>
 
         <!-- Card 2 -->
-        <div style="background: white; border: 1px solid rgba(226, 232, 240, 0.85); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 0 #ffffff; transition: var(--transition);" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='rgba(226, 232, 240, 0.85)'">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary); margin-bottom: 14px;">
+        <div class="craft-card" style="padding: 24px;">
+          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary); margin-bottom: 14px; border: 1px solid var(--border);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -137,8 +177,8 @@
         </div>
 
         <!-- Card 3 -->
-        <div style="background: white; border: 1px solid rgba(226, 232, 240, 0.85); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 0 #ffffff; transition: var(--transition);" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='rgba(226, 232, 240, 0.85)'">
-          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--surface-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-primary); margin-bottom: 14px;">
+        <div class="craft-card" style="padding: 24px;">
+          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--accent-text); margin-bottom: 14px; border: 1px solid var(--accent-border);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
             </svg>
@@ -150,6 +190,205 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- 2. LIVE PLATFORM TELEMETRY BAR -->
+  <section style="padding: 0 20px;">
+    <div class="telemetry-strip reveal-on-scroll">
+      <div class="telemetry-cell">
+        <div class="telemetry-value" style="color: var(--primary);">1,420+</div>
+        <div class="telemetry-label">Verified Tradesmen</div>
+        <div class="telemetry-sub">KYC & Trade Certified</div>
+      </div>
+      <div class="telemetry-cell">
+        <div class="telemetry-value" style="color: #0284c7;">380+</div>
+        <div class="telemetry-label">Vetted Employers</div>
+        <div class="telemetry-sub">Workshops & Contractors</div>
+      </div>
+      <div class="telemetry-cell">
+        <div class="telemetry-value" style="color: var(--success);">₹0</div>
+        <div class="telemetry-label">Worker Commission</div>
+        <div class="telemetry-sub">Keep 100% of your earnings</div>
+      </div>
+      <div class="telemetry-cell">
+        <div class="telemetry-value" style="color: var(--accent);">&lt; 48h</div>
+        <div class="telemetry-label">Direct Hire Speed</div>
+        <div class="telemetry-sub">Direct WhatsApp & Calling</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. FEATURED LIVE VACANCIES FEED -->
+  <section class="main-content" style="padding-top: 10px; padding-bottom: 36px;" id="live-jobs-section">
+    <div class="section-header">
+      <div>
+        <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Direct Hiring Openings</div>
+        <h2 class="section-title">Verified Trade Vacancies</h2>
+        <p class="section-subtitle">Real-time openings with direct contact unlock and transparent monthly salary.</p>
+      </div>
+      <div id="jobs-count-badge" class="craft-chip-etched">
+        <span>Loading Openings...</span>
+      </div>
+    </div>
+
+    <!-- Dynamic Jobs Grid -->
+    <div class="jobs-grid" id="home-jobs-grid">
+      <!-- Populated dynamically via JavaScript -->
+    </div>
+  </section>
+
+  <!-- 4. UNIQUE ELEMENT: THE JOBWAY VERIFIED TRADE PASS SHOWCASE -->
+  <section style="background: radial-gradient(circle at 50% 50%, rgba(239, 246, 255, 0.7) 0%, transparent 80%); padding: 56px 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+    <div class="trade-pass-container">
+      
+      <!-- Left: Interactive Holographic Trade Pass Mockup -->
+      <div class="trade-pass-card">
+        <div class="trade-pass-badge-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 24px; height: 24px; border-radius: 6px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">JW</div>
+            <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.04em; text-transform: uppercase;">JobWay Trade Pass</span>
+          </div>
+          <span class="craft-badge-verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>KYC Verified</span>
+          </span>
+        </div>
+
+        <div class="trade-pass-avatar-wrap">
+          <div class="trade-pass-avatar">RK</div>
+          <div>
+            <h4 style="font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 2px;">Ramesh Kumar</h4>
+            <div style="font-size: 13px; font-weight: 600; color: var(--primary);">Master Two-Wheeler Mechanic</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">📍 KPHB, Hyderabad • 5+ Years Experience</div>
+          </div>
+        </div>
+
+        <div class="trade-pass-skills-list">
+          <span class="craft-chip-etched">🔧 Engine Overhaul</span>
+          <span class="craft-chip-etched">⚡ BS-6 Electricals</span>
+          <span class="craft-chip-etched">📜 ITI Certified</span>
+          <span class="craft-chip-etched">⭐ 4.9 Rating (18 Jobs)</span>
+        </div>
+
+        <div class="trade-pass-security-footer">
+          <div>
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Direct Contact Shield</div>
+            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-primary);">+91 98•••••104</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 10px; font-weight: 700; color: var(--success-text); text-transform: uppercase;">Aadhaar Vetted</div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary);">UIDAI 2026-OK</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Why JobWay Is Different -->
+      <div>
+        <div class="craft-pill" style="margin-bottom: 14px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Unique Verification Standard</span>
+        </div>
+        <h2 style="font-size: 30px; font-weight: 800; color: var(--text-primary); line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.03em;">
+          Every tradesman carries a <br>
+          <span style="color: var(--primary);">verified digital credential</span>
+        </h2>
+        <p style="font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
+          Traditional classified sites are filled with unvetted candidates, spammers, and hidden agent commissions. JobWay is built from the ground up for India's genuine physical trade workforce.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
+            <div>
+              <strong style="font-size: 14px; color: var(--text-primary);">100% Zero Worker Deductions</strong>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Workers keep every single rupee of their monthly salary without middleman commission.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #eff6ff; color: #1e40af; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
+            <div>
+              <strong style="font-size: 14px; color: var(--text-primary);">Masked Anti-Spam Privacy Guard</strong>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Phone numbers remain shielded until a genuine, KYC-vetted local business unlocks them.</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px;">✓</div>
+            <div>
+              <strong style="font-size: 14px; color: var(--text-primary);">Direct WhatsApp & Call Contact</strong>
+              <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">No complicated portal messaging. Employers call or message candidates directly on WhatsApp.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WORKS IN 3 STEPS -->
+  <section class="main-content" style="padding-top: 48px; padding-bottom: 48px;">
+    <div style="text-align: center; max-width: 600px; margin: 0 auto 32px;">
+      <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Simple Process</div>
+      <h2 class="section-title" style="font-size: 28px;">How JobWay Works</h2>
+      <p class="section-subtitle">Direct connections with zero bureaucracy in 3 easy steps.</p>
+
+      <!-- Worker / Employer Tab Toggle -->
+      <div style="display: inline-flex; background: var(--surface-secondary); padding: 4px; border-radius: var(--radius-full); border: 1px solid var(--border); margin-top: 18px; gap: 4px;">
+        <button type="button" id="tab-how-worker" class="trade-chip active" style="border: none; padding: 6px 18px;">For Trade Job Seekers</button>
+        <button type="button" id="tab-how-employer" class="trade-chip" style="border: none; padding: 6px 18px; background: transparent; color: var(--text-secondary);">For Hiring Employers</button>
+      </div>
+    </div>
+
+    <!-- Steps for Workers -->
+    <div id="steps-worker-view" class="step-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Create Trade Profile</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Add your trade (Mechanic, Electrician, Driver, Cook), years of physical experience, and preferred city.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Verify Credentials</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Get your Trade Pass activated with verified KYC and skill records to rank at the top of candidate queues.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Get Hired Directly</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Receive direct phone calls and WhatsApp messages from local business owners with zero brokerage.
+        </p>
+      </div>
+    </div>
+
+    <!-- Steps for Employers (Hidden by default) -->
+    <div id="steps-employer-view" class="step-grid" style="display: none;">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Post Trade Vacancy</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Specify role requirements, salary ranges, and shift timings in 60 seconds.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Filter Verified Candidates</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Review applicants with verified trade experience, skill test scores, and police/background checks.
+        </p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Direct Unlock via UPI</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.55;">
+          Unmask candidate phone numbers instantly starting at ₹49/contact and call them directly.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -393,6 +632,57 @@
         <span>Cloudflare D1 Ledger Audited</span>
       </div>
     </div>
+
+    <!-- 6. FREQUENTLY ASKED QUESTIONS SECTION -->
+    <section style="margin-top: 56px;" id="faq-section">
+      <div style="text-align: center; max-width: 600px; margin: 0 auto 28px;">
+        <div class="overline-label" style="color: var(--primary); margin-bottom: 4px;">Got Questions?</div>
+        <h2 class="section-title" style="font-size: 26px;">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know about India's direct trade employment network.</p>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <button type="button" class="faq-trigger">
+            <span>Is JobWay completely free for blue-collar job seekers?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Yes, 100% free forever. Tradesmen, mechanics, drivers, electricians, and cooks never pay any registration fee, brokerage, or commission from their wages. You keep 100% of your earnings.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger">
+            <span>How does candidate phone number unmasking work for employers?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            To prevent spam, candidate phone numbers and home addresses are masked initially. Employers review candidate trade experience, certifications, and test scores. When you find a match, 1 unlock credit unmasks the candidate's verified direct phone number for instant calling and WhatsApp.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger">
+            <span>How does UPI settlement work for unlock credits?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Employers can purchase unlock bundles (starting at ₹75 for 1 contact or ₹249 for 5 contacts) instantly via Google Pay, PhonePe, Paytm, or BHIM. Credits are audited and stored securely on Cloudflare D1 ledgers with zero delays.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-trigger">
+            <span>Which cities are currently supported on JobWay?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            JobWay is actively operating across Hyderabad, Visakhapatnam, Vijayawada, Guntur, and Bangalore, with pan-India expansion rolling out for verified commercial drivers and industrial technicians.
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
