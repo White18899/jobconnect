@@ -4,37 +4,38 @@
    ========================================================================== */
 
 :root {
-  /* Brand & Signature Colors */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-active: #1e40af;
+  /* Brand & Signature Colors (Verified Sapphire Navy) */
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
+  --primary-active: #172554;
   --primary-light: #eff6ff;
-  --primary-border: #dbeafe;
-  --primary-glow: rgba(37, 99, 235, 0.12);
+  --primary-border: #bfdbfe;
+  --primary-glow: rgba(30, 64, 175, 0.14);
 
-  /* Neutrals (Restrained Slate Hierarchy) */
+  /* Neutrals (High-Legibility Slate Scale) */
   --bg-page: #f8fafc;
   --surface: #ffffff;
   --surface-secondary: #f1f5f9;
   --surface-tertiary: #e2e8f0;
   
   --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   --text-subtle: #cbd5e1;
 
   /* Hairline Borders */
   --border: #e2e8f0;
   --border-light: #f1f5f9;
-  --border-strong: #cbd5e1;
-  --border-focus: #2563eb;
+  --border-strong: #94a3b8;
+  --border-focus: #1e40af;
 
-  /* Semantic Feedback (Subtle Muted Tones) */
+  /* Semantic Feedback & Verification Badges */
   --success: #059669;
   --success-light: #ecfdf5;
   --success-border: #a7f3d0;
   --success-text: #065f46;
 
+  /* Conversion, Unlock Credits & Badges */
   --accent: #d97706;
   --accent-hover: #b45309;
   --accent-light: #fffbeb;
@@ -342,8 +343,8 @@ button, input, select, textarea {
 }
 
 .brand-logo:hover .brand-icon {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .brand-text-sub {
@@ -1311,7 +1312,7 @@ div[id],
 
 .stat-card.primary::after,
 .stat-card.variant-primary::after {
-  background: linear-gradient(90deg, var(--primary) 0%, rgba(37, 99, 235, 0.1) 80%, transparent 100%);
+  background: linear-gradient(90deg, var(--primary) 0%, rgba(30, 64, 175, 0.12) 80%, transparent 100%);
 }
 
 .stat-card.success::after,
