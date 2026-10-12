@@ -58,67 +58,71 @@
   <!-- Main Employer Workspace Content -->
   <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
-    <!-- Welcome Banner -->
+    <!-- Welcome Banner with Integrated Mini Stats -->
     <div class="portal-welcome-banner reveal-on-scroll">
-      <div>
-        <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Hiring Business ]</div>
-        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
-          Employer Workspace: Sri Balaji Auto Care & Service
-        </h1>
-        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
-          Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
-        </p>
+      <div class="portal-welcome-top">
+        <div>
+          <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Hiring Business ]</div>
+          <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
+            Employer Workspace: Sri Balaji Auto Care & Service
+          </h1>
+          <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
+            Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="#post-job-section" class="nav-btn-solid">
+            <span>Post New Vacancy →</span>
+          </a>
+          <a href="#credits-section" class="btn-signin-header" style="border-radius: var(--radius-xs);">
+            <span>Buy Unlock Credits</span>
+          </a>
+        </div>
       </div>
 
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="#post-job-section" class="nav-btn-solid">
-          <span>Post New Vacancy →</span>
-        </a>
-        <a href="#credits-section" class="btn-signin-header" style="border-radius: var(--radius-xs);">
-          <span>Buy Unlock Credits</span>
-        </a>
-      </div>
-    </div>
+      <!-- Integrated Mini Stats Bar -->
+      <div class="portal-welcome-stats">
+        <div class="portal-stat-pill variant-primary">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Received Applications</span>
+            <div class="portal-stat-pill-icon primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <div class="portal-stat-pill-val stat-card-value" id="stat-emp-apps">0</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot primary"></span>
+            <span>Candidates applied for your jobs</span>
+          </div>
+        </div>
 
-    <!-- Stats Row -->
-    <div class="hub-stats-grid reveal-on-scroll stagger-group">
-      <div class="stat-card variant-primary">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Received Applications</span>
-          <div class="stat-card-icon primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div class="portal-stat-pill variant-success">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Unlocked Contacts</span>
+            <div class="portal-stat-pill-icon success">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="portal-stat-pill-val success stat-card-value" id="stat-emp-unlocked">0</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot success"></span>
+            <span>Phone numbers ready for calling</span>
           </div>
         </div>
-        <div class="stat-card-value" id="stat-emp-apps">0</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot primary"></span>
-          <span>Candidates applied for your jobs</span>
-        </div>
-      </div>
-      <div class="stat-card variant-success">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Unlocked Contacts</span>
-          <div class="stat-card-icon success">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+
+        <div class="portal-stat-pill variant-primary">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Unlock Balance</span>
+            <div class="portal-stat-pill-icon primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
           </div>
-        </div>
-        <div class="stat-card-value success" id="stat-emp-unlocked">0</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot success"></span>
-          <span>Phone numbers ready for calling</span>
-        </div>
-      </div>
-      <div class="stat-card variant-primary">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Unlock Balance</span>
-          <div class="stat-card-icon primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="portal-stat-pill-val primary stat-card-value" id="stat-emp-credits">3</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot primary"></span>
+            <span>Credits remaining in account</span>
           </div>
-        </div>
-        <div class="stat-card-value primary" id="stat-emp-credits">3</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot primary"></span>
-          <span>Credits remaining in account</span>
         </div>
       </div>
     </div>

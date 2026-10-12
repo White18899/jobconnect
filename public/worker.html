@@ -52,64 +52,68 @@
   <!-- Main Worker Dashboard Content -->
   <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
-    <!-- Welcome Banner -->
+    <!-- Welcome Banner with Integrated Mini Stats -->
     <div class="portal-welcome-banner reveal-on-scroll">
-      <div>
-        <div class="bracket-tag" style="margin-bottom: 8px;">[ KYC Verified Tradesman ]</div>
-        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
-          Worker Portal: Ramesh Kumar Rao
-        </h1>
-        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
-          Track employer review status, update your verified trade qualifications, and manage priority placement.
-        </p>
+      <div class="portal-welcome-top">
+        <div>
+          <div class="bracket-tag" style="margin-bottom: 8px;">[ KYC Verified Tradesman ]</div>
+          <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
+            Worker Portal: Ramesh Kumar (Mechanic)
+          </h1>
+          <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
+            Track employer review status, update your verified trade qualifications, and manage priority placement.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <a href="/" class="nav-btn-solid">
+            <span>Find More Jobs →</span>
+          </a>
+        </div>
       </div>
 
-      <div style="display: flex; gap: 10px;">
-        <a href="/" class="nav-btn-solid">
-          <span>Find More Jobs →</span>
-        </a>
-      </div>
-    </div>
+      <!-- Integrated Mini Stats Bar -->
+      <div class="portal-welcome-stats">
+        <div class="portal-stat-pill variant-primary">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Applications Submitted</span>
+            <div class="portal-stat-pill-icon primary">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+          </div>
+          <div class="portal-stat-pill-val stat-card-value" id="stat-worker-apps">0</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot primary"></span>
+            <span>Direct employer submissions</span>
+          </div>
+        </div>
 
-    <!-- Stats Row -->
-    <div class="hub-stats-grid reveal-on-scroll stagger-group">
-      <div class="stat-card variant-primary">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Applications Submitted</span>
-          <div class="stat-card-icon primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div class="portal-stat-pill variant-success">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Shortlisted Candidates</span>
+            <div class="portal-stat-pill-icon success">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div class="portal-stat-pill-val success stat-card-value" id="stat-worker-shortlisted">0</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot success"></span>
+            <span>Employers preparing to call you</span>
           </div>
         </div>
-        <div class="stat-card-value" id="stat-worker-apps">0</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot primary"></span>
-          <span>Direct employer submissions</span>
-        </div>
-      </div>
-      <div class="stat-card variant-success">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Shortlisted Candidates</span>
-          <div class="stat-card-icon success">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+
+        <div class="portal-stat-pill variant-accent">
+          <div class="portal-stat-pill-top">
+            <span class="portal-stat-pill-label">Placement Status</span>
+            <div class="portal-stat-pill-icon accent">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
           </div>
-        </div>
-        <div class="stat-card-value success" id="stat-worker-shortlisted">0</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot success"></span>
-          <span>Employers preparing to call you</span>
-        </div>
-      </div>
-      <div class="stat-card variant-accent">
-        <div class="stat-card-top">
-          <span class="stat-card-label">Placement Status</span>
-          <div class="stat-card-icon accent">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="portal-stat-pill-val accent stat-card-value" id="stat-worker-priority">Active</div>
+          <div class="portal-stat-pill-sub">
+            <span class="stat-pulse-dot accent"></span>
+            <span>Featured in candidate queues</span>
           </div>
-        </div>
-        <div class="stat-card-value accent" id="stat-worker-priority">Active</div>
-        <div class="stat-card-sub">
-          <span class="stat-pulse-dot accent"></span>
-          <span>Featured in candidate queues</span>
         </div>
       </div>
     </div>
@@ -310,9 +314,9 @@
       }
 
       // Populate basic user info
-      document.getElementById('worker-display-name').textContent = user.name || 'Ramesh Kumar';
-      document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${user.name || 'Ramesh Kumar Rao'}`;
-      document.getElementById('profile-name').textContent = user.name || 'Ramesh Kumar Rao';
+      const categoryLabel = user.category ? ` (${user.category})` : '';
+      document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${user.name || 'Ramesh Kumar'}${categoryLabel}`;
+      document.getElementById('profile-name').textContent = user.name || 'Ramesh Kumar';
       if (user.email && document.getElementById('profile-email')) {
         document.getElementById('profile-email').textContent = user.email;
       }
