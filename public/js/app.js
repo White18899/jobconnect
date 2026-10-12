@@ -130,23 +130,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   let activeCategory = 'all';
 
   const TRADE_IMAGES = {
-    mechanic: 'assets/trades/mechanic.jpg',
-    electrician: 'assets/trades/electrician.jpg',
-    driver: 'assets/trades/driver.jpg',
-    cook: 'assets/trades/cook.jpg',
-    plumber: 'assets/trades/plumber.jpg',
-    actech: 'assets/trades/actech.jpg'
+    automation: 'assets/trades/automation.jpg',
+    cnc: 'assets/trades/cnc.jpg',
+    ev: 'assets/trades/ev.jpg',
+    solar: 'assets/trades/solar.jpg',
+    welding: 'assets/trades/welding.jpg',
+    hvac: 'assets/trades/hvac.jpg'
   };
 
   function getJobImage(category = '') {
     const cat = (category || '').toLowerCase();
-    if (cat.includes('mechanic')) return TRADE_IMAGES.mechanic;
-    if (cat.includes('electrician') || cat.includes('wireman')) return TRADE_IMAGES.electrician;
-    if (cat.includes('driver')) return TRADE_IMAGES.driver;
-    if (cat.includes('cook') || cat.includes('chef') || cat.includes('sweet')) return TRADE_IMAGES.cook;
-    if (cat.includes('plumber') || cat.includes('pipe')) return TRADE_IMAGES.plumber;
-    if (cat.includes('ac') || cat.includes('hvac')) return TRADE_IMAGES.actech;
-    return TRADE_IMAGES.mechanic;
+    if (cat.includes('auto') || cat.includes('robot') || cat.includes('plc') || cat.includes('vision')) return TRADE_IMAGES.automation;
+    if (cat.includes('cnc') || cat.includes('machin') || cat.includes('turn') || cat.includes('mill') || cat.includes('tool')) return TRADE_IMAGES.cnc;
+    if (cat.includes('ev') || cat.includes('battery') || cat.includes('powertrain') || cat.includes('electric vehicle')) return TRADE_IMAGES.ev;
+    if (cat.includes('solar') || cat.includes('grid') || cat.includes('renewable') || cat.includes('pv')) return TRADE_IMAGES.solar;
+    if (cat.includes('weld') || cat.includes('pipe') || cat.includes('fabricat') || cat.includes('vessel')) return TRADE_IMAGES.welding;
+    if (cat.includes('hvac') || cat.includes('chiller') || cat.includes('cleanroom') || cat.includes('refriger') || cat.includes('ac')) return TRADE_IMAGES.hvac;
+    return TRADE_IMAGES.automation;
   }
 
   function escapeHtml(str) {
