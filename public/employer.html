@@ -9,93 +9,73 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <link rel="stylesheet" href="css/side-rays.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/editorial.css?v=2">
 </head>
-<body>
+<body class="editorial-page">
 
-  <!-- Dynamic WebGL SideRays Background (React Bits) -->
-  <div id="side-rays-bg" class="side-rays-fixed-bg" data-ray-color-1="#ffffff" data-ray-color-2="#94a3b8" data-intensity="1.6" data-spread="2.2" data-origin="top-right" data-saturation="0" data-blend="0.7" data-falloff="1.6" data-opacity="0.8"></div>
-
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="navbar-container">
-      <a href="/" class="brand-logo">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-        </div>
-        <div>
-          <span>JobWay</span>
-          <span class="brand-text-sub">Employer Workspace</span>
-        </div>
+  <!-- Editorial Site Header -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar">
+      <a href="/" class="nav-logo">
+        <span class="link-line">©JobWay</span>
+        <span class="bracket-tag" style="margin-left: 8px;">[ Employer Workspace ]</span>
       </a>
 
       <!-- Header Center Links -->
-      <nav style="display: flex; gap: 20px; align-items: center;">
-        <a href="/" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span>Public Site</span>
+      <div class="nav-links-wrapper">
+        <a href="/" class="nav-link">
+          <span class="link-line">Public Feed</span>
         </a>
-        <a href="#applicants-section" style="font-size: 13px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>Candidates (<span id="nav-candidate-count">0</span>)</span>
+        <a href="#applicants-section" class="nav-link">
+          <span class="link-line">Candidates</span>
+          <span class="nav-link-count">(<span id="nav-candidate-count">0</span>)</span>
         </a>
-        <a href="#post-job-section" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          <span>Post Vacancy</span>
+        <a href="#post-job-section" class="nav-link">
+          <span class="link-line">Post Vacancy</span>
         </a>
-        <a href="#credits-section" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          <span>Buy Credits</span>
+        <a href="#credits-section" class="nav-link">
+          <span class="link-line">Unlocks</span>
+          <span class="nav-link-count">(Credits)</span>
         </a>
-      </nav>
+      </div>
 
       <!-- Employer Profile, Credits & Logout -->
       <div class="nav-right-actions">
-        <div class="credit-pill" id="header-credit-pill">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div class="project-card-badge" id="header-credit-pill">
           <span><span id="header-credit-count">3</span> Unlocks Left</span>
         </div>
-        <div class="role-badge-box">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+        <div class="project-card-badge project-card-badge-verified">
           <span id="employer-display-name">Sri Balaji Auto</span>
         </div>
-        <button id="btn-employer-logout" class="btn-logout-header" title="Sign Out">
+        <button id="btn-employer-logout" class="nav-btn-link link-line" title="Sign Out">
           Sign Out
         </button>
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- Main Employer Workspace Content -->
-  <main class="main-content">
+  <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
     <!-- Welcome Banner -->
     <div class="portal-welcome-banner reveal-on-scroll">
       <div>
-        <div class="portal-welcome-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>Verified Hiring Business</span>
-        </div>
-        <h1 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
+        <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Hiring Business ]</div>
+        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
           Employer Workspace: Sri Balaji Auto Care & Service
         </h1>
-        <p style="color: #94a3b8; font-size: 13.5px; max-width: 600px; font-weight: 450;">
+        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
           Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
         </p>
       </div>
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="#post-job-section" class="btn-signin-header" style="padding: 10px 18px; font-size: 13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          <span>Post New Vacancy</span>
+        <a href="#post-job-section" class="nav-btn-solid">
+          <span>Post New Vacancy →</span>
         </a>
-        <a href="#credits-section" class="btn-apply-priority" style="padding: 10px 18px; font-size: 13px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Buy Credits</span>
+        <a href="#credits-section" class="btn-signin-header" style="border-radius: var(--radius-xs);">
+          <span>Buy Unlock Credits</span>
         </a>
       </div>
     </div>
@@ -531,6 +511,29 @@
       }
     });
   </script>
-  <script src="js/side-rays.js"></script>
+
+  <!-- Editorial Footer -->
+  <footer class="editorial-footer">
+    <div class="footer-left">
+      <span class="footer-brand">©2026 JobWay</span>
+      <span class="footer-copy">India's Verified Blue-Collar Employment Network • Employer Workspace</span>
+    </div>
+    <div class="footer-right">
+      <div class="footer-box">
+        <span class="bracket-tag">[ Direct Hiring ]</span>
+        <p class="footer-text">
+          Zero middleman brokerage. Unlock certified tradesmen WhatsApp and phone numbers directly.
+        </p>
+      </div>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Navigation ]</span>
+        <p class="footer-text">
+          <a class="link-line" href="/">Public Landing</a><br>
+          <a class="link-line" href="#post-job-section">Post Vacancy</a><br>
+          <a class="link-line" href="#credits-section">Credit Ledger</a>
+        </p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

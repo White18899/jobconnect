@@ -946,3 +946,306 @@ body.editorial-page a {
     max-width: 100%;
   }
 }
+
+/* ==========================================================================
+   PORTAL & WORKSPACE EDITORIAL EXTENSIONS (Worker, Employer, Admin, Login, Profile)
+   ========================================================================== */
+
+/* Universal Site Header */
+.site-header {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.brand-icon {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+.brand-logo {
+  color: #000000 !important;
+}
+
+.brand-text-sub {
+  color: #52525b !important;
+  font-family: var(--font-mono);
+}
+
+/* Role Badges & Credits */
+.role-badge-box {
+  background: #fafafa !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #09090b !important;
+}
+
+.credit-pill {
+  background: #fafafa !important;
+  border: 1px solid rgba(217, 119, 6, 0.3) !important;
+  color: #b45309 !important;
+}
+
+/* Portal Welcome Banners */
+.portal-welcome-banner {
+  background: #fafafa !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  color: #09090b !important;
+}
+
+.portal-welcome-banner h1,
+.portal-welcome-banner .heading-xl {
+  color: #09090b !important;
+}
+
+.portal-welcome-banner p {
+  color: #52525b !important;
+}
+
+.portal-welcome-badge {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #09090b !important;
+}
+
+/* KPI & Stat Cards */
+.stat-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.stat-card:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+.stat-card-value {
+  color: #09090b !important;
+  font-family: var(--font-mono) !important;
+}
+
+.stat-card-label {
+  color: #71717a !important;
+}
+
+.stat-card-icon {
+  background: #f4f4f5 !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  color: #09090b !important;
+}
+
+/* Panels, Lists, and Cards */
+.panel-card,
+.card,
+.dashboard-card,
+.profile-card-section {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.panel-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.panel-title,
+.profile-section-title {
+  color: #09090b !important;
+}
+
+.panel-subtitle {
+  color: #71717a !important;
+}
+
+.divided-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.divided-row:hover {
+  background: #fafafa !important;
+}
+
+/* Inputs, Selects & Forms */
+.form-input,
+.form-select,
+.code-input-field,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+select,
+textarea {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.14) !important;
+  color: #09090b !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.form-input:focus,
+.form-select:focus,
+.code-input-field:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #000000 !important;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+  outline: none !important;
+}
+
+/* Buttons */
+.btn-post-job-header,
+.btn-apply-priority,
+.btn-unlock,
+.btn-primary-action,
+.btn-submit-action {
+  background: #000000 !important;
+  border: 1px solid #000000 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.btn-post-job-header:hover,
+.btn-apply-priority:hover,
+.btn-unlock:hover,
+.btn-primary-action:hover {
+  background: #27272a !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-post-job-header svg,
+.btn-apply-priority svg,
+.btn-unlock svg {
+  stroke: #ffffff !important;
+}
+
+.btn-signin-header,
+.btn-secondary-action {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.16) !important;
+  color: #09090b !important;
+}
+
+.btn-signin-header:hover,
+.btn-secondary-action:hover {
+  background: #f4f4f5 !important;
+  border-color: #000000 !important;
+  color: #000000 !important;
+}
+
+.btn-logout-header {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #71717a !important;
+}
+
+.btn-logout-header:hover {
+  background: #fef2f2 !important;
+  border-color: #fca5a5 !important;
+  color: #dc2626 !important;
+}
+
+/* Auth Cards & Controls in login.html */
+.auth-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06) !important;
+}
+
+.auth-mode-switch {
+  background: #f4f4f5 !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.auth-mode-btn {
+  color: #52525b !important;
+}
+
+.auth-mode-btn.active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+.role-toggle-card {
+  background: #fafafa !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+  color: #09090b !important;
+}
+
+.role-toggle-card:hover {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.role-toggle-card.selected {
+  border-color: #000000 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 1px #000000 !important;
+}
+
+/* Skill Chips & Profile in profile-edit.html */
+.skill-chip {
+  background: #f4f4f5 !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #18181b !important;
+}
+
+.skill-chip:hover {
+  border-color: #000000 !important;
+  background: #ffffff !important;
+}
+
+.avatar-preview-box {
+  background: #f4f4f5 !important;
+  border: 2px solid rgba(0, 0, 0, 0.12) !important;
+  color: #71717a !important;
+}
+
+/* Tables & Ledgers (Admin & Employer) */
+.table,
+table {
+  color: #09090b !important;
+}
+
+.table th,
+th {
+  background: #fafafa !important;
+  color: #71717a !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.table td,
+td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  color: #09090b !important;
+}
+
+.table tr:hover,
+tr:hover {
+  background: #fbfbfb !important;
+}
+
+/* Modals */
+.modal-overlay,
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.modal-content,
+.modal-card {
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12) !important;
+}

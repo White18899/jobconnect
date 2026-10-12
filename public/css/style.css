@@ -4,74 +4,74 @@
    ========================================================================== */
 
 :root {
-  /* Brand & Signature Colors (Crisp Monochromatic Platinum & Pearl White) */
-  --primary: #ffffff;
-  --primary-hover: #e4e4e7;
-  --primary-active: #d4d4d8;
-  --primary-light: rgba(255, 255, 255, 0.08);
-  --primary-border: rgba(255, 255, 255, 0.22);
-  --primary-glow: rgba(255, 255, 255, 0.25);
+  /* Brand & Signature Colors (Crisp Editorial Monochromatic Black & Pure White) */
+  --primary: #000000;
+  --primary-hover: #18181b;
+  --primary-active: #27272a;
+  --primary-light: rgba(0, 0, 0, 0.05);
+  --primary-border: rgba(0, 0, 0, 0.15);
+  --primary-glow: rgba(0, 0, 0, 0.08);
 
-  /* Neutrals (High-Contrast Pure Obsidian & Monochromatic Scale) */
-  --bg-page: #000000;
-  --surface: #0a0a0c;
-  --surface-secondary: #121215;
-  --surface-tertiary: #1a1a1f;
+  /* Neutrals (High-Contrast Pure White & Monochromatic Charcoal Scale) */
+  --bg-page: #ffffff;
+  --surface: #ffffff;
+  --surface-secondary: #fafafa;
+  --surface-tertiary: #f4f4f5;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #8494ab;
-  --text-subtle: #4b5563;
+  --text-primary: #09090b;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+  --text-subtle: #a1a1aa;
 
   /* Hairline Precision Monochromatic Borders */
-  --border: rgba(255, 255, 255, 0.1);
-  --border-light: rgba(255, 255, 255, 0.05);
-  --border-strong: rgba(255, 255, 255, 0.24);
-  --border-focus: #ffffff;
+  --border: rgba(0, 0, 0, 0.09);
+  --border-light: rgba(0, 0, 0, 0.05);
+  --border-strong: rgba(0, 0, 0, 0.22);
+  --border-focus: #000000;
 
   /* Semantic Feedback & Verification Badges */
-  --success: #10b981;
-  --success-light: rgba(16, 185, 129, 0.14);
-  --success-border: rgba(16, 185, 129, 0.36);
-  --success-text: #6ee7b7;
+  --success: #059669;
+  --success-light: rgba(5, 150, 105, 0.08);
+  --success-border: rgba(5, 150, 105, 0.25);
+  --success-text: #047857;
 
   /* Conversion, Unlock Credits & Badges */
-  --accent: #f59e0b;
-  --accent-hover: #fbbf24;
-  --accent-light: rgba(245, 158, 11, 0.14);
-  --accent-border: rgba(245, 158, 11, 0.36);
-  --accent-text: #fcd34d;
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-light: rgba(217, 119, 6, 0.08);
+  --accent-border: rgba(217, 119, 6, 0.25);
+  --accent-text: #b45309;
 
-  --danger: #ef4444;
-  --danger-light: rgba(239, 68, 68, 0.14);
-  --danger-border: rgba(239, 68, 68, 0.36);
-  --danger-text: #fca5a5;
+  --danger: #dc2626;
+  --danger-light: rgba(220, 38, 38, 0.08);
+  --danger-border: rgba(220, 38, 38, 0.25);
+  --danger-text: #b91c1c;
 
-  /* Craft-Morphism Engineering Tokens (Obsidian Precision Glass & Tactile Depth) */
-  --surface-craft: rgba(255, 255, 255, 0.02);
-  --surface-craft-hover: rgba(255, 255, 255, 0.035);
+  /* Craft-Morphism Engineering Tokens (Clean Tactile Depth) */
+  --surface-craft: #ffffff;
+  --surface-craft-hover: #fafafa;
   --surface-craft-subtle: transparent;
-  --specular-rim: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-  --specular-rim-dark: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  --shadow-craft: 0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 1px 2px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-  --shadow-craft-hover: 0 8px 30px -4px rgba(0, 0, 0, 0.75), 0 0 16px rgba(255, 255, 255, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
-  --shadow-craft-btn: 0 2px 8px 0 rgba(0, 0, 0, 0.45), 0 1px 2px 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
-  --shadow-craft-pressed: 0 1px 2px 0 rgba(0, 0, 0, 0.3), inset 0 2px 4px 0 rgba(0, 0, 0, 0.55);
-  --shadow-deboss: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --specular-rim: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+  --specular-rim-dark: inset 0 1px 0 0 rgba(0, 0, 0, 0.04);
+  --shadow-craft: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-craft-hover: 0 6px 20px -2px rgba(0, 0, 0, 0.07);
+  --shadow-craft-btn: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-craft-pressed: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  --shadow-deboss: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   /* Ambient Multi-Layer Shadows */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 24px 36px -6px rgba(0, 0, 0, 0.75);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 32px -6px rgba(0, 0, 0, 0.1);
 
   /* Geometry & Radii */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
   /* Engineered Typography System */
@@ -103,8 +103,7 @@ body {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'tnum', 'zero';
   letter-spacing: -0.012em;
   background-color: var(--bg-page);
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: none;
   color: var(--text-primary);
   line-height: 1.55;
   font-size: 14px;

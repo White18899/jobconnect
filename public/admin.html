@@ -9,73 +9,57 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <link rel="stylesheet" href="css/side-rays.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/editorial.css?v=2">
 </head>
-<body>
+<body class="editorial-page">
 
-  <!-- Dynamic WebGL SideRays Background (React Bits) -->
-  <div id="side-rays-bg" class="side-rays-fixed-bg" data-ray-color-1="#ffffff" data-ray-color-2="#94a3b8" data-intensity="1.6" data-spread="2.2" data-origin="top-right" data-saturation="0" data-blend="0.7" data-falloff="1.6" data-opacity="0.8"></div>
-
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="navbar-container">
-      <a href="/" class="brand-logo">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-        </div>
-        <div>
-          <span>JobWay</span>
-          <span class="brand-text-sub">Admin Console</span>
-        </div>
+  <!-- Editorial Site Header -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar">
+      <a href="/" class="nav-logo">
+        <span class="link-line">©JobWay</span>
+        <span class="bracket-tag" style="margin-left: 8px;">[ Admin Ledger ]</span>
       </a>
 
       <!-- Header Center Links -->
-      <nav style="display: flex; gap: 20px; align-items: center;">
-        <a href="/" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span>Public Site</span>
+      <div class="nav-links-wrapper">
+        <a href="/" class="nav-link">
+          <span class="link-line">Public Site</span>
         </a>
-        <a href="#ledger-section" style="font-size: 13px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          <span>Payment Ledger</span>
+        <a href="#ledger-section" class="nav-link">
+          <span class="link-line">Payment Ledger</span>
+          <span class="nav-link-count">(Audit)</span>
         </a>
-        <a href="#jobs-section" style="font-size: 13px; font-weight: 550; color: var(--text-secondary); display: flex; align-items: center; gap: 6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
-          <span>Job Listings</span>
+        <a href="#jobs-section" class="nav-link">
+          <span class="link-line">Job Listings</span>
+          <span class="nav-link-count">(Live)</span>
         </a>
-      </nav>
+      </div>
 
       <!-- Admin Profile & Logout -->
       <div class="nav-right-actions">
-        <div class="role-badge-box" style="background: var(--danger-light); border-color: var(--danger-border); color: var(--danger-text);">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="project-card-badge project-card-badge-verified">
           <span>Platform Administrator</span>
         </div>
-        <button id="btn-admin-logout" class="btn-logout-header" title="Sign Out">
+        <button id="btn-admin-logout" class="nav-btn-link link-line" title="Sign Out">
           Sign Out
         </button>
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- Main Admin Content -->
-  <main class="main-content">
+  <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
     <!-- Welcome Banner -->
     <div class="portal-welcome-banner reveal-on-scroll">
       <div>
-        <div class="portal-welcome-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>Root Administrator Console</span>
-        </div>
-        <h1 style="font-size: 24px; font-weight: 700; color: white; margin-bottom: 6px; letter-spacing: -0.025em;">
+        <div class="bracket-tag" style="margin-bottom: 8px;">[ Root Administrator Console ]</div>
+        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;">
           UPI Financial Ledger & Platform Console
         </h1>
-        <p style="color: #94a3b8; font-size: 13.5px; max-width: 600px; font-weight: 450;">
+        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
           Verify 12-digit bank UTR numbers, audit candidate unlock settlements, and monitor active job listings on Cloudflare D1.
         </p>
       </div>
@@ -330,6 +314,29 @@
       }
     });
   </script>
-  <script src="js/side-rays.js"></script>
+
+  <!-- Editorial Footer -->
+  <footer class="editorial-footer">
+    <div class="footer-left">
+      <span class="footer-brand">©2026 JobWay</span>
+      <span class="footer-copy">India's Verified Blue-Collar Employment Network • Root Admin Ledger</span>
+    </div>
+    <div class="footer-right">
+      <div class="footer-box">
+        <span class="bracket-tag">[ Console ]</span>
+        <p class="footer-text">
+          Direct financial ledger audits & candidate verification protocols.
+        </p>
+      </div>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Portals ]</span>
+        <p class="footer-text">
+          <a class="link-line" href="/">Public Landing</a><br>
+          <a class="link-line" href="/worker.html">Worker Desk</a><br>
+          <a class="link-line" href="/employer.html">Employer Terminal</a>
+        </p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

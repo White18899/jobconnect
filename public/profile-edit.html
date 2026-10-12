@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
-  <link rel="stylesheet" href="css/side-rays.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/editorial.css?v=2">
   <style>
     .profile-card-section {
       background: rgba(255, 255, 255, 0.02) !important;
@@ -148,34 +148,22 @@
     }
   </style>
 </head>
-<body style="position: relative;">
+<body class="editorial-page" style="position: relative;">
 
-  <!-- Dynamic WebGL SideRays Background (React Bits) -->
-  <div id="side-rays-bg" class="side-rays-fixed-bg" data-ray-color-1="#ffffff" data-ray-color-2="#94a3b8" data-intensity="1.6" data-spread="2.2" data-origin="top-right" data-saturation="0" data-blend="0.7" data-falloff="1.6" data-opacity="0.8"></div>
-
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="navbar-container" style="max-width: 1000px;">
-      <a href="/" class="brand-logo">
-        <div class="brand-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-          </svg>
-        </div>
-        <div>
-          <span>JobWay</span>
-          <span class="brand-text-sub">Profile Setup</span>
-        </div>
+  <!-- Editorial Site Header -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar" style="max-width: 1000px; margin: 0 auto;">
+      <a href="/" class="nav-logo">
+        <span class="link-line">©JobWay</span>
+        <span class="bracket-tag" style="margin-left: 8px;">[ Trade Credentials ]</span>
       </a>
       <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="font-size: 12.5px; color: var(--text-muted); font-weight: 500;" id="user-header-email"></span>
-        <a href="/worker.html" style="font-size: 13px; font-weight: 600; color: var(--primary); display: inline-flex; align-items: center; gap: 4px;">
-          <span>Skip to Dashboard</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <span style="font-size: 12.5px; color: var(--color-text-secondary); font-family: var(--font-mono);" id="user-header-email"></span>
+        <a href="/worker.html" class="nav-btn-solid">
+          <span>Skip to Dashboard →</span>
         </a>
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- Main Profile Edit Form -->
@@ -809,6 +797,28 @@
       document.getElementById('btn-save-profile-bottom').addEventListener('click', saveFullProfile);
     });
   </script>
-  <script src="js/side-rays.js"></script>
+  <!-- Editorial Footer -->
+  <footer class="editorial-footer">
+    <div class="footer-left">
+      <span class="footer-brand">©2026 JobWay</span>
+      <span class="footer-copy">India's Verified Blue-Collar Employment Network • Trade Credentials</span>
+    </div>
+    <div class="footer-right">
+      <div class="footer-box">
+        <span class="bracket-tag">[ Privacy Shield ]</span>
+        <p class="footer-text">
+          Direct Aadhaar KYC vetting with phone shielding. Unlocked exclusively by vetted local workshops.
+        </p>
+      </div>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Navigation ]</span>
+        <p class="footer-text">
+          <a class="link-line" href="/">Home</a><br>
+          <a class="link-line" href="/worker.html">Worker Desk</a><br>
+          <a class="link-line" href="mailto:support@job-way.in">Support</a>
+        </p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
