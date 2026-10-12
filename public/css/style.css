@@ -1190,6 +1190,44 @@ button, input, select, textarea {
 
 /* Standardized Action Buttons in Action Rail */
 .action-rail .btn-apply-priority,
+.btn-apply-priority {
+  height: 32px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.action-rail .btn-apply-priority:hover,
+.btn-apply-priority:hover {
+  background: #e4e4e7 !important;
+  color: #000000 !important;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.action-rail .btn-apply-priority svg,
+.btn-apply-priority svg {
+  stroke: #09090b !important;
+}
+
 .action-rail .btn-apply-free,
 .action-rail .btn-unlock,
 .action-rail .btn-action {
@@ -1208,7 +1246,19 @@ button, input, select, textarea {
   line-height: 1;
   white-space: nowrap;
   flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  cursor: pointer;
   transition: var(--transition);
+}
+
+.action-rail .btn-apply-free:hover,
+.action-rail .btn-unlock:hover,
+.action-rail .btn-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
 }
 
 .action-rail .btn-apply-priority:active,
@@ -1216,6 +1266,60 @@ button, input, select, textarea {
 .action-rail .btn-unlock:active,
 .action-rail .btn-action:active {
   transform: scale(0.98);
+}
+
+/* Primary Action Buttons (High-Contrast White Button with Crisp Dark Text) */
+.search-btn,
+.btn-primary-action {
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-size: 13.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: var(--transition);
+}
+
+.search-btn:hover,
+.btn-primary-action:hover {
+  background: #e4e4e7 !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.42), inset 0 1px 0 #ffffff;
+}
+
+.search-btn:active,
+.btn-primary-action:active {
+  transform: translateY(1px);
+}
+
+.search-btn span,
+.btn-primary-action span {
+  color: #09090b !important;
+}
+
+.search-btn:hover span,
+.btn-primary-action:hover span {
+  color: #000000 !important;
+}
+
+.search-btn svg,
+.btn-primary-action svg {
+  stroke: #09090b !important;
+}
+
+.search-btn:hover svg,
+.btn-primary-action:hover svg {
+  stroke: #000000 !important;
 }
 
 /* Active Status Pill in Action Rail (e.g. "Top Placement Active") */
@@ -1730,24 +1834,30 @@ div[id],
 }
 
 .btn-unlock {
-  background: var(--primary);
-  color: white;
-  border: none;
+  background: #ffffff !important;
+  color: #09090b !important;
+  border: 1px solid #ffffff !important;
   padding: 8px 16px;
   border-radius: var(--radius-md);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 650;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: var(--transition);
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .btn-unlock:hover {
-  background: var(--primary-hover);
+  background: #e4e4e7 !important;
+  color: #000000 !important;
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.35);
+}
+
+.btn-unlock svg {
+  stroke: #09090b !important;
 }
 
 /* ==========================================================================
