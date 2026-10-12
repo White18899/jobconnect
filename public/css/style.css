@@ -48,9 +48,9 @@
   --danger-text: #fca5a5;
 
   /* Craft-Morphism Engineering Tokens (Obsidian Precision Glass & Tactile Depth) */
-  --surface-craft: rgba(11, 17, 28, 0.82);
-  --surface-craft-hover: rgba(18, 26, 42, 0.92);
-  --surface-craft-subtle: rgba(7, 12, 20, 0.82);
+  --surface-craft: rgba(255, 255, 255, 0.02);
+  --surface-craft-hover: rgba(255, 255, 255, 0.035);
+  --surface-craft-subtle: transparent;
   --specular-rim: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   --specular-rim-dark: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
   --shadow-craft: 0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 1px 2px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
@@ -1037,30 +1037,72 @@ button, input, select, textarea {
    Panel Card & Divided List Architecture (Anti-Box-in-Box System)
    ========================================================================== */
 .panel-card {
-  background: var(--surface-craft);
+  background: rgba(255, 255, 255, 0.02) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-craft);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   margin-bottom: 28px;
   transition: var(--transition);
 }
 
 .panel-card:hover {
-  border-color: var(--border-strong);
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.035) !important;
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .panel-header {
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-  background: rgba(15, 23, 42, 0.95);
+  background: transparent !important;
+}
+
+/* Glassmorphic Portal Welcome Banner */
+.portal-welcome-banner {
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  padding: 28px 32px;
+  border-radius: var(--radius-xl);
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: var(--transition);
+}
+
+.portal-welcome-banner:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.035) !important;
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.portal-welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .panel-title {
@@ -1460,13 +1502,13 @@ div[id],
 
 .stat-card {
   position: relative;
-  background: var(--surface-craft);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 20px 22px;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: var(--shadow-craft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transition: var(--transition);
   display: flex;
   flex-direction: column;
@@ -1503,9 +1545,9 @@ div[id],
 }
 
 .stat-card:hover {
-  border-color: rgba(191, 219, 254, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-craft-hover);
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .stat-card:hover::after {
@@ -1936,11 +1978,13 @@ div[id],
 }
 
 .modal-card {
-  background: #0f172a;
+  background: linear-gradient(180deg, rgba(14, 20, 32, 0.92) 0%, rgba(9, 13, 22, 0.96) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 540px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.12);
   overflow: hidden;
   animation: modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1953,8 +1997,8 @@ div[id],
 
 .modal-header {
   padding: 18px 22px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(11, 17, 31, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
