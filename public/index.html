@@ -91,102 +91,86 @@
         Connect certified mechanics, electricians, plumbers, drivers, and technicians directly with vetted local businesses. Privacy protected, zero agency brokerage.
       </p>
 
-      <!-- The Monolithic Floating Trade Terminal Deck -->
-      <div class="trade-terminal-deck">
+      <!-- Sleek Minimalist Hero Hub (Zero Input Fields) -->
+      <div class="hero-minimal-hub">
         
-        <!-- Terminal Header: Live Node Feed & Status -->
-        <div class="terminal-header-strip">
-          <div class="terminal-node-status">
-            <span class="terminal-radar-dot"></span>
-            <span>Live Nodes: Hyderabad • Visakhapatnam • Vijayawada • Bangalore • Mumbai</span>
+        <!-- Primary Action Cluster -->
+        <div class="hero-actions-cluster">
+          <a href="#live-jobs-section" class="hero-btn-explore" id="hero-explore-cta">
+            <span>Explore Live Openings</span>
+            <span class="hero-explore-badge">840+ Active</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+
+          <a href="/login.html?mode=signup&role=worker" class="hero-btn-worker">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            <span>Register as Tradesman</span>
+            <span class="hero-worker-badge">100% Free</span>
+          </a>
+
+          <a href="/login.html?mode=signup&role=employer" class="hero-btn-employer">
+            <span>Post a Vacancy</span>
+            <span style="font-weight: 700; color: #a1a1aa;">→</span>
+          </a>
+        </div>
+
+        <!-- Plain & Clean Minimalist Trade Filter Bar -->
+        <div class="minimal-trade-filter-bar">
+          <div class="filter-bar-header">
+            <span class="filter-bar-dot"></span>
+            <span class="filter-bar-caption">Quick Filter Openings</span>
           </div>
-          <div class="terminal-stats-pill">
-            <span>⚡ 840+ Live Openings</span>
-            <span class="terminal-tag-verified">100% Vetted</span>
+          <div class="minimal-trade-chips" id="trade-chips-container">
+            <button type="button" class="trade-chip active" data-category="all">
+              <span>All Trades</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="Mechanic">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              <span>Mechanic</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="Electrician">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span>Electrician</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="Driver">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+              <span>Driver</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="Plumber">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>Plumber</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="Cook">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
+              <span>Cook & Sweets</span>
+            </button>
+            <button type="button" class="trade-chip" data-category="AC Tech">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>
+              <span>AC Tech</span>
+            </button>
           </div>
         </div>
 
-        <!-- Terminal Omnibar Search -->
-        <div class="terminal-omnibar">
-          <div class="search-field">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="color: #94a3b8;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="home-search-query" placeholder="Search trade role (e.g. Mechanic, Electrician, Plumber, Driver)...">
+        <!-- Hairline Telemetry Ribbon (Minimal Proof Metrics) -->
+        <div class="minimal-telemetry-ribbon">
+          <div class="telemetry-node">
+            <span class="telemetry-value">840+</span>
+            <span class="telemetry-label">Live Openings</span>
           </div>
-          <div class="search-field">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #94a3b8;"><path d="M12 21s-8-7.5-8-12a8 8 0 1 1 16 0c0 4.5-8 12-8 12z"/><circle cx="12" cy="9" r="3"/></svg>
-            <select id="home-search-city">
-              <option value="all">All Locations (India)</option>
-              <option value="Hyderabad">Hyderabad</option>
-              <option value="Visakhapatnam">Visakhapatnam</option>
-              <option value="Vijayawada">Vijayawada</option>
-              <option value="Bangalore">Bangalore</option>
-            </select>
+          <div class="telemetry-sep"></div>
+          <div class="telemetry-node">
+            <span class="telemetry-value">0%</span>
+            <span class="telemetry-label">Brokerage Fee</span>
           </div>
-          <div class="search-field">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #94a3b8;"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            <select id="home-search-salary">
-              <option value="0">Any Wage Range</option>
-              <option value="15000">₹15,000+ / mo</option>
-              <option value="20000">₹20,000+ / mo</option>
-              <option value="25000">₹25,000+ / mo</option>
-            </select>
+          <div class="telemetry-sep"></div>
+          <div class="telemetry-node">
+            <span class="telemetry-value">Direct</span>
+            <span class="telemetry-label">WhatsApp Unlock</span>
           </div>
-          <button type="button" class="search-btn" id="home-btn-search">
-            <span>Search Jobs</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-
-        <!-- Integrated Trade Filter Shelf -->
-        <div class="terminal-trade-shelf" id="trade-chips-container">
-          <span class="terminal-shelf-label">Popular Trades:</span>
-          <button type="button" class="trade-chip active" data-category="all">All Trades</button>
-          <button type="button" class="trade-chip" data-category="Mechanic">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            <span>Mechanic</span>
-          </button>
-          <button type="button" class="trade-chip" data-category="Electrician">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span>Electrician</span>
-          </button>
-          <button type="button" class="trade-chip" data-category="Driver">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
-            <span>Driver</span>
-          </button>
-          <button type="button" class="trade-chip" data-category="Plumber">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-            <span>Plumber</span>
-          </button>
-          <button type="button" class="trade-chip" data-category="Cook">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/><line x1="6" y1="17" x2="18" y2="17"/></svg>
-            <span>Cook & Sweets</span>
-          </button>
-          <button type="button" class="trade-chip" data-category="AC Tech">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M19.07 4.93 4.93 19.07"/></svg>
-            <span>AC Tech</span>
-          </button>
-        </div>
-
-        <!-- Terminal Footer Action Bar -->
-        <div class="terminal-footer-bar">
-          <div class="terminal-actions-cluster">
-            <a href="/login.html?mode=signup&role=worker" class="btn-terminal-worker">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-              <span>Register as Tradesman</span>
-              <span class="terminal-badge-free">100% Free</span>
-            </a>
-            <a href="/login.html?mode=signup&role=employer" class="btn-terminal-employer">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-              <span>Post a Vacancy (Employers)</span>
-            </a>
-          </div>
-
-          <div class="terminal-meta-hints">
-            <span>🛡️ UIDAI Verified Trade Pass</span>
-            <span>•</span>
-            <span>Direct WhatsApp Unlock</span>
-            <span>•</span>
-            <span>Zero Broker Commission</span>
+          <div class="telemetry-sep"></div>
+          <div class="telemetry-node">
+            <span class="telemetry-value">5 Cities</span>
+            <span class="telemetry-label">Hyd • Vizag • Blr +</span>
           </div>
         </div>
 

@@ -193,6 +193,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('live-jobs-section')?.scrollIntoView({ behavior: 'smooth' });
   });
 
+  document.getElementById('hero-explore-cta')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('live-jobs-section')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
   tradeChips.forEach(chip => {
     chip.addEventListener('click', () => {
       tradeChips.forEach(c => c.classList.remove('active'));
