@@ -2535,7 +2535,7 @@ div[id],
 .trade-pass-avatar {
   width: 64px;
   height: 64px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
   color: #ffffff;
   display: flex;

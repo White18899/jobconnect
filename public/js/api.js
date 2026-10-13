@@ -166,6 +166,8 @@ const INITIAL_APPLICATIONS = [
   }
 ];
 
+const SAMPLE_PROOF_RECEIPT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="100%" height="100%" fill="%230c0e14"/><rect x="20" y="20" width="360" height="560" rx="16" fill="%23161b26" stroke="%23262f40" stroke-width="1.5"/><circle cx="200" cy="90" r="32" fill="%2310b981" fill-opacity="0.15"/><path d="M188 90 L196 98 L214 80" stroke="%2310b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="200" y="145" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="18" font-weight="700">Payment Successful</text><text x="200" y="170" text-anchor="middle" fill="%2394a3b8" font-family="sans-serif" font-size="12">10 Oct 2026, 10:15 AM</text><text x="200" y="225" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="34" font-weight="800">₹249.00</text><line x1="45" y1="260" x2="355" y2="260" stroke="%23262f40" stroke-width="1" stroke-dasharray="4"/><text x="50" y="295" fill="%2394a3b8" font-family="sans-serif" font-size="12">To Payee</text><text x="350" y="295" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">JobWay Network</text><text x="350" y="315" text-anchor="end" fill="%236366f1" font-family="monospace" font-size="11">jobconnect@icici</text><text x="50" y="355" fill="%2394a3b8" font-family="sans-serif" font-size="12">From Business</text><text x="350" y="355" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">Precision Automation</text><text x="50" y="395" fill="%2394a3b8" font-family="sans-serif" font-size="12">Bank Ref (UTR)</text><text x="350" y="395" text-anchor="end" fill="%23ffffff" font-family="monospace" font-size="12" font-weight="600">428912304910</text><text x="50" y="435" fill="%2394a3b8" font-family="sans-serif" font-size="12">Selected Pack</text><text x="350" y="435" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="12">Growth Bundle (5 Unlocks)</text><rect x="45" y="475" width="310" height="60" rx="10" fill="%230f172a" stroke="%231e293b"/><text x="200" y="500" text-anchor="middle" fill="%2364748b" font-family="sans-serif" font-size="10" font-weight="600" letter-spacing="1">NPCI UPI 2.0 INSTANT SETTLEMENT</text><text x="200" y="520" text-anchor="middle" fill="%2310b981" font-family="sans-serif" font-size="12" font-weight="600">Verified By HDFC Bank</text></svg>`;
+
 const INITIAL_PAYMENTS = [
   {
     id: "pay_101",
@@ -173,23 +175,27 @@ const INITIAL_PAYMENTS = [
     user_name: "Precision Automation Dynamics Pvt Ltd",
     user_role: "employer",
     plan: "Growth Bundle (5 Worker Unlocks)",
-    amount: 499,
+    amount: 249,
     utr_number: "UPI/428912304910/HDFC",
     submitted_at: "2026-10-10 10:15",
     status: "pending_verification",
-    target_id: "emp-1"
+    target_id: "emp-1",
+    screenshot_url: SAMPLE_PROOF_RECEIPT,
+    credits: 5
   },
   {
     id: "pay_102",
     type: "worker_priority",
     user_name: "Arun Varma",
     user_role: "worker",
-    plan: "Priority Application Boost (₹299)",
-    amount: 299,
+    plan: "Priority Application Boost (₹149)",
+    amount: 149,
     utr_number: "UPI/391029481920/SBI",
     submitted_at: "2026-10-10 09:30",
     status: "verified",
-    target_id: "app_101"
+    target_id: "app_101",
+    screenshot_url: SAMPLE_PROOF_RECEIPT,
+    credits: 0
   }
 ];
 
@@ -211,8 +217,9 @@ class JobConnectApi {
     if (!existingApps || existingApps.includes('Two-Wheeler')) {
       localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
     }
-    if (!localStorage.getItem('jc_payments')) {
+    if (!localStorage.getItem('jc_payments') || !localStorage.getItem('jc_payments_v2')) {
       localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
+      localStorage.setItem('jc_payments_v2', 'true');
     }
     if (!localStorage.getItem('jc_credits')) {
       localStorage.setItem('jc_credits', '3'); // Employer unlock credits
@@ -386,7 +393,9 @@ class JobConnectApi {
       utr_number: paymentData.utrNumber,
       submitted_at: new Date().toISOString().replace('T', ' ').slice(0, 16),
       status: "pending_verification",
-      target_id: paymentData.targetId || ""
+      target_id: paymentData.targetId || "",
+      screenshot_url: paymentData.screenshot_url || paymentData.screenshotUrl || "",
+      credits: paymentData.credits || (paymentData.amount >= 450 ? 10 : (paymentData.amount >= 200 ? 5 : 1))
     };
 
     const payments = JSON.parse(localStorage.getItem('jc_payments') || '[]');
@@ -410,7 +419,7 @@ class JobConnectApi {
 
     if (approve) {
       if (pay.type === "employer_unlock") {
-        const count = pay.amount >= 450 ? 10 : (pay.amount >= 200 ? 5 : 1);
+        const count = pay.credits || (pay.amount >= 450 ? 10 : (pay.amount >= 200 ? 5 : 1));
         this.addUnlockCredits(count);
       }
       if (pay.type === "worker_priority" && pay.target_id) {
@@ -467,13 +476,21 @@ class JobConnectApi {
     // Local fallback profile
     const user = this.getCurrentUser();
     const storedProfile = localStorage.getItem(`jc_worker_profile_${user?.id || 'default'}`);
-    if (storedProfile) return JSON.parse(storedProfile);
+    if (storedProfile) {
+      const parsed = JSON.parse(storedProfile);
+      if (!parsed.photo_key && (user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo'))) {
+        parsed.photo_key = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo');
+      }
+      return parsed;
+    }
+
+    const savedPhoto = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo') || '';
 
     return {
-      full_name: user?.name || 'Ramesh Kumar Rao',
+      full_name: user?.name || 'Ramesh Kumar (Mechanic)',
       phone: user?.phone || '+91 98491 23434',
       email: user?.email || 'worker@job-way.in',
-      photo_key: '',
+      photo_key: savedPhoto,
       skills: '["Two-Wheeler Mechanic", "Welder", "Electrical Helper"]',
       experience_years: 4.5,
       education_level: 'ITI Certificate',
@@ -493,6 +510,10 @@ class JobConnectApi {
 
   async updateWorkerProfile(profileData) {
     const user = this.getCurrentUser();
+    if (profileData.photo_key !== undefined) {
+      localStorage.setItem('jc_worker_photo', profileData.photo_key || '');
+    }
+
     try {
       const token = this.getAuthToken();
       const res = await fetch(`${this.baseUrl}/worker/profile`, {
@@ -505,9 +526,13 @@ class JobConnectApi {
       });
       if (res.ok) {
         const data = await res.json();
-        if (user && profileData.full_name) {
-          user.name = profileData.full_name;
+        if (user) {
+          if (profileData.full_name) user.name = profileData.full_name;
           if (profileData.phone) user.phone = profileData.phone;
+          if (profileData.photo_key !== undefined) {
+            user.avatar = profileData.photo_key;
+            user.photo_key = profileData.photo_key;
+          }
           this.setCurrentUser(user);
         }
         localStorage.setItem(`jc_worker_profile_${user?.id || 'default'}`, JSON.stringify(data.profile));
@@ -520,9 +545,13 @@ class JobConnectApi {
     // Local cache update
     const current = await this.getWorkerProfile();
     const updated = { ...current, ...profileData };
-    if (user && profileData.full_name) {
-      user.name = profileData.full_name;
+    if (user) {
+      if (profileData.full_name) user.name = profileData.full_name;
       if (profileData.phone) user.phone = profileData.phone;
+      if (profileData.photo_key !== undefined) {
+        user.avatar = profileData.photo_key;
+        user.photo_key = profileData.photo_key;
+      }
       this.setCurrentUser(user);
     }
     localStorage.setItem(`jc_worker_profile_${user?.id || 'default'}`, JSON.stringify(updated));

@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/editorial.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/editorial.css?v=3">
 </head>
 <body class="editorial-page">
 
@@ -147,6 +147,7 @@
               <th>Customer</th>
               <th>Amount</th>
               <th>Bank UTR / Ref</th>
+              <th>Payment Proof</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -191,6 +192,81 @@
     </section>
 
   </main>
+
+  <!-- Modal: Admin Payment Proof Audit Lightbox -->
+  <div class="modal-overlay" id="admin-proof-modal" role="dialog" aria-modal="true" aria-labelledby="admin-proof-title">
+    <div class="modal-card" style="max-width: 720px; max-height: 92vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="bracket-tag">[ Proof Verification Audit ]</span>
+          <h3 class="modal-title" id="admin-proof-title" style="margin: 0; font-size: 16px;">Payment Proof Audit</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-admin-proof-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="overflow-y: auto; padding: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Left: Screenshot Preview Box -->
+          <div style="background: #09090b; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 320px; text-align: center;">
+            <img id="admin-modal-proof-img" src="" alt="Payment Screenshot Proof" style="max-width: 100%; max-height: 380px; object-fit: contain; border-radius: var(--radius-xs); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            <a id="admin-modal-proof-link" href="" target="_blank" class="nav-btn-link" style="margin-top: 10px; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+              <span>Open Full Size Proof</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+
+          <!-- Right: Audit Details & Actions -->
+          <div style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Transaction Record</div>
+              <div style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px;" id="admin-modal-proof-id">pay_101</div>
+
+              <div style="display: grid; gap: 9px; font-size: 12.5px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Customer:</span>
+                  <strong style="color: var(--text-primary);" id="admin-modal-proof-user">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Role:</span>
+                  <span class="mono-tag" id="admin-modal-proof-role">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Package:</span>
+                  <strong style="color: var(--text-primary);" id="admin-modal-proof-plan">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Amount:</span>
+                  <span style="font-size: 18px; font-weight: 800; color: var(--text-primary);" id="admin-modal-proof-amount">₹0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Bank UTR / Ref:</span>
+                  <span class="mono-code" style="color: var(--primary); font-weight: 700;" id="admin-modal-proof-utr">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 6px;">
+                  <span style="color: var(--text-muted);">Submitted:</span>
+                  <span style="color: var(--text-secondary);" id="admin-modal-proof-date">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-top: 2px;">
+                  <span style="color: var(--text-muted);">Status:</span>
+                  <span id="admin-modal-proof-status" class="status-badge pending">PENDING</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div id="admin-modal-proof-actions" style="margin-top: 18px; display: flex; gap: 8px;">
+              <button type="button" class="search-btn" id="btn-admin-modal-approve" style="flex: 1.2; justify-content: center; padding: 10px; font-size: 12.5px; cursor: pointer;">
+                ✓ Approve & Credit
+              </button>
+              <button type="button" class="btn-signin-header" id="btn-admin-modal-reject" style="flex: 1; justify-content: center; padding: 10px; font-size: 12.5px; color: var(--accent); cursor: pointer;">
+                ✕ Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
@@ -249,14 +325,24 @@
             <td><strong>${p.user_name}</strong> <span style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">(${p.user_role})</span></td>
             <td><strong class="tabular-nums" style="font-size: 13.5px; font-weight: 650; color: var(--text-primary);">₹${p.amount}</strong></td>
             <td><span class="mono-tag">${p.utr_number}</span></td>
+            <td>
+              ${p.screenshot_url ? `
+                <button type="button" class="btn-table-action primary admin-view-proof-btn" data-id="${p.id}" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; cursor: pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                  <span>View Proof</span>
+                </button>
+              ` : `
+                <span class="mono-tag" style="color: var(--text-muted); font-size: 11px;">No Proof</span>
+              `}
+            </td>
             <td><span class="status-badge ${p.status === 'verified' ? 'verified' : (p.status === 'rejected' ? 'danger' : 'pending')}">${p.status.toUpperCase()}</span></td>
             <td>
               ${p.status === 'pending_verification' ? `
                 <div class="table-action-rail">
-                  <button class="btn-table-action success admin-approve-btn" data-id="${p.id}">
+                  <button class="btn-table-action success admin-approve-btn" data-id="${p.id}" style="cursor: pointer;">
                     <span>Approve</span>
                   </button>
-                  <button class="btn-table-action danger admin-reject-btn" data-id="${p.id}">
+                  <button class="btn-table-action danger admin-reject-btn" data-id="${p.id}" style="cursor: pointer;">
                     <span>Reject</span>
                   </button>
                 </div>
@@ -264,6 +350,15 @@
             </td>
           </tr>
         `).join('');
+
+        // Wire Proof Inspection Buttons
+        document.querySelectorAll('.admin-view-proof-btn').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const pay = payments.find(p => p.id === id);
+            if (pay) openProofModal(pay);
+          });
+        });
 
         document.querySelectorAll('.admin-approve-btn').forEach(b => {
           b.addEventListener('click', (e) => {
@@ -283,6 +378,72 @@
           });
         });
       }
+
+      // Proof Lightbox Modal handlers
+      let activeInspectingPaymentId = null;
+      const proofModal = document.getElementById('admin-proof-modal');
+
+      function openProofModal(p) {
+        activeInspectingPaymentId = p.id;
+        document.getElementById('admin-modal-proof-id').textContent = p.id;
+        document.getElementById('admin-modal-proof-user').textContent = p.user_name;
+        document.getElementById('admin-modal-proof-role').textContent = p.user_role;
+        document.getElementById('admin-modal-proof-plan').textContent = p.plan || `${p.amount} Pack`;
+        document.getElementById('admin-modal-proof-amount').textContent = `₹${p.amount}`;
+        document.getElementById('admin-modal-proof-utr').textContent = p.utr_number;
+        document.getElementById('admin-modal-proof-date').textContent = p.submitted_at;
+
+        const statusEl = document.getElementById('admin-modal-proof-status');
+        statusEl.className = `status-badge ${p.status === 'verified' ? 'verified' : (p.status === 'rejected' ? 'danger' : 'pending')}`;
+        statusEl.textContent = p.status.toUpperCase();
+
+        const imgEl = document.getElementById('admin-modal-proof-img');
+        const linkEl = document.getElementById('admin-modal-proof-link');
+        imgEl.src = p.screenshot_url || '';
+        linkEl.href = p.screenshot_url || '#';
+
+        const actionsEl = document.getElementById('admin-modal-proof-actions');
+        if (p.status === 'pending_verification') {
+          actionsEl.style.display = 'flex';
+        } else {
+          actionsEl.style.display = 'none';
+        }
+
+        proofModal.classList.add('active');
+      }
+
+      function closeProofModal() {
+        proofModal.classList.remove('active');
+        activeInspectingPaymentId = null;
+      }
+
+      document.getElementById('close-admin-proof-modal').addEventListener('click', closeProofModal);
+      proofModal.addEventListener('click', (e) => {
+        if (e.target === proofModal) closeProofModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && proofModal.classList.contains('active')) {
+          closeProofModal();
+        }
+      });
+
+      document.getElementById('btn-admin-modal-approve').addEventListener('click', () => {
+        if (activeInspectingPaymentId) {
+          window.jobApi.verifyPayment(activeInspectingPaymentId, true);
+          showToast(`Payment ${activeInspectingPaymentId} verified and credits activated!`);
+          closeProofModal();
+          renderLedger();
+        }
+      });
+
+      document.getElementById('btn-admin-modal-reject').addEventListener('click', () => {
+        if (activeInspectingPaymentId) {
+          window.jobApi.verifyPayment(activeInspectingPaymentId, false);
+          showToast(`Payment ${activeInspectingPaymentId} marked rejected.`, 'error');
+          closeProofModal();
+          renderLedger();
+        }
+      });
       renderLedger();
 
       // Render Jobs Table

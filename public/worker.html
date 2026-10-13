@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/editorial.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/editorial.css?v=3">
 </head>
 <body class="editorial-page">
 
@@ -39,7 +39,8 @@
 
       <!-- Worker Profile Badge & Logout -->
       <div class="nav-right-actions">
-        <div class="project-card-badge project-card-badge-verified">
+        <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
+          <img id="nav-worker-avatar-img" src="" alt="Avatar" style="width: 20px; height: 20px; border-radius: 4px; object-fit: cover; display: none; border: 1px solid rgba(255,255,255,0.25);">
           <span id="worker-display-name">Ramesh Kumar</span>
         </div>
         <button id="btn-worker-logout" class="nav-btn-link" title="Sign Out">
@@ -55,65 +56,86 @@
     
     <!-- Welcome Banner with Integrated Mini Stats -->
     <div class="portal-welcome-banner reveal-on-scroll">
-      <div class="portal-welcome-top">
+      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <!-- Worker Profile Avatar -->
+        <a href="/profile-edit.html" class="portal-worker-avatar-wrap" title="Click to view or edit profile photo" style="position: relative; flex-shrink: 0; display: block; text-decoration: none;">
+          <div id="banner-avatar-frame" style="width: 78px; height: 78px; border-radius: var(--radius-md); border: 2px solid var(--border-strong); overflow: hidden; background: #121214; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.transform='scale(1.04)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='var(--border-strong)'">
+            <img id="banner-worker-avatar-img" src="" alt="Worker Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none; border-radius: var(--radius-md);">
+            <span id="banner-worker-avatar-fallback" style="font-size: 26px; font-weight: 750; color: #ffffff; letter-spacing: -0.02em; font-family: var(--font-sans);">
+              RK
+            </span>
+          </div>
+          <!-- Verified KYC Shield Badge -->
+          <div title="KYC Verified Tradesman" style="position: absolute; bottom: -3px; right: -3px; width: 20px; height: 20px; border-radius: 4px; background: #10b981; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.18);">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </a>
+
         <div>
-          <div class="bracket-tag" style="margin-bottom: 8px;">[ KYC Verified Tradesman ]</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <span class="bracket-tag">[ KYC Verified Tradesman ]</span>
+            <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11px; padding: 2px 8px; border: 1px solid var(--border); border-radius: var(--radius-xs);">
+              <span>Edit Profile ↗</span>
+            </a>
+          </div>
           <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
             Worker Portal: Ramesh Kumar (Mechanic)
           </h1>
-          <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
+          <p style="color: #52525b; font-size: 14px; max-width: 580px; line-height: 1.5; margin: 0;">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
           </p>
         </div>
+      </div>
 
-        <div style="display: flex; gap: 10px;">
+      <div class="portal-welcome-aside">
+        <div class="portal-welcome-actions">
           <a href="/" class="nav-btn-solid">
             <span>Find More Jobs →</span>
           </a>
         </div>
-      </div>
 
-      <!-- Integrated Mini Stats Bar -->
-      <div class="portal-welcome-stats">
-        <div class="portal-stat-pill variant-primary">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Applications Submitted</span>
-            <div class="portal-stat-pill-icon primary">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <!-- Integrated Mini Stats Bar -->
+        <div class="portal-welcome-stats">
+          <div class="portal-stat-pill variant-primary">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Applications Submitted</span>
+              <div class="portal-stat-pill-icon primary">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val stat-card-value" id="stat-worker-apps">0</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot primary"></span>
+              <span>Direct employer submissions</span>
             </div>
           </div>
-          <div class="portal-stat-pill-val stat-card-value" id="stat-worker-apps">0</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot primary"></span>
-            <span>Direct employer submissions</span>
-          </div>
-        </div>
 
-        <div class="portal-stat-pill variant-success">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Shortlisted Candidates</span>
-            <div class="portal-stat-pill-icon success">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <div class="portal-stat-pill variant-success">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Shortlisted Candidates</span>
+              <div class="portal-stat-pill-icon success">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val success stat-card-value" id="stat-worker-shortlisted">0</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot success"></span>
+              <span>Employers preparing to call you</span>
             </div>
           </div>
-          <div class="portal-stat-pill-val success stat-card-value" id="stat-worker-shortlisted">0</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot success"></span>
-            <span>Employers preparing to call you</span>
-          </div>
-        </div>
 
-        <div class="portal-stat-pill variant-accent">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Placement Status</span>
-            <div class="portal-stat-pill-icon accent">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="portal-stat-pill variant-accent">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Placement Status</span>
+              <div class="portal-stat-pill-icon accent">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
             </div>
-          </div>
-          <div class="portal-stat-pill-val accent stat-card-value" id="stat-worker-priority">Active</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot accent"></span>
-            <span>Featured in candidate queues</span>
+            <div class="portal-stat-pill-val accent stat-card-value" id="stat-worker-priority">Active</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot accent"></span>
+              <span>Featured in candidate queues</span>
+            </div>
           </div>
         </div>
       </div>
@@ -155,6 +177,7 @@
       </div>
 
       <div class="kv-grid">
+
         <div class="kv-item">
           <div class="kv-label">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -325,9 +348,58 @@
         document.getElementById('profile-phone').textContent = user.phone;
       }
 
+      // Avatar Rendering Handler
+      function renderAvatar(photoKey, fullName) {
+        const displayName = fullName || user.name || 'Ramesh Kumar';
+        const initials = displayName
+          .split(' ')
+          .filter(Boolean)
+          .map(n => n[0])
+          .slice(0, 2)
+          .join('')
+          .toUpperCase() || 'RK';
+
+        const bannerFallback = document.getElementById('banner-worker-avatar-fallback');
+        if (bannerFallback) bannerFallback.textContent = initials;
+
+        const photo = photoKey || user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
+
+        const bannerImg = document.getElementById('banner-worker-avatar-img');
+        if (bannerImg) {
+          if (photo) {
+            bannerImg.src = photo;
+            bannerImg.onload = () => {
+              bannerImg.style.display = 'block';
+              if (bannerFallback) bannerFallback.style.display = 'none';
+            };
+            bannerImg.onerror = () => {
+              bannerImg.style.display = 'none';
+              if (bannerFallback) bannerFallback.style.display = 'block';
+            };
+          } else {
+            bannerImg.style.display = 'none';
+            if (bannerFallback) bannerFallback.style.display = 'block';
+          }
+        }
+
+        const navImg = document.getElementById('nav-worker-avatar-img');
+        if (navImg) {
+          if (photo) {
+            navImg.src = photo;
+            navImg.onload = () => { navImg.style.display = 'inline-block'; };
+          } else {
+            navImg.style.display = 'none';
+          }
+        }
+      }
+
+      // Initial Avatar call
+      renderAvatar(user.avatar || user.photo_key, user.name);
+
       // Fetch and populate rich profile details
       window.jobApi.getWorkerProfile().then(profile => {
         if (!profile) return;
+        renderAvatar(profile.photo_key, profile.full_name || user.name);
         if (profile.full_name) {
           document.getElementById('profile-name').textContent = profile.full_name;
           document.getElementById('worker-display-name').textContent = profile.full_name;

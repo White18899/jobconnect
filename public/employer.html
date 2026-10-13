@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/editorial.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/editorial.css?v=3">
 </head>
 <body class="editorial-page">
 
@@ -36,7 +36,7 @@
         </a>
         <a href="#credits-section" class="nav-link">
           <span class="link-line">Unlocks</span>
-          <span class="nav-link-count">(Credits)</span>
+          <span class="nav-link-count">(Packs)</span>
         </a>
       </div>
 
@@ -61,68 +61,68 @@
     
     <!-- Welcome Banner with Integrated Mini Stats -->
     <div class="portal-welcome-banner reveal-on-scroll">
-      <div class="portal-welcome-top">
-        <div>
-          <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Hiring Business ]</div>
-          <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
-            Employer Workspace: Sri Balaji Auto Care & Service
-          </h1>
-          <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
-            Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
-          </p>
-        </div>
+      <div class="portal-welcome-info">
+        <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Hiring Business ]</div>
+        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
+          Employer Workspace: Sri Balaji Auto Care & Service
+        </h1>
+        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
+          Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
+        </p>
+      </div>
 
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <div class="portal-welcome-aside">
+        <div class="portal-welcome-actions">
           <a href="#post-job-section" class="nav-btn-solid">
             <span>Post New Vacancy →</span>
           </a>
-          <a href="#credits-section" class="btn-signin-header" style="border-radius: var(--radius-xs);">
+          <button type="button" id="btn-banner-buy-credits" class="btn-signin-header" style="border-radius: var(--radius-xs); cursor: pointer;">
             <span>Buy Unlock Credits</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Integrated Mini Stats Bar -->
-      <div class="portal-welcome-stats">
-        <div class="portal-stat-pill variant-primary">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Received Applications</span>
-            <div class="portal-stat-pill-icon primary">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-          </div>
-          <div class="portal-stat-pill-val stat-card-value" id="stat-emp-apps">0</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot primary"></span>
-            <span>Candidates applied for your jobs</span>
-          </div>
+          </button>
         </div>
 
-        <div class="portal-stat-pill variant-success">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Unlocked Contacts</span>
-            <div class="portal-stat-pill-icon success">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <!-- Integrated Mini Stats Bar -->
+        <div class="portal-welcome-stats">
+          <div class="portal-stat-pill variant-primary">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Received Applications</span>
+              <div class="portal-stat-pill-icon primary">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val stat-card-value" id="stat-emp-apps">0</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot primary"></span>
+              <span>Candidates applied for your jobs</span>
             </div>
           </div>
-          <div class="portal-stat-pill-val success stat-card-value" id="stat-emp-unlocked">0</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot success"></span>
-            <span>Phone numbers ready for calling</span>
-          </div>
-        </div>
 
-        <div class="portal-stat-pill variant-primary">
-          <div class="portal-stat-pill-top">
-            <span class="portal-stat-pill-label">Unlock Balance</span>
-            <div class="portal-stat-pill-icon primary">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="portal-stat-pill variant-success">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Unlocked Contacts</span>
+              <div class="portal-stat-pill-icon success">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val success stat-card-value" id="stat-emp-unlocked">0</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot success"></span>
+              <span>Phone numbers ready for calling</span>
             </div>
           </div>
-          <div class="portal-stat-pill-val primary stat-card-value" id="stat-emp-credits">3</div>
-          <div class="portal-stat-pill-sub">
-            <span class="stat-pulse-dot primary"></span>
-            <span>Credits remaining in account</span>
+
+          <div class="portal-stat-pill variant-primary">
+            <div class="portal-stat-pill-top">
+              <span class="portal-stat-pill-label">Unlock Balance</span>
+              <div class="portal-stat-pill-icon primary">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val primary stat-card-value" id="stat-emp-credits">3</div>
+            <div class="portal-stat-pill-sub">
+              <span class="stat-pulse-dot primary"></span>
+              <span>Credits remaining in account</span>
+            </div>
           </div>
         </div>
       </div>
@@ -226,7 +226,9 @@
       </div>
     </section>
 
-    <!-- Section 3: Buy Candidate Unlock Credits -->
+
+
+    <!-- Section 3: Candidate Unlock Credits (Pricing Packs) -->
     <section id="credits-section" class="panel-card reveal-on-scroll">
       <div class="panel-header">
         <div>
@@ -234,19 +236,19 @@
             Candidate Unlock Credits
           </h2>
           <p class="panel-subtitle">
-            Zero commission fees. Instant credits activated after UTR verification.
+            Zero commission fees. Instant credits activated upon UPI verification.
           </p>
         </div>
       </div>
 
       <div class="panel-body">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
           <!-- Pack 1 -->
           <div style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 22px; text-align: center; background: var(--surface-craft); transition: var(--transition);" onmouseover="this.style.borderColor='var(--border-strong)'" onmouseout="this.style.borderColor='var(--border)'">
             <div style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Starter Pack</div>
             <div style="font-size: 30px; font-weight: 800; color: var(--text-primary); margin: 6px 0; letter-spacing: -0.03em;">₹75</div>
             <div style="font-size: 13px; font-weight: 600; color: var(--primary);">1 Candidate Unlock</div>
-            <button class="btn-signin-header select-plan-btn" data-plan="1" data-amount="75" style="margin-top: 16px; width: 100%; justify-content: center;">
+            <button type="button" class="btn-signin-header select-plan-btn" data-plan="1" data-amount="75" data-title="Starter Pack (1 Unlock)" style="margin-top: 16px; width: 100%; justify-content: center; cursor: pointer;">
               Select Starter
             </button>
           </div>
@@ -257,7 +259,7 @@
             <div style="font-size: 11.5px; font-weight: 600; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em;">Growth Bundle</div>
             <div style="font-size: 30px; font-weight: 800; color: var(--text-primary); margin: 6px 0; letter-spacing: -0.03em;">₹249</div>
             <div style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">5 Candidate Unlocks (₹49/ea)</div>
-            <button class="search-btn select-plan-btn" data-plan="5" data-amount="249" style="margin-top: 16px; width: 100%; justify-content: center; padding: 8px;">
+            <button type="button" class="search-btn select-plan-btn" data-plan="5" data-amount="249" data-title="Growth Bundle (5 Unlocks)" style="margin-top: 16px; width: 100%; justify-content: center; padding: 8px; cursor: pointer;">
               Select 5 Unlocks
             </button>
           </div>
@@ -267,37 +269,106 @@
             <div style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Bulk Workshop</div>
             <div style="font-size: 30px; font-weight: 800; color: var(--text-primary); margin: 6px 0; letter-spacing: -0.03em;">₹475</div>
             <div style="font-size: 13px; font-weight: 600; color: var(--primary);">10 Candidate Unlocks (₹47/ea)</div>
-            <button class="btn-signin-header select-plan-btn" data-plan="10" data-amount="475" style="margin-top: 16px; width: 100%; justify-content: center;">
+            <button type="button" class="btn-signin-header select-plan-btn" data-plan="10" data-amount="475" data-title="Bulk Workshop (10 Unlocks)" style="margin-top: 16px; width: 100%; justify-content: center; cursor: pointer;">
               Select 10 Unlocks
             </button>
           </div>
-        </div>
-
-        <!-- Integrated Payment Form (Zero Box-in-Box) -->
-        <div style="max-width: 520px; margin: 0 auto; text-align: center; padding-top: 18px; border-top: 1px solid var(--border-light);">
-          <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--text-primary);">
-            Pay via Any UPI App (GPay, PhonePe, Paytm, BHIM)
-          </h4>
-          <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
-            Official UPI ID: <span class="mono-tag primary" style="font-size: 13px; font-weight: 600;">jobconnect@icici</span>
-          </div>
-          <div style="font-size: 12.5px; font-weight: 600; margin-bottom: 14px; color: var(--text-primary);" id="selected-plan-display">
-            Selected Amount: <span class="tabular-nums">₹249.00</span> (5 Unlocks)
-          </div>
-
-          <div class="form-group" style="text-align: left; margin-bottom: 14px;">
-            <label class="form-label" for="emp-utr-input">12-Digit Bank Transaction UTR / Ref Number *</label>
-            <input type="text" id="emp-utr-input" class="form-input" style="font-family: var(--font-mono); font-size: 13.5px; letter-spacing: 0.04em;" placeholder="e.g. 428901239841" maxlength="16" required>
-          </div>
-
-          <button class="search-btn" id="btn-submit-emp-payment" style="width: 100%; justify-content: center; padding: 12px; font-size: 13.5px;">
-            Submit Reference for Verification →
-          </button>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- Modal: Candidate Unlock Checkout Window Popup -->
+  <div class="modal-overlay" id="unlock-pack-modal" role="dialog" aria-modal="true" aria-labelledby="modal-plan-title">
+    <div class="modal-card" style="max-width: 480px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="bracket-tag">[ Instant UPI Checkout ]</span>
+          <h3 class="modal-title" style="margin: 0; font-size: 16px;">Recharge Unlock Credits</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-unlock-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="overflow-y: auto; padding: 18px 22px;">
+        <!-- Chosen Plan Summary Card -->
+        <div style="background: var(--surface-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600;">Selected Package</div>
+            <div style="font-size: 15px; font-weight: 700; color: var(--text-primary);" id="modal-plan-title">Growth Bundle (5 Unlocks)</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;" id="modal-plan-amount">₹249</div>
+            <div style="font-size: 11.5px; color: var(--primary); font-weight: 600;" id="modal-plan-credits">5 Credits</div>
+          </div>
+        </div>
+
+        <!-- QR Code & UPI Instructions Box -->
+        <div style="text-align: center; border: 1px dashed var(--border-strong); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.02);">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">
+            Scan via Any UPI App (GPay, PhonePe, Paytm, BHIM)
+          </div>
+
+          <!-- Dynamic QR Container -->
+          <div style="display: inline-block; background: #ffffff; padding: 10px; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: 0 4px 14px rgba(0,0,0,0.06); margin-bottom: 8px;">
+            <img id="modal-qr-img" src="" alt="UPI Payment QR Code" width="150" height="150" style="display: block; width: 150px; height: 150px; object-fit: contain;">
+          </div>
+
+          <!-- Official VPA / Copy Rail -->
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;">
+            <span style="font-size: 12px; color: var(--text-muted);">UPI ID:</span>
+            <code style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; background: var(--surface-tertiary); padding: 3px 8px; border-radius: var(--radius-xs); border: 1px solid var(--border);">jobconnect@icici</code>
+            <button type="button" id="btn-copy-upi" class="nav-btn-link" style="font-size: 11.5px; padding: 3px 8px; border: 1px solid var(--border); border-radius: var(--radius-xs); cursor: pointer;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span id="copy-upi-text">Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 12-Digit Bank UTR Input -->
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label" for="emp-modal-utr" style="font-size: 12px; font-weight: 600;">
+            12-Digit Bank Transaction UTR / Ref Number <span style="color: var(--accent);">*</span>
+          </label>
+          <input type="text" id="emp-modal-utr" class="form-input" style="font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.04em;" placeholder="e.g. 428901239841" maxlength="20" required>
+        </div>
+
+        <!-- Payment Screenshot Upload -->
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" style="font-size: 12px; font-weight: 600;">
+            Upload Payment Screenshot Proof <span style="color: var(--accent);">*</span>
+          </label>
+          
+          <!-- Dropzone -->
+          <div id="screenshot-dropzone" style="border: 1.5px dashed var(--border-strong); border-radius: var(--radius-md); padding: 14px; text-align: center; cursor: pointer; background: var(--surface-craft); transition: var(--transition);">
+            <input type="file" id="emp-modal-file" accept="image/*" style="display: none;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--text-muted); margin-bottom: 4px;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary);">Click or Drag & Drop Payment Screenshot</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Supports JPG, PNG, WebP (Screenshots from GPay/PhonePe/Paytm)</div>
+          </div>
+
+          <!-- Preview Container (hidden initially) -->
+          <div id="screenshot-preview-container" style="display: none; margin-top: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 12px; background: var(--surface-secondary); align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px; overflow: hidden;">
+              <img id="screenshot-preview-img" src="" alt="Screenshot Preview" style="width: 40px; height: 40px; object-fit: cover; border-radius: var(--radius-xs); border: 1px solid var(--border);">
+              <div style="overflow: hidden;">
+                <div id="screenshot-filename" style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 220px;">receipt.png</div>
+                <div id="screenshot-filesize" style="font-size: 11px; color: var(--text-muted);">0 KB</div>
+              </div>
+            </div>
+            <button type="button" id="btn-remove-screenshot" class="btn-table-action danger" style="padding: 4px 8px; font-size: 11px; cursor: pointer;">
+              Remove
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" class="search-btn" id="btn-submit-modal-payment" style="width: 100%; justify-content: center; padding: 12px; font-size: 13.5px; cursor: pointer;">
+          Submit Reference for Admin Verification →
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
@@ -421,8 +492,8 @@
               updateCredits();
               renderApplicants();
             } else if (res.needCredits) {
-              showToast('You have 0 credits remaining! Please select a credit pack below.', 'error');
-              document.getElementById('credits-section').scrollIntoView({ behavior: 'smooth' });
+              showToast('You have 0 credits remaining! Please recharge below.', 'error');
+              openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
             } else {
               showToast(res.message, 'error');
             }
@@ -463,38 +534,170 @@
         e.target.reset();
       });
 
-      // Credit Pack selection
-      let selectedAmount = 249;
-      let selectedPlanTitle = "Growth Bundle (5 Unlocks)";
+
+
+      // --- Payment & Checkout Modal Logic ---
+      let currentModalPlan = { plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 };
+      let uploadedScreenshotDataUrl = null;
+
+      const checkoutModal = document.getElementById('unlock-pack-modal');
+      const modalPlanTitle = document.getElementById('modal-plan-title');
+      const modalPlanAmount = document.getElementById('modal-plan-amount');
+      const modalPlanCredits = document.getElementById('modal-plan-credits');
+      const modalQrImg = document.getElementById('modal-qr-img');
+      const modalUtrInput = document.getElementById('emp-modal-utr');
+      const modalFileInput = document.getElementById('emp-modal-file');
+      const dropzone = document.getElementById('screenshot-dropzone');
+      const previewContainer = document.getElementById('screenshot-preview-container');
+      const previewImg = document.getElementById('screenshot-preview-img');
+      const filenameEl = document.getElementById('screenshot-filename');
+      const filesizeEl = document.getElementById('screenshot-filesize');
+      const removeScreenshotBtn = document.getElementById('btn-remove-screenshot');
+
+      function generateFallbackQrSvg(amount) {
+        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 100 100" fill="%2309090b"><rect width="100" height="100" fill="%23ffffff"/><rect x="10" y="10" width="30" height="30"/><rect x="16" y="16" width="18" height="18" fill="%23ffffff"/><rect x="60" y="10" width="30" height="30"/><rect x="66" y="16" width="18" height="18" fill="%23ffffff"/><rect x="10" y="60" width="30" height="30"/><rect x="16" y="66" width="18" height="18" fill="%23ffffff"/><rect x="45" y="45" width="10" height="10"/><rect x="60" y="60" width="10" height="10"/><rect x="80" y="80" width="10" height="10"/><rect x="45" y="20" width="8" height="8"/><rect x="20" y="45" width="8" height="8"/><rect x="65" y="45" width="8" height="8"/><rect x="45" y="70" width="8" height="8"/><text x="50" y="96" text-anchor="middle" font-size="6" font-family="sans-serif" font-weight="bold" fill="%236366f1">₹${amount}</text></svg>`;
+      }
+
+      function openCheckoutModal(pack) {
+        currentModalPlan = pack;
+        modalPlanTitle.textContent = pack.title;
+        modalPlanAmount.textContent = `₹${pack.amount}`;
+        modalPlanCredits.textContent = `${pack.plan} Credits`;
+
+        // Update QR Code with live amount
+        const upiUri = `upi://pay?pa=jobconnect@icici&pn=JobWay&am=${pack.amount}&cu=INR`;
+        modalQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}&margin=6`;
+        modalQrImg.onerror = () => {
+          modalQrImg.src = generateFallbackQrSvg(pack.amount);
+        };
+
+        // Reset inputs
+        modalUtrInput.value = '';
+        modalFileInput.value = '';
+        uploadedScreenshotDataUrl = null;
+        previewContainer.style.display = 'none';
+        dropzone.style.display = 'block';
+
+        checkoutModal.classList.add('active');
+      }
+
+      function closeCheckoutModal() {
+        checkoutModal.classList.remove('active');
+      }
+
+      // Open modal triggers
       document.querySelectorAll('.select-plan-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-          selectedAmount = Number(e.currentTarget.dataset.amount);
-          const count = e.currentTarget.dataset.plan;
-          selectedPlanTitle = `${count} Unlocks (₹${selectedAmount})`;
-          document.getElementById('selected-plan-display').textContent = `Selected Amount: ₹${selectedAmount}.00 (${selectedPlanTitle})`;
-          showToast(`Selected: ${selectedPlanTitle}`);
+          const plan = Number(e.currentTarget.dataset.plan);
+          const amount = Number(e.currentTarget.dataset.amount);
+          const title = e.currentTarget.dataset.title;
+          openCheckoutModal({ plan, amount, title, credits: plan });
         });
       });
 
-      // Submit UPI UTR
-      document.getElementById('btn-submit-emp-payment').addEventListener('click', () => {
-        const utr = document.getElementById('emp-utr-input').value.trim();
-        if (!utr || utr.length < 8) {
-          alert('Please enter a valid 12-digit transaction UTR number.');
+      const bannerBuyBtn = document.getElementById('btn-banner-buy-credits');
+      if (bannerBuyBtn) {
+        bannerBuyBtn.addEventListener('click', () => {
+          openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+        });
+      }
+
+      // Close modal triggers
+      document.getElementById('close-unlock-modal').addEventListener('click', closeCheckoutModal);
+      checkoutModal.addEventListener('click', (e) => {
+        if (e.target === checkoutModal) closeCheckoutModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && checkoutModal.classList.contains('active')) {
+          closeCheckoutModal();
+        }
+      });
+
+      // Copy UPI ID button
+      document.getElementById('btn-copy-upi').addEventListener('click', () => {
+        navigator.clipboard.writeText('jobconnect@icici').then(() => {
+          const txt = document.getElementById('copy-upi-text');
+          txt.textContent = 'Copied! ✓';
+          setTimeout(() => { txt.textContent = 'Copy'; }, 2000);
+        });
+      });
+
+      // File upload dropzone handling
+      dropzone.addEventListener('click', () => modalFileInput.click());
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = 'var(--primary)';
+      });
+      dropzone.addEventListener('dragleave', () => {
+        dropzone.style.borderColor = 'var(--border-strong)';
+      });
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = 'var(--border-strong)';
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      modalFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFile(e.target.files[0]);
+        }
+      });
+
+      function handleFile(file) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please upload a valid image file (PNG, JPG, WebP).');
           return;
+        }
+        filenameEl.textContent = file.name;
+        filesizeEl.textContent = `${(file.size / 1024).toFixed(1)} KB`;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          uploadedScreenshotDataUrl = ev.target.result;
+          previewImg.src = uploadedScreenshotDataUrl;
+          dropzone.style.display = 'none';
+          previewContainer.style.display = 'flex';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      removeScreenshotBtn.addEventListener('click', () => {
+        modalFileInput.value = '';
+        uploadedScreenshotDataUrl = null;
+        previewContainer.style.display = 'none';
+        dropzone.style.display = 'block';
+      });
+
+      // Submit UPI payment with UTR and Screenshot
+      document.getElementById('btn-submit-modal-payment').addEventListener('click', () => {
+        const utr = modalUtrInput.value.trim();
+        if (!utr || utr.length < 8) {
+          alert('Please enter a valid 12-digit transaction UTR / Reference number.');
+          modalUtrInput.focus();
+          return;
+        }
+
+        if (!uploadedScreenshotDataUrl) {
+          if (!confirm('You have not attached a payment screenshot. Proceed anyway with UTR only?')) {
+            return;
+          }
         }
 
         window.jobApi.submitPayment({
           type: "employer_unlock",
           userName: user.name || "Sri Balaji Auto Care",
           userRole: "employer",
-          plan: selectedPlanTitle,
-          amount: selectedAmount,
-          utrNumber: utr
+          plan: currentModalPlan.title,
+          amount: currentModalPlan.amount,
+          utrNumber: utr,
+          screenshot_url: uploadedScreenshotDataUrl || "",
+          credits: currentModalPlan.credits
         });
 
-        document.getElementById('emp-utr-input').value = '';
-        showToast('UTR submitted for Admin verification! Credits will be activated once verified.');
+        closeCheckoutModal();
+        showToast('Payment submitted successfully! Admin will audit the proof and activate your credits.', 'success');
       });
 
       // Scroll reveal animation observer
@@ -533,7 +736,7 @@
         <div class="footer-links">
           <a class="footer-link" href="/">Public Landing</a>
           <a class="footer-link" href="#post-job-section">Post Vacancy</a>
-          <a class="footer-link" href="#credits-section">Credit Ledger</a>
+          <a class="footer-link" href="#applicants-section">Candidate Roster</a>
         </div>
       </div>
     </div>

@@ -792,7 +792,7 @@ button.nav-btn-link:hover,
 .pass-worker-avatar {
   width: 4vw;
   height: 4vw;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   background: #000000;
   color: #ffffff;
   display: flex;
@@ -1093,11 +1093,34 @@ button.nav-btn-link:hover,
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
   color: #09090b !important;
   display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  gap: 12px !important;
-  padding: 20px 24px !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 24px !important;
+  padding: 22px 28px !important;
   border-radius: var(--radius-l);
+  flex-wrap: wrap;
+}
+
+.portal-welcome-info {
+  flex: 1 1 360px;
+  min-width: 260px;
+}
+
+.portal-welcome-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.portal-welcome-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .portal-welcome-top {
@@ -1115,8 +1138,7 @@ button.nav-btn-link:hover,
   align-items: stretch;
   gap: 10px;
   width: fit-content;
-  margin-left: auto;
-  margin-top: 0;
+  margin: 0;
 }
 
 .portal-stat-pill {
@@ -1254,7 +1276,20 @@ button.nav-btn-link:hover,
   flex-shrink: 0;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 960px) {
+  .portal-welcome-banner {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+  }
+  .portal-welcome-aside {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .portal-welcome-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
   .portal-welcome-stats {
     width: 100%;
     margin-left: 0;
@@ -1484,6 +1519,7 @@ textarea:focus {
   background: #f4f4f5 !important;
   border: 2px solid rgba(0, 0, 0, 0.12) !important;
   color: #71717a !important;
+  border-radius: var(--radius-md) !important;
 }
 
 /* Tables & Ledgers (Admin & Employer) */
