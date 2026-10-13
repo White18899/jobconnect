@@ -539,77 +539,59 @@
     <div class="profile-card-section">
       <div class="profile-section-title">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        <span>Technical Stacks, Skills & Compensation Expectations</span>
+        <span>Technical Stacks, Work Arrangement & Compensation</span>
       </div>
 
-      <!-- Experience & Salary Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px;">
-        <div class="form-group">
-          <label class="form-label" for="worker-exp-years">Total Technical Experience (Years) *</label>
-          <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 3.5" step="0.5" min="0" max="40" required>
+      <!-- Candidate Work Arrangement / Employment Type Selection (Morphs fields below) -->
+      <div style="margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label class="form-label" style="margin-bottom: 0; font-weight: 700;">
+            Candidate / Work Type
+          </label>
+          <span style="font-size: 11.5px; color: var(--text-muted);">
+            Switch type to adapt experience & compensation fields below
+          </span>
         </div>
-
-        <div class="form-group">
-          <label class="form-label" for="worker-past-company">Most Recent Company / Organization</label>
-          <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Infosys, TCS, Tech Startup, Freelance">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="worker-salary-min">Expected Min Monthly Salary (₹)</label>
-          <input type="number" id="worker-salary-min" class="form-input" placeholder="e.g. 35000" step="1000">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="worker-salary-max">Expected Max Monthly Salary (₹)</label>
-          <input type="number" id="worker-salary-max" class="form-input" placeholder="e.g. 65000" step="1000">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="work-type-selector-pills">
+          <button type="button" class="work-type-pill active" data-type="full_time">
+            <span>💼</span>
+            <span>Full Time</span>
+          </button>
+          <button type="button" class="work-type-pill" data-type="part_time">
+            <span>⏱</span>
+            <span>Part Time</span>
+          </button>
+          <button type="button" class="work-type-pill" data-type="freelancer">
+            <span>🚀</span>
+            <span>Freelancer</span>
+          </button>
+          <button type="button" class="work-type-pill" data-type="student">
+            <span>🎓</span>
+            <span>Student</span>
+          </button>
         </div>
       </div>
 
-      <!-- Dynamic Technical Skills, Disciplines & Work Types -->
+      <!-- Dynamic Experience & Compensation Fields Container (Morphs dynamically by work type) -->
+      <div id="dynamic-work-type-container">
+        <!-- Rendered dynamically by JavaScript based on active work type -->
+      </div>
+
+      <!-- Technical Skills, Frameworks & Languages -->
       <div class="form-group" style="margin-bottom: 24px;">
-        <!-- Preferred Work Arrangement / Employment Type Selection -->
-        <div style="margin-bottom: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
-            <label class="form-label" style="margin-bottom: 0;">
-              Employment & Work Type
-            </label>
-            <span style="font-size: 11.5px; color: var(--text-muted);">
-              Quick toggle (Full Time, Part Time, Freelancer, Student)
-            </span>
-          </div>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="work-type-pills-row">
-            <button type="button" class="work-type-pill" data-type="Full Time">
-              <span>💼</span>
-              <span>Full Time</span>
-            </button>
-            <button type="button" class="work-type-pill" data-type="Part Time">
-              <span>⏱</span>
-              <span>Part Time</span>
-            </button>
-            <button type="button" class="work-type-pill" data-type="Freelancer">
-              <span>🚀</span>
-              <span>Freelancer</span>
-            </button>
-            <button type="button" class="work-type-pill" data-type="Student">
-              <span>🎓</span>
-              <span>Student</span>
-            </button>
-          </div>
-        </div>
-
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
           <label class="form-label" for="skill-input-field" style="margin-bottom: 0;">
             Technical Skills, Frameworks & Languages *
           </label>
           <span style="font-size: 11.5px; color: var(--text-muted);">
-            Type a tech stack or work type and press <kbd style="background: var(--surface-secondary); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); font-size: 10.5px; font-family: monospace;">Enter</kbd>
+            Type a tech stack and press <kbd style="background: var(--surface-secondary); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); font-size: 10.5px; font-family: monospace;">Enter</kbd>
           </span>
         </div>
 
         <!-- Input Bar with Add Button & Typing Suggestions Dropdown -->
         <div style="display: flex; gap: 8px; margin-bottom: 10px; position: relative;">
           <div style="position: relative; flex: 1;">
-            <input type="text" id="skill-input-field" class="form-input" style="width: 100%;" placeholder="e.g. Frontend, Backend, Full Stack, Python, React, Java, JS, HTML, CSS..." autocomplete="off" spellcheck="false">
+            <input type="text" id="skill-input-field" class="form-input" style="width: 100%;" placeholder="e.g. React, Next.js, Python, Node.js, Java, TypeScript, SQL, Docker..." autocomplete="off" spellcheck="false">
             <!-- Dynamic Autocomplete Suggestions Dropdown -->
             <div id="skills-autocomplete-dropdown" class="skills-autocomplete-menu" style="display: none;"></div>
           </div>
@@ -692,10 +674,6 @@
       const inputPhone = document.getElementById('worker-phone');
       const selectCity = document.getElementById('worker-city');
       const inputArea = document.getElementById('worker-area');
-      const inputExpYears = document.getElementById('worker-exp-years');
-      const inputPastCompany = document.getElementById('worker-past-company');
-      const inputSalaryMin = document.getElementById('worker-salary-min');
-      const inputSalaryMax = document.getElementById('worker-salary-max');
       const inputExpDesc = document.getElementById('worker-exp-desc');
 
       // Education Repeater Container & Add Buttons
@@ -786,14 +764,7 @@
         // Mobile & Testing
         { name: 'React Native', category: 'Mobile', aliases: ['react native', 'rn', 'mobile'] },
         { name: 'Flutter & Dart', category: 'Mobile', aliases: ['flutter', 'dart', 'mobile'] },
-        { name: 'Unit & End-to-End Testing (Jest / Cypress)', category: 'QA', aliases: ['testing', 'jest', 'cypress', 'playwright', 'qa'] },
-
-        // Employment & Work Types
-        { name: 'Full Time', category: 'Work Type', aliases: ['full time', 'fulltime', 'full-time', 'ft'] },
-        { name: 'Part Time', category: 'Work Type', aliases: ['part time', 'parttime', 'part-time', 'pt'] },
-        { name: 'Freelancer', category: 'Work Type', aliases: ['freelancer', 'freelance', 'contract', 'contractor'] },
-        { name: 'Student', category: 'Work Type', aliases: ['student', 'intern', 'internship', 'fresher'] },
-        { name: 'Remote / Work From Home', category: 'Work Type', aliases: ['remote', 'wfh', 'hybrid'] }
+        { name: 'Unit & End-to-End Testing (Jest / Cypress)', category: 'QA', aliases: ['testing', 'jest', 'cypress', 'playwright', 'qa'] }
       ];
 
       let currentSkills = [];
@@ -922,20 +893,12 @@
         if (currentSkills.length === 0) {
           skillsTagsContainer.innerHTML = `
             <span style="color: var(--text-muted); font-size: 12.5px; font-style: italic; padding: 2px 4px;">
-              No tech skills added yet. Type Frontend, Backend, Python, React, Java, or select below.
+              No tech skills added yet. Type React, Python, Java, Node.js, or select below.
             </span>
           `;
         } else {
           currentSkills.forEach((skill, index) => {
-            const isWorkType = ['Full Time', 'Part Time', 'Freelancer', 'Student'].some(w => 
-              skill.toLowerCase() === w.toLowerCase() || 
-              (w === 'Student' && skill.toLowerCase().startsWith('student'))
-            );
-            const icon = skill.toLowerCase().includes('full time') ? '💼 ' :
-                         skill.toLowerCase().includes('part time') ? '⏱ ' :
-                         skill.toLowerCase().includes('freelancer') ? '🚀 ' :
-                         skill.toLowerCase().includes('student') ? '🎓 ' :
-                         skill.toLowerCase().includes('python') || skill.toLowerCase() === 'py' ? '🐍 ' :
+            const icon = skill.toLowerCase().includes('python') || skill.toLowerCase() === 'py' ? '🐍 ' :
                          skill.toLowerCase().includes('react') ? '⚛️ ' :
                          skill.toLowerCase().includes('java') && !skill.toLowerCase().includes('javascript') ? '☕ ' :
                          skill.toLowerCase().includes('js') || skill.toLowerCase().includes('javascript') ? '🟨 ' :
@@ -948,7 +911,7 @@
                          skill.toLowerCase().includes('front') || skill.toLowerCase().includes('back') || skill.toLowerCase().includes('stack') ? '💻 ' : '⚡ ';
 
             const tag = document.createElement('span');
-            tag.className = 'skill-tag' + (isWorkType ? ' skill-tag-worktype' : '');
+            tag.className = 'skill-tag';
             tag.innerHTML = `
               <span>${icon}${skill}</span>
               <button type="button" class="skill-tag-remove" data-index="${index}" title="Remove ${skill}">✕</button>
@@ -958,19 +921,6 @@
               removeSkill(index);
             });
             skillsTagsContainer.appendChild(tag);
-          });
-        }
-
-        // Sync Work Type Pills active states
-        const workTypeRow = document.getElementById('work-type-pills-row');
-        if (workTypeRow) {
-          workTypeRow.querySelectorAll('.work-type-pill').forEach(pill => {
-            const type = pill.dataset.type;
-            const isActive = currentSkills.some(s => 
-              s.toLowerCase() === type.toLowerCase() || 
-              (type === 'Student' && s.toLowerCase().startsWith('student'))
-            );
-            pill.classList.toggle('active', isActive);
           });
         }
 
@@ -1098,24 +1048,252 @@
         });
       }
 
-      // Work Type Pills Click Handlers
-      const workTypeRow = document.getElementById('work-type-pills-row');
-      if (workTypeRow) {
-        workTypeRow.querySelectorAll('.work-type-pill').forEach(pill => {
+      // =========================================================
+      // DYNAMIC WORK TYPE & EXPERIENCE/COMPENSATION MORPHING
+      // =========================================================
+      function escapeHtml(str) {
+        if (!str && str !== 0) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      let currentWorkType = 'full_time'; // 'full_time' | 'part_time' | 'freelancer' | 'student'
+
+      const workTypeState = {
+        full_time: {
+          expYears: '',
+          company: '',
+          salaryMin: '',
+          salaryMax: ''
+        },
+        part_time: {
+          expYears: '',
+          availability: '',
+          company: '',
+          salaryMin: '',
+          salaryMax: ''
+        },
+        freelancer: {
+          expYears: '',
+          portfolioUrl: '',
+          hourlyRate: '',
+          minProject: ''
+        },
+        student: {
+          college: '',
+          degree: '',
+          gradYear: '2026',
+          stipendMin: '',
+          stipendMax: ''
+        }
+      };
+
+      function saveCurrentWorkTypeInputs() {
+        const container = document.getElementById('dynamic-work-type-container');
+        if (!container) return;
+
+        if (currentWorkType === 'full_time') {
+          const elExp = document.getElementById('worker-exp-years');
+          const elComp = document.getElementById('worker-past-company');
+          const elMin = document.getElementById('worker-salary-min');
+          const elMax = document.getElementById('worker-salary-max');
+          if (elExp) workTypeState.full_time.expYears = elExp.value;
+          if (elComp) workTypeState.full_time.company = elComp.value;
+          if (elMin) workTypeState.full_time.salaryMin = elMin.value;
+          if (elMax) workTypeState.full_time.salaryMax = elMax.value;
+        } else if (currentWorkType === 'part_time') {
+          const elExp = document.getElementById('worker-exp-years');
+          const elAvail = document.getElementById('worker-availability');
+          const elComp = document.getElementById('worker-past-company');
+          const elMin = document.getElementById('worker-salary-min');
+          const elMax = document.getElementById('worker-salary-max');
+          if (elExp) workTypeState.part_time.expYears = elExp.value;
+          if (elAvail) workTypeState.part_time.availability = elAvail.value;
+          if (elComp) workTypeState.part_time.company = elComp.value;
+          if (elMin) workTypeState.part_time.salaryMin = elMin.value;
+          if (elMax) workTypeState.part_time.salaryMax = elMax.value;
+        } else if (currentWorkType === 'freelancer') {
+          const elExp = document.getElementById('worker-exp-years');
+          const elPort = document.getElementById('worker-portfolio-url');
+          const elRate = document.getElementById('worker-hourly-rate');
+          const elProj = document.getElementById('worker-min-project');
+          if (elExp) workTypeState.freelancer.expYears = elExp.value;
+          if (elPort) workTypeState.freelancer.portfolioUrl = elPort.value;
+          if (elRate) workTypeState.freelancer.hourlyRate = elRate.value;
+          if (elProj) workTypeState.freelancer.minProject = elProj.value;
+        } else if (currentWorkType === 'student') {
+          const elColl = document.getElementById('worker-student-college');
+          const elDeg = document.getElementById('worker-student-degree');
+          const elYr = document.getElementById('worker-student-year');
+          const elMin = document.getElementById('worker-salary-min');
+          const elMax = document.getElementById('worker-salary-max');
+          if (elColl) workTypeState.student.college = elColl.value;
+          if (elDeg) workTypeState.student.degree = elDeg.value;
+          if (elYr) workTypeState.student.gradYear = elYr.value;
+          if (elMin) workTypeState.student.stipendMin = elMin.value;
+          if (elMax) workTypeState.student.stipendMax = elMax.value;
+        }
+      }
+
+      function renderWorkTypeFields() {
+        const container = document.getElementById('dynamic-work-type-container');
+        if (!container) return;
+
+        if (currentWorkType === 'full_time') {
+          const s = workTypeState.full_time;
+          container.innerHTML = `
+            <div class="dynamic-fields-card">
+              <div class="dynamic-fields-badge">
+                <span>💼</span>
+                <span>Full-Time Employment • 40h/week dedicated software engineering roles</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="worker-exp-years">Total Technical Experience (Years) *</label>
+                  <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 3.5" step="0.5" min="0" max="40" value="${escapeHtml(s.expYears)}" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-past-company">Current / Most Recent Company or Organization</label>
+                  <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Infosys, TCS, Tech Startup, Product Co" value="${escapeHtml(s.company)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-salary-min">Expected Min Monthly Salary (₹)</label>
+                  <input type="number" id="worker-salary-min" class="form-input" placeholder="e.g. 45000" step="1000" value="${escapeHtml(s.salaryMin)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-salary-max">Expected Max Monthly Salary (₹)</label>
+                  <input type="number" id="worker-salary-max" class="form-input" placeholder="e.g. 75000" step="1000" value="${escapeHtml(s.salaryMax)}">
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (currentWorkType === 'part_time') {
+          const s = workTypeState.part_time;
+          container.innerHTML = `
+            <div class="dynamic-fields-card">
+              <div class="dynamic-fields-badge">
+                <span>⏱</span>
+                <span>Part-Time Arrangement • Flexible hours & shift-based engagements</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="worker-exp-years">Total Technical Experience (Years)</label>
+                  <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 2.0" step="0.5" min="0" max="40" value="${escapeHtml(s.expYears)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-availability">Weekly Availability & Shift Preference *</label>
+                  <input type="text" id="worker-availability" class="form-input" placeholder="e.g. 20 hrs/week (Mon-Thu), Weekend shifts, Evening 4h" value="${escapeHtml(s.availability)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-past-company">Current or Past Workplace / Client</label>
+                  <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Previous Tech Firm, Agency, Contract" value="${escapeHtml(s.company)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Expected Monthly Compensation Range (₹)</label>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="number" id="worker-salary-min" class="form-input" placeholder="Min ₹ (e.g. 20000)" step="1000" value="${escapeHtml(s.salaryMin)}" style="flex: 1;">
+                    <input type="number" id="worker-salary-max" class="form-input" placeholder="Max ₹ (e.g. 35000)" step="1000" value="${escapeHtml(s.salaryMax)}" style="flex: 1;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (currentWorkType === 'freelancer') {
+          const s = workTypeState.freelancer;
+          container.innerHTML = `
+            <div class="dynamic-fields-card">
+              <div class="dynamic-fields-badge">
+                <span>🚀</span>
+                <span>Freelancer / Contractor • Direct project delivery & hourly consultation</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="worker-exp-years">Freelance / Tech Experience (Years) *</label>
+                  <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 3.0" step="0.5" min="0" max="40" value="${escapeHtml(s.expYears)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-portfolio-url">Portfolio / GitHub / Live Project URL *</label>
+                  <input type="url" id="worker-portfolio-url" class="form-input" placeholder="e.g. https://github.com/yourname or yourportfolio.dev" value="${escapeHtml(s.portfolioUrl)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-hourly-rate">Expected Hourly Consultation Rate (₹ / hr)</label>
+                  <input type="number" id="worker-hourly-rate" class="form-input" placeholder="e.g. 1200" step="50" value="${escapeHtml(s.hourlyRate)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-min-project">Minimum Contract / Project Value (₹)</label>
+                  <input type="number" id="worker-min-project" class="form-input" placeholder="e.g. 25000" step="1000" value="${escapeHtml(s.minProject)}">
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (currentWorkType === 'student') {
+          const s = workTypeState.student;
+          container.innerHTML = `
+            <div class="dynamic-fields-card">
+              <div class="dynamic-fields-badge">
+                <span>🎓</span>
+                <span>Student / Fresher • College internships, trainee roles & apprenticeships</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                <div class="form-group">
+                  <label class="form-label" for="worker-student-college">College / University / Institute Name *</label>
+                  <input type="text" id="worker-student-college" class="form-input" placeholder="e.g. IIT Hyderabad, BITS Pilani, Anna University" value="${escapeHtml(s.college)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-student-degree">Current Degree & Major / Branch *</label>
+                  <input type="text" id="worker-student-degree" class="form-input" placeholder="e.g. B.Tech Computer Science, BCA, MCA" value="${escapeHtml(s.degree)}">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="worker-student-year">Expected Graduation Year *</label>
+                  <select id="worker-student-year" class="form-input">
+                    <option value="2024" ${s.gradYear === '2024' ? 'selected' : ''}>2024 (Recent Graduate)</option>
+                    <option value="2025" ${s.gradYear === '2025' ? 'selected' : ''}>2025 (Final Year)</option>
+                    <option value="2026" ${(!s.gradYear || s.gradYear === '2026') ? 'selected' : ''}>2026 (Pre-Final Year)</option>
+                    <option value="2027" ${s.gradYear === '2027' ? 'selected' : ''}>2027 (Sophomore)</option>
+                    <option value="2028" ${s.gradYear === '2028' ? 'selected' : ''}>2028 (Freshman)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Expected Monthly Internship Stipend (₹ / month)</label>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="number" id="worker-salary-min" class="form-input" placeholder="Min ₹ (e.g. 15000)" step="1000" value="${escapeHtml(s.stipendMin)}" style="flex: 1;">
+                    <input type="number" id="worker-salary-max" class="form-input" placeholder="Max ₹ (e.g. 30000)" step="1000" value="${escapeHtml(s.stipendMax)}" style="flex: 1;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Attach live input listeners to continuously persist user typing
+        container.querySelectorAll('input, select').forEach(input => {
+          input.addEventListener('input', saveCurrentWorkTypeInputs);
+          input.addEventListener('change', saveCurrentWorkTypeInputs);
+        });
+      }
+
+      function setWorkType(type) {
+        saveCurrentWorkTypeInputs();
+        currentWorkType = type;
+
+        const pills = document.querySelectorAll('#work-type-selector-pills .work-type-pill');
+        pills.forEach(pill => {
+          pill.classList.toggle('active', pill.dataset.type === type);
+        });
+
+        renderWorkTypeFields();
+      }
+
+      // Work Type Selector Pill clicks
+      const workTypeSelectorRow = document.getElementById('work-type-selector-pills');
+      if (workTypeSelectorRow) {
+        workTypeSelectorRow.querySelectorAll('.work-type-pill').forEach(pill => {
           pill.addEventListener('click', () => {
-            const type = pill.dataset.type;
-            const existingIndex = currentSkills.findIndex(s => 
-              s.toLowerCase() === type.toLowerCase() || 
-              (type === 'Student' && s.toLowerCase().startsWith('student'))
-            );
-            if (existingIndex >= 0) {
-              removeSkill(existingIndex);
-            } else {
-              addSkill(type);
-            }
+            setWorkType(pill.dataset.type);
           });
         });
       }
+
+      renderWorkTypeFields();
 
       renderSkills();
 
@@ -1275,12 +1453,46 @@
         inputPhone.value = (profile.phone || user.phone || '').replace(/^\+91\s?/, '');
         if (profile.city) selectCity.value = profile.city;
         inputArea.value = profile.preferred_area || '';
-        if (profile.experience_years !== undefined) inputExpYears.value = profile.experience_years;
-        inputPastCompany.value = profile.past_company || '';
-        if (profile.expected_salary_min) inputSalaryMin.value = profile.expected_salary_min;
-        if (profile.expected_salary_max) inputSalaryMax.value = profile.expected_salary_max;
         inputExpDesc.value = profile.experience_description || '';
         if (profile.linkedin_url) linkedinInputUrl.value = profile.linkedin_url;
+
+        // Populate workTypeState from profile
+        workTypeState.full_time.expYears = profile.experience_years !== undefined ? profile.experience_years : '';
+        workTypeState.full_time.company = profile.past_company || '';
+        workTypeState.full_time.salaryMin = profile.expected_salary_min || '';
+        workTypeState.full_time.salaryMax = profile.expected_salary_max || '';
+
+        workTypeState.part_time.expYears = profile.experience_years !== undefined ? profile.experience_years : '';
+        workTypeState.part_time.company = (profile.past_company || '').replace(/\s*\[Shift:.*?\]/, '');
+        const shiftMatch = (profile.past_company || '').match(/\[Shift:\s*(.*?)\]/);
+        if (shiftMatch) workTypeState.part_time.availability = shiftMatch[1];
+        workTypeState.part_time.salaryMin = profile.expected_salary_min || '';
+        workTypeState.part_time.salaryMax = profile.expected_salary_max || '';
+
+        workTypeState.freelancer.expYears = profile.experience_years !== undefined ? profile.experience_years : '';
+        if (profile.past_company && profile.past_company.startsWith('Portfolio: ')) {
+          workTypeState.freelancer.portfolioUrl = profile.past_company.replace('Portfolio: ', '');
+        }
+        workTypeState.freelancer.hourlyRate = profile.salary_period === 'hourly' ? (profile.expected_salary_min || '') : '';
+        workTypeState.freelancer.minProject = profile.expected_salary_max || '';
+
+        workTypeState.student.college = profile.education_institute || '';
+        workTypeState.student.degree = profile.education_specialization || '';
+        workTypeState.student.gradYear = profile.education_year ? String(profile.education_year) : '2026';
+        workTypeState.student.stipendMin = profile.expected_salary_min || '';
+        workTypeState.student.stipendMax = profile.expected_salary_max || '';
+
+        // Determine active work type
+        const savedWorkType = localStorage.getItem('jc_worker_work_type');
+        if (savedWorkType && ['full_time', 'part_time', 'freelancer', 'student'].includes(savedWorkType)) {
+          setWorkType(savedWorkType);
+        } else if (profile.past_company && profile.past_company.startsWith('Student at ')) {
+          setWorkType('student');
+        } else if (profile.salary_period === 'hourly' || (profile.past_company && profile.past_company.startsWith('Portfolio: '))) {
+          setWorkType('freelancer');
+        } else {
+          setWorkType('full_time');
+        }
 
         // Populate Multiple Educations
         educationsContainer.innerHTML = '';
@@ -1313,17 +1525,20 @@
           updateInitials(profile.full_name || user.name);
         }
 
-        // Skills parse
+        // Skills parse - strip non-tech work-type items
         if (profile.skills) {
           try {
             const parsedSkills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
             if (Array.isArray(parsedSkills) && parsedSkills.length > 0) {
-              currentSkills = [...parsedSkills];
+              currentSkills = parsedSkills.filter(s => 
+                !['Full Time', 'Part Time', 'Freelancer', 'Student', 'Remote / Work From Home'].some(w => s.toLowerCase() === w.toLowerCase())
+              );
             }
           } catch {}
         }
         renderSkills();
       } else {
+        setWorkType('full_time');
         addEducationCard();
         renderSkills();
       }
@@ -1416,8 +1631,9 @@
         if (res.success && res.profile) {
           const p = res.profile;
           if (p.full_name) inputName.value = p.full_name;
-          if (p.experience_years !== undefined) inputExpYears.value = p.experience_years;
-          if (p.past_company) inputPastCompany.value = p.past_company;
+          if (p.experience_years !== undefined) workTypeState.full_time.expYears = p.experience_years;
+          if (p.past_company) workTypeState.full_time.company = p.past_company;
+          if (currentWorkType === 'full_time') renderWorkTypeFields();
           if (p.experience_description) inputExpDesc.value = p.experience_description;
           if (p.preferred_area) inputArea.value = p.preferred_area;
           if (p.city) selectCity.value = p.city;
@@ -1487,6 +1703,47 @@
           return;
         }
 
+        saveCurrentWorkTypeInputs();
+
+        let expYears = 0;
+        let pastCompany = '';
+        let salaryMin = undefined;
+        let salaryMax = undefined;
+        let salaryPeriod = 'monthly';
+
+        if (currentWorkType === 'full_time') {
+          expYears = parseFloat(workTypeState.full_time.expYears) || 0;
+          pastCompany = (workTypeState.full_time.company || '').trim();
+          salaryMin = parseInt(workTypeState.full_time.salaryMin, 10) || undefined;
+          salaryMax = parseInt(workTypeState.full_time.salaryMax, 10) || undefined;
+          salaryPeriod = 'monthly';
+        } else if (currentWorkType === 'part_time') {
+          expYears = parseFloat(workTypeState.part_time.expYears) || 0;
+          const avail = (workTypeState.part_time.availability || '').trim();
+          const comp = (workTypeState.part_time.company || '').trim();
+          pastCompany = comp + (avail ? ` [Shift: ${avail}]` : '');
+          salaryMin = parseInt(workTypeState.part_time.salaryMin, 10) || undefined;
+          salaryMax = parseInt(workTypeState.part_time.salaryMax, 10) || undefined;
+          salaryPeriod = 'monthly';
+        } else if (currentWorkType === 'freelancer') {
+          expYears = parseFloat(workTypeState.freelancer.expYears) || 0;
+          const pUrl = (workTypeState.freelancer.portfolioUrl || '').trim();
+          pastCompany = pUrl ? `Portfolio: ${pUrl}` : 'Independent Freelancer';
+          salaryMin = parseInt(workTypeState.freelancer.hourlyRate, 10) || undefined;
+          salaryMax = parseInt(workTypeState.freelancer.minProject, 10) || undefined;
+          salaryPeriod = 'hourly';
+        } else if (currentWorkType === 'student') {
+          expYears = 0;
+          const coll = (workTypeState.student.college || '').trim();
+          const deg = (workTypeState.student.degree || '').trim();
+          pastCompany = coll ? `Student at ${coll} (${deg || 'CS'})` : 'Student';
+          salaryMin = parseInt(workTypeState.student.stipendMin, 10) || undefined;
+          salaryMax = parseInt(workTypeState.student.stipendMax, 10) || undefined;
+          salaryPeriod = 'monthly';
+        }
+
+        localStorage.setItem('jc_worker_work_type', currentWorkType);
+
         const educationsData = getEducationCardsData();
         const primaryEdu = educationsData[0] || {};
 
@@ -1495,19 +1752,20 @@
           phone: phone ? `+91 ${phone}` : undefined,
           photo_key: activeAvatarData || '',
           skills: currentSkills,
-          experience_years: parseFloat(inputExpYears.value) || 0,
+          experience_years: expYears,
           education_level: primaryEdu.level || 'ITI Certificate',
-          education_institute: primaryEdu.institute || '',
-          education_specialization: primaryEdu.specialization || '',
+          education_institute: (currentWorkType === 'student' && workTypeState.student.college) ? workTypeState.student.college : (primaryEdu.institute || ''),
+          education_specialization: (currentWorkType === 'student' && workTypeState.student.degree) ? workTypeState.student.degree : (primaryEdu.specialization || ''),
           education_year: primaryEdu.year || undefined,
           educations: educationsData,
-          past_company: inputPastCompany.value.trim(),
+          past_company: pastCompany,
           experience_description: inputExpDesc.value.trim(),
           preferred_area: inputArea.value.trim() || 'City Center',
           city: selectCity.value,
-          expected_salary_min: parseInt(inputSalaryMin.value, 10) || undefined,
-          expected_salary_max: parseInt(inputSalaryMax.value, 10) || undefined,
-          salary_period: 'monthly',
+          expected_salary_min: salaryMin,
+          expected_salary_max: salaryMax,
+          salary_period: salaryPeriod,
+          employment_type: currentWorkType,
           linkedin_url: linkedinInputUrl.value.trim() || undefined,
         };
 
