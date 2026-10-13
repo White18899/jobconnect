@@ -1516,9 +1516,9 @@ textarea:focus {
 }
 
 .avatar-preview-box {
-  background: #f4f4f5 !important;
-  border: 2px solid rgba(0, 0, 0, 0.12) !important;
-  color: #71717a !important;
+  background: #121214 !important;
+  border: 2px solid var(--border-strong) !important;
+  color: #ffffff !important;
   border-radius: var(--radius-md) !important;
 }
 

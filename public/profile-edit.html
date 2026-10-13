@@ -45,19 +45,29 @@
       gap: 20px;
       flex-wrap: wrap;
     }
+    .avatar-preview-wrap {
+      position: relative;
+      flex-shrink: 0;
+      display: inline-block;
+    }
     .avatar-preview-box {
-      width: 92px;
-      height: 92px;
+      width: 82px;
+      height: 82px;
       border-radius: var(--radius-md) !important;
       border: 2px solid var(--border-strong);
       object-fit: cover;
-      background: var(--surface-secondary);
+      background: #121214;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
+      color: #ffffff;
       overflow: hidden;
-      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .avatar-preview-box:hover {
+      transform: scale(1.03);
+      border-color: var(--primary);
     }
     .skill-chip {
       display: inline-flex;
@@ -87,6 +97,212 @@
       color: #09090b;
       border-color: #ffffff;
       box-shadow: 0 2px 10px rgba(255, 255, 255, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+    }
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      background: #09090b !important;
+      border: 1px solid #18181b !important;
+      border-radius: var(--radius-full) !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+      transition: var(--transition);
+      animation: tagFadeIn 0.2s ease-out;
+    }
+    .skill-tag-remove {
+      background: rgba(255, 255, 255, 0.18);
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      font-size: 10.5px;
+      line-height: 1;
+      transition: var(--transition);
+      margin-left: 2px;
+    }
+    .skill-tag-remove:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+    @keyframes tagFadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .skill-suggestion-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 12px;
+      background: #f4f4f5;
+      border: 1px dashed rgba(0, 0, 0, 0.15);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 550;
+      color: #52525b;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .skill-suggestion-pill:hover {
+      border-color: #09090b;
+      color: #09090b;
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+    .skills-autocomplete-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 275px;
+      overflow-y: auto;
+      background: #ffffff;
+      border: 1px solid #d4d4d8;
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+      z-index: 1000;
+      padding: 6px;
+    }
+    .skills-autocomplete-header {
+      padding: 5px 10px 7px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #f4f4f5;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .skills-autocomplete-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm, 6px);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #18181b;
+      transition: background 0.12s ease, color 0.12s ease;
+      user-select: none;
+    }
+    .skills-autocomplete-item:hover,
+    .skills-autocomplete-item.active-item {
+      background: #09090b;
+      color: #ffffff;
+    }
+    .skills-autocomplete-item:hover .skills-item-category,
+    .skills-autocomplete-item.active-item .skills-item-category {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+    .skills-autocomplete-item:hover .skills-highlight,
+    .skills-autocomplete-item.active-item .skills-highlight {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .skills-autocomplete-item:hover svg,
+    .skills-autocomplete-item.active-item svg {
+      stroke: #ffffff;
+      opacity: 0.9;
+    }
+    .skills-item-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .skills-item-category {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #f4f4f5;
+      color: #71717a;
+      border: 1px solid #e4e4e7;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+      margin-left: 10px;
+    }
+    .skills-highlight {
+      font-weight: 700;
+      color: #09090b;
+    }
+    .work-type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 15px;
+      background: #f4f4f5;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 550;
+      color: #3f3f46;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .work-type-pill:hover {
+      border-color: #09090b;
+      color: #09090b;
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+    .work-type-pill.active {
+      background: #09090b !important;
+      color: #ffffff !important;
+      border-color: #09090b !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .work-type-pill.active::after {
+      content: '✓';
+      margin-left: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #10b981;
+    }
+    .dynamic-fields-card {
+      background: #fafafa;
+      border: 1px solid #e4e4e7;
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 22px;
+      animation: fadeInWorkType 0.2s ease-out;
+    }
+    @keyframes fadeInWorkType {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dynamic-fields-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #18181b;
+      background: #f4f4f5;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      border: 1px solid #e4e4e7;
     }
     .linkedin-sync-card {
       background: rgba(255, 255, 255, 0.04);
@@ -231,13 +447,19 @@
 
       <!-- Avatar Picker with Instant Preview & Drag-Drop -->
       <div class="avatar-upload-wrap" style="margin-bottom: 24px; padding: 18px 20px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md);">
-        <div class="avatar-preview-box" id="avatar-preview" title="Click or drop photo here to upload" style="cursor: pointer; position: relative; width: 92px; height: 92px; border-radius: var(--radius-md) !important; overflow: hidden; transition: transform 0.2s ease, border-color 0.2s ease;">
-          <span id="avatar-initials">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
-          </span>
-          <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md) !important;">
-          <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <div class="avatar-preview-wrap" style="position: relative; flex-shrink: 0; display: inline-block;">
+          <div class="avatar-preview-box" id="avatar-preview" title="Click or drop photo here to upload" style="cursor: pointer; position: relative; width: 82px; height: 82px; border-radius: var(--radius-md) !important; border: 2px solid var(--border-strong) !important; overflow: hidden; background: #121214 !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.2s ease, border-color 0.2s ease;">
+            <span id="avatar-initials" style="font-size: 28px; font-weight: 750; color: #ffffff !important; letter-spacing: -0.02em; font-family: var(--font-sans); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; user-select: none;">
+              RK
+            </span>
+            <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md) !important;">
+            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+          </div>
+          <!-- Verified KYC Shield Badge -->
+          <div title="KYC Verified Tradesman" style="position: absolute; bottom: -3px; right: -3px; width: 22px; height: 22px; border-radius: 4px; background: #10b981; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.18); pointer-events: none;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </div>
         <div>
@@ -303,75 +525,136 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           <span>Education & Technical Qualifications</span>
         </div>
-        <button type="button" id="btn-add-education" class="btn-signin-header" style="padding: 7px 14px; font-size: 12px;">
-          <span>+ Add Another Qualification</span>
+        <button type="button" id="btn-add-education" class="btn-signin-header" style="padding: 7px 16px; font-size: 12.5px;">
+          <span>+ Add Qualification</span>
         </button>
       </div>
 
       <div id="educations-container">
         <!-- Rendered dynamically by JavaScript -->
       </div>
-
-      <div style="text-align: center; margin-top: 12px;">
-        <button type="button" id="btn-add-education-bottom" class="btn-signin-header" style="border-style: dashed; padding: 10px 20px; font-size: 12.5px; width: 100%; justify-content: center;">
-          <span>+ Add Another Degree, ITI or Technical Certificate</span>
-        </button>
-      </div>
     </div>
 
     <!-- 4. TRADE EXPERIENCE & SKILLS -->
     <div class="profile-card-section">
       <div class="profile-section-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-        <span>Trade Experience, Skills & Salary Expectations</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>Technical Stacks, Skills & Compensation Expectations</span>
       </div>
 
       <!-- Experience & Salary Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px;">
         <div class="form-group">
-          <label class="form-label" for="worker-exp-years">Total Trade Experience (Years) *</label>
-          <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 4.5" step="0.5" min="0" max="40" required>
+          <label class="form-label" for="worker-exp-years">Total Technical Experience (Years) *</label>
+          <input type="number" id="worker-exp-years" class="form-input" placeholder="e.g. 3.5" step="0.5" min="0" max="40" required>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="worker-past-company">Most Recent Workshop / Employer Name</label>
-          <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Sri Balaji Auto Care & Service">
+          <label class="form-label" for="worker-past-company">Most Recent Company / Organization</label>
+          <input type="text" id="worker-past-company" class="form-input" placeholder="e.g. Infosys, TCS, Tech Startup, Freelance">
         </div>
 
         <div class="form-group">
           <label class="form-label" for="worker-salary-min">Expected Min Monthly Salary (₹)</label>
-          <input type="number" id="worker-salary-min" class="form-input" placeholder="e.g. 18000" step="500">
+          <input type="number" id="worker-salary-min" class="form-input" placeholder="e.g. 35000" step="1000">
         </div>
 
         <div class="form-group">
           <label class="form-label" for="worker-salary-max">Expected Max Monthly Salary (₹)</label>
-          <input type="number" id="worker-salary-max" class="form-input" placeholder="e.g. 24000" step="500">
+          <input type="number" id="worker-salary-max" class="form-input" placeholder="e.g. 65000" step="1000">
         </div>
       </div>
 
-      <!-- Interactive Skill Chips -->
-      <div class="form-group" style="margin-bottom: 20px;">
-        <label class="form-label">Technical Skills & Disciplines (Click to toggle)</label>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;" id="skills-cloud">
-          <span class="skill-chip active" data-skill="PLC Programming (Siemens S7)">PLC Programming (Siemens S7)</span>
-          <span class="skill-chip active" data-skill="6-Axis Robotics (KUKA/ABB)">6-Axis Robotics (KUKA/ABB)</span>
-          <span class="skill-chip active" data-skill="5-Axis CNC Milling">5-Axis CNC Milling</span>
-          <span class="skill-chip" data-skill="Mastercam / NX CAM">Mastercam / NX CAM</span>
-          <span class="skill-chip" data-skill="EV High-Voltage Diagnostics">EV High-Voltage Diagnostics</span>
-          <span class="skill-chip" data-skill="BMS & Battery Pack Servicing">BMS & Battery Pack Servicing</span>
-          <span class="skill-chip" data-skill="Solar Inverter & HT Switchgear">Solar Inverter & HT Switchgear</span>
-          <span class="skill-chip" data-skill="Aerospace TIG Welding">Aerospace TIG Welding</span>
-          <span class="skill-chip" data-skill="Industrial Chiller Overhaul">Industrial Chiller Overhaul</span>
-          <span class="skill-chip" data-skill="Class 100 Cleanroom HVAC">Class 100 Cleanroom HVAC</span>
-          <span class="skill-chip" data-skill="CMM Metrology & Inspection">CMM Metrology & Inspection</span>
-          <span class="skill-chip" data-skill="SCADA & HMI Systems">SCADA & HMI Systems</span>
+      <!-- Dynamic Technical Skills, Disciplines & Work Types -->
+      <div class="form-group" style="margin-bottom: 24px;">
+        <!-- Preferred Work Arrangement / Employment Type Selection -->
+        <div style="margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+            <label class="form-label" style="margin-bottom: 0;">
+              Employment & Work Type
+            </label>
+            <span style="font-size: 11.5px; color: var(--text-muted);">
+              Quick toggle (Full Time, Part Time, Freelancer, Student)
+            </span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="work-type-pills-row">
+            <button type="button" class="work-type-pill" data-type="Full Time">
+              <span>💼</span>
+              <span>Full Time</span>
+            </button>
+            <button type="button" class="work-type-pill" data-type="Part Time">
+              <span>⏱</span>
+              <span>Part Time</span>
+            </button>
+            <button type="button" class="work-type-pill" data-type="Freelancer">
+              <span>🚀</span>
+              <span>Freelancer</span>
+            </button>
+            <button type="button" class="work-type-pill" data-type="Student">
+              <span>🎓</span>
+              <span>Student</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="skill-input-field" style="margin-bottom: 0;">
+            Technical Skills, Frameworks & Languages *
+          </label>
+          <span style="font-size: 11.5px; color: var(--text-muted);">
+            Type a tech stack or work type and press <kbd style="background: var(--surface-secondary); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border); font-size: 10.5px; font-family: monospace;">Enter</kbd>
+          </span>
+        </div>
+
+        <!-- Input Bar with Add Button & Typing Suggestions Dropdown -->
+        <div style="display: flex; gap: 8px; margin-bottom: 10px; position: relative;">
+          <div style="position: relative; flex: 1;">
+            <input type="text" id="skill-input-field" class="form-input" style="width: 100%;" placeholder="e.g. Frontend, Backend, Full Stack, Python, React, Java, JS, HTML, CSS..." autocomplete="off" spellcheck="false">
+            <!-- Dynamic Autocomplete Suggestions Dropdown -->
+            <div id="skills-autocomplete-dropdown" class="skills-autocomplete-menu" style="display: none;"></div>
+          </div>
+          <button type="button" id="btn-add-skill-tag" class="btn-signin-header" style="padding: 9px 20px; font-size: 13px; font-weight: 600; white-space: nowrap;">
+            <span>+ Add Skill</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Tags Display Box -->
+        <div id="skills-tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; padding: 10px 12px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md); align-items: center;">
+          <!-- Dynamically populated tags with remove buttons -->
+        </div>
+
+        <!-- Quick Suggestions Pill Row -->
+        <div style="margin-top: 10px;">
+          <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600; display: inline-block; margin-bottom: 6px;">
+            Suggested technical stacks & languages (Click to add):
+          </span>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="skill-suggestions-list">
+            <span class="skill-suggestion-pill" data-skill="Frontend Development">+ Frontend Development</span>
+            <span class="skill-suggestion-pill" data-skill="Backend Development">+ Backend Development</span>
+            <span class="skill-suggestion-pill" data-skill="Full Stack Development">+ Full Stack Development</span>
+            <span class="skill-suggestion-pill" data-skill="React.js">+ React.js</span>
+            <span class="skill-suggestion-pill" data-skill="Next.js">+ Next.js</span>
+            <span class="skill-suggestion-pill" data-skill="JavaScript (ES6+)">+ JavaScript</span>
+            <span class="skill-suggestion-pill" data-skill="TypeScript">+ TypeScript</span>
+            <span class="skill-suggestion-pill" data-skill="Python">+ Python</span>
+            <span class="skill-suggestion-pill" data-skill="Java">+ Java</span>
+            <span class="skill-suggestion-pill" data-skill="HTML5 & Semantic Markup">+ HTML5</span>
+            <span class="skill-suggestion-pill" data-skill="CSS3 & Modern Layouts">+ CSS3</span>
+            <span class="skill-suggestion-pill" data-skill="Tailwind CSS">+ Tailwind CSS</span>
+            <span class="skill-suggestion-pill" data-skill="Node.js & Express">+ Node.js</span>
+            <span class="skill-suggestion-pill" data-skill="SQL & Database Design">+ SQL / PostgreSQL</span>
+            <span class="skill-suggestion-pill" data-skill="MongoDB & NoSQL">+ MongoDB</span>
+            <span class="skill-suggestion-pill" data-skill="Docker & Containerization">+ Docker</span>
+            <span class="skill-suggestion-pill" data-skill="AWS (Amazon Web Services)">+ AWS</span>
+            <span class="skill-suggestion-pill" data-skill="Git & GitHub / Version Control">+ Git & GitHub</span>
+          </div>
         </div>
       </div>
 
       <!-- Experience Description -->
       <div class="form-group">
         <label class="form-label" for="worker-exp-desc">Technical Experience Summary & Highlights</label>
-        <textarea id="worker-exp-desc" class="form-input" rows="4" placeholder="Describe your technical experience (e.g. PLC programming in TIA Portal, 5-axis CNC setup with Mastercam, EV battery module balancing, cleanroom HVAC chiller loop maintenance)..."></textarea>
+        <textarea id="worker-exp-desc" class="form-input" rows="4" placeholder="Describe your software engineering experience (e.g. building responsive web applications with React & Next.js, developing REST APIs with Node.js/Python, designing relational database schemas in PostgreSQL, setting up Docker and AWS CI/CD pipelines)..."></textarea>
       </div>
     </div>
 
@@ -418,7 +701,6 @@
       // Education Repeater Container & Add Buttons
       const educationsContainer = document.getElementById('educations-container');
       const btnAddEdu = document.getElementById('btn-add-education');
-      const btnAddEduBottom = document.getElementById('btn-add-education-bottom');
 
       // Avatar Elements
       const avatarPreview = document.getElementById('avatar-preview');
@@ -433,7 +715,430 @@
       const btnSyncLinkedin = document.getElementById('btn-sync-linkedin');
       const linkedinStatusMsg = document.getElementById('linkedin-status-msg');
 
+      // Skills Tag Input & Typing Suggestions Elements
+      const skillInputField = document.getElementById('skill-input-field');
+      const btnAddSkillTag = document.getElementById('btn-add-skill-tag');
+      const skillsTagsContainer = document.getElementById('skills-tags-container');
+      const skillSuggestionsList = document.getElementById('skill-suggestions-list');
+      const skillsAutocompleteDropdown = document.getElementById('skills-autocomplete-dropdown');
+
+      // Comprehensive Technical Software Engineering & Modern Tech Skill Knowledge Base
+      const SKILL_DATABASE = [
+        // Core Web & Full Stack Roles
+        { name: 'Full Stack Development', category: 'Core Role', aliases: ['full stack', 'fullstack', 'full-stack', 'web', 'mern', 'mean'] },
+        { name: 'Frontend Development', category: 'Core Role', aliases: ['frontend', 'front-end', 'front end', 'web', 'ui'] },
+        { name: 'Backend Development', category: 'Core Role', aliases: ['backend', 'back-end', 'back end', 'api', 'server'] },
+        { name: 'Web Development', category: 'Core Role', aliases: ['web', 'website', 'web dev', 'webdev'] },
+        { name: 'Mobile App Development', category: 'Mobile', aliases: ['mobile', 'app', 'android', 'ios'] },
+        { name: 'DevOps & Cloud Engineering', category: 'DevOps', aliases: ['devops', 'infra', 'cloud', 'sre'] },
+
+        // Programming Languages
+        { name: 'JavaScript (ES6+)', category: 'Language', aliases: ['js', 'javascript', 'vanilla js', 'web'] },
+        { name: 'TypeScript', category: 'Language', aliases: ['ts', 'typescript', 'typed js'] },
+        { name: 'Python', category: 'Language', aliases: ['py', 'python', 'python3', 'django', 'fastapi'] },
+        { name: 'Java', category: 'Language', aliases: ['java', 'core java', 'spring', 'jvm'] },
+        { name: 'HTML5 & Semantic Markup', category: 'Frontend', aliases: ['html', 'html5', 'web', 'markup'] },
+        { name: 'CSS3 & Modern Layouts', category: 'Frontend', aliases: ['css', 'css3', 'scss', 'sass', 'web', 'styles'] },
+        { name: 'C++ & Systems Programming', category: 'Language', aliases: ['cpp', 'c++', 'c'] },
+        { name: 'C# / .NET Core', category: 'Backend', aliases: ['c#', 'csharp', 'dotnet', '.net'] },
+        { name: 'Go / Golang', category: 'Backend', aliases: ['go', 'golang'] },
+        { name: 'PHP & Laravel', category: 'Backend', aliases: ['php', 'laravel', 'wordpress'] },
+        { name: 'Rust', category: 'Systems', aliases: ['rust', 'rustlang'] },
+        { name: 'SQL & Database Design', category: 'Database', aliases: ['sql', 'rdbms', 'mysql', 'postgres'] },
+
+        // Frontend Frameworks & Libraries
+        { name: 'React.js', category: 'Frontend', aliases: ['react', 'reactjs', 'jsx', 'web', 'js'] },
+        { name: 'Next.js', category: 'Full Stack', aliases: ['next', 'nextjs', 'react', 'ssr', 'fullstack', 'web'] },
+        { name: 'Vue.js & Nuxt', category: 'Frontend', aliases: ['vue', 'vuejs', 'nuxt'] },
+        { name: 'Angular', category: 'Frontend', aliases: ['angular', 'angularjs', 'ts'] },
+        { name: 'Tailwind CSS', category: 'Styling', aliases: ['tailwind', 'css', 'utility css'] },
+        { name: 'Redux Toolkit & Zustand', category: 'State Mgmt', aliases: ['redux', 'zustand', 'state'] },
+        { name: 'Responsive Web Design & Flexbox/Grid', category: 'Frontend', aliases: ['responsive', 'mobile friendly', 'css', 'web'] },
+        { name: 'Vite & Webpack', category: 'Build Tools', aliases: ['vite', 'webpack', 'bundler'] },
+
+        // Backend Frameworks & Runtimes
+        { name: 'Node.js & Express', category: 'Backend', aliases: ['node', 'nodejs', 'express', 'expressjs', 'js', 'backend'] },
+        { name: 'Django & REST Framework', category: 'Backend', aliases: ['django', 'drf', 'py', 'python'] },
+        { name: 'FastAPI (Python)', category: 'Backend', aliases: ['fastapi', 'py', 'python', 'api'] },
+        { name: 'Spring Boot (Java)', category: 'Backend', aliases: ['spring', 'springboot', 'java', 'backend'] },
+        { name: 'NestJS', category: 'Backend', aliases: ['nestjs', 'nest', 'ts', 'node'] },
+        { name: 'RESTful API Architecture', category: 'APIs', aliases: ['rest', 'api', 'apis', 'restful'] },
+        { name: 'GraphQL & Apollo', category: 'APIs', aliases: ['graphql', 'gql', 'apollo'] },
+        { name: 'Microservices & Distributed Systems', category: 'Architecture', aliases: ['microservices', 'distributed', 'system design'] },
+        { name: 'WebSockets & Realtime APIs', category: 'Realtime', aliases: ['websockets', 'socket.io', 'realtime', 'web'] },
+
+        // Databases & Storage
+        { name: 'PostgreSQL', category: 'Database', aliases: ['postgres', 'postgresql', 'psql', 'sql'] },
+        { name: 'MongoDB & NoSQL', category: 'Database', aliases: ['mongo', 'mongodb', 'nosql', 'mern'] },
+        { name: 'MySQL', category: 'Database', aliases: ['mysql', 'sql', 'mariadb'] },
+        { name: 'Redis & In-Memory Caching', category: 'Database', aliases: ['redis', 'cache', 'caching'] },
+        { name: 'Prisma & Drizzle ORM', category: 'Database', aliases: ['prisma', 'drizzle', 'orm'] },
+        { name: 'Firebase & Supabase', category: 'BaaS', aliases: ['firebase', 'supabase', 'auth'] },
+
+        // Cloud, DevOps & Tools
+        { name: 'Git & GitHub / Version Control', category: 'Dev Tools', aliases: ['git', 'github', 'gitlab', 'vcs'] },
+        { name: 'Docker & Containerization', category: 'DevOps', aliases: ['docker', 'containers'] },
+        { name: 'Kubernetes (K8s)', category: 'DevOps', aliases: ['k8s', 'kubernetes'] },
+        { name: 'AWS (Amazon Web Services)', category: 'Cloud', aliases: ['aws', 'cloud', 's3', 'ec2', 'lambda'] },
+        { name: 'CI/CD Pipelines (GitHub Actions)', category: 'DevOps', aliases: ['ci/cd', 'cicd', 'github actions', 'pipeline'] },
+        { name: 'Linux Administration & Bash', category: 'DevOps', aliases: ['linux', 'bash', 'shell', 'ubuntu'] },
+
+        // Mobile & Testing
+        { name: 'React Native', category: 'Mobile', aliases: ['react native', 'rn', 'mobile'] },
+        { name: 'Flutter & Dart', category: 'Mobile', aliases: ['flutter', 'dart', 'mobile'] },
+        { name: 'Unit & End-to-End Testing (Jest / Cypress)', category: 'QA', aliases: ['testing', 'jest', 'cypress', 'playwright', 'qa'] },
+
+        // Employment & Work Types
+        { name: 'Full Time', category: 'Work Type', aliases: ['full time', 'fulltime', 'full-time', 'ft'] },
+        { name: 'Part Time', category: 'Work Type', aliases: ['part time', 'parttime', 'part-time', 'pt'] },
+        { name: 'Freelancer', category: 'Work Type', aliases: ['freelancer', 'freelance', 'contract', 'contractor'] },
+        { name: 'Student', category: 'Work Type', aliases: ['student', 'intern', 'internship', 'fresher'] },
+        { name: 'Remote / Work From Home', category: 'Work Type', aliases: ['remote', 'wfh', 'hybrid'] }
+      ];
+
+      let currentSkills = [];
+      let activeSuggestionIndex = -1;
+      let currentMatches = [];
+
+      function escapeRegex(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function hideAutocomplete() {
+        if (skillsAutocompleteDropdown) {
+          skillsAutocompleteDropdown.style.display = 'none';
+          skillsAutocompleteDropdown.innerHTML = '';
+        }
+        activeSuggestionIndex = -1;
+        currentMatches = [];
+      }
+
+      function showAutocomplete(matches, query) {
+        if (!skillsAutocompleteDropdown) return;
+        currentMatches = matches;
+        activeSuggestionIndex = -1;
+
+        if (matches.length === 0) {
+          hideAutocomplete();
+          return;
+        }
+
+        const safeQuery = escapeRegex(query);
+        const regex = new RegExp(`(${safeQuery})`, 'gi');
+
+        skillsAutocompleteDropdown.innerHTML = `
+          <div class="skills-autocomplete-header">
+            <span>Matching Tech Stacks & Skills (${matches.length})</span>
+            <span style="font-size: 10px; opacity: 0.8; font-family: monospace;">↑↓ navigate • Enter select</span>
+          </div>
+          ${matches.map((item, idx) => `
+            <div class="skills-autocomplete-item" data-index="${idx}">
+              <div class="skills-item-main">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity: 0.5; flex-shrink: 0;"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>${item.name.replace(regex, '<span class="skills-highlight">$1</span>')}</span>
+              </div>
+              <span class="skills-item-category">${item.category || 'Tech'}</span>
+            </div>
+          `).join('')}
+        `;
+
+        skillsAutocompleteDropdown.querySelectorAll('.skills-autocomplete-item').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = parseInt(el.dataset.index, 10);
+            if (currentMatches[idx]) {
+              addSkill(currentMatches[idx].name);
+              hideAutocomplete();
+            }
+          });
+        });
+
+        skillsAutocompleteDropdown.style.display = 'block';
+      }
+
+      function updateActiveSuggestion() {
+        if (!skillsAutocompleteDropdown) return;
+        const items = skillsAutocompleteDropdown.querySelectorAll('.skills-autocomplete-item');
+        items.forEach((item, idx) => {
+          const isActive = idx === activeSuggestionIndex;
+          item.classList.toggle('active-item', isActive);
+          if (isActive) {
+            item.scrollIntoView({ block: 'nearest' });
+          }
+        });
+      }
+
+      function handleAutocompleteInput() {
+        const query = (skillInputField?.value || '').trim();
+        if (query.length < 1) {
+          hideAutocomplete();
+          return;
+        }
+
+        const qLower = query.toLowerCase();
+        // Exclude skills already selected
+        const unselected = SKILL_DATABASE.filter(s => 
+          !currentSkills.some(existing => existing.toLowerCase() === s.name.toLowerCase())
+        );
+
+        // Prioritized buckets: exact matches, startsWith name, alias matches, contains name/category
+        const exactMatches = [];
+        const startsWithMatches = [];
+        const aliasMatches = [];
+        const containsMatches = [];
+
+        unselected.forEach(s => {
+          const sLower = s.name.toLowerCase();
+          const aliases = (s.aliases || []).map(a => a.toLowerCase());
+
+          if (sLower === qLower || aliases.includes(qLower)) {
+            exactMatches.push(s);
+          } else if (sLower.startsWith(qLower)) {
+            startsWithMatches.push(s);
+          } else if (aliases.some(a => a.startsWith(qLower) || a.includes(qLower))) {
+            aliasMatches.push(s);
+          } else if (sLower.includes(qLower) || (s.category && s.category.toLowerCase().includes(qLower))) {
+            containsMatches.push(s);
+          }
+        });
+
+        // Deduplicate while preserving priority order
+        const seen = new Set();
+        const ordered = [];
+        [...exactMatches, ...startsWithMatches, ...aliasMatches, ...containsMatches].forEach(item => {
+          if (!seen.has(item.name)) {
+            seen.add(item.name);
+            ordered.push(item);
+          }
+        });
+
+        const matches = ordered.slice(0, 9);
+        showAutocomplete(matches, query);
+      }
+
+      function renderSkills() {
+        if (!skillsTagsContainer) return;
+        skillsTagsContainer.innerHTML = '';
+        if (currentSkills.length === 0) {
+          skillsTagsContainer.innerHTML = `
+            <span style="color: var(--text-muted); font-size: 12.5px; font-style: italic; padding: 2px 4px;">
+              No tech skills added yet. Type Frontend, Backend, Python, React, Java, or select below.
+            </span>
+          `;
+        } else {
+          currentSkills.forEach((skill, index) => {
+            const isWorkType = ['Full Time', 'Part Time', 'Freelancer', 'Student'].some(w => 
+              skill.toLowerCase() === w.toLowerCase() || 
+              (w === 'Student' && skill.toLowerCase().startsWith('student'))
+            );
+            const icon = skill.toLowerCase().includes('full time') ? '💼 ' :
+                         skill.toLowerCase().includes('part time') ? '⏱ ' :
+                         skill.toLowerCase().includes('freelancer') ? '🚀 ' :
+                         skill.toLowerCase().includes('student') ? '🎓 ' :
+                         skill.toLowerCase().includes('python') || skill.toLowerCase() === 'py' ? '🐍 ' :
+                         skill.toLowerCase().includes('react') ? '⚛️ ' :
+                         skill.toLowerCase().includes('java') && !skill.toLowerCase().includes('javascript') ? '☕ ' :
+                         skill.toLowerCase().includes('js') || skill.toLowerCase().includes('javascript') ? '🟨 ' :
+                         skill.toLowerCase().includes('html') ? '🌐 ' :
+                         skill.toLowerCase().includes('css') ? '🎨 ' :
+                         skill.toLowerCase().includes('docker') ? '🐳 ' :
+                         skill.toLowerCase().includes('aws') || skill.toLowerCase().includes('cloud') ? '☁️ ' :
+                         skill.toLowerCase().includes('git') ? '🐙 ' :
+                         skill.toLowerCase().includes('sql') || skill.toLowerCase().includes('data') || skill.toLowerCase().includes('mongo') ? '🗄️ ' :
+                         skill.toLowerCase().includes('front') || skill.toLowerCase().includes('back') || skill.toLowerCase().includes('stack') ? '💻 ' : '⚡ ';
+
+            const tag = document.createElement('span');
+            tag.className = 'skill-tag' + (isWorkType ? ' skill-tag-worktype' : '');
+            tag.innerHTML = `
+              <span>${icon}${skill}</span>
+              <button type="button" class="skill-tag-remove" data-index="${index}" title="Remove ${skill}">✕</button>
+            `;
+            tag.querySelector('.skill-tag-remove').addEventListener('click', (e) => {
+              e.stopPropagation();
+              removeSkill(index);
+            });
+            skillsTagsContainer.appendChild(tag);
+          });
+        }
+
+        // Sync Work Type Pills active states
+        const workTypeRow = document.getElementById('work-type-pills-row');
+        if (workTypeRow) {
+          workTypeRow.querySelectorAll('.work-type-pill').forEach(pill => {
+            const type = pill.dataset.type;
+            const isActive = currentSkills.some(s => 
+              s.toLowerCase() === type.toLowerCase() || 
+              (type === 'Student' && s.toLowerCase().startsWith('student'))
+            );
+            pill.classList.toggle('active', isActive);
+          });
+        }
+
+        if (skillSuggestionsList) {
+          skillSuggestionsList.querySelectorAll('.skill-suggestion-pill').forEach(pill => {
+            const rawSkill = pill.dataset.skill || pill.textContent.replace(/^\+\s*/, '').trim();
+            const exists = currentSkills.some(s => s.toLowerCase() === rawSkill.toLowerCase());
+            pill.style.opacity = exists ? '0.35' : '1';
+            pill.style.pointerEvents = exists ? 'none' : 'auto';
+          });
+        }
+      }
+
+      function addSkill(skillName) {
+        const clean = (skillName || '').trim().replace(/^,\s*|\s*,$/g, '');
+        if (!clean) return;
+        if (currentSkills.some(s => s.toLowerCase() === clean.toLowerCase())) {
+          showToast(`"${clean}" is already in your skills list.`, 'error');
+          if (skillInputField) skillInputField.value = '';
+          hideAutocomplete();
+          return;
+        }
+        currentSkills.push(clean);
+        renderSkills();
+        hideAutocomplete();
+        if (skillInputField) {
+          skillInputField.value = '';
+          skillInputField.focus();
+        }
+      }
+
+      function removeSkill(index) {
+        if (index >= 0 && index < currentSkills.length) {
+          const removed = currentSkills.splice(index, 1);
+          renderSkills();
+        }
+      }
+
+      if (btnAddSkillTag && skillInputField) {
+        btnAddSkillTag.addEventListener('click', () => {
+          if (activeSuggestionIndex >= 0 && currentMatches[activeSuggestionIndex]) {
+            addSkill(currentMatches[activeSuggestionIndex].name);
+          } else {
+            addSkill(skillInputField.value);
+          }
+          hideAutocomplete();
+        });
+
+        skillInputField.addEventListener('input', handleAutocompleteInput);
+        skillInputField.addEventListener('focus', () => {
+          if (skillInputField.value.trim().length > 0) {
+            handleAutocompleteInput();
+          }
+        });
+
+        skillInputField.addEventListener('keydown', (e) => {
+          const isDropdownVisible = skillsAutocompleteDropdown && skillsAutocompleteDropdown.style.display === 'block';
+
+          if (e.key === 'ArrowDown') {
+            if (isDropdownVisible && currentMatches.length > 0) {
+              e.preventDefault();
+              activeSuggestionIndex = (activeSuggestionIndex + 1) % currentMatches.length;
+              updateActiveSuggestion();
+            } else if (skillInputField.value.trim().length > 0) {
+              handleAutocompleteInput();
+            }
+          } else if (e.key === 'ArrowUp') {
+            if (isDropdownVisible && currentMatches.length > 0) {
+              e.preventDefault();
+              activeSuggestionIndex = (activeSuggestionIndex - 1 + currentMatches.length) % currentMatches.length;
+              updateActiveSuggestion();
+            }
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (isDropdownVisible && activeSuggestionIndex >= 0 && currentMatches[activeSuggestionIndex]) {
+              addSkill(currentMatches[activeSuggestionIndex].name);
+            } else if (isDropdownVisible && currentMatches.length > 0) {
+              const qVal = skillInputField.value.trim().toLowerCase();
+              const top = currentMatches[0];
+              const topAliases = (top.aliases || []).map(a => a.toLowerCase());
+              if (top.name.toLowerCase().startsWith(qVal) || topAliases.includes(qVal) || top.name.toLowerCase() === qVal) {
+                addSkill(top.name);
+              } else {
+                addSkill(skillInputField.value);
+              }
+            } else {
+              addSkill(skillInputField.value);
+            }
+            hideAutocomplete();
+          } else if (e.key === 'Tab') {
+            if (isDropdownVisible && currentMatches.length > 0) {
+              e.preventDefault();
+              const chosen = activeSuggestionIndex >= 0 ? currentMatches[activeSuggestionIndex] : currentMatches[0];
+              addSkill(chosen.name);
+              hideAutocomplete();
+            }
+          } else if (e.key === 'Escape') {
+            hideAutocomplete();
+          } else if (e.key === ',' || e.key === ';') {
+            e.preventDefault();
+            addSkill(skillInputField.value);
+            hideAutocomplete();
+          } else if (e.key === 'Backspace' && !skillInputField.value && currentSkills.length > 0) {
+            hideAutocomplete();
+            removeSkill(currentSkills.length - 1);
+          }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+          if (skillInputField && skillsAutocompleteDropdown) {
+            if (!skillInputField.contains(e.target) && !skillsAutocompleteDropdown.contains(e.target)) {
+              hideAutocomplete();
+            }
+          }
+        });
+      }
+
+      if (skillSuggestionsList) {
+        skillSuggestionsList.querySelectorAll('.skill-suggestion-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            const s = pill.dataset.skill || pill.textContent.replace(/^\+\s*/, '').trim();
+            addSkill(s);
+          });
+        });
+      }
+
+      // Work Type Pills Click Handlers
+      const workTypeRow = document.getElementById('work-type-pills-row');
+      if (workTypeRow) {
+        workTypeRow.querySelectorAll('.work-type-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            const type = pill.dataset.type;
+            const existingIndex = currentSkills.findIndex(s => 
+              s.toLowerCase() === type.toLowerCase() || 
+              (type === 'Student' && s.toLowerCase().startsWith('student'))
+            );
+            if (existingIndex >= 0) {
+              removeSkill(existingIndex);
+            } else {
+              addSkill(type);
+            }
+          });
+        });
+      }
+
+      renderSkills();
+
       let activeAvatarData = '';
+
+      function updateInitials(name) {
+        const displayName = name || inputName?.value || user.name || 'Ramesh Kumar';
+        const initials = displayName
+          .split(' ')
+          .filter(Boolean)
+          .map(n => n[0])
+          .slice(0, 2)
+          .join('')
+          .toUpperCase() || 'RK';
+        if (avatarInitials) avatarInitials.textContent = initials;
+      }
+      updateInitials(user.name);
+
+      inputName.addEventListener('input', () => {
+        if (!activeAvatarData) {
+          updateInitials(inputName.value);
+        }
+      });
 
       function showToast(msg, type = 'success') {
         const c = document.getElementById('toast-container');
@@ -449,15 +1154,14 @@
       // DYNAMIC MULTIPLE EDUCATION QUALIFICATIONS REPEATER
       // =========================================================
       const EDU_LEVEL_OPTIONS = [
-        { val: 'ITI Certificate', label: 'ITI Certificate (Industrial Training Institute)' },
-        { val: 'Diploma / Polytechnic', label: 'Diploma / Polytechnic (State Board)' },
-        { val: '10th Standard / SSC', label: '10th Standard / Matriculation' },
-        { val: '12th Standard / Inter', label: '12th Standard / Intermediate / HSC' },
-        { val: "Bachelor's Degree", label: "Bachelor's Degree / Graduate (B.Tech / B.Sc / BA)" },
-        { val: 'Vocational Certification', label: 'Vocational / Skill Training Certificate' },
-        { val: 'Trade Apprenticeship', label: 'Trade Apprenticeship / Govt Apprenticeship' },
-        { val: "Master's Degree", label: "Master's Degree / Post-Graduate" },
-        { val: 'Practical Experience', label: 'Practical Trade Learner (No Formal Schooling)' }
+        { val: "Bachelor's Degree", label: "Bachelor's Degree (B.Tech / B.E. / BCA / B.Sc CS / IT)" },
+        { val: "Master's Degree", label: "Master's Degree (M.Tech / MCA / MS / M.Sc CS)" },
+        { val: 'Diploma / Polytechnic', label: 'Diploma / Polytechnic (Computer Science / IT / ECE)' },
+        { val: 'Full-Stack Bootcamp / Certificate', label: 'Coding Bootcamp / Tech Certification' },
+        { val: 'Self-Taught / Open Source Contributor', label: 'Self-Taught Developer / Open Source Contributor' },
+        { val: '12th Standard / Inter', label: '12th Standard / Higher Secondary' },
+        { val: 'ITI Certificate', label: 'ITI / Technical Certificate' },
+        { val: 'Other', label: 'Other Degree / Certification' }
       ];
 
       function createEducationCard(data = {}, index = 1) {
@@ -562,12 +1266,6 @@
         showToast('New qualification card added!');
       });
 
-      btnAddEduBottom.addEventListener('click', () => {
-        const card = addEducationCard();
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        showToast('New qualification card added!');
-      });
-
       // =========================================================
       // LOAD EXISTING PROFILE
       // =========================================================
@@ -609,30 +1307,26 @@
           btnRemoveAvatar.style.display = 'inline-block';
           const btnLabel = document.getElementById('btn-avatar-label');
           if (btnLabel) btnLabel.textContent = 'Change Photo';
+        } else {
+          avatarImg.style.display = 'none';
+          avatarInitials.style.display = 'flex';
+          updateInitials(profile.full_name || user.name);
         }
 
         // Skills parse
         if (profile.skills) {
           try {
             const parsedSkills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
-            if (Array.isArray(parsedSkills)) {
-              document.querySelectorAll('.skill-chip').forEach(chip => {
-                const s = chip.dataset.skill;
-                chip.classList.toggle('active', parsedSkills.includes(s));
-              });
+            if (Array.isArray(parsedSkills) && parsedSkills.length > 0) {
+              currentSkills = [...parsedSkills];
             }
           } catch {}
         }
+        renderSkills();
       } else {
         addEducationCard();
+        renderSkills();
       }
-
-      // Skill chips click toggle
-      document.querySelectorAll('.skill-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          chip.classList.toggle('active');
-        });
-      });
 
       // Photo Upload & Drag-Drop Handlers
       avatarPreview.addEventListener('click', () => fileAvatarInput.click());
@@ -686,7 +1380,8 @@
         activeAvatarData = '';
         avatarImg.src = '';
         avatarImg.style.display = 'none';
-        avatarInitials.style.display = 'block';
+        avatarInitials.style.display = 'flex';
+        updateInitials(inputName.value);
         btnRemoveAvatar.style.display = 'none';
         const btnLabel = document.getElementById('btn-avatar-label');
         if (btnLabel) btnLabel.textContent = 'Upload Image';
@@ -734,6 +1429,10 @@
             avatarImg.style.display = 'block';
             avatarInitials.style.display = 'none';
             btnRemoveAvatar.style.display = 'inline-block';
+          } else {
+            avatarImg.style.display = 'none';
+            avatarInitials.style.display = 'flex';
+            updateInitials(p.full_name || inputName.value);
           }
 
           // Educations
@@ -752,11 +1451,12 @@
 
           // Skills selection
           if (Array.isArray(p.skills) && p.skills.length > 0) {
-            document.querySelectorAll('.skill-chip').forEach(chip => {
-              if (p.skills.includes(chip.dataset.skill)) {
-                chip.classList.add('active');
+            p.skills.forEach(s => {
+              if (!currentSkills.some(existing => existing.toLowerCase() === s.toLowerCase())) {
+                currentSkills.push(s);
               }
             });
+            renderSkills();
           }
 
           linkedinStatusMsg.style.color = 'var(--success)';
@@ -787,7 +1487,6 @@
           return;
         }
 
-        const selectedSkills = Array.from(document.querySelectorAll('.skill-chip.active')).map(c => c.dataset.skill);
         const educationsData = getEducationCardsData();
         const primaryEdu = educationsData[0] || {};
 
@@ -795,7 +1494,7 @@
           full_name: name,
           phone: phone ? `+91 ${phone}` : undefined,
           photo_key: activeAvatarData || '',
-          skills: selectedSkills,
+          skills: currentSkills,
           experience_years: parseFloat(inputExpYears.value) || 0,
           education_level: primaryEdu.level || 'ITI Certificate',
           education_institute: primaryEdu.institute || '',
