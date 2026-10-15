@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Complete Trade Profile • JobWay (job-way.in)</title>
-  <meta name="description" content="Set up your verified JobWay profile. Education, trade experience, skills, and LinkedIn autofill.">
+  <meta name="description" content="Set up your verified JobWay profile. Education, trade experience, and skills.">
   <link rel="canonical" href="https://job-way.in/profile-edit">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -304,16 +304,6 @@
       margin-bottom: 16px;
       border: 1px solid #e4e4e7;
     }
-    .linkedin-sync-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), var(--specular-rim);
-    }
     .education-item-card {
       background: var(--surface-secondary);
       border: 1px solid var(--border);
@@ -362,6 +352,36 @@
     .btn-remove-edu:hover {
       background: var(--danger-light);
     }
+    @media (max-width: 640px) {
+      .editorial-navbar {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 12px 14px !important;
+      }
+      .bracket-tag {
+        display: none !important;
+      }
+      #user-header-email {
+        display: none !important;
+      }
+      .main-content {
+        padding-top: 18px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+      .portal-welcome-banner {
+        padding: 16px 18px !important;
+        gap: 14px !important;
+      }
+      .portal-welcome-banner h1 {
+        font-size: 19px !important;
+      }
+      #btn-save-profile-top {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+    }
   </style>
 </head>
 <body class="editorial-page" style="position: relative;">
@@ -386,7 +406,7 @@
   <main class="main-content" style="max-width: 900px; padding-top: 32px;">
     
     <!-- Top Welcome Banner -->
-    <div class="portal-welcome-banner reveal-on-scroll" style="padding: 22px 24px; margin-bottom: 24px;">
+    <div class="portal-welcome-banner" style="padding: 22px 24px; margin-bottom: 24px;">
       <div>
         <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-full); margin-bottom: 8px; border: 1px solid var(--primary-border);">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -408,37 +428,7 @@
       </div>
     </div>
 
-    <!-- 1. LINKEDIN AUTOFILL -->
-    <div class="linkedin-sync-card">
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="background: #0077b5; color: white; width: 34px; height: 34px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
-          </div>
-          <div>
-            <h3 style="font-size: 14.5px; font-weight: 700; color: var(--text-primary); margin: 0;">
-              Autofill with LinkedIn
-            </h3>
-            <p style="font-size: 12.5px; color: var(--text-secondary); margin: 2px 0 0;">
-              Paste your LinkedIn profile link to automatically import your name, photo, education & experience
-            </p>
-          </div>
-        </div>
-        <span style="font-size: 11px; font-weight: 600; color: #f8fafc; background: rgba(255, 255, 255, 0.1); padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid rgba(255, 255, 255, 0.2);">
-          1-Click Sync
-        </span>
-      </div>
-
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="text" id="linkedin-input-url" class="form-input" style="flex: 1; min-width: 260px;" placeholder="e.g. linkedin.com/in/anand-verma-electrician">
-        <button type="button" id="btn-sync-linkedin" class="search-btn" style="background: #0077b5; padding: 9px 20px; font-size: 13px;">
-          <span>Import Details</span>
-        </button>
-      </div>
-      <div id="linkedin-status-msg" style="display: none; font-size: 12px; margin-top: 8px; font-weight: 600; color: #38bdf8;"></div>
-    </div>
-
-    <!-- 2. PROFILE PHOTO & CONTACT INFO -->
+    <!-- 1. PROFILE PHOTO & CONTACT INFO -->
     <div class="profile-card-section">
       <div class="profile-section-title">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -514,6 +504,14 @@
         <div class="form-group">
           <label class="form-label" for="worker-area">Preferred Work Area / Locality *</label>
           <input type="text" id="worker-area" class="form-input" placeholder="e.g. KPHB Colony, Kukatpally" required>
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label class="form-label" for="linkedin-input-url">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#0077b5" style="vertical-align: -1px; margin-right: 4px;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
+            LinkedIn Profile Link <span style="font-weight: 400; color: var(--text-muted); font-size: 11.5px;">(Optional)</span>
+          </label>
+          <input type="url" id="linkedin-input-url" class="form-input" placeholder="e.g. https://www.linkedin.com/in/username">
         </div>
       </div>
     </div>
@@ -690,8 +688,6 @@
 
       // LinkedIn Elements
       const linkedinInputUrl = document.getElementById('linkedin-input-url');
-      const btnSyncLinkedin = document.getElementById('btn-sync-linkedin');
-      const linkedinStatusMsg = document.getElementById('linkedin-status-msg');
 
       // Skills Tag Input & Typing Suggestions Elements
       const skillInputField = document.getElementById('skill-input-field');
@@ -1605,83 +1601,6 @@
         if (filenameDisplay) filenameDisplay.style.display = 'none';
         localStorage.removeItem('jc_worker_photo');
         showToast('Profile image removed.');
-      });
-
-      // =========================================================
-      // LINKEDIN AUTOFILL (REAL METADATA FETCHING)
-      // =========================================================
-      btnSyncLinkedin.addEventListener('click', async () => {
-        const url = linkedinInputUrl.value.trim();
-        if (!url || url.length < 3) {
-          alert('Please enter a valid LinkedIn profile URL or username.');
-          linkedinInputUrl.focus();
-          return;
-        }
-
-        btnSyncLinkedin.disabled = true;
-        btnSyncLinkedin.textContent = 'Extracting...';
-        linkedinStatusMsg.style.display = 'block';
-        linkedinStatusMsg.style.color = '#0284c7';
-        linkedinStatusMsg.textContent = 'Contacting LinkedIn sync service...';
-
-        const res = await window.jobApi.syncLinkedInProfile(url);
-        btnSyncLinkedin.disabled = false;
-        btnSyncLinkedin.textContent = 'Import Details';
-
-        if (res.success && res.profile) {
-          const p = res.profile;
-          if (p.full_name) inputName.value = p.full_name;
-          if (p.experience_years !== undefined) workTypeState.full_time.expYears = p.experience_years;
-          if (p.past_company) workTypeState.full_time.company = p.past_company;
-          if (currentWorkType === 'full_time') renderWorkTypeFields();
-          if (p.experience_description) inputExpDesc.value = p.experience_description;
-          if (p.preferred_area) inputArea.value = p.preferred_area;
-          if (p.city) selectCity.value = p.city;
-
-          // Photo
-          if (p.photo_key) {
-            activeAvatarData = p.photo_key;
-            avatarImg.src = p.photo_key;
-            avatarImg.style.display = 'block';
-            avatarInitials.style.display = 'none';
-            btnRemoveAvatar.style.display = 'inline-block';
-          } else {
-            avatarImg.style.display = 'none';
-            avatarInitials.style.display = 'flex';
-            updateInitials(p.full_name || inputName.value);
-          }
-
-          // Educations
-          if (Array.isArray(p.educations) && p.educations.length > 0) {
-            educationsContainer.innerHTML = '';
-            p.educations.forEach(e => addEducationCard(e));
-          } else if (p.education_level || p.education_institute) {
-            educationsContainer.innerHTML = '';
-            addEducationCard({
-              level: p.education_level || 'ITI Certificate',
-              institute: p.education_institute,
-              specialization: p.education_specialization || 'Technical Trade',
-              year: 2021
-            });
-          }
-
-          // Skills selection
-          if (Array.isArray(p.skills) && p.skills.length > 0) {
-            p.skills.forEach(s => {
-              if (!currentSkills.some(existing => existing.toLowerCase() === s.toLowerCase())) {
-                currentSkills.push(s);
-              }
-            });
-            renderSkills();
-          }
-
-          linkedinStatusMsg.style.color = 'var(--success)';
-          linkedinStatusMsg.innerHTML = `✓ Real profile details extracted from LinkedIn for <strong>${p.full_name || 'Candidate'}</strong>!`;
-          showToast(`Imported ${p.full_name}'s photo, qualifications & experience from LinkedIn!`);
-        } else {
-          linkedinStatusMsg.style.color = 'var(--danger)';
-          linkedinStatusMsg.textContent = res.error || 'Failed to extract LinkedIn profile.';
-        }
       });
 
       // =========================================================
