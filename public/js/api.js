@@ -487,7 +487,8 @@ class JobConnectApi {
     const savedPhoto = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo') || '';
 
     return {
-      full_name: user?.name || 'Ramesh Kumar (Mechanic)',
+      full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : 'Ramesh Kumar',
+      trade_title: user?.category || 'Mechanic',
       phone: user?.phone || '+91 98491 23434',
       email: user?.email || 'worker@job-way.in',
       photo_key: savedPhoto,
@@ -528,6 +529,10 @@ class JobConnectApi {
         const data = await res.json();
         if (user) {
           if (profileData.full_name) user.name = profileData.full_name;
+          if (profileData.trade_title) {
+            user.trade_title = profileData.trade_title;
+            user.category = profileData.trade_title;
+          }
           if (profileData.phone) user.phone = profileData.phone;
           if (profileData.photo_key !== undefined) {
             user.avatar = profileData.photo_key;
@@ -547,6 +552,10 @@ class JobConnectApi {
     const updated = { ...current, ...profileData };
     if (user) {
       if (profileData.full_name) user.name = profileData.full_name;
+      if (profileData.trade_title) {
+        user.trade_title = profileData.trade_title;
+        user.category = profileData.trade_title;
+      }
       if (profileData.phone) user.phone = profileData.phone;
       if (profileData.photo_key !== undefined) {
         user.avatar = profileData.photo_key;

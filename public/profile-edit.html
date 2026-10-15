@@ -435,41 +435,54 @@
         <span>Profile Photo & Contact Information</span>
       </div>
 
-      <!-- Avatar Picker with Instant Preview & Drag-Drop -->
-      <div class="avatar-upload-wrap" style="margin-bottom: 24px; padding: 18px 20px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md);">
-        <div class="avatar-preview-wrap" style="position: relative; flex-shrink: 0; display: inline-block;">
-          <div class="avatar-preview-box" id="avatar-preview" title="Click or drop photo here to upload" style="cursor: pointer; position: relative; width: 82px; height: 82px; border-radius: var(--radius-md) !important; border: 2px solid var(--border-strong) !important; overflow: hidden; background: #121214 !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.2s ease, border-color 0.2s ease;">
-            <span id="avatar-initials" style="font-size: 28px; font-weight: 750; color: #ffffff !important; letter-spacing: -0.02em; font-family: var(--font-sans); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; user-select: none;">
-              RK
-            </span>
-            <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md) !important;">
-            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <!-- Avatar Picker with Instant Preview & Verified Pass Trust Badge -->
+      <div class="avatar-upload-wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 24px; padding-bottom: 22px; border-bottom: 1px solid var(--border-light);">
+        <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap; flex: 1; min-width: 280px;">
+          <div class="avatar-preview-wrap" style="position: relative; flex-shrink: 0; display: inline-block;">
+            <div class="avatar-preview-box" id="avatar-preview" title="Click or drop photo here to upload" style="cursor: pointer; position: relative; width: 80px; height: 80px; border-radius: var(--radius-md) !important; border: 2px solid var(--border-strong) !important; overflow: hidden; background: #121214 !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.2s ease, border-color 0.2s ease;">
+              <span id="avatar-initials" style="font-size: 26px; font-weight: 750; color: #ffffff !important; letter-spacing: -0.02em; font-family: var(--font-sans); display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; user-select: none;">
+                RK
+              </span>
+              <img id="avatar-img" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md) !important;">
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+            </div>
+            <!-- Verified KYC Shield Badge -->
+            <div title="KYC Verified Tradesman" style="position: absolute; bottom: -3px; right: -3px; width: 22px; height: 22px; border-radius: 4px; background: #10b981; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.18); pointer-events: none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
           </div>
-          <!-- Verified KYC Shield Badge -->
-          <div title="KYC Verified Tradesman" style="position: absolute; bottom: -3px; right: -3px; width: 22px; height: 22px; border-radius: 4px; background: #10b981; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.18); pointer-events: none;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <div style="flex: 1; min-width: 200px;">
+            <label style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 6px;">
+              Trade Profile Photo
+            </label>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <input type="file" id="file-avatar-input" accept="image/*" style="display: none;">
+              <button type="button" id="btn-trigger-avatar" class="btn-signin-header" style="padding: 7px 16px; font-size: 12.5px; cursor: pointer;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span id="btn-avatar-label">Upload Image</span>
+              </button>
+              <button type="button" id="btn-remove-avatar" style="background: none; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-xs); padding: 5px 12px; font-size: 12px; color: var(--danger); font-weight: 600; cursor: pointer; display: none;">
+                Remove Photo
+              </button>
+              <span id="avatar-filename-display" style="font-size: 12px; color: var(--text-secondary); display: none;"></span>
+            </div>
+            <span style="font-size: 11.5px; color: var(--text-muted); display: block; margin-top: 6px; line-height: 1.4;">
+              JPG, PNG, or WebP. Appears on your Verified Tradesman Pass & employer search cards.
+            </span>
           </div>
         </div>
-        <div>
-          <label style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 6px;">
-            Trade Profile Photo
-          </label>
-          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <input type="file" id="file-avatar-input" accept="image/*" style="display: none;">
-            <button type="button" id="btn-trigger-avatar" class="btn-signin-header" style="padding: 7px 16px; font-size: 12.5px; cursor: pointer;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span id="btn-avatar-label">Upload Image</span>
-            </button>
-            <button type="button" id="btn-remove-avatar" style="background: none; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-xs); padding: 5px 12px; font-size: 12px; color: var(--danger); font-weight: 600; cursor: pointer; display: none;">
-              Remove Photo
-            </button>
-            <span id="avatar-filename-display" style="font-size: 12px; color: var(--text-secondary); display: none;"></span>
+
+        <!-- Verified Trust & Pass Benefits Badge (Balanced Right Column) -->
+        <div style="display: flex; align-items: center; gap: 12px; background: rgba(16, 185, 129, 0.07); border: 1px solid rgba(16, 185, 129, 0.22); border-radius: var(--radius-md); padding: 12px 18px; max-width: 320px; flex-shrink: 0;">
+          <div style="width: 34px; height: 34px; border-radius: 8px; background: rgba(16, 185, 129, 0.16); display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
-          <span style="font-size: 11.5px; color: var(--text-muted); display: block; margin-top: 6px;">
-            Click avatar or upload button to choose a face photo (JPG, PNG, WebP). This photo appears in your Verified Tradesman pass and employer candidate lists.
-          </span>
+          <div style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.45;">
+            <span style="font-weight: 700; color: var(--text-primary); display: block; font-size: 12px;">Verified Pass Ready</span>
+            Photos boost employer contact & interview calls by <strong style="color: #10b981;">3x</strong>.
+          </div>
         </div>
       </div>
 
@@ -478,6 +491,11 @@
         <div class="form-group">
           <label class="form-label" for="worker-name">Full Legal Name *</label>
           <input type="text" id="worker-name" class="form-input" placeholder="e.g. Ramesh Kumar" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="worker-title">Professional / Trade Title *</label>
+          <input type="text" id="worker-title" class="form-input" placeholder="e.g. Auto Mechanic, CNC Operator, Electrician" required>
         </div>
 
         <div class="form-group">
@@ -669,6 +687,7 @@
 
       // Elements
       const inputName = document.getElementById('worker-name');
+      const inputTitle = document.getElementById('worker-title');
       const inputPhone = document.getElementById('worker-phone');
       const selectCity = document.getElementById('worker-city');
       const inputArea = document.getElementById('worker-area');
@@ -1296,9 +1315,10 @@
       let activeAvatarData = '';
 
       function updateInitials(name) {
-        const displayName = name || inputName?.value || user.name || 'Ramesh Kumar';
-        const initials = displayName
-          .split(' ')
+        const rawName = name || inputName?.value || user.name || 'Ramesh Kumar';
+        const cleanDisplayName = rawName.replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim() || 'RK';
+        const initials = cleanDisplayName
+          .split(/\s+/)
           .filter(Boolean)
           .map(n => n[0])
           .slice(0, 2)
@@ -1445,7 +1465,14 @@
       // =========================================================
       const profile = await window.jobApi.getWorkerProfile();
       if (profile) {
-        inputName.value = profile.full_name || user.name || '';
+        const rawName = profile.full_name || user.name || '';
+        const titleMatch = rawName.match(/\(([^)]+)\)/);
+        const cleanName = rawName.replace(/\s*\([^)]*\)/, '').trim();
+        inputName.value = cleanName;
+        updateInitials(cleanName);
+        if (inputTitle) {
+          inputTitle.value = profile.trade_title || (titleMatch ? titleMatch[1] : (user.category || ''));
+        }
         inputPhone.value = (profile.phone || user.phone || '').replace(/^\+91\s?/, '');
         if (profile.city) selectCity.value = profile.city;
         inputArea.value = profile.preferred_area || '';
@@ -1608,11 +1635,18 @@
       // =========================================================
       async function saveFullProfile() {
         const name = inputName.value.trim();
+        const tradeTitle = inputTitle ? inputTitle.value.trim() : '';
         const phone = inputPhone.value.trim().replace(/\D/g, '');
 
         if (!name || name.length < 2) {
           alert('Please enter your full legal name.');
           inputName.focus();
+          return;
+        }
+
+        if (!tradeTitle) {
+          alert('Please enter your professional or trade title (e.g. Auto Mechanic, Electrician).');
+          inputTitle.focus();
           return;
         }
 
@@ -1668,6 +1702,7 @@
 
         const payload = {
           full_name: name,
+          trade_title: tradeTitle,
           phone: phone ? `+91 ${phone}` : undefined,
           photo_key: activeAvatarData || '',
           skills: currentSkills,

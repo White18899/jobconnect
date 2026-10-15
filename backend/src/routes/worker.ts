@@ -68,6 +68,7 @@ const educationItemSchema = z.object({
 
 const updateProfileSchema = z.object({
   full_name: z.string().min(2).optional(),
+  trade_title: z.string().optional(),
   phone: z.string().optional(),
   photo_key: z.string().optional(),
   skills: z.array(z.string()).optional(),
@@ -128,6 +129,7 @@ workerRoutes.put('/worker/profile', authMiddleware, roleGuard(['worker']), async
   await c.env.DB.prepare(`
     UPDATE worker_profiles SET
       full_name = COALESCE(?, full_name),
+      trade_title = COALESCE(?, trade_title),
       phone = COALESCE(?, phone),
       photo_key = COALESCE(?, photo_key),
       skills = COALESCE(?, skills),
@@ -155,6 +157,7 @@ workerRoutes.put('/worker/profile', authMiddleware, roleGuard(['worker']), async
     WHERE user_id = ?
   `).bind(
     data.full_name ?? null,
+    data.trade_title ?? null,
     data.phone ?? null,
     data.photo_key ?? null,
     skillsJson ?? null,

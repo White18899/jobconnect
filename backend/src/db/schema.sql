@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS worker_profiles (
     id TEXT PRIMARY KEY,
     user_id TEXT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     full_name TEXT NOT NULL,
+    trade_title TEXT,
     photo_key TEXT,
     phone TEXT,
     skills TEXT NOT NULL,

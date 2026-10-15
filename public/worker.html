@@ -335,9 +335,12 @@
       }
 
       // Populate basic user info
-      const categoryLabel = user.category ? ` (${user.category})` : '';
-      document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${user.name || 'Ramesh Kumar'}${categoryLabel}`;
-      document.getElementById('profile-name').textContent = user.name || 'Ramesh Kumar';
+      const initialCleanName = (user.name || 'Ramesh Kumar').replace(/\s*\([^)]*\)/, '').trim();
+      const initialTitle = user.trade_title || user.category || '';
+      const categoryLabel = initialTitle ? ` (${initialTitle})` : '';
+      document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${initialCleanName}${categoryLabel}`;
+      document.getElementById('profile-name').textContent = initialCleanName;
+      document.getElementById('worker-display-name').textContent = initialCleanName;
       if (user.email && document.getElementById('profile-email')) {
         document.getElementById('profile-email').textContent = user.email;
       }
@@ -347,9 +350,10 @@
 
       // Avatar Rendering Handler
       function renderAvatar(photoKey, fullName) {
-        const displayName = fullName || user.name || 'Ramesh Kumar';
-        const initials = displayName
-          .split(' ')
+        const rawName = fullName || user.name || 'Ramesh Kumar';
+        const cleanDisplayName = rawName.replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim() || 'RK';
+        const initials = cleanDisplayName
+          .split(/\s+/)
           .filter(Boolean)
           .map(n => n[0])
           .slice(0, 2)
@@ -396,18 +400,26 @@
       // Fetch and populate rich profile details
       window.jobApi.getWorkerProfile().then(profile => {
         if (!profile) return;
-        renderAvatar(profile.photo_key, profile.full_name || user.name);
-        if (profile.full_name) {
-          document.getElementById('profile-name').textContent = profile.full_name;
-          document.getElementById('worker-display-name').textContent = profile.full_name;
-        }
-        if (profile.skills) {
-          try {
-            const skills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
-            if (Array.isArray(skills) && skills.length > 0) {
-              document.getElementById('profile-trade').textContent = skills.slice(0, 3).join(', ');
-            }
-          } catch {}
+        const cleanName = (profile.full_name || user.name || 'Ramesh Kumar').replace(/\s*\([^)]*\)/, '').trim();
+        const tradeTitle = profile.trade_title || user.trade_title || user.category || '';
+        const categoryLabel = tradeTitle ? ` (${tradeTitle})` : '';
+
+        document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${cleanName}${categoryLabel}`;
+        renderAvatar(profile.photo_key, cleanName);
+        document.getElementById('profile-name').textContent = cleanName;
+        document.getElementById('worker-display-name').textContent = cleanName;
+
+        if (document.getElementById('profile-trade')) {
+          if (tradeTitle) {
+            document.getElementById('profile-trade').textContent = tradeTitle;
+          } else if (profile.skills) {
+            try {
+              const skills = typeof profile.skills === 'string' ? JSON.parse(profile.skills) : profile.skills;
+              if (Array.isArray(skills) && skills.length > 0) {
+                document.getElementById('profile-trade').textContent = skills.slice(0, 3).join(', ');
+              }
+            } catch {}
+          }
         }
         if (profile.experience_years !== undefined) {
           document.getElementById('profile-exp').textContent = `${profile.experience_years}+ Years Experience`;
