@@ -808,15 +808,15 @@
 
       <!-- Right Actions: Auth State & Unlock Credits -->
       <div class="nav-right-actions">
-        <!-- Unlock Credits Pill (For Employers) -->
-        <div class="project-card-badge" id="cand-credit-pill">
+        <!-- Unlock Credits Pill (For Employers Only) -->
+        <div class="project-card-badge" id="cand-credit-pill" style="display: none;">
           <span><span id="cand-credit-count">3</span> Unlocks Left</span>
         </div>
 
-        <!-- Logged Out State -->
+        <!-- Logged Out State (Guest Viewer Mode) -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
           <a href="/login.html?mode=login" class="nav-btn-link link-line">Sign In</a>
-          <a href="/login.html?mode=signup" class="nav-btn-solid">Post Vacancy →</a>
+          <a href="/login.html?role=employer" class="nav-btn-solid">Employer Sign In →</a>
         </div>
 
         <!-- Logged In State -->
@@ -840,13 +840,19 @@
         <div class="bracket-tag">[ Directory / Vetted Technical Tradesmen & Engineers ]</div>
         <h1 class="directory-title-main">Verified Candidate Passes</h1>
       </div>
-      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
         <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 8px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span>Selected in Applications (<span id="banner-cart-count">0</span>) →</span>
         </a>
         <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link link-line" style="font-size: 12px;">
           <span>Recharge Unlock Credits +</span>
+        </a>
+      </div>
+      <div id="banner-viewer-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <span class="bracket-tag" style="background: rgba(0,0,0,0.04); padding: 5px 10px; border-radius: 4px;">[ Public Viewer Mode ]</span>
+        <a href="/login.html?role=employer&returnUrl=/candidates.html" class="nav-btn-solid" style="padding: 8px 16px; font-size: 12.5px; text-decoration: none;">
+          Sign In to Unlock Direct Contacts →
         </a>
       </div>
     </div>
@@ -1048,6 +1054,8 @@
       const btnLogout = document.getElementById('btn-header-logout');
       const creditCountEl = document.getElementById('cand-credit-count');
       const candCreditPill = document.getElementById('cand-credit-pill');
+      const bannerEmployerActions = document.getElementById('banner-employer-actions');
+      const bannerViewerActions = document.getElementById('banner-viewer-actions');
       const bannerCartLink = document.getElementById('banner-cart-link');
       const bannerRechargeLink = document.getElementById('banner-recharge-link');
       const navWorkspaceLink = document.getElementById('nav-workspace-link');
@@ -1055,16 +1063,16 @@
       function updateCreditDisplay() {
         if (!user || user.role !== 'employer') {
           if (candCreditPill) candCreditPill.style.display = 'none';
-          if (bannerCartLink) bannerCartLink.style.display = 'none';
-          if (bannerRechargeLink) bannerRechargeLink.style.display = 'none';
+          if (bannerEmployerActions) bannerEmployerActions.style.display = 'none';
+          if (bannerViewerActions) bannerViewerActions.style.display = 'flex';
           if (navWorkspaceLink) navWorkspaceLink.style.display = 'none';
           return;
         }
+        if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
+        if (bannerViewerActions) bannerViewerActions.style.display = 'none';
         const c = window.jobApi.getUnlockCredits();
         if (creditCountEl) creditCountEl.textContent = c;
         if (candCreditPill) candCreditPill.style.display = 'inline-flex';
-        if (bannerCartLink) bannerCartLink.style.display = 'inline-flex';
-        if (bannerRechargeLink) bannerRechargeLink.style.display = 'inline-flex';
         if (navWorkspaceLink) navWorkspaceLink.style.display = 'inline-block';
       }
       updateCreditDisplay();
@@ -1189,10 +1197,13 @@
           return;
         }
 
+        const isEmployer = user && user.role === 'employer';
+
         gridContainer.innerHTML = filtered.map((c, idx) => {
           const serial = String(idx + 1).padStart(2, '0');
-          const isUnlocked = c.unlocked === true;
-          const isSelected = c.selected === true;
+          // In Viewer Mode (when not logged in as employer), candidates are NEVER marked unlocked or selected!
+          const isUnlocked = isEmployer && c.unlocked === true;
+          const isSelected = isEmployer && c.selected === true;
           const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
           const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
@@ -1231,23 +1242,30 @@
                 </div>
 
                 <div class="cand-footer-actions">
-                  ${isUnlocked ? `
-                    <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
-                      <span>✓ In Workspace</span>
-                      <span>→</span>
-                    </a>
-                  ` : (isSelected ? `
-                    <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from Applications Cart">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>In Applications</span>
-                      <span class="remove-cross" title="Remove">✕</span>
-                    </button>
+                  ${isEmployer ? `
+                    ${isUnlocked ? `
+                      <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
+                        <span>✓ In Workspace</span>
+                        <span>→</span>
+                      </a>
+                    ` : (isSelected ? `
+                      <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from Applications Cart">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span>In Applications</span>
+                        <span class="remove-cross" title="Remove">✕</span>
+                      </button>
+                    ` : `
+                      <button type="button" class="btn-unlock-contact" data-action="toggle-cart" data-cand-id="${c.id}">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        <span>+ Select Candidate</span>
+                      </button>
+                    `)}
                   ` : `
-                    <button type="button" class="btn-unlock-contact" data-action="toggle-cart" data-cand-id="${c.id}">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                      <span>+ Select Candidate</span>
+                    <button type="button" class="btn-unlock-contact" data-action="viewer-unlock" data-cand-id="${c.id}" style="background: #ffffff; color: #000000; border: 1px solid var(--color-border-strong);">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <span>Unlock Contact</span>
                     </button>
-                  `)}
+                  `}
 
                   <a class="btn-view-pass" data-action="view" data-cand-id="${c.id}">
                     <span>Pass</span>
@@ -1264,6 +1282,7 @@
           card.addEventListener('click', (e) => {
             const toggleCartBtn = e.target.closest('[data-action="toggle-cart"]');
             const workspaceBtn = e.target.closest('[data-action="workspace"]');
+            const viewerUnlockBtn = e.target.closest('[data-action="viewer-unlock"]');
             const candId = card.dataset.candId;
 
             if (toggleCartBtn) {
@@ -1277,6 +1296,12 @@
               const cand = allCandidates.find(c => c.id === candId);
               const href = cand?.appId ? `/employer.html?highlight=${cand.appId}#applicants-section` : `/employer.html#applicants-section`;
               window.location.href = href;
+              return;
+            }
+
+            if (viewerUnlockBtn) {
+              e.stopPropagation();
+              handleUnlockCandidate(candId);
               return;
             }
 
@@ -1348,8 +1373,10 @@
         const c = allCandidates.find(item => item.id === candId);
         if (!c) return;
 
-        const isUnlocked = c.unlocked === true;
-        const isSelected = c.selected === true;
+        const isEmployer = user && user.role === 'employer';
+        // In Viewer Mode (when !isEmployer), candidate pass is NEVER unlocked or selected
+        const isUnlocked = isEmployer && c.unlocked === true;
+        const isSelected = isEmployer && c.selected === true;
         const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
         const cleanPhone = (c.phone_unlocked || '').replace(/\D/g, '');
         const waText = encodeURIComponent(`Hello ${c.name}, I reviewed your verified tradesman pass on JobWay and would like to speak regarding an opening at our workshop.`);
@@ -1381,7 +1408,7 @@
           <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--color-border)'}; border-radius: var(--radius-s); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
             <div>
               <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">
-                ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected in Applications (Shielded)' : 'Direct Contact (Protected)')}
+                ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected in Applications (Shielded)' : 'Direct Contact (Shielded in Viewer Mode)')}
               </div>
               <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
                 ${isUnlocked ? c.phone_unlocked : c.phone_masked}
@@ -1389,20 +1416,26 @@
             </div>
 
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-              ${isUnlocked ? `
-                <a href="${telLink}" class="nav-btn-solid" style="padding: 9px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                  <span>📞 Call</span>
-                </a>
-                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 14px; font-size: 12px;">
-                  <span>WhatsApp ↗</span>
-                </a>
+              ${isEmployer ? `
+                ${isUnlocked ? `
+                  <a href="${telLink}" class="nav-btn-solid" style="padding: 9px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                    <span>📞 Call</span>
+                  </a>
+                  <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 14px; font-size: 12px;">
+                    <span>WhatsApp ↗</span>
+                  </a>
+                ` : `
+                  <button type="button" class="btn-unlock-contact ${isSelected ? 'selected-cart' : ''}" id="drawer-btn-cart-toggle" style="padding: 9px 14px;">
+                    ${isSelected ? '✓ In Applications (Remove ✕)' : '+ Select to Applications'}
+                  </button>
+                  <button type="button" class="nav-btn-solid" id="drawer-btn-unlock" style="padding: 9px 14px; font-size: 12px; cursor: pointer;">
+                    Unlock (1 Credit)
+                  </button>
+                `}
               ` : `
-                <button type="button" class="btn-unlock-contact ${isSelected ? 'selected-cart' : ''}" id="drawer-btn-cart-toggle" style="padding: 9px 14px;">
-                  ${isSelected ? '✓ In Applications (Remove ✕)' : '+ Select to Applications'}
-                </button>
-                <button type="button" class="nav-btn-solid" id="drawer-btn-unlock" style="padding: 9px 14px; font-size: 12px; cursor: pointer;">
-                  Unlock (1 Credit)
-                </button>
+                <a href="/login.html?role=employer&returnUrl=${encodeURIComponent('/candidates.html')}" class="nav-btn-solid" style="padding: 9px 18px; font-size: 12.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                  <span>Sign In as Employer to Unlock Contact →</span>
+                </a>
               `}
             </div>
           </div>
@@ -1471,7 +1504,7 @@
             </div>
           </div>
 
-          ${(isUnlocked || isSelected) ? `
+          ${(isEmployer && (isUnlocked || isSelected)) ? `
             <div style="margin-top: 8px;">
               <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center; text-decoration: none;">
                 ${isUnlocked ? 'Open Full Candidate Pass in Workspace →' : 'Review & Unlock in Applications Workspace →'}

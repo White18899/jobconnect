@@ -39,8 +39,8 @@
     html.role-worker #nav-candidates-link,
     html.role-worker #nav-employer-link,
     html.role-worker #btn-header-post-vacancy-user,
-    html.role-worker #btn-header-post-vacancy,
-    html.role-worker #banner-employer-actions {
+    html.role-worker #banner-employer-actions,
+    html.role-worker #banner-guest-actions {
       display: none !important;
     }
 
@@ -54,7 +54,8 @@
 
     html.role-employer #nav-worker-link,
     html.role-employer #nav-trade-pass-link,
-    html.role-employer #banner-worker-actions {
+    html.role-employer #banner-worker-actions,
+    html.role-employer #banner-guest-actions {
       display: none !important;
     }
     html.role-employer #nav-employer-link,
@@ -1004,10 +1005,10 @@
 
       <!-- Right Actions: Auth State -->
       <div class="nav-right-actions">
-        <!-- Logged Out State -->
+        <!-- Logged Out State (Guest Viewer) -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
           <a href="/login.html?mode=login" class="nav-btn-link link-line">Sign In</a>
-          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy" style="cursor: pointer;">Post Vacancy →</button>
+          <a href="/login.html?mode=signup" class="nav-btn-solid">Get Started →</a>
         </div>
 
         <!-- Logged In State -->
@@ -1033,7 +1034,7 @@
         <div class="bracket-tag">[ Directory / Engineering & Industrial Trades ]</div>
         <h1 class="directory-title-main">Verified Technical Vacancies</h1>
       </div>
-      <div id="banner-employer-actions" style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
         <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 18px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
           <span>+ Post New Vacancy</span>
         </button>
@@ -1044,6 +1045,14 @@
       <div id="banner-worker-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
         <a href="/worker.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
           <span>Worker Desk & Applications →</span>
+        </a>
+      </div>
+      <div id="banner-guest-actions" style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <a href="/candidates.html" class="nav-btn-link link-line" style="font-size: 13px; display: inline-flex; align-items: center; gap: 4px;">
+          <span>Browse Verified Candidates →</span>
+        </a>
+        <a href="/login.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <span>Sign In to Apply or Hire →</span>
         </a>
       </div>
     </div>
@@ -1434,6 +1443,7 @@
       const btnHeaderPostJobUser = document.getElementById('btn-header-post-vacancy-user');
       const bannerEmployerActions = document.getElementById('banner-employer-actions');
       const bannerWorkerActions = document.getElementById('banner-worker-actions');
+      const bannerGuestActions = document.getElementById('banner-guest-actions');
 
       function sanitizeName(str) {
         return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim();
@@ -1456,6 +1466,7 @@
           if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'inline-flex';
           if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
           if (bannerWorkerActions) bannerWorkerActions.style.display = 'none';
+          if (bannerGuestActions) bannerGuestActions.style.display = 'none';
         } else {
           // Worker (role === 'worker'):
           // Strictly HIDE Post Job, Candidates directory, and Employer Workspace
@@ -1466,6 +1477,7 @@
           if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'none';
           if (bannerEmployerActions) bannerEmployerActions.style.display = 'none';
           if (bannerWorkerActions) bannerWorkerActions.style.display = 'flex';
+          if (bannerGuestActions) bannerGuestActions.style.display = 'none';
         }
 
         try {
@@ -1480,15 +1492,17 @@
           console.warn("Could not load applications:", e);
         }
       } else {
-        // Logged Out (Guest)
+        // Logged Out (Guest Viewer Mode)
         if (authLoggedOut) authLoggedOut.style.display = 'flex';
         if (authLoggedIn) authLoggedIn.style.display = 'none';
         if (navWorkerLink) navWorkerLink.style.display = 'none';
         if (navEmployerLink) navEmployerLink.style.display = 'none';
         if (navTradePassLink) navTradePassLink.style.display = 'none';
         if (navCandidatesLink) navCandidatesLink.style.display = 'inline-block';
-        if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
+        if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'none';
+        if (bannerEmployerActions) bannerEmployerActions.style.display = 'none';
         if (bannerWorkerActions) bannerWorkerActions.style.display = 'none';
+        if (bannerGuestActions) bannerGuestActions.style.display = 'flex';
       }
 
       if (btnLogout) {
