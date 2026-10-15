@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const vacanciesCount = job.vacancies || 1;
 
       return `
-        <a class="project-card" href="/login.html?mode=signup&role=worker&job=${encodeURIComponent(job.id)}">
+        <a class="project-card" href="/jobs.html?id=${encodeURIComponent(job.id)}">
           <div class="project-card-box">
             <img class="project-card-image" src="${coverImg}" alt="${escapeHtml(job.title)}" loading="lazy">
             <div class="project-card-badges">

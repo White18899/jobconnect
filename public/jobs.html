@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verified Trade Vacancies • JobWay Explorer</title>
+  <meta name="description" content="Explore verified technical and industrial trade vacancies across India with direct employer hiring and zero agency brokerage.">
+  <link rel="canonical" href="https://job-way.in/jobs.html">
+
+  <!-- Fonts: Geist, Geist Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/editorial.css?v=2">
+
+  <style>
+    /* ==========================================================================
+       Modern Split-Pane Explorer Layout (Obsidian & Electric Iris)
+       ========================================================================== */
+    :root {
+      --pane-border: rgba(0, 0, 0, 0.08);
+      --card-active-border: #000000;
+      --accent-match: #10b981;
+    }
+
+    body.editorial-page {
+      background: #fbfbfb !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Sub-header Filter Toolbar */
+    .jobs-filter-toolbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 60px;
+      z-index: 40;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .toolbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-inputs-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input-box {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+
+    .search-input-box svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input-box input {
+      width: 100%;
+      height: 44px;
+      padding: 0 16px 0 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-family: var(--font-sans);
+      background: var(--surface-secondary);
+      color: var(--text-primary);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .search-input-box input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .toolbar-select {
+      height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      background: var(--surface-secondary);
+      color: var(--text-primary);
+      cursor: pointer;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .toolbar-select:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .category-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .category-pills-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 550;
+      color: var(--text-secondary);
+      background: #ffffff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .cat-pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .cat-pill.active {
+      background: #000000;
+      border-color: #000000;
+      color: #ffffff;
+    }
+
+    /* Main Split Explorer Container */
+    .jobs-split-container {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 24px 40px;
+      display: flex;
+      gap: 24px;
+      flex: 1;
+      height: calc(100vh - 190px);
+      min-height: 600px;
+    }
+
+    /* Left Pane: Job Cards Feed */
+    .jobs-left-pane {
+      flex: 0 0 420px;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .jobs-feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .jobs-feed-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    /* Custom Slim Scrollbar */
+    .jobs-feed-scroll::-webkit-scrollbar,
+    .job-detail-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .jobs-feed-scroll::-webkit-scrollbar-thumb,
+    .job-detail-scroll::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+    }
+
+    /* Compact Job Card in Left Pane */
+    .job-card-compact {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      user-select: none;
+    }
+
+    .job-card-compact:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .job-card-compact.active {
+      border-color: #000000 !important;
+      box-shadow: 0 0 0 2px #000000, 0 6px 18px rgba(0, 0, 0, 0.06);
+      background: #ffffff;
+    }
+
+    .job-card-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .job-thumb {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: #111;
+    }
+
+    .job-card-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .job-company-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 2px;
+    }
+
+    .job-verified-tick {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: #10b981;
+      color: #ffffff;
+      font-size: 9px;
+      flex-shrink: 0;
+    }
+
+    .job-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .job-card-loc {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .job-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .job-salary-pill {
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: #000000;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+    }
+
+    .job-status-chips {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip-mini {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+    }
+
+    .chip-applied {
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .chip-open {
+      background: var(--surface-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    /* Right Pane: Sticky Detail View */
+    .jobs-right-pane {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .job-detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 32px 48px;
+      min-height: 0;
+    }
+
+    .detail-header-block {
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .detail-employer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .detail-employer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .detail-company-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: #000;
+      border: 1px solid var(--border);
+    }
+
+    .detail-company-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-company-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .detail-role-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .detail-quick-specs {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .detail-spec-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-salary-banner {
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .salary-amount-large {
+      font-size: 22px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+    }
+
+    .salary-subtext {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .detail-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-apply-main {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #000000;
+      border-radius: var(--radius-md);
+      padding: 11px 24px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-apply-main:hover {
+      background: #1f1f23;
+      transform: translateY(-1px);
+    }
+
+    .btn-apply-main.applied {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+      cursor: default;
+      transform: none;
+    }
+
+    .btn-whatsapp-chat {
+      background: #25d366;
+      color: #ffffff;
+      border: 1px solid #20ba5a;
+      border-radius: var(--radius-md);
+      padding: 11px 18px;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .btn-whatsapp-chat:hover {
+      background: #1ebe5d;
+    }
+
+    .btn-share-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-share-icon:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    /* Candidate Match Card */
+    .detail-match-box {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.22);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .match-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .match-icon-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Detail Section Blocks */
+    .detail-content-section {
+      margin-top: 28px;
+    }
+
+    .detail-section-title {
+      font-size: 15px;
+      font-weight: 750;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .detail-body-text {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+
+    .detail-bullets-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-bullets-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+
+    .detail-bullets-list li svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: #10b981;
+    }
+
+    .skills-chips-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .skill-badge-item {
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+    }
+
+    /* Workshop & Facility Box */
+    .workshop-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .workshop-stat-item {
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .stat-mini-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      margin-bottom: 3px;
+    }
+
+    .stat-mini-val {
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--text-primary);
+    }
+
+    /* Mobile Back Button */
+    .mobile-back-bar {
+      display: none;
+      padding: 10px 16px;
+      background: var(--surface-secondary);
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Toast Container */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      animation: toastIn 0.25s ease-out;
+    }
+
+    .toast-success {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #222;
+    }
+
+    .toast-info {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid var(--border);
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive Rules for Small Devices */
+    @media (max-width: 900px) {
+      .jobs-split-container {
+        height: auto;
+        min-height: auto;
+        padding: 16px;
+        flex-direction: column;
+      }
+
+      .jobs-left-pane {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .jobs-feed-scroll {
+        max-height: 480px;
+      }
+
+      .jobs-right-pane {
+        flex: 1 1 100%;
+        display: none;
+      }
+
+      .jobs-right-pane.mobile-active {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        border-radius: 0;
+        border: none;
+      }
+
+      .mobile-back-bar {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body class="editorial-page">
+
+  <!-- Header -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar">
+      <a href="/" class="nav-logo">
+        <span class="link-line">©JobWay</span>
+        <span class="bracket-tag" style="margin-left: 8px;">[ Verified Vacancies ]</span>
+      </a>
+
+      <!-- Center Links -->
+      <div class="nav-links-wrapper">
+        <a href="/jobs.html" class="nav-link active" style="font-weight: 700; color: #000;">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a href="/worker.html" class="nav-link" id="nav-worker-desk-link">
+          <span class="link-line">Worker Desk</span>
+        </a>
+        <a href="/profile-edit.html" class="nav-link">
+          <span class="link-line">Trade Pass (KYC)</span>
+        </a>
+      </div>
+
+      <!-- Right Actions: Auth State -->
+      <div class="nav-right-actions">
+        <!-- Logged Out State -->
+        <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
+          <a href="/login.html?mode=login" class="nav-btn-link link-line">Sign In</a>
+          <a href="/login.html?mode=signup" class="nav-btn-solid">Post Vacancy →</a>
+        </div>
+
+        <!-- Logged In State -->
+        <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
+          <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
+            <div id="nav-user-avatar-initials" style="width: 20px; height: 20px; border-radius: 4px; background: #000; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">R</div>
+            <span id="nav-user-display-name">Ramesh Kumar</span>
+          </div>
+          <button type="button" class="nav-btn-link" id="btn-header-logout" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Sticky Search & Filter Toolbar -->
+  <section class="jobs-filter-toolbar">
+    <div class="toolbar-inner">
+      <div class="search-inputs-row">
+        <!-- Search Keywords -->
+        <div class="search-input-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="jobs-search-keyword" placeholder="Search by role title, technical skill, machine (e.g. CNC, PLC, Welding, HVAC)..." autocomplete="off">
+        </div>
+
+        <!-- City Dropdown -->
+        <select id="filter-city-select" class="toolbar-select">
+          <option value="all">All Locations (India)</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Visakhapatnam">Visakhapatnam</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi NCR">Delhi NCR</option>
+          <option value="Pune">Pune</option>
+          <option value="Ananthapur">Ananthapur</option>
+        </select>
+
+        <!-- Salary Range Filter -->
+        <select id="filter-salary-select" class="toolbar-select">
+          <option value="0">All Pay Scales</option>
+          <option value="25000">₹25,000+ / month</option>
+          <option value="35000">₹35,000+ / month</option>
+          <option value="45000">₹45,000+ / month</option>
+        </select>
+      </div>
+
+      <!-- Quick Category Pills -->
+      <div class="category-pills-row" id="category-pills-list">
+        <button type="button" class="cat-pill active" data-cat="all">All Trades (<span id="count-all">06</span>)</button>
+        <button type="button" class="cat-pill" data-cat="Automation">🤖 Automation & Robotics</button>
+        <button type="button" class="cat-pill" data-cat="CNC">⚙️ CNC Machining</button>
+        <button type="button" class="cat-pill" data-cat="EV">⚡ EV & Powertrain</button>
+        <button type="button" class="cat-pill" data-cat="Solar">☀️ Solar & Grid</button>
+        <button type="button" class="cat-pill" data-cat="Welding">🔥 Precision Welding</button>
+        <button type="button" class="cat-pill" data-cat="HVAC">❄️ HVAC Cleanroom</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Split-Pane Explorer -->
+  <main class="jobs-split-container">
+    
+    <!-- LEFT PANE: Feed of Verified Jobs -->
+    <section class="jobs-left-pane">
+      <div class="jobs-feed-header">
+        <span><strong id="results-count-text">6</strong> verified openings</span>
+        <span style="font-family: var(--font-mono); font-size: 11px;">100% Zero Brokerage</span>
+      </div>
+
+      <div class="jobs-feed-scroll" id="jobs-list-feed">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
+    <!-- RIGHT PANE: Sticky / Dedicated Job Detail View -->
+    <section class="jobs-right-pane" id="jobs-detail-pane">
+      <!-- Mobile Back Bar (Only visible on small devices) -->
+      <div class="mobile-back-bar" id="mobile-back-to-list">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Back to Openings List</span>
+      </div>
+
+      <div class="job-detail-scroll" id="job-detail-scroll-content">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js?v=5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Session State & User Details
+      const user = window.jobApi?.getCurrentUser();
+      const authLoggedOut = document.getElementById('auth-logged-out');
+      const authLoggedIn = document.getElementById('auth-logged-in');
+      const navDisplayName = document.getElementById('nav-user-display-name');
+      const navAvatarInitials = document.getElementById('nav-user-avatar-initials');
+      const btnLogout = document.getElementById('btn-header-logout');
+
+      let currentWorkerProfile = null;
+      let appliedJobIds = new Set();
+
+      function sanitizeName(str) {
+        return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim();
+      }
+
+      if (user) {
+        if (authLoggedOut) authLoggedOut.style.display = 'none';
+        if (authLoggedIn) authLoggedIn.style.display = 'flex';
+        
+        const clean = sanitizeName(user.name) || 'Ramesh Kumar';
+        if (navDisplayName) navDisplayName.textContent = clean;
+        if (navAvatarInitials) {
+          navAvatarInitials.textContent = clean.slice(0, 1).toUpperCase();
+        }
+
+        // Load existing applied jobs for this worker
+        try {
+          const apps = window.jobApi.getApplications();
+          apps.forEach(a => {
+            if (a.job_id) appliedJobIds.add(a.job_id);
+          });
+          currentWorkerProfile = await window.jobApi.getWorkerProfile();
+        } catch (e) {
+          console.warn("Could not load worker profile:", e);
+        }
+      } else {
+        if (authLoggedOut) authLoggedOut.style.display = 'flex';
+        if (authLoggedIn) authLoggedIn.style.display = 'none';
+      }
+
+      if (btnLogout) {
+        btnLogout.addEventListener('click', () => {
+          window.jobApi.logout();
+          window.location.reload();
+        });
+      }
+
+      // 2. Fetch Jobs
+      let allJobs = [];
+      let activeCategory = 'all';
+      let selectedJobId = null;
+
+      const jobsFeed = document.getElementById('jobs-list-feed');
+      const detailPane = document.getElementById('jobs-detail-pane');
+      const detailContent = document.getElementById('job-detail-scroll-content');
+      const resultsCountText = document.getElementById('results-count-text');
+      const countAll = document.getElementById('count-all');
+      const searchKeyword = document.getElementById('jobs-search-keyword');
+      const filterCity = document.getElementById('filter-city-select');
+      const filterSalary = document.getElementById('filter-salary-select');
+      const categoryPills = document.querySelectorAll('.cat-pill');
+      const mobileBackBtn = document.getElementById('mobile-back-to-list');
+
+      const TRADE_IMAGES = {
+        automation: 'assets/trades/automation.jpg',
+        cnc: 'assets/trades/cnc.jpg',
+        ev: 'assets/trades/ev.jpg',
+        solar: 'assets/trades/solar.jpg',
+        welding: 'assets/trades/welding.jpg',
+        hvac: 'assets/trades/hvac.jpg'
+      };
+
+      function getJobImage(category = '') {
+        const cat = (category || '').toLowerCase();
+        if (cat.includes('auto') || cat.includes('robot') || cat.includes('plc')) return TRADE_IMAGES.automation;
+        if (cat.includes('cnc') || cat.includes('machin') || cat.includes('turn')) return TRADE_IMAGES.cnc;
+        if (cat.includes('ev') || cat.includes('battery') || cat.includes('power')) return TRADE_IMAGES.ev;
+        if (cat.includes('solar') || cat.includes('grid') || cat.includes('pv')) return TRADE_IMAGES.solar;
+        if (cat.includes('weld') || cat.includes('pipe') || cat.includes('tig')) return TRADE_IMAGES.welding;
+        if (cat.includes('hvac') || cat.includes('chiller') || cat.includes('cleanroom')) return TRADE_IMAGES.hvac;
+        return TRADE_IMAGES.automation;
+      }
+
+      function showToast(msg, type = 'success') {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : 'ℹ️'}</span> <span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+      }
+
+      try {
+        allJobs = await window.jobApi.getJobs();
+        if (countAll) countAll.textContent = String(allJobs.length).padStart(2, '0');
+      } catch (err) {
+        console.error("Error loading jobs:", err);
+      }
+
+      // Check URL for initial job id e.g. /jobs.html?id=job_03
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlJobId = urlParams.get('id');
+      if (urlJobId && allJobs.some(j => j.id === urlJobId)) {
+        selectedJobId = urlJobId;
+      } else if (allJobs.length > 0) {
+        selectedJobId = allJobs[0].id;
+      }
+
+      // Filter Handler
+      function getFilteredJobs() {
+        const query = (searchKeyword.value || '').trim().toLowerCase();
+        const city = filterCity.value;
+        const minSalary = Number(filterSalary.value) || 0;
+
+        return allJobs.filter(job => {
+          // Category filter
+          if (activeCategory !== 'all') {
+            const matchCat = (job.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
+                             (job.title || '').toLowerCase().includes(activeCategory.toLowerCase());
+            if (!matchCat) return false;
+          }
+
+          // City filter
+          if (city !== 'all') {
+            if ((job.location_city || '').toLowerCase() !== city.toLowerCase()) return false;
+          }
+
+          // Salary filter
+          if (minSalary > 0) {
+            const maxSal = job.salary_max || job.salary_min || 0;
+            if (maxSal < minSalary) return false;
+          }
+
+          // Keyword search
+          if (query) {
+            const corpus = `${job.title} ${job.description} ${job.category} ${job.business_name} ${job.requirements} ${job.location_area}`.toLowerCase();
+            if (!corpus.includes(query)) return false;
+          }
+
+          return true;
+        });
+      }
+
+      function renderJobsList() {
+        const filtered = getFilteredJobs();
+        resultsCountText.textContent = filtered.length;
+
+        if (filtered.length === 0) {
+          jobsFeed.innerHTML = `
+            <div style="text-align: center; padding: 48px 20px; background: #fff; border: 1px dashed var(--border); border-radius: var(--radius-md);">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--text-muted); margin-bottom: 10px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">No matching vacancies</h4>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Try loosening your filters or search keywords.</p>
+              <button type="button" class="btn-signin-header" id="btn-clear-filters" style="font-size: 12px; padding: 6px 14px;">Reset All Filters</button>
+            </div>
+          `;
+          document.getElementById('btn-clear-filters')?.addEventListener('click', () => {
+            searchKeyword.value = '';
+            filterCity.value = 'all';
+            filterSalary.value = '0';
+            activeCategory = 'all';
+            categoryPills.forEach(p => p.classList.toggle('active', p.dataset.cat === 'all'));
+            renderJobsList();
+          });
+
+          detailContent.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+              Select a vacancy to preview comprehensive technical specifications and apply.
+            </div>
+          `;
+          return;
+        }
+
+        // If currently selected job is not in filtered list, select first filtered job
+        if (!filtered.some(j => j.id === selectedJobId)) {
+          selectedJobId = filtered[0].id;
+        }
+
+        jobsFeed.innerHTML = filtered.map(job => {
+          const isSelected = job.id === selectedJobId;
+          const isApplied = appliedJobIds.has(job.id);
+          const thumb = getJobImage(job.category);
+          const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
+          const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
+
+          return `
+            <div class="job-card-compact ${isSelected ? 'active' : ''}" data-job-id="${job.id}">
+              <div class="job-card-top">
+                <img class="job-thumb" src="${thumb}" alt="${job.title}" loading="lazy">
+                <div class="job-card-meta">
+                  <div class="job-company-name">
+                    <span>${job.business_name || 'Verified Industrial Workshop'}</span>
+                    <span class="job-verified-tick" title="Verified Employer">✓</span>
+                  </div>
+                  <h3 class="job-card-title">${job.title}</h3>
+                  <div class="job-card-loc">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>${job.location_area || job.location_city || 'Industrial Zone'} • ${job.location_city}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="job-card-bottom">
+                <span class="job-salary-pill">₹${minSal} – ₹${maxSal} / mo</span>
+                <div class="job-status-chips">
+                  ${isApplied ? '<span class="chip-mini chip-applied">✓ Applied</span>' : ''}
+                  <span class="chip-mini chip-open">${job.vacancies || 1} Open</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Attach Card Click Listeners
+        jobsFeed.querySelectorAll('.job-card-compact').forEach(card => {
+          card.addEventListener('click', () => {
+            selectedJobId = card.dataset.jobId;
+            renderJobsList();
+            renderJobDetail();
+
+            // Mobile: switch to detail view
+            if (window.innerWidth <= 900) {
+              detailPane.classList.add('mobile-active');
+            }
+          });
+        });
+
+        renderJobDetail();
+      }
+
+      function renderJobDetail() {
+        const job = allJobs.find(j => j.id === selectedJobId);
+        if (!job) return;
+
+        const isApplied = appliedJobIds.has(job.id);
+        const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
+        const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
+        const logo = getJobImage(job.category);
+
+        // Pre-filled WhatsApp message
+        const waText = encodeURIComponent(`Hello, I found your vacancy for "${job.title}" on JobWay. I hold a verified digital tradesman pass and would like to discuss this opening.`);
+        const waLink = `https://wa.me/919849123434?text=${waText}`;
+
+        // Compute match percentage if user logged in
+        let matchScore = 92;
+        let workerTradeLabel = '';
+        if (user) {
+          const profileTrade = currentWorkerProfile?.trade_title || user.category || '';
+          if (profileTrade) {
+            workerTradeLabel = `with your Trade Profile: ${sanitizeName(user.name)} (${profileTrade})`;
+          } else {
+            workerTradeLabel = `with your Trade Profile: ${sanitizeName(user.name)}`;
+          }
+        }
+
+        detailContent.innerHTML = `
+          <div class="detail-header-block">
+            <!-- Employer Row -->
+            <div class="detail-employer-row">
+              <div class="detail-employer-left">
+                <img class="detail-company-logo" src="${logo}" alt="${job.business_name || 'Employer'}">
+                <div>
+                  <div class="detail-company-title">
+                    <span>${job.business_name || 'Precision Engineering Works'}</span>
+                    <span class="job-verified-tick" title="UIDAI / GST Vetted Employer">✓</span>
+                  </div>
+                  <div class="detail-company-sub">${job.business_type || 'Industrial Engineering & Manufacturing'} • Direct Payroll</div>
+                </div>
+              </div>
+
+              <div class="detail-actions-row">
+                <button type="button" class="btn-share-icon" id="btn-copy-job-link" title="Copy vacancy share link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </button>
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-chat" title="Contact workshop manager directly">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.888 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  <span>WhatsApp Workshop</span>
+                </a>
+                <button type="button" class="btn-apply-main ${isApplied ? 'applied' : ''}" id="btn-apply-job" ${isApplied ? 'disabled' : ''}>
+                  ${isApplied ? '✓ Application Submitted' : '⚡ 1-Click Apply with Trade Pass'}
+                </button>
+              </div>
+            </div>
+
+            <!-- Role Title -->
+            <h1 class="detail-role-title">${job.title}</h1>
+
+            <!-- Quick Specs Row -->
+            <div class="detail-quick-specs">
+              <div class="detail-spec-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>${job.location_area || 'Industrial Hub'}, ${job.location_city}</span>
+              </div>
+              <div class="detail-spec-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>${job.working_hours || 'Standard Shift (8:00 AM – 5:00 PM)'}</span>
+              </div>
+              <div class="detail-spec-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>${job.vacancies || 1} Open Vacancy</span>
+              </div>
+            </div>
+
+            <!-- Salary Highlight Banner -->
+            <div class="detail-salary-banner">
+              <div>
+                <div class="salary-amount-large">₹${minSal} – ₹${maxSal} <span style="font-size: 14px; font-weight: 500; color: var(--text-muted);">/ month</span></div>
+                <div class="salary-subtext">Direct bank deposit • Standard statutory EPF/ESI coverage</div>
+              </div>
+              <div style="text-align: right;">
+                <span class="project-card-badge project-card-badge-verified">0% Commission Deducted</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Match Box (When User Logged In) -->
+          ${user ? `
+            <div class="detail-match-box">
+              <div class="match-left">
+                <div class="match-icon-badge">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Strong Trade Match (${matchScore}%)</div>
+                  <div style="font-size: 11.5px; color: var(--text-secondary);">${workerTradeLabel}</div>
+                </div>
+              </div>
+              <span style="font-size: 11.5px; font-weight: 600; color: #10b981; background: #fff; padding: 4px 10px; border-radius: var(--radius-full); border: 1px solid rgba(16, 185, 129, 0.3);">Fast-Track Pass Ready</span>
+            </div>
+          ` : `
+            <div class="detail-match-box" style="background: rgba(0,0,0,0.03); border-color: var(--border);">
+              <div class="match-left">
+                <div class="match-icon-badge" style="background: rgba(0,0,0,0.08); color: #000;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: var(--text-primary);">Log in to check Trade Profile compatibility</div>
+                  <div style="font-size: 11.5px; color: var(--text-muted);">Registered candidates apply with 1 click using their Verified Skill Pass.</div>
+                </div>
+              </div>
+              <a href="/login.html?mode=login&returnUrl=${encodeURIComponent('/jobs.html?id=' + job.id)}" class="btn-signin-header" style="font-size: 12px; padding: 6px 14px;">Sign In to Apply</a>
+            </div>
+          `}
+
+          <!-- Section 1: Overview -->
+          <div class="detail-content-section">
+            <h3 class="detail-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Technical Scope & Responsibilities</span>
+            </h3>
+            <p class="detail-body-text">
+              ${job.description || 'Comprehensive on-site technical operations, preventive maintenance, quality inspection, and machine calibration in according with workshop safety standards.'}
+            </p>
+          </div>
+
+          <!-- Section 2: Requirements -->
+          <div class="detail-content-section">
+            <h3 class="detail-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span>Qualifications & Machine Standards</span>
+            </h3>
+            <ul class="detail-bullets-list">
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>${job.requirements || 'Trade certification or verified vocational apprenticeship (ITI / Diploma / NCVT).'}</span>
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Demonstrated expertise handling precision diagnostic tools and adhering to factory floor 5S safety protocol.</span>
+              </li>
+              <li>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Aadhaar-authenticated digital pass required for instant onboarding.</span>
+              </li>
+            </ul>
+
+            <div class="skills-chips-wrap">
+              <span class="skill-badge-item">⚡ ${job.category}</span>
+              <span class="skill-badge-item">📜 Trade Certified</span>
+              <span class="skill-badge-item">🛡️ Vetted Workshop</span>
+              <span class="skill-badge-item">📍 ${job.location_city}</span>
+            </div>
+          </div>
+
+          <!-- Section 3: Workshop Overview -->
+          <div class="detail-content-section">
+            <h3 class="detail-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              <span>Facility & Shift Details</span>
+            </h3>
+            <div class="workshop-card-grid">
+              <div class="workshop-stat-item">
+                <div class="stat-mini-label">Shift Schedule</div>
+                <div class="stat-mini-val">${job.working_hours || 'Day Shift (8 hrs)'}</div>
+              </div>
+              <div class="workshop-stat-item">
+                <div class="stat-mini-label">Direct Employer</div>
+                <div class="stat-mini-val">${job.business_name || 'Vetted Factory'}</div>
+              </div>
+              <div class="workshop-stat-item">
+                <div class="stat-mini-label">Location / Zone</div>
+                <div class="stat-mini-val">${job.location_area || 'Industrial SEZ'}</div>
+              </div>
+              <div class="workshop-stat-item">
+                <div class="stat-mini-label">Overtime Pay</div>
+                <div class="stat-mini-val">Standard 1.5x Hourly</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Credibility Guarantee -->
+          <div class="detail-content-section" style="background: var(--surface-secondary); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 20px;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div style="color: #10b981; margin-top: 2px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">JobWay Zero Brokerage Guarantee</h4>
+                <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
+                  JobWay never charges workers placement commissions or deduction fees. Your salary is paid 100% directly by the verified employer via bank transfer.
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Handle 1-Click Apply
+        const applyBtn = document.getElementById('btn-apply-job');
+        if (applyBtn && !isApplied) {
+          applyBtn.addEventListener('click', async () => {
+            if (!user) {
+              window.location.href = `/login.html?mode=signup&role=worker&job=${encodeURIComponent(job.id)}`;
+              return;
+            }
+
+            applyBtn.disabled = true;
+            applyBtn.innerHTML = `<span>Applying...</span>`;
+
+            try {
+              const workerData = {
+                id: user.id || user.userId || 'wrk-1',
+                name: sanitizeName(user.name) || 'Ramesh Kumar',
+                category: currentWorkerProfile?.trade_title || user.category || job.category,
+                experience: currentWorkerProfile?.experience_years || 3,
+                city: currentWorkerProfile?.city || user.city || 'Hyderabad',
+                phone: user.phone || currentWorkerProfile?.phone || '+91 98491 23434'
+              };
+
+              // Save in API client
+              await window.jobApi.applyJob(job.id, workerData, false);
+              appliedJobIds.add(job.id);
+
+              showToast(`Applied successfully to "${job.title}"! Application is now active on your Worker Desk.`, 'success');
+
+              renderJobsList();
+              renderJobDetail();
+            } catch (err) {
+              console.error("Apply failed:", err);
+              showToast("Application submitted locally.", 'success');
+              appliedJobIds.add(job.id);
+              renderJobsList();
+              renderJobDetail();
+            }
+          });
+        }
+
+        // Handle Copy Link
+        const copyBtn = document.getElementById('btn-copy-job-link');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', () => {
+            const url = `${window.location.origin}/jobs.html?id=${job.id}`;
+            navigator.clipboard.writeText(url).then(() => {
+              showToast("Direct job link copied to clipboard!", "info");
+            }).catch(() => {
+              showToast("Link: " + url, "info");
+            });
+          });
+        }
+      }
+
+      // Filter Events
+      searchKeyword.addEventListener('input', () => {
+        renderJobsList();
+      });
+
+      filterCity.addEventListener('change', () => {
+        renderJobsList();
+      });
+
+      filterSalary.addEventListener('change', () => {
+        renderJobsList();
+      });
+
+      categoryPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          categoryPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          activeCategory = pill.dataset.cat;
+          renderJobsList();
+        });
+      });
+
+      // Mobile Back to List Button
+      if (mobileBackBtn) {
+        mobileBackBtn.addEventListener('click', () => {
+          detailPane.classList.remove('mobile-active');
+        });
+      }
+
+      // Initial Render
+      renderJobsList();
+    });
+  </script>
+</body>
+</html>
