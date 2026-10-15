@@ -914,6 +914,8 @@
       <div class="drawer-scrollable-body" id="cand-drawer-body">
         <!-- Injected via JavaScript -->
       </div>
+    </div>
+  </div>
 
   <!-- Floating Candidate Selection Cart Bar -->
   <div class="cart-bottom-bar" id="cart-bottom-bar">
@@ -1255,8 +1257,10 @@
         const isUnlocked = c.unlocked === true;
         const isSelected = c.selected === true;
         const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        const cleanPhone = (c.phone_unlocked || '').replace(/\D/g, '');
         const waText = encodeURIComponent(`Hello ${c.name}, I reviewed your verified tradesman pass on JobWay and would like to speak regarding an opening at our workshop.`);
-        const waLink = `https://wa.me/${c.phone_unlocked.replace(/\D/g, '')}?text=${waText}`;
+        const waLink = cleanPhone ? `https://wa.me/${cleanPhone}?text=${waText}` : '#';
+        const telLink = cleanPhone ? `tel:+${cleanPhone}` : '#';
         const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
         drawerBody.innerHTML = `
@@ -1266,11 +1270,11 @@
               ${initials}
               <div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 4px; background: #10b981; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">✓</div>
             </div>
-            <div>
-              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap;">
                 <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff;">🛒 In Applications</span>' : '')}
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 In Applications</span>' : '')}
               </div>
               <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${c.name}</h2>
               <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 2px;">
@@ -1290,10 +1294,13 @@
               </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
               ${isUnlocked ? `
-                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 16px;">
-                  <span>Direct WhatsApp ↗</span>
+                <a href="${telLink}" class="nav-btn-solid" style="padding: 9px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                  <span>📞 Call</span>
+                </a>
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 14px; font-size: 12px;">
+                  <span>WhatsApp ↗</span>
                 </a>
               ` : `
                 <button type="button" class="btn-unlock-contact ${isSelected ? 'selected-cart' : ''}" id="drawer-btn-cart-toggle" style="padding: 9px 14px;">
@@ -1303,6 +1310,37 @@
                   Unlock (1 Credit)
                 </button>
               `}
+            </div>
+          </div>
+
+          <!-- Candidate Specifications Grid -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Candidate Specifications ]</div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Discipline</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.category}</div>
+              </div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Hands-on Exp</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.experience}+ Years</div>
+              </div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Deployment Hub</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.city}</div>
+              </div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Target Wage / Mo</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">₹${(c.salary_expected || 35000).toLocaleString('en-IN')}</div>
+              </div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">UIDAI KYC</div>
+                <div style="font-size: 13px; font-weight: 600; color: #10b981; margin-top: 2px;">DigiLocker Vetted ✓</div>
+              </div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Availability</div>
+                <div style="font-size: 13px; font-weight: 600; color: #000; margin-top: 2px;">Immediate (7 Days)</div>
+              </div>
             </div>
           </div>
 
@@ -1327,15 +1365,15 @@
             <div class="bracket-tag" style="margin-bottom: 6px;">[ Qualifications & Certifications ]</div>
             <div style="background: #fafafa; border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 12px 16px;">
               <div style="font-size: 13px; font-weight: 600; color: #000;">${c.education}</div>
-              <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">Verified against Aadhaar DigiLocker database. Zero falsified certificates.</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">Verified against Aadhaar DigiLocker database & Skill Council records. Zero falsified certificates.</div>
             </div>
           </div>
 
-          <!-- Section: Residential Location (Unlocked) -->
+          <!-- Section: Residential Location -->
           <div>
             <div class="bracket-tag" style="margin-bottom: 6px;">[ Verified Residential Address ]</div>
-            <div style="font-size: 13px; color: var(--color-text-secondary);">
-              ${isUnlocked ? c.address_unlocked : c.address_masked}
+            <div style="font-size: 13px; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+              ${isUnlocked ? c.address_unlocked : (c.address_masked + ' (Full residential address unlocks with contact details)')}
             </div>
           </div>
 

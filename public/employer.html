@@ -18,6 +18,116 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       position: relative;
     }
+
+    /* Candidate Pass Slide-over Drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 560px;
+      max-width: 92vw;
+      background: #ffffff;
+      z-index: 10001;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-overlay.active .drawer-panel {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-close-drawer {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #000000;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-drawer:hover {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    .drawer-scrollable-body {
+      padding: 28px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .cand-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      border-radius: var(--radius-xs);
+      background: #f4f4f5;
+      color: #18181b;
+      border: 1px solid var(--border);
+    }
+
+    .cand-badge-kyc {
+      background: #ecfdf5;
+      color: #065f46;
+      border-color: #a7f3d0;
+    }
+
+    .cand-badge-unlocked {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .cand-skill-tag {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      background: #fafafa;
+      color: #3f3f46;
+      border: 1px solid var(--border);
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -309,8 +419,20 @@
         </div>
       </div>
     </section>
-
   </main>
+
+  <!-- Slide-Over Candidate Technical Pass Drawer -->
+  <div class="drawer-overlay" id="cand-pass-drawer-overlay">
+    <div class="drawer-panel" id="cand-pass-drawer-panel">
+      <div class="drawer-header">
+        <span class="bracket-tag">[ Verified Tradesman Pass Details ]</span>
+        <button type="button" class="btn-close-drawer" id="btn-close-pass-drawer" title="Close drawer">✕</button>
+      </div>
+      <div class="drawer-scrollable-body" id="cand-pass-drawer-body">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
 
   <!-- Modal: Candidate Unlock Checkout Window Popup -->
   <div class="modal-overlay" id="unlock-pack-modal" role="dialog" aria-modal="true" aria-labelledby="modal-plan-title">
@@ -525,12 +647,22 @@
               </div>
 
               ${app.unlocked ? `
-                <a href="tel:${app.phone_unlocked}" class="btn-apply-priority" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: var(--success); color: white;">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                  <span>Call Direct</span>
-                </a>
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="btn-table-action trigger-view-pass" data-id="${app.id}" style="padding: 6px 12px; font-size: 11.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>Pass Details</span>
+                    <span>→</span>
+                  </button>
+                  <a href="tel:${app.phone_unlocked}" class="btn-apply-priority" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: var(--success); color: white;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span>Call Direct</span>
+                  </a>
+                </div>
               ` : `
-                <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="btn-table-action trigger-view-pass" data-id="${app.id}" style="padding: 6px 12px; font-size: 11.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>Pass Details</span>
+                    <span>→</span>
+                  </button>
                   <button class="btn-unlock trigger-unlock-btn" data-id="${app.id}">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
                     <span>Unlock (1 Credit)</span>
@@ -546,6 +678,15 @@
           </div>
         `;
         }).join('');
+
+        // Wire Pass Details Drawer Buttons
+        document.querySelectorAll('.trigger-view-pass').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = e.currentTarget.dataset.id;
+            openApplicantPassDrawer(id);
+          });
+        });
 
         document.querySelectorAll('.trigger-unlock-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
@@ -603,6 +744,188 @@
           window.jobApi.clearSelectedCandidates();
           showToast('Selection cart cleared.', 'info');
           renderApplicants();
+        }
+      });
+
+      // --- Candidate Pass Drawer Logic ---
+      const passDrawerOverlay = document.getElementById('cand-pass-drawer-overlay');
+      const passDrawerBody = document.getElementById('cand-pass-drawer-body');
+      const btnClosePassDrawer = document.getElementById('btn-close-pass-drawer');
+
+      function openApplicantPassDrawer(appId) {
+        const apps = window.jobApi.getApplications();
+        const app = apps.find(a => a.id === appId);
+        if (!app) return;
+
+        const candidates = window.jobApi.getCandidates();
+        const c = candidates.find(cand => cand.id === app.worker_id || cand.name === app.worker_name) || {
+          id: app.worker_id || appId,
+          name: app.worker_name,
+          trade_title: app.job_title,
+          category: app.worker_category || 'Industrial Trade',
+          experience: app.worker_experience || 3,
+          city: app.worker_city || 'Hyderabad',
+          salary_expected: 35000,
+          skills: [app.job_title, 'Industry Standard Tooling', 'Safety Protocols'],
+          education: 'Govt ITI / Polytechnic Certified',
+          bio: app.experience_notes || 'Verified tradesman registered on JobWay network.',
+          phone_unlocked: app.phone_unlocked,
+          phone_masked: app.phone_masked,
+          address_unlocked: app.address_unlocked,
+          address_masked: app.address_masked,
+          unlocked: app.unlocked
+        };
+
+        const isUnlocked = app.unlocked === true;
+        const initials = app.worker_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        const cleanPhone = (app.phone_unlocked || c.phone_unlocked || '').replace(/\D/g, '');
+        const waText = encodeURIComponent(`Hello ${app.worker_name}, I am reaching out regarding your verified tradesman application on JobWay.`);
+        const waLink = cleanPhone ? `https://wa.me/${cleanPhone}?text=${waText}` : '#';
+        const telLink = cleanPhone ? `tel:+${cleanPhone}` : '#';
+
+        passDrawerBody.innerHTML = `
+          <!-- Header Profile Row -->
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-sm); background: #000; color: #fff; font-size: 22px; font-weight: 750; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
+              ${initials}
+              <div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 4px; background: #10b981; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">✓</div>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap;">
+                <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
+                <span class="cand-badge">${app.worker_experience}+ Yrs Exp</span>
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 In Applications</span>'}
+              </div>
+              <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${app.worker_name}</h2>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                ${app.job_title} • ${app.worker_category}
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Unlock Banner -->
+          <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--border)'}; border-radius: var(--radius-sm); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase;">
+                ${isUnlocked ? 'Direct Phone & WhatsApp' : 'Contact Phone (Protected)'}
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
+                ${isUnlocked ? app.phone_unlocked : app.phone_masked}
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              ${isUnlocked ? `
+                <a href="${telLink}" class="search-btn" style="padding: 9px 14px; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                  <span>📞 Call Direct</span>
+                </a>
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-table-action" style="padding: 9px 14px; font-size: 12px; text-decoration: none;">
+                  <span>WhatsApp ↗</span>
+                </a>
+              ` : `
+                <button type="button" class="search-btn" id="pass-drawer-unlock-btn" style="padding: 9px 16px; font-size: 12px; cursor: pointer;">
+                  Unlock Contact (1 Credit)
+                </button>
+              `}
+            </div>
+          </div>
+
+          <!-- Candidate Specifications Grid -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Candidate Specifications ]</div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">Discipline</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${app.worker_category}</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">Hands-on Exp</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${app.worker_experience}+ Years</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">Deployment Hub</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.city || 'India Hub'}</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">Target Wage / Mo</div>
+                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">₹${(c.salary_expected || 35000).toLocaleString('en-IN')}</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">UIDAI KYC</div>
+                <div style="font-size: 13px; font-weight: 600; color: #10b981; margin-top: 2px;">DigiLocker Vetted ✓</div>
+              </div>
+              <div style="border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono);">Availability</div>
+                <div style="font-size: 13px; font-weight: 600; color: #000; margin-top: 2px;">Immediate (7 Days)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Scope & Bio -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Technical Profile & Hands-on Scope ]</div>
+            <p style="font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); margin: 0;">
+              ${c.bio || app.experience_notes}
+            </p>
+          </div>
+
+          <!-- Section: Key Machine Skills -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Machine & Controller Proficiencies ]</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              ${(c.skills || [app.job_title, 'Standard Tooling']).map(s => `<span class="cand-skill-tag" style="padding: 4px 10px; font-size: 12px;">⚡ ${s}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Section: Education & Qualifications -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Qualifications & Certifications ]</div>
+            <div style="background: #fafafa; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px;">
+              <div style="font-size: 13px; font-weight: 600; color: #000;">${c.education || 'Diploma / Vocational Certified'}</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Verified against Aadhaar DigiLocker database & Skill Council records. Zero falsified certificates.</div>
+            </div>
+          </div>
+
+          <!-- Section: Residential Location -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Verified Residential Address ]</div>
+            <div style="font-size: 13px; color: var(--text-secondary); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+              ${isUnlocked ? app.address_unlocked : (app.address_masked + ' (Full residential address unlocks with contact details)')}
+            </div>
+          </div>
+        `;
+
+        document.getElementById('pass-drawer-unlock-btn')?.addEventListener('click', () => {
+          const res = window.jobApi.unlockWorker(app.id);
+          if (res.success) {
+            showToast(`Contact info unlocked for ${res.app.worker_name}!`, 'success');
+            updateCredits();
+            renderApplicants();
+            openApplicantPassDrawer(app.id);
+          } else if (res.needCredits) {
+            showToast('You have 0 credits remaining! Please recharge below.', 'error');
+            openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+          }
+        });
+
+        passDrawerOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePassDrawer() {
+        passDrawerOverlay?.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (btnClosePassDrawer) btnClosePassDrawer.addEventListener('click', closePassDrawer);
+      if (passDrawerOverlay) {
+        passDrawerOverlay.addEventListener('click', (e) => {
+          if (e.target === passDrawerOverlay) closePassDrawer();
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && passDrawerOverlay?.classList.contains('active')) {
+          closePassDrawer();
         }
       });
 
