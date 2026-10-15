@@ -11,6 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="stylesheet" href="css/editorial.css?v=3">
+  <script>
+    try {
+      var raw = localStorage.getItem('jc_auth_user');
+      if (!raw) {
+        window.location.replace('/login.html?role=admin');
+      } else {
+        var u = JSON.parse(raw);
+        if (!u || u.role !== 'admin') {
+          window.location.replace('/login.html?role=admin');
+        }
+      }
+    } catch(e) {}
+  </script>
 </head>
 <body class="editorial-page">
 

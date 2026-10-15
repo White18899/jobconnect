@@ -16,10 +16,57 @@
   <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="stylesheet" href="css/editorial.css?v=2">
 
+  <script>
+    (function() {
+      try {
+        var raw = localStorage.getItem('jc_auth_user');
+        if (raw) {
+          var u = JSON.parse(raw);
+          if (u && u.role === 'worker') {
+            document.documentElement.classList.add('role-worker');
+          } else if (u && (u.role === 'employer' || u.role === 'admin')) {
+            document.documentElement.classList.add('role-employer');
+          }
+        }
+      } catch(e) {}
+    })();
+  </script>
+
   <style>
     /* ==========================================================================
        JobWay Swiss Editorial 3-Card Grid & Filter Sidebar Layout
        ========================================================================== */
+    html.role-worker #nav-candidates-link,
+    html.role-worker #nav-employer-link,
+    html.role-worker #btn-header-post-vacancy-user,
+    html.role-worker #btn-header-post-vacancy,
+    html.role-worker #banner-employer-actions {
+      display: none !important;
+    }
+
+    html.role-worker #banner-worker-actions {
+      display: flex !important;
+    }
+    html.role-worker #nav-worker-link,
+    html.role-worker #nav-trade-pass-link {
+      display: inline-block !important;
+    }
+
+    html.role-employer #nav-worker-link,
+    html.role-employer #nav-trade-pass-link,
+    html.role-employer #banner-worker-actions {
+      display: none !important;
+    }
+    html.role-employer #nav-employer-link,
+    html.role-employer #nav-candidates-link {
+      display: inline-block !important;
+    }
+    html.role-employer #banner-employer-actions {
+      display: flex !important;
+    }
+    html.role-employer #btn-header-post-vacancy-user {
+      display: inline-flex !important;
+    }
     :root {
       --color-background: #ffffff;
       --color-text: #000000;
@@ -941,7 +988,7 @@
         <a href="/jobs.html" class="nav-link active" style="font-weight: 600; color: #000000;">
           <span class="link-line">Find Jobs</span>
         </a>
-        <a href="/candidates.html" class="nav-link">
+        <a href="/candidates.html" class="nav-link" id="nav-candidates-link">
           <span class="link-line">Candidates</span>
         </a>
         <a href="/worker.html" class="nav-link" id="nav-worker-link">
@@ -950,7 +997,7 @@
         <a href="/employer.html" class="nav-link" id="nav-employer-link" style="display: none;">
           <span class="link-line">Employer Workspace</span>
         </a>
-        <a href="/profile-edit.html" class="nav-link">
+        <a href="/profile-edit.html" class="nav-link" id="nav-trade-pass-link">
           <span class="link-line">Trade Pass (KYC)</span>
         </a>
       </div>
@@ -965,7 +1012,7 @@
 
         <!-- Logged In State -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
-          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer;">+ Post Job</button>
+          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer; display: none;">+ Post Job</button>
           <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
             <div id="nav-user-avatar-initials" style="width: 20px; height: 20px; border-radius: 4px; background: #000; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">R</div>
             <span id="nav-user-display-name">Ramesh Kumar</span>
@@ -986,12 +1033,17 @@
         <div class="bracket-tag">[ Directory / Engineering & Industrial Trades ]</div>
         <h1 class="directory-title-main">Verified Technical Vacancies</h1>
       </div>
-      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+      <div id="banner-employer-actions" style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
         <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 18px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
           <span>+ Post New Vacancy</span>
         </button>
-        <a href="/candidates.html" class="nav-btn-link link-line" style="font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px;">
+        <a href="/candidates.html" id="banner-browse-candidates" class="nav-btn-link link-line" style="font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px;">
           <span>Browse Verified Candidates →</span>
+        </a>
+      </div>
+      <div id="banner-worker-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <a href="/worker.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <span>Worker Desk & Applications →</span>
         </a>
       </div>
     </div>
@@ -1375,8 +1427,13 @@
       let currentWorkerProfile = null;
       let appliedJobIds = new Set();
 
+      const navCandidatesLink = document.getElementById('nav-candidates-link');
       const navWorkerLink = document.getElementById('nav-worker-link');
       const navEmployerLink = document.getElementById('nav-employer-link');
+      const navTradePassLink = document.getElementById('nav-trade-pass-link');
+      const btnHeaderPostJobUser = document.getElementById('btn-header-post-vacancy-user');
+      const bannerEmployerActions = document.getElementById('banner-employer-actions');
+      const bannerWorkerActions = document.getElementById('banner-worker-actions');
 
       function sanitizeName(str) {
         return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim();
@@ -1390,9 +1447,25 @@
         if (navDisplayName) navDisplayName.textContent = clean;
         if (navAvatarInitials) navAvatarInitials.textContent = clean.slice(0, 1).toUpperCase();
 
-        if (user.role === 'employer') {
+        if (user.role === 'employer' || user.role === 'admin') {
+          // Employer: show employer workspace, candidates directory, and post job
           if (navWorkerLink) navWorkerLink.style.display = 'none';
+          if (navTradePassLink) navTradePassLink.style.display = 'none';
           if (navEmployerLink) navEmployerLink.style.display = 'inline-block';
+          if (navCandidatesLink) navCandidatesLink.style.display = 'inline-block';
+          if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'inline-flex';
+          if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
+          if (bannerWorkerActions) bannerWorkerActions.style.display = 'none';
+        } else {
+          // Worker (role === 'worker'):
+          // Strictly HIDE Post Job, Candidates directory, and Employer Workspace
+          if (navWorkerLink) navWorkerLink.style.display = 'inline-block';
+          if (navTradePassLink) navTradePassLink.style.display = 'inline-block';
+          if (navEmployerLink) navEmployerLink.style.display = 'none';
+          if (navCandidatesLink) navCandidatesLink.style.display = 'none';
+          if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'none';
+          if (bannerEmployerActions) bannerEmployerActions.style.display = 'none';
+          if (bannerWorkerActions) bannerWorkerActions.style.display = 'flex';
         }
 
         try {
@@ -1407,8 +1480,15 @@
           console.warn("Could not load applications:", e);
         }
       } else {
+        // Logged Out (Guest)
         if (authLoggedOut) authLoggedOut.style.display = 'flex';
         if (authLoggedIn) authLoggedIn.style.display = 'none';
+        if (navWorkerLink) navWorkerLink.style.display = 'none';
+        if (navEmployerLink) navEmployerLink.style.display = 'none';
+        if (navTradePassLink) navTradePassLink.style.display = 'none';
+        if (navCandidatesLink) navCandidatesLink.style.display = 'inline-block';
+        if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
+        if (bannerWorkerActions) bannerWorkerActions.style.display = 'none';
       }
 
       if (btnLogout) {
@@ -1816,10 +1896,18 @@
       let selectedCoverImage = 'assets/trades/automation.jpg';
 
       function openPostVacancyModal() {
+        if (!user || (user.role !== 'employer' && user.role !== 'admin')) {
+          showToast("Please log in as an employer to post a technical vacancy.", "info");
+          setTimeout(() => {
+            window.location.href = `/login.html?mode=signup&role=employer`;
+          }, 1200);
+          return;
+        }
+
         // Pre-fill business name if user is logged in
         const bizNameInput = document.getElementById('post-job-biz-name');
         if (bizNameInput && !bizNameInput.value) {
-          bizNameInput.value = user?.name || (user?.role === 'employer' ? 'Sri Balaji Auto Care & Service' : 'Precision Engineering Works');
+          bizNameInput.value = user?.name || 'Sri Balaji Auto Care & Service';
         }
         postVacancyModal.classList.add('active');
         document.body.style.overflow = 'hidden';

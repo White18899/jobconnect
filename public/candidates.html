@@ -16,6 +16,18 @@
   <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="stylesheet" href="css/editorial.css?v=2">
 
+  <script>
+    try {
+      var raw = localStorage.getItem('jc_auth_user');
+      if (raw) {
+        var u = JSON.parse(raw);
+        if (u && u.role === 'worker') {
+          window.location.replace('/jobs.html');
+        }
+      }
+    } catch(e) {}
+  </script>
+
   <style>
     /* ==========================================================================
        JobWay Candidates Directory (Swiss Minimalist Editorial Architecture)
@@ -833,7 +845,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span>Selected in Applications (<span id="banner-cart-count">0</span>) →</span>
         </a>
-        <a href="/employer.html#credits-section" class="nav-btn-link link-line" style="font-size: 12px;">
+        <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link link-line" style="font-size: 12px;">
           <span>Recharge Unlock Credits +</span>
         </a>
       </div>
@@ -1021,17 +1033,39 @@
   <script src="js/api.js?v=6"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Session State
+      // 1. Session State & Role Guard
       const user = window.jobApi?.getCurrentUser();
+
+      // Workers do NOT hire or browse candidate resumes; redirect to Jobs!
+      if (user && user.role === 'worker') {
+        window.location.replace('/jobs.html');
+        return;
+      }
+
       const authLoggedOut = document.getElementById('auth-logged-out');
       const authLoggedIn = document.getElementById('auth-logged-in');
       const navDisplayName = document.getElementById('nav-user-display-name');
       const btnLogout = document.getElementById('btn-header-logout');
       const creditCountEl = document.getElementById('cand-credit-count');
+      const candCreditPill = document.getElementById('cand-credit-pill');
+      const bannerCartLink = document.getElementById('banner-cart-link');
+      const bannerRechargeLink = document.getElementById('banner-recharge-link');
+      const navWorkspaceLink = document.getElementById('nav-workspace-link');
 
       function updateCreditDisplay() {
+        if (!user || user.role !== 'employer') {
+          if (candCreditPill) candCreditPill.style.display = 'none';
+          if (bannerCartLink) bannerCartLink.style.display = 'none';
+          if (bannerRechargeLink) bannerRechargeLink.style.display = 'none';
+          if (navWorkspaceLink) navWorkspaceLink.style.display = 'none';
+          return;
+        }
         const c = window.jobApi.getUnlockCredits();
         if (creditCountEl) creditCountEl.textContent = c;
+        if (candCreditPill) candCreditPill.style.display = 'inline-flex';
+        if (bannerCartLink) bannerCartLink.style.display = 'inline-flex';
+        if (bannerRechargeLink) bannerRechargeLink.style.display = 'inline-flex';
+        if (navWorkspaceLink) navWorkspaceLink.style.display = 'inline-block';
       }
       updateCreditDisplay();
 
@@ -1130,7 +1164,7 @@
         if (cartBtnCount) cartBtnCount.textContent = count;
         if (bannerCartCount) bannerCartCount.textContent = count;
 
-        if (count > 0) {
+        if (count > 0 && user && user.role === 'employer') {
           cartBar?.classList.add('visible');
         } else {
           cartBar?.classList.remove('visible');
@@ -1255,6 +1289,14 @@
 
       // Toggle candidate selection into Applications (Cart option)
       function handleToggleCartCandidate(candId) {
+        if (!user || user.role !== 'employer') {
+          showToast("Please log in as an employer to select candidates.", "info");
+          setTimeout(() => {
+            window.location.href = `/login.html?role=employer&returnUrl=${encodeURIComponent('/candidates.html')}`;
+          }, 1200);
+          return;
+        }
+
         const cand = allCandidates.find(item => item.id === candId);
         if (!cand) return;
 
