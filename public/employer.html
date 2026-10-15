@@ -11,6 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="stylesheet" href="css/editorial.css?v=3">
+  <style>
+    .divided-row.highlighted-applicant {
+      border: 1.5px solid #000000 !important;
+      background: rgba(0, 0, 0, 0.02) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+  </style>
 </head>
 <body class="editorial-page">
 
@@ -24,11 +32,14 @@
 
       <!-- Header Center Links -->
       <div class="nav-links-wrapper">
-        <a href="/" class="nav-link">
-          <span class="link-line">Public Feed</span>
+        <a href="/jobs.html" class="nav-link">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a href="/candidates.html" class="nav-link">
+          <span class="link-line">Candidates Directory</span>
         </a>
         <a href="#applicants-section" class="nav-link">
-          <span class="link-line">Candidates</span>
+          <span class="link-line">Applicants</span>
           <span class="nav-link-count">(<span id="nav-candidate-count">0</span>)</span>
         </a>
         <a href="#post-job-section" class="nav-link">
@@ -428,13 +439,18 @@
           return;
         }
 
-        container.innerHTML = apps.map(app => `
-          <div class="divided-row" data-id="${app.id}">
+        const highlightId = new URLSearchParams(window.location.search).get('highlight');
+
+        container.innerHTML = apps.map(app => {
+          const isHighlighted = highlightId && app.id === highlightId;
+          return `
+          <div class="divided-row ${isHighlighted ? 'highlighted-applicant' : ''}" data-id="${app.id}">
             <div style="flex: 1.5; min-width: 250px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">
                 <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0;">${app.worker_name}</h4>
                 <span class="category-tag">${app.worker_category}</span>
-                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority">Priority Candidate</span>' : ''}
+                ${isHighlighted ? '<span class="status-badge verified" style="font-size: 10px; font-weight: 700;">[ Direct Candidate Pass ]</span>' : ''}
+                ${app.priority === 'PRIORITY_ACTIVE' && !isHighlighted ? '<span class="status-badge priority">Priority Candidate</span>' : ''}
               </div>
               <div class="applicant-meta">
                 ${app.worker_experience}+ Years Experience • For: <strong style="color: var(--text-primary);">${app.job_title}</strong>
@@ -481,7 +497,8 @@
               `}
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
 
         document.querySelectorAll('.trigger-unlock-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
@@ -499,6 +516,15 @@
             }
           });
         });
+
+        if (highlightId) {
+          setTimeout(() => {
+            const targetEl = document.querySelector(`[data-id="${highlightId}"]`);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 200);
+        }
       }
       renderApplicants();
 

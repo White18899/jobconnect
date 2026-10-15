@@ -691,6 +691,239 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ==========================================================================
+       Post Vacancy Modal (Swiss Minimalist Editorial Architecture)
+       ========================================================================== */
+    .vacancy-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .vacancy-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .vacancy-modal-card {
+      width: 820px;
+      max-width: 95vw;
+      max-height: 90vh;
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(10px) scale(0.99);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .vacancy-modal-overlay.active .vacancy-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .vacancy-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+
+    .vacancy-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 4px 0 0;
+      color: #000000;
+    }
+
+    .vacancy-modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .vacancy-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .vacancy-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .vacancy-form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .vacancy-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-secondary);
+      font-weight: 600;
+    }
+
+    .vacancy-input, .vacancy-select, .vacancy-textarea {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: 13px;
+      font-family: var(--font-primary);
+      background: #ffffff;
+      color: #000000;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .vacancy-textarea {
+      height: 72px;
+      padding: 8px 12px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .vacancy-input:focus, .vacancy-select:focus, .vacancy-textarea:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 1px #000000;
+    }
+
+    /* Image Picker */
+    .image-picker-box {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      padding: 14px;
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .image-presets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 8px;
+    }
+
+    .preset-img-btn {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      overflow: hidden;
+      cursor: pointer;
+      padding: 0;
+      background: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .preset-img-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preset-img-btn .preset-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.75);
+      color: #ffffff;
+      font-size: 9px;
+      font-family: var(--font-mono);
+      padding: 2px 4px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preset-img-btn:hover {
+      border-color: #000000;
+      transform: translateY(-1px);
+    }
+
+    .preset-img-btn.active {
+      border-color: #000000;
+      box-shadow: 0 0 0 2px #000000;
+    }
+
+    .custom-upload-zone {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1px dashed var(--color-border-strong);
+      border-radius: var(--radius-s);
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .custom-upload-zone:hover {
+      border-color: #000000;
+    }
+
+    .img-preview-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      padding: 8px 12px;
+    }
+
+    .img-preview-thumb {
+      width: 60px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid var(--color-border);
+    }
+
+    .vacancy-modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      background: #fafafa;
+    }
+
+    @media (max-width: 640px) {
+      .vacancy-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -708,8 +941,14 @@
         <a href="/jobs.html" class="nav-link active" style="font-weight: 600; color: #000000;">
           <span class="link-line">Find Jobs</span>
         </a>
-        <a href="/worker.html" class="nav-link">
+        <a href="/candidates.html" class="nav-link">
+          <span class="link-line">Candidates</span>
+        </a>
+        <a href="/worker.html" class="nav-link" id="nav-worker-link">
           <span class="link-line">Worker Desk</span>
+        </a>
+        <a href="/employer.html" class="nav-link" id="nav-employer-link" style="display: none;">
+          <span class="link-line">Employer Workspace</span>
         </a>
         <a href="/profile-edit.html" class="nav-link">
           <span class="link-line">Trade Pass (KYC)</span>
@@ -721,11 +960,12 @@
         <!-- Logged Out State -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
           <a href="/login.html?mode=login" class="nav-btn-link link-line">Sign In</a>
-          <a href="/login.html?mode=signup" class="nav-btn-solid">Post Vacancy →</a>
+          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy" style="cursor: pointer;">Post Vacancy →</button>
         </div>
 
         <!-- Logged In State -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
+          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer;">+ Post Job</button>
           <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
             <div id="nav-user-avatar-initials" style="width: 20px; height: 20px; border-radius: 4px; background: #000; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">R</div>
             <span id="nav-user-display-name">Ramesh Kumar</span>
@@ -746,8 +986,13 @@
         <div class="bracket-tag">[ Directory / Engineering & Industrial Trades ]</div>
         <h1 class="directory-title-main">Verified Technical Vacancies</h1>
       </div>
-      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary);">
-        100% Direct Employer Hiring • Zero Brokerage Deductions
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 18px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <span>+ Post New Vacancy</span>
+        </button>
+        <a href="/candidates.html" class="nav-btn-link link-line" style="font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px;">
+          <span>Browse Verified Candidates →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -891,6 +1136,205 @@
     </div>
   </div>
 
+  <!-- Modal: Post New Trade Vacancy (Direct Employer Modal) -->
+  <div class="vacancy-modal-overlay" id="post-vacancy-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="post-vacancy-modal-title">
+    <div class="vacancy-modal-card">
+      
+      <!-- Modal Header -->
+      <div class="vacancy-modal-header">
+        <div>
+          <span class="bracket-tag">[ Direct Employer Listing ]</span>
+          <h2 class="vacancy-modal-title" id="post-vacancy-modal-title">Publish Technical Trade Opening</h2>
+        </div>
+        <button type="button" class="btn-close-drawer" id="btn-close-post-modal" title="Close modal">✕</button>
+      </div>
+
+      <!-- Modal Body (Form) -->
+      <form id="jobs-post-vacancy-form" class="vacancy-modal-body">
+        
+        <!-- SECTION 1: Cover Image Picker & Upload -->
+        <div class="vacancy-form-group full-width">
+          <label class="vacancy-label">Workshop / Trade Cover Image *</label>
+          <div class="image-picker-box">
+            <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px;">
+              Select a specialized trade preset or upload custom workshop photo:
+            </div>
+            
+            <!-- Preset Thumbnails Grid -->
+            <div class="image-presets-grid" id="modal-preset-grid">
+              <button type="button" class="preset-img-btn active" data-src="assets/trades/automation.jpg" data-name="Automation">
+                <img src="assets/trades/automation.jpg" alt="Automation">
+                <span class="preset-label">Automation</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/cnc.jpg" data-name="CNC Machining">
+                <img src="assets/trades/cnc.jpg" alt="CNC">
+                <span class="preset-label">CNC</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/ev.jpg" data-name="EV Powertrain">
+                <img src="assets/trades/ev.jpg" alt="EV Systems">
+                <span class="preset-label">EV / Battery</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/solar.jpg" data-name="Solar Grid">
+                <img src="assets/trades/solar.jpg" alt="Solar">
+                <span class="preset-label">Solar PV</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/welding.jpg" data-name="Precision Welding">
+                <img src="assets/trades/welding.jpg" alt="Welding">
+                <span class="preset-label">Welding</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/hvac.jpg" data-name="HVAC Systems">
+                <img src="assets/trades/hvac.jpg" alt="HVAC">
+                <span class="preset-label">HVAC</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/mechanic.jpg" data-name="Fleet Diagnostics">
+                <img src="assets/trades/mechanic.jpg" alt="Mechanic">
+                <span class="preset-label">Mechanic</span>
+              </button>
+              <button type="button" class="preset-img-btn" data-src="assets/trades/electrician.jpg" data-name="Industrial Electrician">
+                <img src="assets/trades/electrician.jpg" alt="Electrician">
+                <span class="preset-label">Electrical</span>
+              </button>
+            </div>
+
+            <!-- Custom Upload Dropzone -->
+            <div class="custom-upload-zone" id="btn-trigger-custom-img">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span style="font-size: 12.5px; font-weight: 500;">Or Upload Custom Workshop Photo (PNG, JPG, WebP)</span>
+              </div>
+              <span class="bracket-tag" style="font-size: 10px;">[ Browse File ]</span>
+              <input type="file" id="modal-custom-file-input" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Live Selected Preview Bar -->
+            <div class="img-preview-row">
+              <img src="assets/trades/automation.jpg" id="modal-selected-preview-thumb" class="img-preview-thumb" alt="Selected Cover">
+              <div style="flex: 1; overflow: hidden;">
+                <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Selected Cover Image</div>
+                <div id="modal-selected-preview-text" style="font-size: 12.5px; font-weight: 600; color: #000; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                  assets/trades/automation.jpg (Preset: Automation)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Headline & Category -->
+        <div class="vacancy-form-grid">
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-title">Job Title / Technical Headline *</label>
+            <input type="text" id="post-job-title" class="vacancy-input" placeholder="e.g. Senior 5-Axis CNC Milling Specialist" required>
+          </div>
+
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-category">Trade Discipline *</label>
+            <select id="post-job-category" class="vacancy-select" required>
+              <option value="Automation">Automation & Robotics / PLC</option>
+              <option value="CNC Machining">CNC Machining & Tooling</option>
+              <option value="EV Systems">EV Powertrain & High-Voltage Battery</option>
+              <option value="Solar & Grid">Solar & High-Tension Grid Systems</option>
+              <option value="Precision Welding">Precision Welding & Fabrication (TIG/MIG)</option>
+              <option value="HVAC Systems">HVAC Cleanroom & Industrial Chillers</option>
+              <option value="Commercial Mechanics">Commercial Fleet Mechanics & Hydraulics</option>
+              <option value="Industrial Electrical">Industrial Electrical & Substations</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Payroll Range & Period -->
+        <div class="vacancy-form-grid">
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-salary-min">Min Monthly Salary (₹) *</label>
+            <input type="number" id="post-job-salary-min" class="vacancy-input" placeholder="28000" min="8000" step="500" required>
+          </div>
+
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-salary-max">Max Monthly Salary (₹) *</label>
+            <input type="number" id="post-job-salary-max" class="vacancy-input" placeholder="42000" min="8000" step="500" required>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Location & Hub -->
+        <div class="vacancy-form-grid">
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-city">Location Hub / City *</label>
+            <select id="post-job-city" class="vacancy-select" required>
+              <option value="Hyderabad">Hyderabad Aerospace / Industrial</option>
+              <option value="Pune">Pune Auto Manufacturing</option>
+              <option value="Bangalore">Bangalore Precision Hardware</option>
+              <option value="Visakhapatnam">Visakhapatnam Marine & SEZ</option>
+              <option value="Chennai">Chennai Auto Corridor</option>
+              <option value="Delhi NCR">Delhi NCR Industrial Hub</option>
+              <option value="Mumbai">Mumbai Western Zone</option>
+              <option value="Ananthapur">Ananthapur Solar Park</option>
+            </select>
+          </div>
+
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-area">Area / Industrial Estate *</label>
+            <input type="text" id="post-job-area" class="vacancy-input" placeholder="e.g. Adibatla Aerospace SEZ / Chakan Phase II" required>
+          </div>
+        </div>
+
+        <!-- SECTION 5: Openings & Shift -->
+        <div class="vacancy-form-grid">
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-vacancies">Number of Vacancies *</label>
+            <input type="number" id="post-job-vacancies" class="vacancy-input" value="2" min="1" max="50" required>
+          </div>
+
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-hours">Working Hours & Shift *</label>
+            <input type="text" id="post-job-hours" class="vacancy-input" placeholder="e.g. 9:00 AM - 6:00 PM (Rotational Shift)" value="9:00 AM - 6:00 PM (Rotational Shift)" required>
+          </div>
+        </div>
+
+        <!-- SECTION 6: Business Details -->
+        <div class="vacancy-form-grid">
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-biz-name">Workshop / Company Name *</label>
+            <input type="text" id="post-job-biz-name" class="vacancy-input" placeholder="e.g. Balaji Precision Engineering Works" required>
+          </div>
+
+          <div class="vacancy-form-group">
+            <label class="vacancy-label" for="post-job-biz-type">Industry Sector / Business Type</label>
+            <input type="text" id="post-job-biz-type" class="vacancy-input" placeholder="e.g. Precision CNC Machining OEM" value="Automated Manufacturing OEM">
+          </div>
+        </div>
+
+        <!-- SECTION 7: Scope & Machinery -->
+        <div class="vacancy-form-group full-width">
+          <label class="vacancy-label" for="post-job-desc">Technical Scope & Daily Duties *</label>
+          <textarea id="post-job-desc" class="vacancy-textarea" placeholder="Detail the equipment, machine operations, calibration standards, or daily tasks expected..." required></textarea>
+        </div>
+
+        <!-- SECTION 8: Qualifications & Requirements -->
+        <div class="vacancy-form-group full-width">
+          <label class="vacancy-label" for="post-job-reqs">Machine Proficiencies & Certification Standards *</label>
+          <textarea id="post-job-reqs" class="vacancy-textarea" placeholder="e.g. ITI/Diploma in Mechatronics, 3+ years operating Siemens/Mazak controllers, blueprint reading..." required></textarea>
+        </div>
+
+        <!-- SECTION 9: Perks & Overtime -->
+        <div class="vacancy-form-group full-width">
+          <label class="vacancy-label" for="post-job-perks">Overtime Policy & Statutory Benefits</label>
+          <input type="text" id="post-job-perks" class="vacancy-input" placeholder="e.g. 1.5x Overtime + PF + ESI + Subsidized Canteen" value="1.5x Overtime + PF + ESI + Subsidized Canteen">
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="vacancy-modal-footer">
+          <button type="button" class="btn-reset-filters" id="btn-cancel-post-modal" style="width: auto; padding: 8px 18px;">
+            Cancel
+          </button>
+          <button type="submit" class="nav-btn-solid" style="padding: 10px 22px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <span>Publish Vacancy to Directory →</span>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
@@ -931,6 +1375,9 @@
       let currentWorkerProfile = null;
       let appliedJobIds = new Set();
 
+      const navWorkerLink = document.getElementById('nav-worker-link');
+      const navEmployerLink = document.getElementById('nav-employer-link');
+
       function sanitizeName(str) {
         return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim();
       }
@@ -939,18 +1386,25 @@
         if (authLoggedOut) authLoggedOut.style.display = 'none';
         if (authLoggedIn) authLoggedIn.style.display = 'flex';
         
-        const clean = sanitizeName(user.name) || 'Ramesh Kumar';
+        const clean = sanitizeName(user.name) || (user.role === 'employer' ? 'Sri Balaji Auto' : 'Ramesh Kumar');
         if (navDisplayName) navDisplayName.textContent = clean;
         if (navAvatarInitials) navAvatarInitials.textContent = clean.slice(0, 1).toUpperCase();
+
+        if (user.role === 'employer') {
+          if (navWorkerLink) navWorkerLink.style.display = 'none';
+          if (navEmployerLink) navEmployerLink.style.display = 'inline-block';
+        }
 
         try {
           const apps = window.jobApi.getApplications();
           apps.forEach(a => {
             if (a.job_id) appliedJobIds.add(a.job_id);
           });
-          currentWorkerProfile = await window.jobApi.getWorkerProfile();
+          if (user.role !== 'employer') {
+            currentWorkerProfile = await window.jobApi.getWorkerProfile();
+          }
         } catch (e) {
-          console.warn("Could not load worker applications:", e);
+          console.warn("Could not load applications:", e);
         }
       } else {
         if (authLoggedOut) authLoggedOut.style.display = 'flex';
@@ -1088,12 +1542,18 @@
           return;
         }
 
+        const isEmployer = user && user.role === 'employer';
+
         gridContainer.innerHTML = filtered.map((job, idx) => {
           const isApplied = appliedJobIds.has(job.id);
-          const coverImg = getJobImage(job.category);
+          const coverImg = job.cover_image || getJobImage(job.category);
           const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
           const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
           const serial = String(idx + 1).padStart(2, '0');
+          const isOwnJob = isEmployer && (
+            (user.name && job.business_name && job.business_name.toLowerCase().includes(user.name.toLowerCase())) ||
+            (user.id && job.employer_id === user.id)
+          );
 
           return `
             <article class="job-editorial-card" data-job-id="${job.id}">
@@ -1101,8 +1561,8 @@
                 <img src="${coverImg}" alt="${job.title}" loading="lazy">
                 <div class="job-floating-badges">
                   <span class="card-badge">₹${minSal} – ₹${maxSal} / mo</span>
-                  <span class="card-badge card-badge-verified">Verified</span>
-                  ${isApplied ? '<span class="card-badge card-badge-applied">✓ Applied</span>' : ''}
+                  ${isOwnJob ? '<span class="card-badge" style="background: #000; color: #fff; font-weight: 700;">★ Your Vacancy</span>' : '<span class="card-badge card-badge-verified">Verified</span>'}
+                  ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied">✓ Applied</span>' : ''}
                 </div>
               </div>
 
@@ -1119,9 +1579,22 @@
                 </div>
 
                 <div class="job-card-footer-action">
-                  <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''}>
-                    ${isApplied ? '✓ Applied' : '1-Click Apply'}
-                  </button>
+                  ${isEmployer ? `
+                    ${isOwnJob ? `
+                      <a href="/employer.html#applicants-section" class="btn-card-apply" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        <span>★ Workspace</span>
+                        <span>→</span>
+                      </a>
+                    ` : `
+                      <button type="button" class="btn-card-apply" data-action="view" data-job-id="${job.id}" style="background: #ffffff; color: #000; border-color: var(--color-border-strong);">
+                        View Specs →
+                      </button>
+                    `}
+                  ` : `
+                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''}>
+                      ${isApplied ? '✓ Applied' : '1-Click Apply'}
+                    </button>
+                  `}
 
                   <a class="btn-card-view" data-action="view" data-job-id="${job.id}">
                     <span>Specs</span>
@@ -1195,10 +1668,15 @@
         const job = allJobs.find(j => j.id === jobId);
         if (!job) return;
 
+        const isEmployer = user && user.role === 'employer';
+        const isOwnJob = isEmployer && (
+          (user.name && job.business_name && job.business_name.toLowerCase().includes(user.name.toLowerCase())) ||
+          (user.id && job.employer_id === user.id)
+        );
         const isApplied = appliedJobIds.has(job.id);
         const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
         const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
-        const coverImg = getJobImage(job.category);
+        const coverImg = job.cover_image || getJobImage(job.category);
 
         const waText = encodeURIComponent(`Hello, I saw your verified opening for "${job.title}" on JobWay. I hold an authenticated trade pass and would like to connect.`);
         const waLink = `https://wa.me/919849123434?text=${waText}`;
@@ -1207,9 +1685,9 @@
           <!-- Top Role & Verification -->
           <div>
             <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
-              <span class="card-badge card-badge-verified">UIDAI Vetted</span>
+              ${isOwnJob ? '<span class="card-badge" style="background: #000; color: #fff; font-weight: 700;">★ Your Vacancy</span>' : '<span class="card-badge card-badge-verified">UIDAI Vetted</span>'}
               <span class="card-badge">${job.category}</span>
-              ${isApplied ? '<span class="card-badge card-badge-applied">✓ Application Active</span>' : ''}
+              ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied">✓ Application Active</span>' : ''}
             </div>
             <h2 class="drawer-role-title">${job.title}</h2>
             <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 6px;">
@@ -1228,9 +1706,21 @@
 
           <!-- Action Buttons -->
           <div class="drawer-actions-row">
-            <button type="button" class="btn-drawer-apply ${isApplied ? 'applied' : ''}" id="btn-drawer-apply-action" ${isApplied ? 'disabled' : ''}>
-              ${isApplied ? '✓ Application Submitted' : '1-Click Apply with Trade Pass'}
-            </button>
+            ${isEmployer ? `
+              ${isOwnJob ? `
+                <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none;">
+                  <span>★ Manage Applications in Employer Workspace →</span>
+                </a>
+              ` : `
+                <a href="/candidates.html?category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none;">
+                  <span>Browse Candidates in ${job.category} →</span>
+                </a>
+              `}
+            ` : `
+              <button type="button" class="btn-drawer-apply ${isApplied ? 'applied' : ''}" id="btn-drawer-apply-action" ${isApplied ? 'disabled' : ''}>
+                ${isApplied ? '✓ Application Submitted' : '1-Click Apply with Trade Pass'}
+              </button>
+            `}
 
             <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-drawer-whatsapp">
               <span>Direct WhatsApp</span>
@@ -1305,6 +1795,129 @@
         if (e.key === 'Escape' && drawerOverlay.classList.contains('active')) {
           closeDrawer();
         }
+      });
+
+      // ==========================================================================
+      // Post Vacancy Modal Logic & Image Picker
+      // ==========================================================================
+      const postVacancyModal = document.getElementById('post-vacancy-modal-overlay');
+      const btnClosePostModal = document.getElementById('btn-close-post-modal');
+      const btnCancelPostModal = document.getElementById('btn-cancel-post-modal');
+      const btnBannerPostVacancy = document.getElementById('btn-banner-post-vacancy');
+      const btnHeaderPostVacancy = document.getElementById('btn-header-post-vacancy');
+      const btnHeaderPostVacancyUser = document.getElementById('btn-header-post-vacancy-user');
+      const postVacancyForm = document.getElementById('jobs-post-vacancy-form');
+      const modalFileInput = document.getElementById('modal-custom-file-input');
+      const btnTriggerCustomImg = document.getElementById('btn-trigger-custom-img');
+      const selectedPreviewThumb = document.getElementById('modal-selected-preview-thumb');
+      const selectedPreviewText = document.getElementById('modal-selected-preview-text');
+      const presetButtons = document.querySelectorAll('#modal-preset-grid .preset-img-btn');
+
+      let selectedCoverImage = 'assets/trades/automation.jpg';
+
+      function openPostVacancyModal() {
+        // Pre-fill business name if user is logged in
+        const bizNameInput = document.getElementById('post-job-biz-name');
+        if (bizNameInput && !bizNameInput.value) {
+          bizNameInput.value = user?.name || (user?.role === 'employer' ? 'Sri Balaji Auto Care & Service' : 'Precision Engineering Works');
+        }
+        postVacancyModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePostVacancyModal() {
+        postVacancyModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (btnBannerPostVacancy) btnBannerPostVacancy.addEventListener('click', openPostVacancyModal);
+      if (btnHeaderPostVacancy) btnHeaderPostVacancy.addEventListener('click', openPostVacancyModal);
+      if (btnHeaderPostVacancyUser) btnHeaderPostVacancyUser.addEventListener('click', openPostVacancyModal);
+      if (btnClosePostModal) btnClosePostModal.addEventListener('click', closePostVacancyModal);
+      if (btnCancelPostModal) btnCancelPostModal.addEventListener('click', closePostVacancyModal);
+
+      postVacancyModal.addEventListener('click', (e) => {
+        if (e.target === postVacancyModal) closePostVacancyModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && postVacancyModal.classList.contains('active')) {
+          closePostVacancyModal();
+        }
+      });
+
+      // Preset selection
+      presetButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          presetButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedCoverImage = btn.dataset.src;
+          selectedPreviewThumb.src = selectedCoverImage;
+          selectedPreviewText.textContent = `${selectedCoverImage} (Preset: ${btn.dataset.name})`;
+        });
+      });
+
+      // Custom file upload
+      btnTriggerCustomImg.addEventListener('click', () => modalFileInput.click());
+      modalFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          const file = e.target.files[0];
+          if (!file.type.startsWith('image/')) {
+            alert('Please select an image file (PNG, JPG, WebP).');
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            selectedCoverImage = ev.target.result;
+            selectedPreviewThumb.src = selectedCoverImage;
+            selectedPreviewText.textContent = `Custom Upload: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            presetButtons.forEach(b => b.classList.remove('active'));
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Post Vacancy Form Submission
+      postVacancyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('post-job-title').value.trim();
+        const category = document.getElementById('post-job-category').value;
+        const salaryMin = Number(document.getElementById('post-job-salary-min').value);
+        const salaryMax = Number(document.getElementById('post-job-salary-max').value);
+        const city = document.getElementById('post-job-city').value;
+        const area = document.getElementById('post-job-area').value.trim();
+        const vacancies = Number(document.getElementById('post-job-vacancies').value) || 1;
+        const hours = document.getElementById('post-job-hours').value.trim();
+        const bizName = document.getElementById('post-job-biz-name').value.trim();
+        const bizType = document.getElementById('post-job-biz-type').value.trim();
+        const desc = document.getElementById('post-job-desc').value.trim();
+        const reqs = document.getElementById('post-job-reqs').value.trim();
+        const perks = document.getElementById('post-job-perks').value.trim();
+
+        const newJob = await window.jobApi.createJob({
+          title,
+          category,
+          salary_min: salaryMin,
+          salary_max: salaryMax,
+          salary_period: "monthly",
+          location_city: city,
+          location_area: area,
+          vacancies,
+          working_hours: hours,
+          business_name: bizName,
+          business_type: bizType,
+          description: desc,
+          requirements: reqs,
+          overtime_policy: perks,
+          cover_image: selectedCoverImage,
+          employer_id: user ? (user.id || user.userId) : "emp_manual"
+        });
+
+        allJobs.unshift(newJob);
+        if (countAllTrades) countAllTrades.textContent = `(${String(allJobs.length).padStart(2, '0')})`;
+        render3CardGrid();
+        closePostVacancyModal();
+        postVacancyForm.reset();
+        showToast(`Vacancy "${title}" published successfully! Visible in directory & workspace.`, 'success');
       });
 
       // Filter Events

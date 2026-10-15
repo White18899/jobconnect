@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verified Candidates Directory • JobWay Engineering Network</title>
+  <meta name="description" content="Directly browse, filter, and unlock verified technical trade candidates, engineers, and machine operators across India with zero brokerage.">
+  <link rel="canonical" href="https://job-way.in/candidates.html">
+
+  <!-- Fonts: Geist, Geist Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/editorial.css?v=2">
+
+  <style>
+    /* ==========================================================================
+       JobWay Candidates Directory (Swiss Minimalist Editorial Architecture)
+       ========================================================================== */
+    :root {
+      --color-background: #ffffff;
+      --color-text: #000000;
+      --color-text-secondary: #52525b;
+      --color-border: rgba(0, 0, 0, 0.1);
+      --color-border-strong: rgba(0, 0, 0, 0.22);
+      --font-primary: 'Geist', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
+      --radius-s: 4px;
+      --radius-xs: 3px;
+    }
+
+    body.editorial-page {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      font-family: var(--font-primary) !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top Directory Breadcrumb Header */
+    .directory-banner {
+      border-bottom: 1px solid var(--color-border);
+      background: #fafafa;
+      padding: 24px 3vw;
+    }
+
+    .directory-banner-inner {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .directory-title-main {
+      font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 6px 0 0;
+      color: #000000;
+    }
+
+    /* Main Container: Sidebar + 3-Card Grid */
+    .directory-container {
+      max-width: 1540px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 32px 3vw 64px;
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+      flex: 1;
+    }
+
+    /* Left Sidebar: Filter Panel (290px) */
+    .filters-sidebar {
+      width: 290px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-right: 20px;
+      border-right: 1px solid var(--color-border);
+    }
+
+    .filter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .filter-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    /* Search Box */
+    .filter-search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .filter-search-box input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px 0 34px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: 13px;
+      font-family: var(--font-primary);
+      background: #ffffff;
+      color: #000000;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .filter-search-box input:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 1px #000000;
+    }
+
+    .filter-search-box svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-secondary);
+      pointer-events: none;
+    }
+
+    /* Category Filter List */
+    .filter-list-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .filter-item-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 7px 10px;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: var(--radius-xs);
+      font-family: var(--font-primary);
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .filter-item-btn:hover {
+      color: #000000;
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .filter-item-btn.active {
+      color: #000000;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.06);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .filter-item-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .filter-item-btn.active .filter-item-count {
+      color: #000000;
+      font-weight: 700;
+    }
+
+    /* Select Menus in Sidebar */
+    .sidebar-select {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-size: 12.5px;
+      font-family: var(--font-primary);
+      background: #ffffff;
+      color: #000000;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .sidebar-select:focus {
+      border-color: #000000;
+    }
+
+    .btn-reset-filters {
+      width: 100%;
+      padding: 8px 12px;
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-reset-filters:hover {
+      border-color: #000000;
+      color: #000000;
+      background: #fafafa;
+    }
+
+    /* Right Main Content */
+    .directory-main-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .content-results-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--color-border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .results-heading-meta {
+      font-size: 13.5px;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .results-heading-meta strong {
+      color: #000000;
+      font-family: var(--font-mono);
+    }
+
+    /* 3-Cards Per Row Grid */
+    .candidates-3col-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    /* Candidate Card Component */
+    .candidate-card {
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-s);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .candidate-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-border-strong);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .candidate-card-header-box {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      background: #f4f4f5;
+      overflow: hidden;
+    }
+
+    .candidate-card-header-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(10%) contrast(105%);
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .candidate-card:hover .candidate-card-header-box img {
+      transform: scale(1.04);
+    }
+
+    /* Floating Badges */
+    .candidate-floating-badges {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    .cand-badge {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #000000;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .cand-badge-kyc {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+    }
+
+    .cand-badge-unlocked {
+      background: #000000;
+      color: #ffffff;
+      border: none;
+    }
+
+    /* Candidate Avatar Badge overlaying cover */
+    .cand-avatar-pill {
+      position: absolute;
+      bottom: -18px;
+      left: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-s);
+      background: #09090b;
+      border: 2.5px solid #ffffff;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 750;
+      font-family: var(--font-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      z-index: 3;
+    }
+
+    .cand-verified-microtick {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      background: #10b981;
+      border: 1.5px solid #ffffff;
+      color: #ffffff;
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    /* Candidate Body */
+    .candidate-card-body {
+      padding: 26px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+    }
+
+    .cand-name-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      margin: 0;
+    }
+
+    .cand-trade-subtitle {
+      font-size: 12.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.35;
+      min-height: 34px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .cand-skills-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 2px 0 6px;
+    }
+
+    .cand-skill-tag {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      background: #fafafa;
+      border: 1px solid var(--color-border);
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+      color: var(--color-text-secondary);
+    }
+
+    .cand-contact-shield {
+      background: #fafafa;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      padding: 8px 10px;
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--color-text-secondary);
+    }
+
+    .cand-contact-shield.unlocked {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #047857;
+      font-weight: 600;
+    }
+
+    .cand-footer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+      margin-top: auto;
+    }
+
+    .btn-unlock-contact {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #000000;
+      border-radius: var(--radius-xs);
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-unlock-contact:hover {
+      background: #27272a;
+    }
+
+    .btn-unlock-contact.unlocked {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    .btn-view-pass {
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-view-pass:hover {
+      color: #000000;
+    }
+
+    /* ==========================================================================
+       Right Slide-Over Candidate Drawer
+       ========================================================================== */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 560px;
+      max-width: 92vw;
+      background: #ffffff;
+      z-index: 1001;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer-overlay.active .drawer-panel {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-close-drawer {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #000000;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-drawer:hover {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+    }
+
+    .drawer-scrollable-body {
+      padding: 28px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Toast Container */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      padding: 12px 18px;
+      border-radius: var(--radius-s);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      animation: toastIn 0.25s ease-out;
+    }
+
+    .toast-success {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid #222;
+    }
+
+    .toast-info {
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid var(--color-border);
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 1200px) {
+      .candidates-3col-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .directory-container {
+        flex-direction: column;
+        padding: 20px 4vw;
+      }
+
+      .filters-sidebar {
+        width: 100%;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding-right: 0;
+        padding-bottom: 24px;
+      }
+
+      .candidates-3col-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="editorial-page">
+
+  <!-- Header -->
+  <header class="editorial-header">
+    <nav class="editorial-navbar">
+      <a href="/" class="nav-logo">
+        <span class="link-line">©JobWay</span>
+        <span class="bracket-tag" style="margin-left: 8px;">[ Verified Candidates ]</span>
+      </a>
+
+      <!-- Center Links -->
+      <div class="nav-links-wrapper">
+        <a href="/jobs.html" class="nav-link">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a href="/candidates.html" class="nav-link active" style="font-weight: 600; color: #000000;">
+          <span class="link-line">Candidates</span>
+        </a>
+        <a href="/employer.html" class="nav-link" id="nav-workspace-link">
+          <span class="link-line">Employer Workspace</span>
+        </a>
+      </div>
+
+      <!-- Right Actions: Auth State & Unlock Credits -->
+      <div class="nav-right-actions">
+        <!-- Unlock Credits Pill (For Employers) -->
+        <div class="project-card-badge" id="cand-credit-pill">
+          <span><span id="cand-credit-count">3</span> Unlocks Left</span>
+        </div>
+
+        <!-- Logged Out State -->
+        <div id="auth-logged-out" style="display: flex; align-items: center; gap: 10px;">
+          <a href="/login.html?mode=login" class="nav-btn-link link-line">Sign In</a>
+          <a href="/login.html?mode=signup" class="nav-btn-solid">Post Vacancy →</a>
+        </div>
+
+        <!-- Logged In State -->
+        <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
+          <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
+            <span id="nav-user-display-name">Employer</span>
+          </div>
+          <button type="button" class="nav-btn-link" id="btn-header-logout" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Top Breadcrumb Directory Banner -->
+  <section class="directory-banner">
+    <div class="directory-banner-inner">
+      <div>
+        <div class="bracket-tag">[ Directory / Vetted Technical Tradesmen & Engineers ]</div>
+        <h1 class="directory-title-main">Verified Candidate Passes</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <a href="/employer.html#credits-section" class="nav-btn-solid" style="padding: 8px 16px; font-size: 12.5px;">
+          <span>Recharge Unlock Credits +</span>
+        </a>
+        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary);">
+          UIDAI Aadhaar Authenticated • Direct Hiring
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Directory: Left Filter Sidebar + Right 3-Card Grid -->
+  <main class="directory-container">
+    
+    <!-- LEFT SIDEBAR: Filters & Search (290px) -->
+    <aside class="filters-sidebar">
+      
+      <!-- 1. Search Box -->
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="bracket-tag">[ Search Candidates ]</span>
+        </div>
+        <div class="filter-search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="cand-search-input" placeholder="Name, trade, skill, machine..." autocomplete="off">
+        </div>
+      </div>
+
+      <!-- 2. Trade Discipline -->
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="bracket-tag">[ Trade Discipline ]</span>
+        </div>
+        <div class="filter-list-group" id="cand-category-list">
+          <button type="button" class="filter-item-btn active" data-cat="all">
+            <span>All Disciplines</span>
+            <span class="filter-item-count" id="count-all-cands">(07)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="Automation">
+            <span>Automation & Robotics</span>
+            <span class="filter-item-count">(02)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="CNC">
+            <span>CNC Machining</span>
+            <span class="filter-item-count">(01)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="EV">
+            <span>EV & Battery Systems</span>
+            <span class="filter-item-count">(01)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="Solar">
+            <span>Solar & HT Grid</span>
+            <span class="filter-item-count">(01)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="Welding">
+            <span>Precision Welding</span>
+            <span class="filter-item-count">(01)</span>
+          </button>
+          <button type="button" class="filter-item-btn" data-cat="HVAC">
+            <span>HVAC Cleanroom Systems</span>
+            <span class="filter-item-count">(01)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Experience Filter -->
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="bracket-tag">[ Total Experience ]</span>
+        </div>
+        <select id="cand-exp-select" class="sidebar-select">
+          <option value="0">All Experience Levels</option>
+          <option value="3">3+ Years Practical Experience</option>
+          <option value="4">4+ Years Industrial Experience</option>
+          <option value="5">5+ Years Senior Specialist</option>
+        </select>
+      </div>
+
+      <!-- 4. Location Hub -->
+      <div class="filter-section">
+        <div class="filter-section-header">
+          <span class="bracket-tag">[ Location Hub ]</span>
+        </div>
+        <select id="cand-city-select" class="sidebar-select">
+          <option value="all">All Locations (India)</option>
+          <option value="Hyderabad">Hyderabad Hub</option>
+          <option value="Visakhapatnam">Visakhapatnam SEZ</option>
+          <option value="Pune">Pune Auto Hub</option>
+          <option value="Ananthapur">Ananthapur Solar Park</option>
+          <option value="Bangalore">Bangalore</option>
+        </select>
+      </div>
+
+      <!-- Reset Action -->
+      <button type="button" class="btn-reset-filters" id="btn-reset-cands">
+        [ Clear All Filters ]
+      </button>
+
+    </aside>
+
+    <!-- RIGHT MAIN CONTENT: 3-Cards-Per-Row Grid -->
+    <section class="directory-main-content">
+      
+      <!-- Results Status Bar -->
+      <div class="content-results-bar">
+        <div class="results-heading-meta">
+          <span>Showing <strong id="cand-results-count">07</strong> verified candidates</span>
+          <span style="color: var(--color-border); font-weight: 300;">|</span>
+          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Aadhaar KYC Authenticated</span>
+        </div>
+
+        <div>
+          <select id="cand-sort-select" class="content-sort-select">
+            <option value="exp">Sort: Highest Experience</option>
+            <option value="name">Sort: Candidate Name</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3-Cards Grid -->
+      <div class="candidates-3col-grid" id="candidates-grid-container">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Slide-Over Candidate Technical Pass Drawer -->
+  <div class="drawer-overlay" id="cand-drawer-overlay">
+    <div class="drawer-panel" id="cand-drawer-panel">
+      
+      <div class="drawer-header">
+        <span class="bracket-tag">[ Verified Tradesman Pass Details ]</span>
+        <button type="button" class="btn-close-drawer" id="btn-close-cand-drawer" title="Close drawer">✕</button>
+      </div>
+
+      <div class="drawer-scrollable-body" id="cand-drawer-body">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="editorial-footer" style="margin-top: auto; border-top: 1px solid var(--color-border); padding: 4vw 3vw 3vw;">
+    <div class="footer-grid">
+      <div class="footer-box">
+        <span class="bracket-tag">[ Direct Employer Unlocks ]</span>
+        <p class="footer-text">
+          Zero middleman brokerage. Unlocked candidates display verified Aadhaar IDs, WhatsApp numbers, and verified trade certifications.
+        </p>
+      </div>
+      <div class="footer-box">
+        <span class="bracket-tag">[ Portals ]</span>
+        <div class="footer-links">
+          <a class="footer-link" href="/">Home</a>
+          <a class="footer-link" href="/jobs.html">Find Jobs</a>
+          <a class="footer-link" href="/candidates.html">Candidates Directory</a>
+          <a class="footer-link" href="/employer.html">Employer Workspace</a>
+          <a class="footer-link" href="mailto:support@job-way.in">Support Desk</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js?v=6"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Session State
+      const user = window.jobApi?.getCurrentUser();
+      const authLoggedOut = document.getElementById('auth-logged-out');
+      const authLoggedIn = document.getElementById('auth-logged-in');
+      const navDisplayName = document.getElementById('nav-user-display-name');
+      const btnLogout = document.getElementById('btn-header-logout');
+      const creditCountEl = document.getElementById('cand-credit-count');
+
+      function updateCreditDisplay() {
+        const c = window.jobApi.getUnlockCredits();
+        if (creditCountEl) creditCountEl.textContent = c;
+      }
+      updateCreditDisplay();
+
+      if (user) {
+        if (authLoggedOut) authLoggedOut.style.display = 'none';
+        if (authLoggedIn) authLoggedIn.style.display = 'flex';
+        if (navDisplayName) navDisplayName.textContent = user.name || 'Hiring Employer';
+      } else {
+        if (authLoggedOut) authLoggedOut.style.display = 'flex';
+        if (authLoggedIn) authLoggedIn.style.display = 'none';
+      }
+
+      if (btnLogout) {
+        btnLogout.addEventListener('click', () => {
+          window.jobApi.logout();
+          window.location.reload();
+        });
+      }
+
+      function showToast(msg, type = 'success') {
+        const c = document.getElementById('toast-container');
+        if (!c) return;
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.innerHTML = `<span>${type === 'success' ? '✓' : 'ℹ️'}</span> <span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+      }
+
+      // 2. Candidate Filtering & Render
+      let allCandidates = [];
+      let activeCategory = 'all';
+
+      const gridContainer = document.getElementById('candidates-grid-container');
+      const resultsCountEl = document.getElementById('cand-results-count');
+      const countAllCands = document.getElementById('count-all-cands');
+      const searchInput = document.getElementById('cand-search-input');
+      const expSelect = document.getElementById('cand-exp-select');
+      const citySelect = document.getElementById('cand-city-select');
+      const sortSelect = document.getElementById('cand-sort-select');
+      const categoryButtons = document.querySelectorAll('#cand-category-list .filter-item-btn');
+      const btnReset = document.getElementById('btn-reset-cands');
+
+      const drawerOverlay = document.getElementById('cand-drawer-overlay');
+      const drawerBody = document.getElementById('cand-drawer-body');
+      const btnCloseDrawer = document.getElementById('btn-close-cand-drawer');
+
+      allCandidates = window.jobApi.getCandidates();
+      if (countAllCands) countAllCands.textContent = `(${String(allCandidates.length).padStart(2, '0')})`;
+
+      function getFilteredCandidates() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        const city = citySelect.value;
+        const minExp = Number(expSelect.value) || 0;
+        const sortMode = sortSelect.value;
+
+        let filtered = allCandidates.filter(c => {
+          if (activeCategory !== 'all') {
+            const catMatch = (c.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
+                             (c.trade_title || '').toLowerCase().includes(activeCategory.toLowerCase());
+            if (!catMatch) return false;
+          }
+          if (city !== 'all') {
+            if ((c.city || '').toLowerCase() !== city.toLowerCase()) return false;
+          }
+          if (minExp > 0) {
+            if ((c.experience || 0) < minExp) return false;
+          }
+          if (query) {
+            const corpus = `${c.name} ${c.trade_title} ${(c.skills || []).join(' ')} ${c.city} ${c.education} ${c.bio}`.toLowerCase();
+            if (!corpus.includes(query)) return false;
+          }
+          return true;
+        });
+
+        if (sortMode === 'exp') {
+          filtered.sort((a, b) => (b.experience || 0) - (a.experience || 0));
+        } else if (sortMode === 'name') {
+          filtered.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        return filtered;
+      }
+
+      function renderCandidatesGrid() {
+        allCandidates = window.jobApi.getCandidates();
+        const filtered = getFilteredCandidates();
+        resultsCountEl.textContent = String(filtered.length).padStart(2, '0');
+
+        if (filtered.length === 0) {
+          gridContainer.innerHTML = `
+            <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-s);">
+              <div class="bracket-tag" style="margin-bottom: 8px;">[ 0 Candidates ]</div>
+              <h3 style="font-size: 18px; font-weight: 500; margin-bottom: 6px;">No candidate profiles match current criteria</h3>
+              <p style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px;">Try adjusting search terms or resetting filters.</p>
+              <button type="button" class="btn-reset-filters" id="btn-empty-cands-reset" style="width: auto; padding: 8px 18px;">Reset All Filters</button>
+            </div>
+          `;
+          document.getElementById('btn-empty-cands-reset')?.addEventListener('click', resetFilters);
+          return;
+        }
+
+        gridContainer.innerHTML = filtered.map((c, idx) => {
+          const serial = String(idx + 1).padStart(2, '0');
+          const isUnlocked = c.unlocked === true;
+          const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+          return `
+            <article class="candidate-card" data-cand-id="${c.id}">
+              <div class="candidate-card-header-box">
+                <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
+                <div class="candidate-floating-badges">
+                  <span class="cand-badge">${c.experience}+ Yrs Exp</span>
+                  <span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked</span>' : ''}
+                </div>
+
+                <div class="cand-avatar-pill">
+                  ${initials}
+                  <div class="cand-verified-microtick" title="KYC Verified">✓</div>
+                </div>
+              </div>
+
+              <div class="candidate-card-body">
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+                    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); font-weight: 600;">${serial} • ${c.category}</span>
+                    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary);">${c.city}</span>
+                  </div>
+                  <h3 class="cand-name-title">${c.name}</h3>
+                  <div class="cand-trade-subtitle">${c.trade_title}</div>
+                </div>
+
+                <div class="cand-skills-chips">
+                  ${(c.skills || []).slice(0, 3).map(s => `<span class="cand-skill-tag">${s}</span>`).join('')}
+                </div>
+
+                <div class="cand-contact-shield ${isUnlocked ? 'unlocked' : ''}">
+                  <span>${isUnlocked ? 'Direct Contact:' : 'Shielded Phone:'}</span>
+                  <strong>${isUnlocked ? c.phone_unlocked : c.phone_masked}</strong>
+                </div>
+
+                <div class="cand-footer-actions">
+                  ${(() => {
+                    const apps = window.jobApi?.getApplications() || [];
+                    const matchingApp = apps.find(a => a.worker_id === c.id || a.worker_name === c.name);
+                    const workspaceHref = matchingApp ? `/employer.html?highlight=${matchingApp.id}#applicants-section` : `/employer.html#applicants-section`;
+                    return isUnlocked ? `
+                      <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
+                        ✓ Open in Workspace →
+                      </a>
+                    ` : `
+                      <button type="button" class="btn-unlock-contact" data-action="unlock" data-cand-id="${c.id}">
+                        Unlock Contact (1 Credit)
+                      </button>
+                    `;
+                  })()}
+
+                  <a class="btn-view-pass" data-action="view" data-cand-id="${c.id}">
+                    <span>Pass</span>
+                    <span>→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        // Attach listeners
+        gridContainer.querySelectorAll('.candidate-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            const unlockBtn = e.target.closest('[data-action="unlock"]');
+            const workspaceBtn = e.target.closest('[data-action="workspace"]');
+            const candId = card.dataset.candId;
+
+            if (unlockBtn) {
+              e.stopPropagation();
+              handleUnlockCandidate(candId);
+              return;
+            }
+
+            if (workspaceBtn) {
+              e.stopPropagation();
+              window.location.href = `/employer.html#applicants-section`;
+              return;
+            }
+
+            openCandidateDrawer(candId);
+          });
+        });
+      }
+
+      // Unlock Candidate Flow
+      function handleUnlockCandidate(candId) {
+        if (!user || user.role !== 'employer') {
+          showToast("Please log in as an employer to unlock candidate contact passes.", "info");
+          setTimeout(() => {
+            window.location.href = `/login.html?role=employer&returnUrl=${encodeURIComponent('/candidates.html')}`;
+          }, 1200);
+          return;
+        }
+
+        const res = window.jobApi.unlockCandidate(candId);
+        if (res.success) {
+          updateCreditDisplay();
+          showToast(`Unlocked ${res.candidate.name}'s contact pass! Saved directly to your Workspace.`, 'success');
+          renderCandidatesGrid();
+          if (drawerOverlay.classList.contains('active')) {
+            openCandidateDrawer(candId);
+          }
+        } else if (res.needCredits) {
+          showToast("Insufficient unlock credits. Please recharge your pack.", "info");
+          setTimeout(() => {
+            window.location.href = `/employer.html#credits-section`;
+          }, 1200);
+        } else {
+          showToast(res.message || "Could not unlock candidate", "info");
+        }
+      }
+
+      // Open Candidate Detail Drawer
+      function openCandidateDrawer(candId) {
+        const c = allCandidates.find(item => item.id === candId);
+        if (!c) return;
+
+        const isUnlocked = c.unlocked === true;
+        const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        const waText = encodeURIComponent(`Hello ${c.name}, I reviewed your verified tradesman pass on JobWay and would like to speak regarding an opening at our workshop.`);
+        const waLink = `https://wa.me/${c.phone_unlocked.replace(/\D/g, '')}?text=${waText}`;
+
+        drawerBody.innerHTML = `
+          <!-- Header Profile Row -->
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-s); background: #000; color: #fff; font-size: 22px; font-weight: 750; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
+              ${initials}
+              <div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 4px; background: #10b981; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">✓</div>
+            </div>
+            <div>
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
+                <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
+                <span class="cand-badge">${c.experience}+ Yrs Exp</span>
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : ''}
+              </div>
+              <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${c.name}</h2>
+              <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 2px;">
+                ${c.trade_title} • ${c.city}
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Unlock Banner -->
+          <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--color-border)'}; border-radius: var(--radius-s); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">
+                ${isUnlocked ? 'Direct Phone & WhatsApp' : 'Direct Contact (Protected)'}
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
+                ${isUnlocked ? c.phone_unlocked : c.phone_masked}
+              </div>
+            </div>
+
+            <div>
+              ${isUnlocked ? `
+                <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 16px;">
+                  <span>Direct WhatsApp ↗</span>
+                </a>
+              ` : `
+                <button type="button" class="btn-unlock-contact" id="drawer-btn-unlock" style="padding: 9px 16px;">
+                  Unlock for 1 Credit
+                </button>
+              `}
+            </div>
+          </div>
+
+          <!-- Section: Scope & Bio -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Technical Profile & Hands-on Scope ]</div>
+            <p style="font-size: 13.5px; line-height: 1.6; color: var(--color-text-secondary); margin: 0;">
+              ${c.bio}
+            </p>
+          </div>
+
+          <!-- Section: Key Machine Skills -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Machine & Controller Proficiencies ]</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              ${(c.skills || []).map(s => `<span class="cand-skill-tag" style="padding: 4px 10px; font-size: 12px;">⚡ ${s}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Section: Education & Qualifications -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Qualifications & Certifications ]</div>
+            <div style="background: #fafafa; border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 12px 16px;">
+              <div style="font-size: 13px; font-weight: 600; color: #000;">${c.education}</div>
+              <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">Verified against Aadhaar DigiLocker database. Zero falsified certificates.</div>
+            </div>
+          </div>
+
+          <!-- Section: Residential Location (Unlocked) -->
+          <div>
+            <div class="bracket-tag" style="margin-bottom: 6px;">[ Verified Residential Address ]</div>
+            <div style="font-size: 13px; color: var(--color-text-secondary);">
+              ${isUnlocked ? c.address_unlocked : c.address_masked}
+            </div>
+          </div>
+
+          ${(() => {
+            const apps = window.jobApi?.getApplications() || [];
+            const matchingApp = apps.find(a => a.worker_id === c.id || a.worker_name === c.name);
+            const workspaceHref = matchingApp ? `/employer.html?highlight=${matchingApp.id}#applicants-section` : `/employer.html#applicants-section`;
+            return isUnlocked ? `
+              <div style="margin-top: 8px;">
+                <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center;">
+                  Open Full Candidate Pass in Workspace →
+                </a>
+              </div>
+            ` : '';
+          })()}
+        `;
+
+        document.getElementById('drawer-btn-unlock')?.addEventListener('click', () => {
+          handleUnlockCandidate(c.id);
+        });
+
+        drawerOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        drawerOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (btnCloseDrawer) btnCloseDrawer.addEventListener('click', closeDrawer);
+      if (drawerOverlay) {
+        drawerOverlay.addEventListener('click', (e) => {
+          if (e.target === drawerOverlay) closeDrawer();
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawerOverlay.classList.contains('active')) {
+          closeDrawer();
+        }
+      });
+
+      // Filter Handlers
+      searchInput.addEventListener('input', renderCandidatesGrid);
+      expSelect.addEventListener('change', renderCandidatesGrid);
+      citySelect.addEventListener('change', renderCandidatesGrid);
+      sortSelect.addEventListener('change', renderCandidatesGrid);
+
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.dataset.cat;
+          renderCandidatesGrid();
+        });
+      });
+
+      function resetFilters() {
+        searchInput.value = '';
+        expSelect.value = '0';
+        citySelect.value = 'all';
+        sortSelect.value = 'exp';
+        activeCategory = 'all';
+        categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+        renderCandidatesGrid();
+      }
+      if (btnReset) btnReset.addEventListener('click', resetFilters);
+
+      // Initial Render
+      renderCandidatesGrid();
+    });
+  </script>
+</body>
+</html>

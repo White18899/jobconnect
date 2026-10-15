@@ -199,6 +199,149 @@ const INITIAL_PAYMENTS = [
   }
 ];
 
+const INITIAL_CANDIDATES = [
+  {
+    id: "cand_01",
+    name: "Arun Varma",
+    trade_title: "Industrial Automation & PLC Commissioning Engineer",
+    category: "Automation",
+    experience: 4,
+    city: "Hyderabad",
+    education: "Diploma in Mechatronics & Siemens TIA Certified",
+    skills: ["Siemens S7-1500", "ABB Robot IRC5", "SCADA HMI", "TIA Portal V19"],
+    salary_expected: 45000,
+    photo_key: "",
+    photo_thumb: "assets/trades/automation.jpg",
+    phone_masked: "+91 98••••••34",
+    phone_unlocked: "+91 98491 23434",
+    address_masked: "Address Protected (KPHB Colony, Hyderabad)",
+    address_unlocked: "Flat 204, Sai Residency, Road No. 3, KPHB Colony, Hyderabad - 500072",
+    bio: "4+ years on automotive BIW assembly lines. Certified in 6-axis robot motion programming and Profinet network diagnostics.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_02",
+    name: "Suresh Rao",
+    trade_title: "5-Axis CNC Milling Center Specialist",
+    category: "CNC Machining",
+    experience: 5,
+    city: "Visakhapatnam",
+    education: "NTTF Certified Precision Tooling Specialist",
+    skills: ["DMG Mori 5-Axis", "Mazak Mazatrol", "Mastercam 2024", "Aerospace G-Code"],
+    salary_expected: 42000,
+    photo_key: "",
+    photo_thumb: "assets/trades/cnc.jpg",
+    phone_masked: "+91 94••••••89",
+    phone_unlocked: "+91 94402 91889",
+    address_masked: "Address Protected (Gajuwaka, Visakhapatnam)",
+    address_unlocked: "D.No 14-22/1, New Colony, Gajuwaka, Visakhapatnam - 530026",
+    bio: "Specialized in 15-micron titanium impeller machining and aerospace manifold fabrication under AS9100 quality standards.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_03",
+    name: "Vikram Reddy",
+    trade_title: "Electric Vehicle High-Voltage Battery Specialist",
+    category: "EV Systems",
+    experience: 3,
+    city: "Pune",
+    education: "B.Tech Electrical & Certified High-Voltage Safety",
+    skills: ["800V Architecture", "BMS Firmware Tuning", "Pouch Cell Balancing", "Thermal Runaway Mit."],
+    salary_expected: 40000,
+    photo_key: "",
+    photo_thumb: "assets/trades/ev.jpg",
+    phone_masked: "+91 91••••••12",
+    phone_unlocked: "+91 91218 45612",
+    address_masked: "Address Protected (Chakan Industrial Hub, Pune)",
+    address_unlocked: "Plot 45, MIDC Phase II, Chakan, Pune - 410501",
+    bio: "Hands-on experience with prismatic and cylindrical lithium-ion packs, CAN bus data logging, and high-voltage isolation tests.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_04",
+    name: "Rajesh Sharma",
+    trade_title: "Utility Solar Inverter & HT Switchgear Specialist",
+    category: "Solar & Grid",
+    experience: 4,
+    city: "Ananthapur",
+    education: "CEA Electrical Supervisor License & Diploma EEE",
+    skills: ["Central Solar Inverters (1MW)", "33kV Vacuum Circuit Breakers", "SCADA Telemetry", "Earth Pit Auditing"],
+    salary_expected: 38000,
+    photo_key: "",
+    photo_thumb: "assets/trades/solar.jpg",
+    phone_masked: "+91 97••••••55",
+    phone_unlocked: "+91 97011 88955",
+    address_masked: "Address Protected (Solar Park, Ananthapur)",
+    address_unlocked: "H.No 3-91, Subhash Nagar, Ananthapur - 515001",
+    bio: "Commissioned 50MW+ utility solar plants. Expert in transformer oil breakdown testing and remote RTU integration.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_05",
+    name: "Amit Patel",
+    trade_title: "Aerospace TIG Welder (Titanium & Inconel Alloys)",
+    category: "Precision Welding",
+    experience: 5,
+    city: "Hyderabad",
+    education: "AWS D17.1 Certified 6G Pipe & Exotic Metallics",
+    skills: ["GTAW (TIG) Thin-Wall", "Inconel 718", "Titanium Ti-6Al-4V", "100% X-Ray Radiography"],
+    salary_expected: 48000,
+    photo_key: "",
+    photo_thumb: "assets/trades/welding.jpg",
+    phone_masked: "+91 99••••••78",
+    phone_unlocked: "+91 99592 34178",
+    address_masked: "Address Protected (Adibatla Aerospace SEZ, Hyderabad)",
+    address_unlocked: "B-12, Green City, Adibatla, Hyderabad - 501510",
+    bio: "Ex-aerospace contractor with zero radiographic failure history on rocket nozzle cooling jackets and aircraft fuel lines.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_06",
+    name: "Kiran Kumar",
+    trade_title: "Industrial Chiller & Cleanroom HVAC Specialist",
+    category: "HVAC Systems",
+    experience: 4,
+    city: "Hyderabad",
+    education: "Refrigerant Handling EPA Indian Standard & ITI RAC",
+    skills: ["500-Ton Centrifugal Chillers", "ISO Class 5 Laminar Flow", "BACnet BMS", "HEPA Leak Testing"],
+    salary_expected: 36000,
+    photo_key: "",
+    photo_thumb: "assets/trades/hvac.jpg",
+    phone_masked: "+91 93••••••40",
+    phone_unlocked: "+91 93910 88240",
+    address_masked: "Address Protected (Genome Valley Pharma SEZ, Hyderabad)",
+    address_unlocked: "Flat 101, Pharma Towers, Genome Valley, Hyderabad - 500078",
+    bio: "Overhaul and preventive maintenance for large pharmaceutical cleanrooms and water-cooled chiller plants.",
+    unlocked: false,
+    kyc_status: "verified"
+  },
+  {
+    id: "cand_07",
+    name: "Ramesh Kumar",
+    trade_title: "Heavy Vehicle Auto Mechanic & Diagnostics",
+    category: "Automation",
+    experience: 4,
+    city: "Hyderabad",
+    education: "Diploma in Automobile Engineering & ITI Certified",
+    skills: ["Common Rail CRDi Diesel", "OBD-II ECU Flashing", "Hydraulic Brake Line Bleeding", "Torque Converters"],
+    salary_expected: 35000,
+    photo_key: "",
+    photo_thumb: "assets/trades/mechanic.jpg",
+    phone_masked: "+91 98••••••34",
+    phone_unlocked: "+91 98491 23434",
+    address_masked: "Address Protected (KPHB Colony, Hyderabad)",
+    address_unlocked: "Plot 89, Trade Nagar, Industrial Area, Hyderabad - 500072",
+    bio: "4+ years troubleshooting commercial fleets, BS-VI exhaust gas recirculation (EGR), and hydraulic tipper hydraulics.",
+    unlocked: false,
+    kyc_status: "verified"
+  }
+];
+
 class JobConnectApi {
   constructor() {
     this.baseUrl = API_BASE_URL;
@@ -216,6 +359,10 @@ class JobConnectApi {
     const existingApps = localStorage.getItem('jc_apps');
     if (!existingApps || existingApps.includes('Two-Wheeler')) {
       localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
+    }
+    if (!localStorage.getItem('jc_candidates') || !localStorage.getItem('jc_candidates_v2')) {
+      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
+      localStorage.setItem('jc_candidates_v2', 'true');
     }
     if (!localStorage.getItem('jc_payments') || !localStorage.getItem('jc_payments_v2')) {
       localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
@@ -370,6 +517,83 @@ class JobConnectApi {
     localStorage.setItem('jc_apps', JSON.stringify(apps));
 
     return { success: true, app, remainingCredits: credits };
+  }
+
+  getCandidates(filters = {}) {
+    let list = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    if (filters.category && filters.category !== 'all') {
+      const cat = filters.category.toLowerCase();
+      list = list.filter(c => (c.category || '').toLowerCase().includes(cat) || (c.trade_title || '').toLowerCase().includes(cat));
+    }
+    if (filters.city && filters.city !== 'all') {
+      list = list.filter(c => (c.city || '').toLowerCase() === filters.city.toLowerCase());
+    }
+    if (filters.minExp) {
+      list = list.filter(c => (c.experience || 0) >= Number(filters.minExp));
+    }
+    if (filters.query) {
+      const q = filters.query.toLowerCase();
+      list = list.filter(c => `${c.name} ${c.trade_title} ${(c.skills || []).join(' ')} ${c.city} ${c.education} ${c.bio}`.toLowerCase().includes(q));
+    }
+    return list;
+  }
+
+  unlockCandidate(candidateId) {
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    const candidate = candidates.find(c => c.id === candidateId);
+    let credits = Number(localStorage.getItem('jc_credits') || '0');
+
+    if (!candidate) return { success: false, message: "Candidate not found" };
+
+    if (candidate.unlocked) {
+      return { success: true, candidate, remainingCredits: credits, alreadyUnlocked: true };
+    }
+
+    if (credits <= 0) {
+      return { success: false, needCredits: true, message: "Insufficient unlock credits. Please recharge your balance." };
+    }
+
+    credits -= 1;
+    localStorage.setItem('jc_credits', String(credits));
+    candidate.unlocked = true;
+    localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+
+    // Also sync into jc_apps for Employer Workspace
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    let existingApp = apps.find(a => a.worker_id === candidate.id || a.worker_name === candidate.name);
+    if (!existingApp) {
+      existingApp = {
+        id: `app_${Date.now().toString().slice(-6)}`,
+        job_id: "job_01",
+        job_title: candidate.trade_title,
+        employer_name: "Direct Workspace Candidate",
+        worker_id: candidate.id,
+        worker_name: candidate.name,
+        worker_category: candidate.category,
+        worker_experience: candidate.experience,
+        worker_city: candidate.city,
+        applied_date: new Date().toISOString().split('T')[0],
+        status: "unlocked",
+        priority: "PRIORITY_ACTIVE",
+        unlocked: true,
+        phone_masked: candidate.phone_unlocked,
+        phone_unlocked: candidate.phone_unlocked,
+        address_masked: candidate.address_unlocked,
+        address_unlocked: candidate.address_unlocked,
+        experience_notes: candidate.bio
+      };
+      apps.unshift(existingApp);
+    } else {
+      existingApp.unlocked = true;
+      existingApp.status = "unlocked";
+      existingApp.phone_masked = candidate.phone_unlocked;
+      existingApp.phone_unlocked = candidate.phone_unlocked;
+      existingApp.address_masked = candidate.address_unlocked;
+      existingApp.address_unlocked = candidate.address_unlocked;
+    }
+    localStorage.setItem('jc_apps', JSON.stringify(apps));
+
+    return { success: true, candidate, remainingCredits: credits, appId: existingApp.id };
   }
 
   getUnlockCredits() {
