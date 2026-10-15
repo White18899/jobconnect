@@ -644,6 +644,76 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ==========================================================================
+       Floating Candidate Selection Cart Bar & Toggle States
+       ========================================================================== */
+    .cart-bottom-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      width: min(880px, 92vw);
+      background: #ffffff;
+      border: 1.5px solid #000000;
+      border-radius: var(--radius-s);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+      padding: 12px 20px;
+      z-index: 999;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cart-bottom-bar.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cart-bottom-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cart-badge-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #000000;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: var(--radius-xs);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .btn-unlock-contact.selected-cart {
+      background: #ffffff;
+      color: #000000;
+      border: 1.5px solid #000000;
+    }
+
+    .btn-unlock-contact.selected-cart:hover {
+      background: #f4f4f5;
+    }
+
+    .btn-unlock-contact.selected-cart .remove-cross {
+      font-size: 10px;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 2px;
+      padding: 1px 4px;
+      margin-left: 2px;
+    }
+
+    .btn-unlock-contact.selected-cart:hover .remove-cross {
+      background: #000000;
+      color: #ffffff;
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -704,12 +774,13 @@
         <h1 class="directory-title-main">Verified Candidate Passes</h1>
       </div>
       <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-        <a href="/employer.html#credits-section" class="nav-btn-solid" style="padding: 8px 16px; font-size: 12.5px;">
+        <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 8px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Selected in Applications (<span id="banner-cart-count">0</span>) →</span>
+        </a>
+        <a href="/employer.html#credits-section" class="nav-btn-link link-line" style="font-size: 12px;">
           <span>Recharge Unlock Credits +</span>
         </a>
-        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary);">
-          UIDAI Aadhaar Authenticated • Direct Hiring
-        </div>
       </div>
     </div>
   </section>
@@ -844,6 +915,26 @@
         <!-- Injected via JavaScript -->
       </div>
 
+  <!-- Floating Candidate Selection Cart Bar -->
+  <div class="cart-bottom-bar" id="cart-bottom-bar">
+    <div class="cart-bottom-inner">
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="cart-badge-counter">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span id="cart-items-count">0</span> Candidates Selected
+        </div>
+        <div style="font-size: 13px; color: var(--color-text-secondary);">
+          Added directly to your Employer Applications Roster
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-clear-cart" id="btn-clear-cart" style="background: none; border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 8px 14px; font-size: 12px; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s ease;">
+          Clear Selection
+        </button>
+        <a href="/employer.html#applicants-section" class="nav-btn-solid" style="padding: 8px 18px; font-size: 12.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <span>Open Applications Workspace (<span id="cart-btn-count">0</span>) →</span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -971,6 +1062,27 @@
         return filtered;
       }
 
+      // Cart Bar Helper
+      function updateCartBar() {
+        const apps = window.jobApi.getApplications();
+        const selectedApps = apps.filter(a => a.source === 'candidate_directory' || a.status === 'selected');
+        const count = selectedApps.length;
+        const cartBar = document.getElementById('cart-bottom-bar');
+        const cartItemsCount = document.getElementById('cart-items-count');
+        const cartBtnCount = document.getElementById('cart-btn-count');
+        const bannerCartCount = document.getElementById('banner-cart-count');
+
+        if (cartItemsCount) cartItemsCount.textContent = count;
+        if (cartBtnCount) cartBtnCount.textContent = count;
+        if (bannerCartCount) bannerCartCount.textContent = count;
+
+        if (count > 0) {
+          cartBar?.classList.add('visible');
+        } else {
+          cartBar?.classList.remove('visible');
+        }
+      }
+
       function renderCandidatesGrid() {
         allCandidates = window.jobApi.getCandidates();
         const filtered = getFilteredCandidates();
@@ -992,7 +1104,9 @@
         gridContainer.innerHTML = filtered.map((c, idx) => {
           const serial = String(idx + 1).padStart(2, '0');
           const isUnlocked = c.unlocked === true;
+          const isSelected = c.selected === true;
           const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+          const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
           return `
             <article class="candidate-card" data-cand-id="${c.id}">
@@ -1000,8 +1114,7 @@
                 <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
                   <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                  <span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked</span>' : ''}
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Contact Unlocked</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 In Applications</span>' : '<span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>')}
                 </div>
 
                 <div class="cand-avatar-pill">
@@ -1030,20 +1143,23 @@
                 </div>
 
                 <div class="cand-footer-actions">
-                  ${(() => {
-                    const apps = window.jobApi?.getApplications() || [];
-                    const matchingApp = apps.find(a => a.worker_id === c.id || a.worker_name === c.name);
-                    const workspaceHref = matchingApp ? `/employer.html?highlight=${matchingApp.id}#applicants-section` : `/employer.html#applicants-section`;
-                    return isUnlocked ? `
-                      <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
-                        ✓ Open in Workspace →
-                      </a>
-                    ` : `
-                      <button type="button" class="btn-unlock-contact" data-action="unlock" data-cand-id="${c.id}">
-                        Unlock Contact (1 Credit)
-                      </button>
-                    `;
-                  })()}
+                  ${isUnlocked ? `
+                    <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
+                      <span>✓ In Workspace</span>
+                      <span>→</span>
+                    </a>
+                  ` : (isSelected ? `
+                    <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from Applications Cart">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>In Applications</span>
+                      <span class="remove-cross" title="Remove">✕</span>
+                    </button>
+                  ` : `
+                    <button type="button" class="btn-unlock-contact" data-action="toggle-cart" data-cand-id="${c.id}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                      <span>+ Select Candidate</span>
+                    </button>
+                  `)}
 
                   <a class="btn-view-pass" data-action="view" data-cand-id="${c.id}">
                     <span>Pass</span>
@@ -1058,28 +1174,51 @@
         // Attach listeners
         gridContainer.querySelectorAll('.candidate-card').forEach(card => {
           card.addEventListener('click', (e) => {
-            const unlockBtn = e.target.closest('[data-action="unlock"]');
+            const toggleCartBtn = e.target.closest('[data-action="toggle-cart"]');
             const workspaceBtn = e.target.closest('[data-action="workspace"]');
             const candId = card.dataset.candId;
 
-            if (unlockBtn) {
+            if (toggleCartBtn) {
               e.stopPropagation();
-              handleUnlockCandidate(candId);
+              handleToggleCartCandidate(candId);
               return;
             }
 
             if (workspaceBtn) {
               e.stopPropagation();
-              window.location.href = `/employer.html#applicants-section`;
+              const cand = allCandidates.find(c => c.id === candId);
+              const href = cand?.appId ? `/employer.html?highlight=${cand.appId}#applicants-section` : `/employer.html#applicants-section`;
+              window.location.href = href;
               return;
             }
 
             openCandidateDrawer(candId);
           });
         });
+
+        updateCartBar();
       }
 
-      // Unlock Candidate Flow
+      // Toggle candidate selection into Applications (Cart option)
+      function handleToggleCartCandidate(candId) {
+        const cand = allCandidates.find(item => item.id === candId);
+        if (!cand) return;
+
+        if (cand.selected) {
+          window.jobApi.removeCandidateFromApplications(candId);
+          showToast(`Removed ${cand.name} from Applications.`, 'info');
+        } else {
+          window.jobApi.selectCandidate(candId);
+          showToast(`✓ Added ${cand.name} to Applications! Review or unlock in Workspace.`, 'success');
+        }
+
+        renderCandidatesGrid();
+        if (drawerOverlay.classList.contains('active')) {
+          openCandidateDrawer(candId);
+        }
+      }
+
+      // Unlock Candidate Directly Flow
       function handleUnlockCandidate(candId) {
         if (!user || user.role !== 'employer') {
           showToast("Please log in as an employer to unlock candidate contact passes.", "info");
@@ -1092,7 +1231,7 @@
         const res = window.jobApi.unlockCandidate(candId);
         if (res.success) {
           updateCreditDisplay();
-          showToast(`Unlocked ${res.candidate.name}'s contact pass! Saved directly to your Workspace.`, 'success');
+          showToast(`Unlocked ${res.candidate.name}'s contact pass! Synced directly to your Workspace.`, 'success');
           renderCandidatesGrid();
           if (drawerOverlay.classList.contains('active')) {
             openCandidateDrawer(candId);
@@ -1109,13 +1248,16 @@
 
       // Open Candidate Detail Drawer
       function openCandidateDrawer(candId) {
+        allCandidates = window.jobApi.getCandidates();
         const c = allCandidates.find(item => item.id === candId);
         if (!c) return;
 
         const isUnlocked = c.unlocked === true;
+        const isSelected = c.selected === true;
         const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
         const waText = encodeURIComponent(`Hello ${c.name}, I reviewed your verified tradesman pass on JobWay and would like to speak regarding an opening at our workshop.`);
         const waLink = `https://wa.me/${c.phone_unlocked.replace(/\D/g, '')}?text=${waText}`;
+        const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
         drawerBody.innerHTML = `
           <!-- Header Profile Row -->
@@ -1128,7 +1270,7 @@
               <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
                 <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : ''}
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff;">🛒 In Applications</span>' : '')}
               </div>
               <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${c.name}</h2>
               <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 2px;">
@@ -1137,25 +1279,28 @@
             </div>
           </div>
 
-          <!-- Contact Unlock Banner -->
+          <!-- Contact Unlock & Cart Action Banner -->
           <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--color-border)'}; border-radius: var(--radius-s); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
             <div>
               <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">
-                ${isUnlocked ? 'Direct Phone & WhatsApp' : 'Direct Contact (Protected)'}
+                ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected in Applications (Shielded)' : 'Direct Contact (Protected)')}
               </div>
               <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
                 ${isUnlocked ? c.phone_unlocked : c.phone_masked}
               </div>
             </div>
 
-            <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
               ${isUnlocked ? `
                 <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-unlock-contact unlocked" style="padding: 9px 16px;">
                   <span>Direct WhatsApp ↗</span>
                 </a>
               ` : `
-                <button type="button" class="btn-unlock-contact" id="drawer-btn-unlock" style="padding: 9px 16px;">
-                  Unlock for 1 Credit
+                <button type="button" class="btn-unlock-contact ${isSelected ? 'selected-cart' : ''}" id="drawer-btn-cart-toggle" style="padding: 9px 14px;">
+                  ${isSelected ? '✓ In Applications (Remove ✕)' : '+ Select to Applications'}
+                </button>
+                <button type="button" class="nav-btn-solid" id="drawer-btn-unlock" style="padding: 9px 14px; font-size: 12px; cursor: pointer;">
+                  Unlock (1 Credit)
                 </button>
               `}
             </div>
@@ -1194,19 +1339,18 @@
             </div>
           </div>
 
-          ${(() => {
-            const apps = window.jobApi?.getApplications() || [];
-            const matchingApp = apps.find(a => a.worker_id === c.id || a.worker_name === c.name);
-            const workspaceHref = matchingApp ? `/employer.html?highlight=${matchingApp.id}#applicants-section` : `/employer.html#applicants-section`;
-            return isUnlocked ? `
-              <div style="margin-top: 8px;">
-                <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center;">
-                  Open Full Candidate Pass in Workspace →
-                </a>
-              </div>
-            ` : '';
-          })()}
+          ${(isUnlocked || isSelected) ? `
+            <div style="margin-top: 8px;">
+              <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center; text-decoration: none;">
+                ${isUnlocked ? 'Open Full Candidate Pass in Workspace →' : 'Review & Unlock in Applications Workspace →'}
+              </a>
+            </div>
+          ` : ''}
         `;
+
+        document.getElementById('drawer-btn-cart-toggle')?.addEventListener('click', () => {
+          handleToggleCartCandidate(c.id);
+        });
 
         document.getElementById('drawer-btn-unlock')?.addEventListener('click', () => {
           handleUnlockCandidate(c.id);
@@ -1231,6 +1375,13 @@
         if (e.key === 'Escape' && drawerOverlay.classList.contains('active')) {
           closeDrawer();
         }
+      });
+
+      // Cart Bar Clear Button
+      document.getElementById('btn-clear-cart')?.addEventListener('click', () => {
+        window.jobApi.clearSelectedCandidates();
+        showToast('Applications selection cart cleared.', 'info');
+        renderCandidatesGrid();
       });
 
       // Filter Handlers
@@ -1259,7 +1410,7 @@
       }
       if (btnReset) btnReset.addEventListener('click', resetFilters);
 
-      // Initial Render
+      // Initial Render & Cart Count Check
       renderCandidatesGrid();
     });
   </script>

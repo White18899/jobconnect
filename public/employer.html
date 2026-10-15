@@ -152,6 +152,28 @@
         </div>
       </div>
 
+      <!-- Candidate Selection Cart Banner (Batch Unlock / Clear) -->
+      <div id="applicants-cart-banner" style="display: none; background: #fafafa; border: 1.5px solid #000000; border-radius: var(--radius-s); padding: 14px 20px; margin-bottom: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span class="bracket-tag">[ Candidate Selection Cart ]</span>
+          <span style="font-size: 13.5px; font-weight: 700; color: #000000;">
+            <span id="cart-selected-count">0</span> Candidates in Selection Cart
+          </span>
+          <span style="font-size: 12px; color: var(--text-muted);">
+            (Review details or unlock in 1 click)
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button type="button" id="btn-batch-clear-cart" class="btn-signin-header" style="font-size: 12px; cursor: pointer; padding: 6px 12px;">
+            Clear Cart
+          </button>
+          <button type="button" id="btn-batch-unlock-cart" class="search-btn" style="padding: 7px 16px; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span>Unlock All Selected (<span id="cart-credits-needed">0</span> Credits) →</span>
+          </button>
+        </div>
+      </div>
+
       <div id="employer-applicants-list" class="divided-list">
         <!-- Rendered by JavaScript -->
       </div>
@@ -439,16 +461,34 @@
           return;
         }
 
+        // Update Cart Banner in Applications Section
+        const directoryCartApps = apps.filter(a => a.source === 'candidate_directory' && !a.unlocked);
+        const cartBanner = document.getElementById('applicants-cart-banner');
+        const cartSelectedCount = document.getElementById('cart-selected-count');
+        const cartCreditsNeeded = document.getElementById('cart-credits-needed');
+
+        if (cartBanner) {
+          if (directoryCartApps.length > 0) {
+            cartBanner.style.display = 'flex';
+            if (cartSelectedCount) cartSelectedCount.textContent = directoryCartApps.length;
+            if (cartCreditsNeeded) cartCreditsNeeded.textContent = directoryCartApps.length;
+          } else {
+            cartBanner.style.display = 'none';
+          }
+        }
+
         const highlightId = new URLSearchParams(window.location.search).get('highlight');
 
         container.innerHTML = apps.map(app => {
           const isHighlighted = highlightId && app.id === highlightId;
+          const isDirCandidate = app.source === 'candidate_directory' || app.job_id === 'dir_selected';
           return `
           <div class="divided-row ${isHighlighted ? 'highlighted-applicant' : ''}" data-id="${app.id}">
             <div style="flex: 1.5; min-width: 250px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">
                 <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin: 0;">${app.worker_name}</h4>
                 <span class="category-tag">${app.worker_category}</span>
+                ${isDirCandidate ? '<span class="category-tag" style="background: rgba(0,0,0,0.06); color: #000; font-weight: 600;">[ DIRECTORY CANDIDATE ]</span>' : ''}
                 ${isHighlighted ? '<span class="status-badge verified" style="font-size: 10px; font-weight: 700;">[ Direct Candidate Pass ]</span>' : ''}
                 ${app.priority === 'PRIORITY_ACTIVE' && !isHighlighted ? '<span class="status-badge priority">Priority Candidate</span>' : ''}
               </div>
@@ -480,8 +520,8 @@
 
             <div class="action-rail">
               <div class="action-rail-meta">
-                <span class="status-badge ${app.status === 'shortlisted' ? 'verified' : 'pending'}">${app.status.toUpperCase()}</span>
-                <div class="action-meta-sub">Applied: <span class="mono-tag" style="font-size: 10.5px; padding: 1px 5px;">${app.applied_date}</span></div>
+                <span class="status-badge ${app.unlocked ? 'verified' : (isDirCandidate ? 'pending' : 'pending')}">${app.unlocked ? 'UNLOCKED' : (isDirCandidate ? 'SELECTED IN CART' : app.status.toUpperCase())}</span>
+                <div class="action-meta-sub">Added: <span class="mono-tag" style="font-size: 10.5px; padding: 1px 5px;">${app.applied_date}</span></div>
               </div>
 
               ${app.unlocked ? `
@@ -490,10 +530,17 @@
                   <span>Call Direct</span>
                 </a>
               ` : `
-                <button class="btn-unlock trigger-unlock-btn" data-id="${app.id}">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-                  <span>Unlock (1 Credit)</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button class="btn-unlock trigger-unlock-btn" data-id="${app.id}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                    <span>Unlock (1 Credit)</span>
+                  </button>
+                  ${isDirCandidate ? `
+                    <button type="button" class="btn-table-action danger trigger-remove-cart" data-id="${app.id}" title="Remove Candidate from Applications Cart" style="padding: 6px 10px; font-size: 11px; cursor: pointer;">
+                      ✕ Remove
+                    </button>
+                  ` : ''}
+                </div>
               `}
             </div>
           </div>
@@ -517,6 +564,15 @@
           });
         });
 
+        document.querySelectorAll('.trigger-remove-cart').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            window.jobApi.removeCandidateFromApplications(id);
+            showToast('Candidate removed from Applications roster.');
+            renderApplicants();
+          });
+        });
+
         if (highlightId) {
           setTimeout(() => {
             const targetEl = document.querySelector(`[data-id="${highlightId}"]`);
@@ -526,6 +582,30 @@
           }, 200);
         }
       }
+
+      // Wire Batch Actions for Cart Banner
+      document.getElementById('btn-batch-unlock-cart')?.addEventListener('click', () => {
+        const res = window.jobApi.unlockSelectedBatch();
+        if (res.success) {
+          showToast(`Successfully unlocked direct contact details for ${res.count} candidates!`, 'success');
+          updateCredits();
+          renderApplicants();
+        } else if (res.needCredits) {
+          showToast(res.message, 'error');
+          openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+        } else {
+          showToast(res.message, 'info');
+        }
+      });
+
+      document.getElementById('btn-batch-clear-cart')?.addEventListener('click', () => {
+        if (confirm('Clear all locked directory candidates from your selection cart?')) {
+          window.jobApi.clearSelectedCandidates();
+          showToast('Selection cart cleared.', 'info');
+          renderApplicants();
+        }
+      });
+
       renderApplicants();
 
       // Post New Job Form

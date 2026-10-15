@@ -514,13 +514,40 @@ class JobConnectApi {
     credits -= 1;
     localStorage.setItem('jc_credits', String(credits));
     app.unlocked = true;
+    app.status = "unlocked";
     localStorage.setItem('jc_apps', JSON.stringify(apps));
+
+    // Also sync candidate in jc_candidates if this was from directory
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    const cand = candidates.find(c => c.id === app.worker_id || c.name === app.worker_name);
+    if (cand) {
+      cand.unlocked = true;
+      cand.selected = true;
+      localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+    }
 
     return { success: true, app, remainingCredits: credits };
   }
 
   getCandidates(filters = {}) {
     let list = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const appMap = new Map();
+    apps.forEach(a => {
+      if (a.worker_id) appMap.set(a.worker_id, a);
+      if (a.worker_name) appMap.set(a.worker_name, a);
+    });
+
+    list = list.map(c => {
+      const match = appMap.get(c.id) || appMap.get(c.name);
+      return {
+        ...c,
+        selected: !!match,
+        unlocked: c.unlocked || (match ? match.unlocked : false),
+        appId: match ? match.id : null
+      };
+    });
+
     if (filters.category && filters.category !== 'all') {
       const cat = filters.category.toLowerCase();
       list = list.filter(c => (c.category || '').toLowerCase().includes(cat) || (c.trade_title || '').toLowerCase().includes(cat));
@@ -536,6 +563,79 @@ class JobConnectApi {
       list = list.filter(c => `${c.name} ${c.trade_title} ${(c.skills || []).join(' ')} ${c.city} ${c.education} ${c.bio}`.toLowerCase().includes(q));
     }
     return list;
+  }
+
+  selectCandidate(candidateId) {
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    const candidate = candidates.find(c => c.id === candidateId);
+    if (!candidate) return { success: false, message: "Candidate not found" };
+
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    let existingApp = apps.find(a => a.worker_id === candidate.id || a.worker_name === candidate.name);
+
+    if (!existingApp) {
+      existingApp = {
+        id: `app_${Date.now().toString().slice(-6)}`,
+        job_id: "dir_selected",
+        job_title: candidate.trade_title,
+        employer_name: "Selected from Directory",
+        worker_id: candidate.id,
+        worker_name: candidate.name,
+        worker_category: candidate.category,
+        worker_experience: candidate.experience,
+        worker_city: candidate.city,
+        applied_date: new Date().toISOString().split('T')[0],
+        status: candidate.unlocked ? "unlocked" : "selected",
+        priority: "PRIORITY_ACTIVE",
+        unlocked: candidate.unlocked || false,
+        phone_masked: candidate.phone_masked,
+        phone_unlocked: candidate.phone_unlocked,
+        address_masked: candidate.address_masked,
+        address_unlocked: candidate.address_unlocked,
+        experience_notes: candidate.bio,
+        source: "candidate_directory"
+      };
+      apps.unshift(existingApp);
+      localStorage.setItem('jc_apps', JSON.stringify(apps));
+    }
+
+    candidate.selected = true;
+    localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+
+    return { success: true, app: existingApp, candidate };
+  }
+
+  removeCandidateFromApplications(candidateIdOrAppId) {
+    let apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const targetApp = apps.find(a => a.id === candidateIdOrAppId || a.worker_id === candidateIdOrAppId);
+    const workerId = targetApp ? targetApp.worker_id : candidateIdOrAppId;
+    const workerName = targetApp ? targetApp.worker_name : "";
+
+    apps = apps.filter(a => a.id !== candidateIdOrAppId && a.worker_id !== candidateIdOrAppId);
+    localStorage.setItem('jc_apps', JSON.stringify(apps));
+
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    const cand = candidates.find(c => c.id === workerId || c.name === workerName);
+    if (cand) {
+      cand.selected = false;
+      localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+    }
+
+    return { success: true };
+  }
+
+  clearSelectedCandidates() {
+    let apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    apps = apps.filter(a => a.source !== "candidate_directory" || a.unlocked === true);
+    localStorage.setItem('jc_apps', JSON.stringify(apps));
+
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+    candidates.forEach(c => {
+      if (!c.unlocked) c.selected = false;
+    });
+    localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+
+    return { success: true };
   }
 
   unlockCandidate(candidateId) {
@@ -556,6 +656,7 @@ class JobConnectApi {
     credits -= 1;
     localStorage.setItem('jc_credits', String(credits));
     candidate.unlocked = true;
+    candidate.selected = true;
     localStorage.setItem('jc_candidates', JSON.stringify(candidates));
 
     // Also sync into jc_apps for Employer Workspace
@@ -564,9 +665,9 @@ class JobConnectApi {
     if (!existingApp) {
       existingApp = {
         id: `app_${Date.now().toString().slice(-6)}`,
-        job_id: "job_01",
+        job_id: "dir_selected",
         job_title: candidate.trade_title,
-        employer_name: "Direct Workspace Candidate",
+        employer_name: "Selected from Directory",
         worker_id: candidate.id,
         worker_name: candidate.name,
         worker_category: candidate.category,
@@ -580,7 +681,8 @@ class JobConnectApi {
         phone_unlocked: candidate.phone_unlocked,
         address_masked: candidate.address_unlocked,
         address_unlocked: candidate.address_unlocked,
-        experience_notes: candidate.bio
+        experience_notes: candidate.bio,
+        source: "candidate_directory"
       };
       apps.unshift(existingApp);
     } else {
@@ -594,6 +696,46 @@ class JobConnectApi {
     localStorage.setItem('jc_apps', JSON.stringify(apps));
 
     return { success: true, candidate, remainingCredits: credits, appId: existingApp.id };
+  }
+
+  unlockSelectedBatch() {
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const shielded = apps.filter(a => a.source === "candidate_directory" && !a.unlocked);
+    let credits = Number(localStorage.getItem('jc_credits') || '0');
+
+    if (shielded.length === 0) {
+      return { success: false, message: "No locked candidates in selection cart." };
+    }
+
+    if (credits < shielded.length) {
+      return { 
+        success: false, 
+        needCredits: true, 
+        required: shielded.length, 
+        available: credits,
+        message: `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
+      };
+    }
+
+    credits -= shielded.length;
+    localStorage.setItem('jc_credits', String(credits));
+
+    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+
+    shielded.forEach(app => {
+      app.unlocked = true;
+      app.status = "unlocked";
+      const c = candidates.find(cand => cand.id === app.worker_id || cand.name === app.worker_name);
+      if (c) {
+        c.unlocked = true;
+        c.selected = true;
+      }
+    });
+
+    localStorage.setItem('jc_apps', JSON.stringify(apps));
+    localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+
+    return { success: true, count: shielded.length, remainingCredits: credits };
   }
 
   getUnlockCredits() {
