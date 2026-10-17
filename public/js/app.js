@@ -9,25 +9,80 @@ document.addEventListener('DOMContentLoaded', async () => {
   // =========================================================================
   const authLoggedOut = document.getElementById('auth-logged-out');
   const authLoggedIn = document.getElementById('auth-logged-in');
-  const homeDashboardLink = document.getElementById('home-dashboard-link');
-  const homeUserName = document.getElementById('home-user-name');
+  const navProfileLink = document.getElementById('nav-profile-link');
+  const navUserDisplayName = document.getElementById('nav-user-display-name');
+  const navAvatarInitials = document.getElementById('nav-user-avatar-initials');
+  const navAvatarImg = document.getElementById('nav-user-avatar-img');
   const homeLogoutBtn = document.getElementById('home-logout-btn');
+  const btnHeaderPostVacancyUser = document.getElementById('btn-header-post-vacancy-user');
+
+  function sanitizeName(str) {
+    return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim();
+  }
+
+  function getInitials(name) {
+    const clean = sanitizeName(name);
+    if (!clean) return 'RK';
+    const parts = clean.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return clean.slice(0, 2).toUpperCase() || 'RK';
+  }
 
   function checkSession() {
     const user = window.jobApi?.getCurrentUser();
+    const doc = document.documentElement;
+
     if (user) {
+      doc.classList.remove('is-logged-out', 'role-guest', 'role-worker', 'role-employer', 'role-admin');
+      doc.classList.add('is-logged-in', 'role-' + user.role);
+
       if (authLoggedOut) authLoggedOut.style.display = 'none';
       if (authLoggedIn) authLoggedIn.style.display = 'flex';
-      if (homeUserName) homeUserName.textContent = `${user.name} (${user.role.toUpperCase()})`;
 
-      if (user.role === 'employer') {
-        if (homeDashboardLink) homeDashboardLink.href = '/employer.html';
-      } else if (user.role === 'admin') {
-        if (homeDashboardLink) homeDashboardLink.href = '/admin.html';
-      } else {
-        if (homeDashboardLink) homeDashboardLink.href = '/worker.html';
+      const cleanName = sanitizeName(user.name) || (user.role === 'employer' ? 'Employer' : 'Worker');
+      const initials = getInitials(cleanName);
+
+      if (navUserDisplayName) navUserDisplayName.textContent = cleanName;
+      if (navAvatarInitials) navAvatarInitials.textContent = initials;
+
+      const photo = user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
+      if (navAvatarImg) {
+        if (photo) {
+          navAvatarImg.src = photo;
+          navAvatarImg.onload = () => {
+            navAvatarImg.style.display = 'block';
+            if (navAvatarInitials) navAvatarInitials.style.display = 'none';
+          };
+          navAvatarImg.onerror = () => {
+            navAvatarImg.style.display = 'none';
+            if (navAvatarInitials) navAvatarInitials.style.display = 'block';
+          };
+        } else {
+          navAvatarImg.style.display = 'none';
+          if (navAvatarInitials) navAvatarInitials.style.display = 'block';
+        }
+      }
+
+      const targetUrl = user.role === 'employer' ? '/employer.html' : (user.role === 'admin' ? '/admin.html' : '/worker.html');
+      if (navProfileLink) {
+        navProfileLink.href = targetUrl;
+        navProfileLink.title = user.role === 'employer' ? 'Employer Workspace' : (user.role === 'admin' ? 'Admin Ledger' : 'Worker Desk');
+      }
+
+      if (btnHeaderPostVacancyUser) {
+        if (user.role === 'employer') {
+          btnHeaderPostVacancyUser.style.display = 'inline-flex';
+          btnHeaderPostVacancyUser.onclick = () => { window.location.href = '/employer.html#applicants-section'; };
+        } else {
+          btnHeaderPostVacancyUser.style.display = 'none';
+        }
       }
     } else {
+      doc.classList.remove('is-logged-in', 'role-worker', 'role-employer', 'role-admin');
+      doc.classList.add('is-logged-out', 'role-guest');
+
       if (authLoggedOut) authLoggedOut.style.display = 'flex';
       if (authLoggedIn) authLoggedIn.style.display = 'none';
     }

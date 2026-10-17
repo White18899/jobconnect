@@ -40,6 +40,20 @@
     html.is-logged-in #auth-logged-in { display: flex !important; }
     html.is-logged-out #auth-logged-out { display: flex !important; }
     html.is-logged-out #auth-logged-in { display: none !important; }
+
+    /* Role-based navigation on home page */
+    html.role-worker .nav-link-guest { display: none !important; }
+    html.role-worker .nav-link-employer { display: none !important; }
+    html.role-worker .nav-link-worker { display: inline-flex !important; }
+
+    html.role-employer .nav-link-guest { display: none !important; }
+    html.role-employer .nav-link-worker { display: none !important; }
+    html.role-employer .nav-link-employer { display: inline-flex !important; }
+    html.role-employer #btn-header-post-vacancy-user { display: inline-flex !important; }
+
+    html.role-guest .nav-link-worker { display: none !important; }
+    html.role-guest .nav-link-employer { display: none !important; }
+    html.role-guest .nav-link-guest { display: inline-flex !important; }
   </style>
 </head>
 <body class="editorial-page">
@@ -53,20 +67,41 @@
 
       <!-- Desktop Center Editorial Links -->
       <div class="nav-links-wrapper">
-        <a class="nav-link" href="#vacancies">
+        <!-- Guest Links -->
+        <a class="nav-link nav-link-guest" href="/jobs.html">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a class="nav-link nav-link-guest" href="#vacancies">
           <span class="link-line">Vacancies</span>
           <span class="nav-link-count" id="header-vacancies-count">(06)</span>
         </a>
-        <a class="nav-link" href="#approach">
+        <a class="nav-link nav-link-guest" href="#approach">
           <span class="link-line">Approach</span>
         </a>
-        <a class="nav-link" href="#credentials">
-          <span class="link-line">Skill Pass</span>
-          <span class="nav-link-count">(KYC)</span>
+        <a class="nav-link nav-link-guest" href="#credentials">
+          <span class="link-line">Skill Pass (KYC)</span>
         </a>
-        <a class="nav-link" href="/worker.html">
-          <span class="link-line">Network</span>
-          <span class="nav-link-count">(5 Hubs)</span>
+
+        <!-- Worker Logged In Links -->
+        <a class="nav-link nav-link-worker" href="/jobs.html" style="display: none;">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a class="nav-link nav-link-worker" href="/worker.html" style="display: none;">
+          <span class="link-line">Worker Desk</span>
+        </a>
+        <a class="nav-link nav-link-worker" href="/profile-edit.html" style="display: none;">
+          <span class="link-line">Trade Pass (KYC)</span>
+        </a>
+
+        <!-- Employer Logged In Links -->
+        <a class="nav-link nav-link-employer" href="/jobs.html" style="display: none;">
+          <span class="link-line">Find Jobs</span>
+        </a>
+        <a class="nav-link nav-link-employer" href="/candidates.html" style="display: none;">
+          <span class="link-line">Candidates</span>
+        </a>
+        <a class="nav-link nav-link-employer" href="/employer.html" style="display: none;">
+          <span class="link-line">Employer Workspace</span>
         </a>
       </div>
 
@@ -82,12 +117,18 @@
           </a>
         </div>
 
+        <!-- Logged In State (Unified Profile Chip) -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
-          <a href="#" id="home-dashboard-link" class="nav-btn-solid">
-            <span id="home-user-name">Dashboard</span> →
+          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer; display: none;">+ Post Job</button>
+          <a href="/worker.html" class="nav-profile-chip" id="nav-profile-link" title="My Workspace">
+            <div class="nav-profile-avatar">
+              <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
+              <span id="nav-user-avatar-initials">RK</span>
+            </div>
+            <span class="nav-profile-name" id="nav-user-display-name">Ramesh Kumar</span>
           </a>
-          <button class="nav-btn-link" id="home-logout-btn" title="Sign Out">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <button type="button" class="nav-btn-link" id="home-logout-btn" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span>Sign Out</span>
           </button>
         </div>
