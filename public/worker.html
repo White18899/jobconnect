@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Portal • JobWay (job-way.in)</title>
+  <title>Worker Desk • JobWay (job-way.in)</title>
   <meta name="description" content="Worker Dashboard: Track job applications, view trade profile, and activate priority placement.">
   <link rel="canonical" href="https://job-way.in/worker.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,13 +40,11 @@
         <a href="/jobs.html" class="nav-link">
           <span class="link-line">Find Jobs</span>
         </a>
-        <a href="#applications-section" class="nav-link">
-          <span class="link-line">My Applications</span>
-          <span class="nav-link-count">(Active)</span>
+        <a href="/worker.html" class="nav-link active" style="font-weight: 600; color: #000000;">
+          <span class="link-line">Worker Desk</span>
         </a>
-        <a href="#profile-section" class="nav-link">
-          <span class="link-line">Trade Pass</span>
-          <span class="nav-link-count">(KYC)</span>
+        <a href="/profile-edit.html" class="nav-link">
+          <span class="link-line">Trade Pass (KYC)</span>
         </a>
       </div>
 
@@ -95,7 +93,7 @@
             </a>
           </div>
           <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
-            Worker Portal: Ramesh Kumar
+            Worker Desk: Ramesh Kumar
           </h1>
           <p style="color: #52525b; font-size: 14px; max-width: 580px; line-height: 1.5; margin: 0;">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
@@ -371,7 +369,7 @@
       // Populate basic user info
       const initialCleanName = sanitizeName(user.name) || 'Ramesh Kumar';
       const welcomeHeading = document.getElementById('welcome-worker-heading');
-      if (welcomeHeading) welcomeHeading.textContent = `Worker Portal: ${initialCleanName}`;
+      if (welcomeHeading) welcomeHeading.textContent = `Worker Desk: ${initialCleanName}`;
       const profileNameEl = document.getElementById('profile-name');
       if (profileNameEl) profileNameEl.textContent = initialCleanName;
       const workerDisplayName = document.getElementById('worker-display-name');
@@ -442,8 +440,8 @@
         const cleanName = sanitizeName(profile.full_name || user.name) || 'Ramesh Kumar';
         const tradeTitle = profile.trade_title || user.trade_title || user.category || '';
 
-        if (welcomeHeading && welcomeHeading.textContent !== `Worker Portal: ${cleanName}`) {
-          welcomeHeading.textContent = `Worker Portal: ${cleanName}`;
+        if (welcomeHeading && welcomeHeading.textContent !== `Worker Desk: ${cleanName}`) {
+          welcomeHeading.textContent = `Worker Desk: ${cleanName}`;
         }
         renderAvatar(profile.photo_key, cleanName);
         if (profileNameEl) profileNameEl.textContent = cleanName;
