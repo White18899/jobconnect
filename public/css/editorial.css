@@ -5,11 +5,17 @@
    ========================================================================== */
 
 :root {
-  --color-background: #ffffff;
-  --color-text: #000000;
-  --color-text-secondary: #52525b;
-  --color-border: rgba(0, 0, 0, 0.1);
-  --color-border-strong: rgba(0, 0, 0, 0.24);
+  --color-background: #E8E9DF;
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #F3F4ED;
+  --color-surface-tertiary: #DFE1D5;
+  --color-text: #2E3D28;
+  --color-text-secondary: #586851;
+  --color-text-muted: #75856E;
+  --color-border: rgba(46, 61, 40, 0.12);
+  --color-border-strong: rgba(46, 61, 40, 0.28);
+  --color-accent-sage: #A9B887;
+  --color-accent-gold: #D4A346;
 
   --font-primary: 'Geist', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -215,10 +221,10 @@ body.editorial-page a {
   width: 100%;
   z-index: 1000;
   padding: 1.4vw 2.5vw;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(232, 233, 223, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(46, 61, 40, 0.12);
 }
 
 .editorial-navbar {
@@ -432,13 +438,13 @@ button.nav-btn-link:hover,
 }
 
 .nav-btn-solid {
-  background: #000000;
-  color: #ffffff !important;
+  background: #2E3D28;
+  color: #E8E9DF !important;
   padding: 6px 14px;
   border-radius: var(--radius-xs);
   font-size: 12px;
   font-weight: 600;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -447,7 +453,8 @@ button.nav-btn-link:hover,
 }
 
 .nav-btn-solid:hover {
-  opacity: 0.85;
+  background: #3C4E34;
+  color: #FFFFFF !important;
   transform: translateY(-1px);
 }
 
@@ -481,23 +488,24 @@ button.nav-btn-link:hover,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 12px;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 4px 14px;
+  background: rgba(169, 184, 135, 0.25);
+  border: 1px solid rgba(46, 61, 40, 0.14);
   border-radius: 9999px;
   font-size: var(--font-size-xxs);
   font-family: var(--font-mono);
-  color: var(--color-text-secondary);
+  color: #2E3D28;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .beacon-pulse {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  background: #2E3D28;
+  box-shadow: 0 0 0 2px rgba(169, 184, 135, 0.6);
 }
 
 .home-title-wrapper {
@@ -535,7 +543,7 @@ button.nav-btn-link:hover,
 .home-title-letter {
   height: 11vw;
   width: auto;
-  color: #000000;
+  color: var(--color-text);
 }
 
 .home-title-image-box {
@@ -548,8 +556,8 @@ button.nav-btn-link:hover,
   opacity: 0;
   transform-style: preserve-3d;
   transform-origin: center;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-  background: #000000;
+  box-shadow: 0 16px 40px rgba(46, 61, 40, 0.22), inset 0 0 0 1px rgba(169, 184, 135, 0.25);
+  background: #2E3D28;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1693,7 +1701,113 @@ tr:hover {
 .modal-content,
 .modal-card {
   background: #ffffff !important;
-  color: #09090b !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12) !important;
+  color: #2E3D28 !important;
+  border: 1px solid rgba(46, 61, 40, 0.12) !important;
+  box-shadow: 0 20px 48px rgba(46, 61, 40, 0.14) !important;
+}
+
+/* ==========================================================================
+   Atelier Engineering Theme Styles (Linen #E8E9DF, Sage #A9B887, Forest #2E3D28)
+   ========================================================================== */
+.card,
+.job-card,
+.candidate-card,
+.auth-card,
+.editorial-card,
+.divided-row {
+  background: #FFFFFF !important;
+  border-color: rgba(46, 61, 40, 0.12) !important;
+  color: #2E3D28 !important;
+}
+
+.job-card:hover,
+.candidate-card:hover,
+.divided-row:hover {
+  border-color: rgba(46, 61, 40, 0.28) !important;
+  box-shadow: 0 10px 28px rgba(46, 61, 40, 0.08) !important;
+}
+
+.filter-item-btn {
+  color: #586851 !important;
+}
+
+.filter-item-btn:hover {
+  color: #2E3D28 !important;
+  background: rgba(169, 184, 135, 0.18) !important;
+}
+
+.filter-item-btn.active {
+  background: #2E3D28 !important;
+  color: #E8E9DF !important;
+  font-weight: 600 !important;
+}
+
+.filter-item-btn.active .filter-item-count {
+  color: #A9B887 !important;
+}
+
+.sidebar-select,
+.content-sort-select {
+  background: #FFFFFF !important;
+  border-color: rgba(46, 61, 40, 0.16) !important;
+  color: #2E3D28 !important;
+}
+
+.cand-badge,
+.category-tag,
+.cand-skill-tag {
+  background: #F3F4ED !important;
+  border: 1px solid rgba(46, 61, 40, 0.12) !important;
+  color: #2E3D28 !important;
+}
+
+.cand-badge-kyc,
+.status-badge.verified {
+  background: #2E3D28 !important;
+  color: #E8E9DF !important;
+  border: 1px solid rgba(169, 184, 135, 0.3) !important;
+}
+
+.cand-verified-microtick {
+  background: #2E3D28 !important;
+  color: #D4A346 !important;
+  border-color: #FFFFFF !important;
+}
+
+.btn-unlock-contact,
+.btn-apply-job,
+.search-btn,
+.btn-primary {
+  background: #2E3D28 !important;
+  color: #E8E9DF !important;
+}
+
+.btn-unlock-contact:hover,
+.btn-apply-job:hover,
+.search-btn:hover,
+.btn-primary:hover {
+  background: #3C4E34 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-unlock-contact.selected-cart {
+  background: #A9B887 !important;
+  color: #2E3D28 !important;
+  border: 1px solid #2E3D28 !important;
+  font-weight: 700 !important;
+}
+
+.cart-bottom-bar {
+  background: #2E3D28 !important;
+  box-shadow: 0 16px 36px rgba(46, 61, 40, 0.3) !important;
+}
+
+.cart-action-pill-btn {
+  background: #A9B887 !important;
+  color: #2E3D28 !important;
+}
+
+.drawer-panel,
+.drawer-scrollable-body {
+  background: #F8F9F4 !important;
 }

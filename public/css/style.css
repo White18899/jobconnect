@@ -4,43 +4,43 @@
    ========================================================================== */
 
 :root {
-  /* Brand & Signature Colors (Crisp Editorial Monochromatic Black & Pure White) */
-  --primary: #000000;
-  --primary-hover: #18181b;
-  --primary-active: #27272a;
-  --primary-light: rgba(0, 0, 0, 0.05);
-  --primary-border: rgba(0, 0, 0, 0.15);
-  --primary-glow: rgba(0, 0, 0, 0.08);
+  /* Brand & Signature Colors (Atelier Engineering Theme) */
+  --primary: #2E3D28;
+  --primary-hover: #3C4E34;
+  --primary-active: #222E1E;
+  --primary-light: rgba(46, 61, 40, 0.08);
+  --primary-border: rgba(46, 61, 40, 0.18);
+  --primary-glow: rgba(169, 184, 135, 0.25);
 
-  /* Neutrals (High-Contrast Pure White & Monochromatic Charcoal Scale) */
-  --bg-page: #ffffff;
-  --surface: #ffffff;
-  --surface-secondary: #fafafa;
-  --surface-tertiary: #f4f4f5;
+  /* Neutrals (Linen Canvas & Deep Forest Scale) */
+  --bg-page: #E8E9DF;
+  --surface: #FFFFFF;
+  --surface-secondary: #F3F4ED;
+  --surface-tertiary: #DFE1D5;
   
-  --text-primary: #09090b;
-  --text-secondary: #52525b;
-  --text-muted: #71717a;
-  --text-subtle: #a1a1aa;
+  --text-primary: #2E3D28;
+  --text-secondary: #586851;
+  --text-muted: #75856E;
+  --text-subtle: #97A690;
 
-  /* Hairline Precision Monochromatic Borders */
-  --border: rgba(0, 0, 0, 0.09);
-  --border-light: rgba(0, 0, 0, 0.05);
-  --border-strong: rgba(0, 0, 0, 0.22);
-  --border-focus: #000000;
+  /* Hairline Precision Borders */
+  --border: rgba(46, 61, 40, 0.12);
+  --border-light: rgba(46, 61, 40, 0.06);
+  --border-strong: rgba(46, 61, 40, 0.28);
+  --border-focus: #2E3D28;
 
   /* Semantic Feedback & Verification Badges */
-  --success: #059669;
-  --success-light: rgba(5, 150, 105, 0.08);
-  --success-border: rgba(5, 150, 105, 0.25);
-  --success-text: #047857;
+  --success: #2E3D28;
+  --success-light: rgba(169, 184, 135, 0.22);
+  --success-border: rgba(169, 184, 135, 0.4);
+  --success-text: #2E3D28;
 
-  /* Conversion, Unlock Credits & Badges */
-  --accent: #d97706;
-  --accent-hover: #b45309;
-  --accent-light: rgba(217, 119, 6, 0.08);
-  --accent-border: rgba(217, 119, 6, 0.25);
-  --accent-text: #b45309;
+  /* Conversion, Unlock Credits & Badges (Warm Brass / Gold) */
+  --accent: #D4A346;
+  --accent-hover: #B88930;
+  --accent-light: rgba(212, 163, 70, 0.12);
+  --accent-border: rgba(212, 163, 70, 0.35);
+  --accent-text: #8E6310;
 
   --danger: #dc2626;
   --danger-light: rgba(220, 38, 38, 0.08);
