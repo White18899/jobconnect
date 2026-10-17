@@ -944,49 +944,53 @@ button.nav-btn-link:hover,
 .editorial-footer {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(280px, 1.1fr) 2fr;
   align-items: flex-start;
-  padding-top: 3vw;
-  margin: 4vw 2.5vw 6vw;
+  gap: 4vw;
+  padding: 4vw 3vw 5vw;
   max-width: 1600px;
+  width: 100%;
+  box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 4vw;
   border-top: 1px solid var(--color-border);
 }
 
 .footer-left {
   display: flex;
   flex-direction: column;
-  gap: 0.8vw;
+  gap: 10px;
 }
 
 .footer-brand {
-  font-size: var(--font-size-m);
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   letter-spacing: -0.02em;
+  color: #000000;
 }
 
 .footer-copy {
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   color: var(--color-text-secondary);
+  line-height: 1.5;
 }
 
 .footer-right {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 2.5vw;
   align-items: flex-start;
-  gap: 3vw;
 }
 
 .footer-box {
   display: flex;
   flex-direction: column;
-  gap: 1vw;
-  max-width: 22vw;
+  gap: 10px;
 }
 
 .footer-text {
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   line-height: 160%;
   color: var(--color-text-secondary);
 }
@@ -999,11 +1003,11 @@ button.nav-btn-link:hover,
 .footer-links {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
 
 .footer-link {
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   color: var(--color-text);
   text-decoration: none;
   position: relative;
@@ -1047,6 +1051,17 @@ button.nav-btn-link:hover,
 
   .project-card-box {
     height: 25vw;
+  }
+
+  .editorial-footer {
+    grid-template-columns: 1fr;
+    gap: 4vw;
+    padding: 5vw 4vw 6vw;
+  }
+
+  .footer-right {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3vw;
   }
 }
 
@@ -1141,12 +1156,13 @@ button.nav-btn-link:hover,
 
   .editorial-footer {
     grid-template-columns: 1fr;
-    gap: 8vw;
-    margin: 8vw 4vw 16vw;
+    gap: 6vw;
+    padding: 8vw 4vw 16vw;
+    margin: 8vw 0 0;
   }
 
   .footer-right {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 6vw;
   }
 
