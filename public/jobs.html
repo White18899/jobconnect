@@ -20,53 +20,95 @@
     (function() {
       try {
         var raw = localStorage.getItem('jc_auth_user');
-        if (raw) {
-          var u = JSON.parse(raw);
-          if (u && u.role === 'worker') {
-            document.documentElement.classList.add('role-worker');
-          } else if (u && (u.role === 'employer' || u.role === 'admin')) {
-            document.documentElement.classList.add('role-employer');
-          }
+        var u = raw ? JSON.parse(raw) : null;
+        var doc = document.documentElement;
+        if (u && u.role) {
+          doc.classList.add('is-logged-in', 'role-' + u.role);
+        } else {
+          doc.classList.add('is-logged-out', 'role-guest');
         }
-      } catch(e) {}
+      } catch(e) {
+        document.documentElement.classList.add('is-logged-out', 'role-guest');
+      }
     })();
   </script>
 
   <style>
     /* ==========================================================================
-       JobWay Swiss Editorial 3-Card Grid & Filter Sidebar Layout
+       JobWay Nav Anti-FOUC Rules: Instant layout stabilization before first paint
        ========================================================================== */
+    #nav-worker-link,
+    #nav-trade-pass-link,
+    #nav-employer-link,
+    #nav-workspace-link,
+    #btn-header-post-vacancy-user,
+    #banner-employer-actions,
+    #banner-worker-actions,
+    #banner-guest-actions,
+    #cand-credit-pill {
+      display: none !important;
+    }
+
+    html.is-logged-in #auth-logged-out { display: none !important; }
+    html.is-logged-in #auth-logged-in { display: flex !important; }
+    html.is-logged-out #auth-logged-out { display: flex !important; }
+    html.is-logged-out #auth-logged-in { display: none !important; }
+
+    /* Worker Role */
+    html.role-worker #nav-worker-link,
+    html.role-worker #nav-trade-pass-link {
+      display: inline-block !important;
+    }
+    html.role-worker #banner-worker-actions {
+      display: flex !important;
+    }
     html.role-worker #nav-candidates-link,
     html.role-worker #nav-employer-link,
+    html.role-worker #nav-workspace-link,
     html.role-worker #btn-header-post-vacancy-user,
     html.role-worker #banner-employer-actions,
     html.role-worker #banner-guest-actions {
       display: none !important;
     }
 
-    html.role-worker #banner-worker-actions {
-      display: flex !important;
-    }
-    html.role-worker #nav-worker-link,
-    html.role-worker #nav-trade-pass-link {
+    /* Employer Role */
+    html.role-employer #nav-employer-link,
+    html.role-employer #nav-workspace-link,
+    html.role-employer #nav-candidates-link {
       display: inline-block !important;
     }
-
+    html.role-employer #btn-header-post-vacancy-user {
+      display: inline-flex !important;
+    }
+    html.role-employer #banner-employer-actions {
+      display: flex !important;
+    }
+    html.role-employer #cand-credit-pill {
+      display: inline-flex !important;
+    }
     html.role-employer #nav-worker-link,
     html.role-employer #nav-trade-pass-link,
     html.role-employer #banner-worker-actions,
     html.role-employer #banner-guest-actions {
       display: none !important;
     }
-    html.role-employer #nav-employer-link,
-    html.role-employer #nav-candidates-link {
+
+    /* Guest Role */
+    html.role-guest #nav-candidates-link {
       display: inline-block !important;
     }
-    html.role-employer #banner-employer-actions {
+    html.role-guest #banner-guest-actions {
       display: flex !important;
     }
-    html.role-employer #btn-header-post-vacancy-user {
-      display: inline-flex !important;
+    html.role-guest #nav-worker-link,
+    html.role-guest #nav-trade-pass-link,
+    html.role-guest #nav-employer-link,
+    html.role-guest #nav-workspace-link,
+    html.role-guest #btn-header-post-vacancy-user,
+    html.role-guest #banner-employer-actions,
+    html.role-guest #banner-worker-actions,
+    html.role-guest #cand-credit-pill {
+      display: none !important;
     }
     :root {
       --color-background: #ffffff;
@@ -872,71 +914,21 @@
       gap: 12px;
     }
 
-    .image-presets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 8px;
-    }
-
-    .preset-img-btn {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      border: 1.5px solid var(--color-border);
-      border-radius: var(--radius-xs);
-      overflow: hidden;
-      cursor: pointer;
-      padding: 0;
-      background: #ffffff;
-      transition: all 0.15s ease;
-    }
-
-    .preset-img-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .preset-img-btn .preset-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.75);
-      color: #ffffff;
-      font-size: 9px;
-      font-family: var(--font-mono);
-      padding: 2px 4px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .preset-img-btn:hover {
-      border-color: #000000;
-      transform: translateY(-1px);
-    }
-
-    .preset-img-btn.active {
-      border-color: #000000;
-      box-shadow: 0 0 0 2px #000000;
-    }
-
     .custom-upload-zone {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #ffffff;
-      border: 1px dashed var(--color-border-strong);
+      border: 1.5px dashed var(--color-border-strong);
       border-radius: var(--radius-s);
-      padding: 10px 14px;
+      padding: 14px 18px;
       cursor: pointer;
-      transition: border-color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .custom-upload-zone:hover {
       border-color: #000000;
+      background: #fbfbfb;
     }
 
     .img-preview-row {
@@ -992,13 +984,13 @@
         <a href="/candidates.html" class="nav-link" id="nav-candidates-link">
           <span class="link-line">Candidates</span>
         </a>
-        <a href="/worker.html" class="nav-link" id="nav-worker-link">
+        <a href="/worker.html" class="nav-link" id="nav-worker-link" style="display: none;">
           <span class="link-line">Worker Desk</span>
         </a>
         <a href="/employer.html" class="nav-link" id="nav-employer-link" style="display: none;">
           <span class="link-line">Employer Workspace</span>
         </a>
-        <a href="/profile-edit.html" class="nav-link" id="nav-trade-pass-link">
+        <a href="/profile-edit.html" class="nav-link" id="nav-trade-pass-link" style="display: none;">
           <span class="link-line">Trade Pass (KYC)</span>
         </a>
       </div>
@@ -1014,10 +1006,13 @@
         <!-- Logged In State -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
           <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer; display: none;">+ Post Job</button>
-          <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
-            <div id="nav-user-avatar-initials" style="width: 20px; height: 20px; border-radius: 4px; background: #000; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;">R</div>
-            <span id="nav-user-display-name">Ramesh Kumar</span>
-          </div>
+          <a href="/worker.html" class="nav-profile-chip" id="nav-profile-link" title="My Workspace">
+            <div class="nav-profile-avatar">
+              <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
+              <span id="nav-user-avatar-initials">RK</span>
+            </div>
+            <span class="nav-profile-name" id="nav-user-display-name">Ramesh Kumar</span>
+          </a>
           <button type="button" class="nav-btn-link" id="btn-header-logout" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             <span>Sign Out</span>
@@ -1213,69 +1208,39 @@
       <!-- Modal Body (Form) -->
       <form id="jobs-post-vacancy-form" class="vacancy-modal-body">
         
-        <!-- SECTION 1: Cover Image Picker & Upload -->
+        <!-- SECTION 1: Custom Workshop Cover Image Upload -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label">Workshop / Trade Cover Image *</label>
+          <label class="vacancy-label">Workshop / Workplace Cover Image</label>
           <div class="image-picker-box">
             <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px;">
-              Select a specialized trade preset or upload custom workshop photo:
-            </div>
-            
-            <!-- Preset Thumbnails Grid -->
-            <div class="image-presets-grid" id="modal-preset-grid">
-              <button type="button" class="preset-img-btn active" data-src="assets/trades/automation.jpg" data-name="Automation">
-                <img src="assets/trades/automation.jpg" alt="Automation">
-                <span class="preset-label">Automation</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/cnc.jpg" data-name="CNC Machining">
-                <img src="assets/trades/cnc.jpg" alt="CNC">
-                <span class="preset-label">CNC</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/ev.jpg" data-name="EV Powertrain">
-                <img src="assets/trades/ev.jpg" alt="EV Systems">
-                <span class="preset-label">EV / Battery</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/solar.jpg" data-name="Solar Grid">
-                <img src="assets/trades/solar.jpg" alt="Solar">
-                <span class="preset-label">Solar PV</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/welding.jpg" data-name="Precision Welding">
-                <img src="assets/trades/welding.jpg" alt="Welding">
-                <span class="preset-label">Welding</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/hvac.jpg" data-name="HVAC Systems">
-                <img src="assets/trades/hvac.jpg" alt="HVAC">
-                <span class="preset-label">HVAC</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/mechanic.jpg" data-name="Fleet Diagnostics">
-                <img src="assets/trades/mechanic.jpg" alt="Mechanic">
-                <span class="preset-label">Mechanic</span>
-              </button>
-              <button type="button" class="preset-img-btn" data-src="assets/trades/electrician.jpg" data-name="Industrial Electrician">
-                <img src="assets/trades/electrician.jpg" alt="Electrician">
-                <span class="preset-label">Electrical</span>
-              </button>
+              Upload your custom workshop, shop-floor, or equipment photo:
             </div>
 
             <!-- Custom Upload Dropzone -->
             <div class="custom-upload-zone" id="btn-trigger-custom-img">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <span style="font-size: 12.5px; font-weight: 500;">Or Upload Custom Workshop Photo (PNG, JPG, WebP)</span>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div>
+                  <span style="font-size: 13px; font-weight: 500; color: #000000;">Upload Custom Workshop Photo</span>
+                  <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">PNG, JPG, WebP format (Max 5MB)</div>
+                </div>
               </div>
-              <span class="bracket-tag" style="font-size: 10px;">[ Browse File ]</span>
+              <span class="bracket-tag" style="font-size: 11px;">[ Browse File ]</span>
               <input type="file" id="modal-custom-file-input" accept="image/*" style="display: none;">
             </div>
 
             <!-- Live Selected Preview Bar -->
-            <div class="img-preview-row">
-              <img src="assets/trades/automation.jpg" id="modal-selected-preview-thumb" class="img-preview-thumb" alt="Selected Cover">
+            <div class="img-preview-row" id="modal-preview-row" style="display: none;">
+              <img src="" id="modal-selected-preview-thumb" class="img-preview-thumb" alt="Custom Cover Photo">
               <div style="flex: 1; overflow: hidden;">
-                <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Selected Cover Image</div>
-                <div id="modal-selected-preview-text" style="font-size: 12.5px; font-weight: 600; color: #000; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-                  assets/trades/automation.jpg (Preset: Automation)
+                <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Selected Workshop Photo</div>
+                <div id="modal-selected-preview-text" style="font-size: 12.5px; font-weight: 600; color: #000000; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                  No file selected
                 </div>
               </div>
+              <button type="button" id="btn-remove-custom-img" style="background: #fef2f2; border: 1px solid #fee2e2; border-radius: var(--radius-xs); color: #dc2626; padding: 4px 10px; font-size: 11.5px; font-weight: 500; cursor: pointer;">
+                Remove
+              </button>
             </div>
           </div>
         </div>
@@ -1431,6 +1396,8 @@
       const authLoggedIn = document.getElementById('auth-logged-in');
       const navDisplayName = document.getElementById('nav-user-display-name');
       const navAvatarInitials = document.getElementById('nav-user-avatar-initials');
+      const navAvatarImg = document.getElementById('nav-user-avatar-img');
+      const navProfileLink = document.getElementById('nav-profile-link');
       const btnLogout = document.getElementById('btn-header-logout');
 
       let currentWorkerProfile = null;
@@ -1446,7 +1413,37 @@
       const bannerGuestActions = document.getElementById('banner-guest-actions');
 
       function sanitizeName(str) {
-        return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim();
+        return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim();
+      }
+
+      function getInitials(name) {
+        const clean = sanitizeName(name);
+        if (!clean) return 'RK';
+        const parts = clean.split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+          return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return clean.slice(0, 2).toUpperCase() || 'RK';
+      }
+
+      function updateNavAvatar(photoUrl, initials) {
+        if (navAvatarInitials) navAvatarInitials.textContent = initials;
+        if (navAvatarImg) {
+          if (photoUrl) {
+            navAvatarImg.src = photoUrl;
+            navAvatarImg.onload = () => {
+              navAvatarImg.style.display = 'block';
+              if (navAvatarInitials) navAvatarInitials.style.display = 'none';
+            };
+            navAvatarImg.onerror = () => {
+              navAvatarImg.style.display = 'none';
+              if (navAvatarInitials) navAvatarInitials.style.display = 'block';
+            };
+          } else {
+            navAvatarImg.style.display = 'none';
+            if (navAvatarInitials) navAvatarInitials.style.display = 'block';
+          }
+        }
       }
 
       if (user) {
@@ -1455,9 +1452,15 @@
         
         const clean = sanitizeName(user.name) || (user.role === 'employer' ? 'Sri Balaji Auto' : 'Ramesh Kumar');
         if (navDisplayName) navDisplayName.textContent = clean;
-        if (navAvatarInitials) navAvatarInitials.textContent = clean.slice(0, 1).toUpperCase();
+        const initials = getInitials(clean);
+        const initialPhoto = user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
+        updateNavAvatar(initialPhoto, initials);
 
         if (user.role === 'employer' || user.role === 'admin') {
+          if (navProfileLink) {
+            navProfileLink.href = '/employer.html';
+            navProfileLink.title = 'Employer Workspace';
+          }
           // Employer: show employer workspace, candidates directory, and post job
           if (navWorkerLink) navWorkerLink.style.display = 'none';
           if (navTradePassLink) navTradePassLink.style.display = 'none';
@@ -1469,6 +1472,10 @@
           if (bannerGuestActions) bannerGuestActions.style.display = 'none';
         } else {
           // Worker (role === 'worker'):
+          if (navProfileLink) {
+            navProfileLink.href = '/worker.html';
+            navProfileLink.title = 'Worker Desk';
+          }
           // Strictly HIDE Post Job, Candidates directory, and Employer Workspace
           if (navWorkerLink) navWorkerLink.style.display = 'inline-block';
           if (navTradePassLink) navTradePassLink.style.display = 'inline-block';
@@ -1486,7 +1493,13 @@
             if (a.job_id) appliedJobIds.add(a.job_id);
           });
           if (user.role !== 'employer') {
-            currentWorkerProfile = await window.jobApi.getWorkerProfile();
+            window.jobApi.getWorkerProfile().then(prof => {
+              if (prof) {
+                currentWorkerProfile = prof;
+                const photo = prof.photo_key || initialPhoto;
+                if (photo) updateNavAvatar(photo, initials);
+              }
+            }).catch(() => {});
           }
         } catch (e) {
           console.warn("Could not load applications:", e);
@@ -1905,9 +1918,18 @@
       const btnTriggerCustomImg = document.getElementById('btn-trigger-custom-img');
       const selectedPreviewThumb = document.getElementById('modal-selected-preview-thumb');
       const selectedPreviewText = document.getElementById('modal-selected-preview-text');
-      const presetButtons = document.querySelectorAll('#modal-preset-grid .preset-img-btn');
+      const modalPreviewRow = document.getElementById('modal-preview-row');
+      const btnRemoveCustomImg = document.getElementById('btn-remove-custom-img');
 
-      let selectedCoverImage = 'assets/trades/automation.jpg';
+      let selectedCoverImage = '';
+
+      function resetCoverImage() {
+        selectedCoverImage = '';
+        if (modalFileInput) modalFileInput.value = '';
+        if (selectedPreviewThumb) selectedPreviewThumb.src = '';
+        if (selectedPreviewText) selectedPreviewText.textContent = 'No file selected';
+        if (modalPreviewRow) modalPreviewRow.style.display = 'none';
+      }
 
       function openPostVacancyModal() {
         if (!user || (user.role !== 'employer' && user.role !== 'admin')) {
@@ -1930,6 +1952,7 @@
       function closePostVacancyModal() {
         postVacancyModal.classList.remove('active');
         document.body.style.overflow = '';
+        resetCoverImage();
       }
 
       if (btnBannerPostVacancy) btnBannerPostVacancy.addEventListener('click', openPostVacancyModal);
@@ -1947,17 +1970,6 @@
         }
       });
 
-      // Preset selection
-      presetButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          presetButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          selectedCoverImage = btn.dataset.src;
-          selectedPreviewThumb.src = selectedCoverImage;
-          selectedPreviewText.textContent = `${selectedCoverImage} (Preset: ${btn.dataset.name})`;
-        });
-      });
-
       // Custom file upload
       btnTriggerCustomImg.addEventListener('click', () => modalFileInput.click());
       modalFileInput.addEventListener('change', (e) => {
@@ -1970,13 +1982,20 @@
           const reader = new FileReader();
           reader.onload = (ev) => {
             selectedCoverImage = ev.target.result;
-            selectedPreviewThumb.src = selectedCoverImage;
-            selectedPreviewText.textContent = `Custom Upload: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-            presetButtons.forEach(b => b.classList.remove('active'));
+            if (selectedPreviewThumb) selectedPreviewThumb.src = selectedCoverImage;
+            if (selectedPreviewText) selectedPreviewText.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            if (modalPreviewRow) modalPreviewRow.style.display = 'flex';
           };
           reader.readAsDataURL(file);
         }
       });
+
+      if (btnRemoveCustomImg) {
+        btnRemoveCustomImg.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resetCoverImage();
+        });
+      }
 
       // Post Vacancy Form Submission
       postVacancyForm.addEventListener('submit', async (e) => {
@@ -2019,6 +2038,7 @@
         render3CardGrid();
         closePostVacancyModal();
         postVacancyForm.reset();
+        resetCoverImage();
         showToast(`Vacancy "${title}" published successfully! Visible in directory & workspace.`, 'success');
       });
 

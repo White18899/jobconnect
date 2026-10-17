@@ -19,6 +19,28 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="stylesheet" href="css/editorial.css?v=1">
+  <script>
+    (function() {
+      try {
+        var raw = localStorage.getItem('jc_auth_user');
+        var u = raw ? JSON.parse(raw) : null;
+        var doc = document.documentElement;
+        if (u && u.role) {
+          doc.classList.add('is-logged-in', 'role-' + u.role);
+        } else {
+          doc.classList.add('is-logged-out', 'role-guest');
+        }
+      } catch(e) {
+        document.documentElement.classList.add('is-logged-out', 'role-guest');
+      }
+    })();
+  </script>
+  <style>
+    html.is-logged-in #auth-logged-out { display: none !important; }
+    html.is-logged-in #auth-logged-in { display: flex !important; }
+    html.is-logged-out #auth-logged-out { display: flex !important; }
+    html.is-logged-out #auth-logged-in { display: none !important; }
+  </style>
 </head>
 <body class="editorial-page">
 

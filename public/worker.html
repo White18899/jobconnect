@@ -52,10 +52,13 @@
 
       <!-- Worker Profile Badge & Logout -->
       <div class="nav-right-actions">
-        <div class="project-card-badge project-card-badge-verified" style="display: flex; align-items: center; gap: 7px; padding: 4px 10px;">
-          <img id="nav-worker-avatar-img" src="" alt="Avatar" style="width: 20px; height: 20px; border-radius: 4px; object-fit: cover; display: none; border: 1px solid rgba(255,255,255,0.25);">
-          <span id="worker-display-name">Ramesh Kumar</span>
-        </div>
+        <a href="/profile-edit.html" class="nav-profile-chip" id="nav-profile-link" title="Edit Verified Trade Pass">
+          <div class="nav-profile-avatar">
+            <img id="nav-worker-avatar-img" src="" alt="Avatar" style="display: none;">
+            <span id="nav-user-avatar-initials">RK</span>
+          </div>
+          <span class="nav-profile-name" id="worker-display-name">Ramesh Kumar</span>
+        </a>
         <button id="btn-worker-logout" class="nav-btn-link" title="Sign Out">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           <span>Sign Out</span>
@@ -92,7 +95,7 @@
             </a>
           </div>
           <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
-            Worker Portal: Ramesh Kumar (Mechanic)
+            Worker Portal: Ramesh Kumar
           </h1>
           <p style="color: #52525b; font-size: 14px; max-width: 580px; line-height: 1.5; margin: 0;">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
@@ -351,13 +354,28 @@
         return;
       }
 
+      function sanitizeName(str) {
+        return (str || '').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim();
+      }
+
+      function getInitials(name) {
+        const clean = sanitizeName(name);
+        if (!clean) return 'RK';
+        const parts = clean.split(/\s+/).filter(Boolean);
+        if (parts.length >= 2) {
+          return (parts[0][0] + parts[1][0]).toUpperCase();
+        }
+        return clean.slice(0, 2).toUpperCase() || 'RK';
+      }
+
       // Populate basic user info
-      const initialCleanName = (user.name || 'Ramesh Kumar').replace(/\s*\([^)]*\)/, '').trim();
-      const initialTitle = user.trade_title || user.category || '';
-      const categoryLabel = initialTitle ? ` (${initialTitle})` : '';
-      document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${initialCleanName}${categoryLabel}`;
-      document.getElementById('profile-name').textContent = initialCleanName;
-      document.getElementById('worker-display-name').textContent = initialCleanName;
+      const initialCleanName = sanitizeName(user.name) || 'Ramesh Kumar';
+      const welcomeHeading = document.getElementById('welcome-worker-heading');
+      if (welcomeHeading) welcomeHeading.textContent = `Worker Portal: ${initialCleanName}`;
+      const profileNameEl = document.getElementById('profile-name');
+      if (profileNameEl) profileNameEl.textContent = initialCleanName;
+      const workerDisplayName = document.getElementById('worker-display-name');
+      if (workerDisplayName) workerDisplayName.textContent = initialCleanName;
       if (user.email && document.getElementById('profile-email')) {
         document.getElementById('profile-email').textContent = user.email;
       }
@@ -367,18 +385,14 @@
 
       // Avatar Rendering Handler
       function renderAvatar(photoKey, fullName) {
-        const rawName = fullName || user.name || 'Ramesh Kumar';
-        const cleanDisplayName = rawName.replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim() || 'RK';
-        const initials = cleanDisplayName
-          .split(/\s+/)
-          .filter(Boolean)
-          .map(n => n[0])
-          .slice(0, 2)
-          .join('')
-          .toUpperCase() || 'RK';
+        const cleanDisplayName = sanitizeName(fullName || user.name) || 'Ramesh Kumar';
+        const initials = getInitials(cleanDisplayName);
 
         const bannerFallback = document.getElementById('banner-worker-avatar-fallback');
         if (bannerFallback) bannerFallback.textContent = initials;
+
+        const navInitials = document.getElementById('nav-user-avatar-initials');
+        if (navInitials) navInitials.textContent = initials;
 
         const photo = photoKey || user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
 
@@ -404,9 +418,17 @@
         if (navImg) {
           if (photo) {
             navImg.src = photo;
-            navImg.onload = () => { navImg.style.display = 'inline-block'; };
+            navImg.onload = () => {
+              navImg.style.display = 'block';
+              if (navInitials) navInitials.style.display = 'none';
+            };
+            navImg.onerror = () => {
+              navImg.style.display = 'none';
+              if (navInitials) navInitials.style.display = 'block';
+            };
           } else {
             navImg.style.display = 'none';
+            if (navInitials) navInitials.style.display = 'block';
           }
         }
       }
@@ -417,14 +439,15 @@
       // Fetch and populate rich profile details
       window.jobApi.getWorkerProfile().then(profile => {
         if (!profile) return;
-        const cleanName = (profile.full_name || user.name || 'Ramesh Kumar').replace(/\s*\([^)]*\)/, '').trim();
+        const cleanName = sanitizeName(profile.full_name || user.name) || 'Ramesh Kumar';
         const tradeTitle = profile.trade_title || user.trade_title || user.category || '';
-        const categoryLabel = tradeTitle ? ` (${tradeTitle})` : '';
 
-        document.getElementById('welcome-worker-heading').textContent = `Worker Portal: ${cleanName}${categoryLabel}`;
+        if (welcomeHeading && welcomeHeading.textContent !== `Worker Portal: ${cleanName}`) {
+          welcomeHeading.textContent = `Worker Portal: ${cleanName}`;
+        }
         renderAvatar(profile.photo_key, cleanName);
-        document.getElementById('profile-name').textContent = cleanName;
-        document.getElementById('worker-display-name').textContent = cleanName;
+        if (profileNameEl) profileNameEl.textContent = cleanName;
+        if (workerDisplayName) workerDisplayName.textContent = cleanName;
 
         if (document.getElementById('profile-trade')) {
           if (tradeTitle) {
