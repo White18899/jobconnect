@@ -1687,16 +1687,9 @@
 
                 <div class="job-card-footer-action">
                   ${isEmployer ? `
-                    ${isOwnJob ? `
-                      <a href="/employer.html#applicants-section" class="btn-card-apply" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                        <span>★ Workspace</span>
-                        <span>→</span>
-                      </a>
-                    ` : `
-                      <button type="button" class="btn-card-apply" data-action="view" data-job-id="${job.id}" style="background: #ffffff; color: #000; border-color: var(--color-border-strong);">
-                        View Specs →
-                      </button>
-                    `}
+                    <button type="button" class="btn-card-apply" data-action="view" data-job-id="${job.id}" style="background: #ffffff; color: #000000 !important; border: 1px solid var(--color-border-strong); border-radius: var(--radius-xs); padding: 6px 14px; font-size: 11.5px; font-weight: 600; cursor: pointer;">
+                      View Specs →
+                    </button>
                   ` : `
                     <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''}>
                       ${isApplied ? '✓ Applied' : '1-Click Apply'}
@@ -1815,11 +1808,11 @@
           <div class="drawer-actions-row">
             ${isEmployer ? `
               ${isOwnJob ? `
-                <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none;">
+                <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
                   <span>★ Manage Applications in Employer Workspace →</span>
                 </a>
               ` : `
-                <a href="/candidates.html?category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none;">
+                <a href="/candidates.html?category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
                   <span>Browse Candidates in ${job.category} →</span>
                 </a>
               `}
