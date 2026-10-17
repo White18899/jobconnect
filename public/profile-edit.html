@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=12">
-  <link rel="stylesheet" href="css/editorial.css?v=12">
+  <link rel="stylesheet" href="css/style.css?v=13">
+  <link rel="stylesheet" href="css/editorial.css?v=13">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -27,20 +27,18 @@
   </script>
   <style>
     .profile-card-section {
-      background: rgba(255, 255, 255, 0.02) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg);
+      background: #FAFBF7 !important;
+      border: 1px solid rgba(46, 61, 40, 0.14) !important;
+      border-radius: var(--radius-m);
       padding: 26px;
       margin-bottom: 24px;
-      box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(46, 61, 40, 0.04);
+      transition: all 0.25s ease;
     }
     .profile-card-section:hover {
-      border-color: rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.035) !important;
-      box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-color: rgba(46, 61, 40, 0.3);
+      box-shadow: 0 8px 24px rgba(46, 61, 40, 0.08);
+      background: #FFFFFF !important;
     }
     .profile-section-title {
       font-size: 16px;
@@ -107,24 +105,23 @@
       box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2), var(--specular-rim);
     }
     .skill-chip.active {
-      background: #ffffff;
-      color: #09090b;
-      border-color: #ffffff;
-      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+      background: #2E3D28 !important;
+      color: #E8E9DF !important;
+      border-color: #2E3D28 !important;
     }
     .skill-tag {
       display: inline-flex;
       align-items: center;
       gap: 7px;
       padding: 6px 14px;
-      background: #09090b !important;
-      border: 1px solid #18181b !important;
+      background: #2E3D28 !important;
+      border: 1px solid #2E3D28 !important;
       border-radius: var(--radius-full) !important;
       font-size: 13px !important;
       font-weight: 600 !important;
-      color: #ffffff !important;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
-      transition: var(--transition);
+      color: #E8E9DF !important;
+      box-shadow: 0 2px 6px rgba(46, 61, 40, 0.18) !important;
+      transition: all 0.2s ease;
       animation: tagFadeIn 0.2s ease-out;
     }
     .skill-tag-remove {
