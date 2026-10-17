@@ -20,10 +20,11 @@ workerRoutes.get('/worker/profile', authMiddleware, roleGuard(['worker']), async
 
   if (!profile) {
     const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    const fallbackName = (user.email || userRow?.email || 'Worker').split('@')[0];
     await c.env.DB.prepare(`
       INSERT INTO worker_profiles (id, user_id, full_name, phone, skills, preferred_area, city, verification_status)
       VALUES (?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'pending')
-    `).bind(wpId, user.userId, user.email.split('@')[0], userRow?.phone || null).run();
+    `).bind(wpId, user.userId, fallbackName, userRow?.phone || null).run();
 
     profile = await c.env.DB.prepare(
       'SELECT * FROM worker_profiles WHERE user_id = ?'

@@ -4,11 +4,11 @@
   "description": "JobConnect Cloudflare Workers Backend with Hono, D1, R2, and KV",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify",
+    "dev": "wrangler dev -c wrangler.toml",
+    "deploy": "wrangler deploy --minify -c wrangler.toml",
     "build": "tsc --noEmit",
-    "db:migrate:local": "wrangler d1 migrations apply jobconnect-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply jobconnect-db --remote",
+    "db:migrate:local": "wrangler d1 migrations apply jobconnect-db --local -c wrangler.toml",
+    "db:migrate:remote": "wrangler d1 migrations apply jobconnect-db --remote -c wrangler.toml",
     "seed:admin": "ts-node src/scripts/seed-admin.ts"
   },
   "dependencies": {
