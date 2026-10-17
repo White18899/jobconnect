@@ -165,9 +165,6 @@
           <span class="link-line">Applicants</span>
           <span class="nav-link-count">(<span id="nav-candidate-count">0</span>)</span>
         </a>
-        <a href="#post-job-section" class="nav-link">
-          <span class="link-line">Post Vacancy</span>
-        </a>
         <a href="#credits-section" class="nav-link">
           <span class="link-line">Unlocks</span>
           <span class="nav-link-count">(Packs)</span>
@@ -205,14 +202,14 @@
           Employer Workspace: Sri Balaji Auto Care & Service
         </h1>
         <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
-          Review applicant resumes, unlock masked direct contact details, and publish new trade openings across India.
+          Review applicant resumes and unlock masked direct contact details of certified tradesmen across India.
         </p>
       </div>
 
       <div class="portal-welcome-aside">
         <div class="portal-welcome-actions">
-          <a href="#post-job-section" class="nav-btn-solid">
-            <span>Post New Vacancy →</span>
+          <a href="/candidates.html" class="nav-btn-solid">
+            <span>Browse Candidates →</span>
           </a>
           <button type="button" id="btn-banner-buy-credits" class="btn-signin-header" style="border-radius: var(--radius-xs); cursor: pointer;">
             <span>Buy Unlock Credits</span>
@@ -306,85 +303,7 @@
       </div>
     </section>
 
-    <!-- Section 2: Post a New Vacancy Form -->
-    <section id="post-job-section" class="panel-card reveal-on-scroll">
-      <div class="panel-header">
-        <div>
-          <h2 class="panel-title">Post a New Trade Vacancy</h2>
-          <p class="panel-subtitle">Instantly published to Cloudflare Edge database and immediately visible to tradesmen across India</p>
-        </div>
-      </div>
 
-      <div class="panel-body">
-        <form id="employer-post-job-form">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 18px;">
-            <div class="form-group">
-              <label class="form-label" for="job-title-input">Job Title / Vacancy Headline *</label>
-              <input type="text" id="job-title-input" class="form-input" placeholder="e.g. Experienced Heavy Vehicle Mechanic" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-category-input">Trade Category *</label>
-              <select id="job-category-input" class="form-input" required>
-                <option value="Automation">Industrial Automation & Robotics / PLC</option>
-                <option value="CNC Machining">5-Axis CNC Machining & Precision Tooling</option>
-                <option value="EV Systems">EV Powertrain & High-Voltage Battery</option>
-                <option value="Solar & Grid">Solar EPC & High-Voltage Grid Systems</option>
-                <option value="Precision Welding">Aerospace TIG/MIG & Pressure Vessel Welding</option>
-                <option value="HVAC Systems">Cleanroom HVAC & Industrial Chillers</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-salary-min">Min Monthly Salary (₹) *</label>
-              <input type="number" id="job-salary-min" class="form-input" placeholder="18000" min="5000" step="500" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-salary-max">Max Monthly Salary (₹) *</label>
-              <input type="number" id="job-salary-max" class="form-input" placeholder="25000" min="5000" step="500" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-city-input">City *</label>
-              <select id="job-city-input" class="form-input" required>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Visakhapatnam">Visakhapatnam</option>
-                <option value="Vijayawada">Vijayawada</option>
-                <option value="Warangal">Warangal</option>
-                <option value="Guntur">Guntur</option>
-                <option value="Bengaluru">Bengaluru</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-area-input">Area / Locality *</label>
-              <input type="text" id="job-area-input" class="form-input" placeholder="e.g. Kukatpally Industrial Estate" required>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-vacancies-input">Openings Count</label>
-              <input type="number" id="job-vacancies-input" class="form-input" value="2" min="1" max="50">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="job-hours-input">Working Hours</label>
-              <input type="text" id="job-hours-input" class="form-input" placeholder="e.g. 9:00 AM - 6:30 PM (Sun Off)">
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 22px;">
-            <label class="form-label" for="job-desc-input">Job Details & Required Skills *</label>
-            <textarea id="job-desc-input" class="form-input" rows="3" placeholder="Describe the daily duties, experience expectations, and workshop environment..." required></textarea>
-          </div>
-
-          <button type="submit" class="search-btn" style="padding: 12px 26px; font-size: 13.5px;">
-            <span>Publish Vacancy to JobWay</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-        </form>
-      </div>
-    </section>
 
 
 
@@ -957,37 +876,7 @@
 
       renderApplicants();
 
-      // Post New Job Form
-      document.getElementById('employer-post-job-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const title = document.getElementById('job-title-input').value.trim();
-        const category = document.getElementById('job-category-input').value;
-        const salaryMin = Number(document.getElementById('job-salary-min').value);
-        const salaryMax = Number(document.getElementById('job-salary-max').value);
-        const city = document.getElementById('job-city-input').value;
-        const area = document.getElementById('job-area-input').value.trim();
-        const vacancies = Number(document.getElementById('job-vacancies-input').value);
-        const hours = document.getElementById('job-hours-input').value.trim();
-        const desc = document.getElementById('job-desc-input').value.trim();
 
-        await window.jobApi.createJob({
-          title,
-          category,
-          salary_min: salaryMin,
-          salary_max: salaryMax,
-          salary_period: "monthly",
-          location_city: city,
-          location_area: area,
-          vacancies,
-          working_hours: hours,
-          description: desc,
-          business_name: user.name || "Sri Balaji Auto Care & Service",
-          business_type: "Commercial Workshop"
-        });
-
-        showToast(`Vacancy "${title}" published successfully!`);
-        e.target.reset();
-      });
 
 
 
@@ -1190,7 +1079,7 @@
         <span class="bracket-tag">[ Navigation ]</span>
         <div class="footer-links">
           <a class="footer-link" href="/">Public Landing</a>
-          <a class="footer-link" href="#post-job-section">Post Vacancy</a>
+          <a class="footer-link" href="/candidates.html">Candidates Directory</a>
           <a class="footer-link" href="#applicants-section">Candidate Roster</a>
         </div>
       </div>
