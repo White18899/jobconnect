@@ -138,7 +138,7 @@ const INITIAL_APPLICATIONS = [
     job_id: "job_01",
     job_title: "Industrial Automation & PLC Commissioning Engineer",
     employer_name: "Precision Automation Dynamics Pvt Ltd",
-    worker_id: "wrk-1",
+    worker_id: "cand_01",
     worker_name: "Arun Varma",
     worker_category: "Automation",
     worker_experience: 4,
@@ -158,7 +158,7 @@ const INITIAL_APPLICATIONS = [
     job_id: "job_02",
     job_title: "5-Axis CNC Milling Center Specialist (DMG Mori / Mazak)",
     employer_name: "AeroCraft Precision Engineering Ltd",
-    worker_id: "wrk-2",
+    worker_id: "cand_02",
     worker_name: "Suresh Rao",
     worker_category: "CNC Machining",
     worker_experience: 5,
@@ -366,12 +366,41 @@ class JobConnectApi {
       localStorage.setItem('jc_jobs_version', 'v6_distinct');
     }
     const existingApps = localStorage.getItem('jc_apps');
-    if (!existingApps || existingApps.includes('Two-Wheeler')) {
-      localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
+    const appsVersion = localStorage.getItem('jc_apps_version');
+    if (!existingApps || existingApps.includes('Two-Wheeler') || appsVersion !== 'v5_sync_ids') {
+      let apps = JSON.parse(existingApps || '[]');
+      if (apps.length === 0 || existingApps.includes('Two-Wheeler')) {
+        apps = INITIAL_APPLICATIONS;
+      } else {
+        apps = apps.map(a => {
+          if (a.worker_id === 'wrk-1') return { ...a, worker_id: 'cand_01' };
+          if (a.worker_id === 'wrk-2') return { ...a, worker_id: 'cand_02' };
+          return a;
+        });
+      }
+      localStorage.setItem('jc_apps', JSON.stringify(apps));
+      localStorage.setItem('jc_apps_version', 'v5_sync_ids');
     }
-    if (!localStorage.getItem('jc_candidates') || !localStorage.getItem('jc_candidates_v2')) {
-      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
+    const candVersion = localStorage.getItem('jc_candidates_ver');
+    if (!localStorage.getItem('jc_candidates') || !localStorage.getItem('jc_candidates_v2') || candVersion !== 'v5_sync_clean') {
+      const stored = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+      if (stored.length === 0 || stored.length !== INITIAL_CANDIDATES.length) {
+        localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
+      } else {
+        const currentApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+        const dirSet = new Set(
+          currentApps
+            .filter(a => (a.source === 'candidate_directory' || a.status === 'selected' || a.job_id === 'dir_selected') && !a.unlocked)
+            .map(a => a.worker_id)
+        );
+        const cleaned = stored.map(c => ({
+          ...c,
+          selected: dirSet.has(c.id)
+        }));
+        localStorage.setItem('jc_candidates', JSON.stringify(cleaned));
+      }
       localStorage.setItem('jc_candidates_v2', 'true');
+      localStorage.setItem('jc_candidates_ver', 'v5_sync_clean');
     }
     if (!localStorage.getItem('jc_payments') || !localStorage.getItem('jc_payments_v2')) {
       localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
@@ -541,18 +570,36 @@ class JobConnectApi {
   getCandidates(filters = {}) {
     let list = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
     const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    const appMap = new Map();
+    
+    // Track directory-selected and unlocked states separately
+    const dirSelectedMap = new Map();
+    const unlockedMap = new Map();
+    const generalAppMap = new Map();
+
     apps.forEach(a => {
-      if (a.worker_id) appMap.set(a.worker_id, a);
-      if (a.worker_name) appMap.set(a.worker_name, a);
+      const isDirSelected = (a.source === 'candidate_directory' || a.status === 'selected' || a.job_id === 'dir_selected') && !a.unlocked;
+      const isUnlocked = a.unlocked === true;
+
+      if (isDirSelected) {
+        if (a.worker_id) dirSelectedMap.set(a.worker_id, a);
+        if (a.worker_name) dirSelectedMap.set(a.worker_name, a);
+      }
+      if (isUnlocked) {
+        if (a.worker_id) unlockedMap.set(a.worker_id, a);
+        if (a.worker_name) unlockedMap.set(a.worker_name, a);
+      }
+      if (a.worker_id) generalAppMap.set(a.worker_id, a);
+      if (a.worker_name) generalAppMap.set(a.worker_name, a);
     });
 
     list = list.map(c => {
-      const match = appMap.get(c.id) || appMap.get(c.name);
+      const isUnlocked = Boolean(c.unlocked || unlockedMap.has(c.id) || unlockedMap.has(c.name));
+      const isSelected = !isUnlocked && Boolean(c.selected || dirSelectedMap.has(c.id) || dirSelectedMap.has(c.name));
+      const match = unlockedMap.get(c.id) || unlockedMap.get(c.name) || dirSelectedMap.get(c.id) || dirSelectedMap.get(c.name) || generalAppMap.get(c.id) || generalAppMap.get(c.name);
       return {
         ...c,
-        selected: !!match,
-        unlocked: c.unlocked || (match ? match.unlocked : false),
+        selected: isSelected,
+        unlocked: isUnlocked,
         appId: match ? match.id : null
       };
     });
@@ -576,11 +623,11 @@ class JobConnectApi {
 
   selectCandidate(candidateId) {
     const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-    const candidate = candidates.find(c => c.id === candidateId);
+    const candidate = candidates.find(c => c.id === candidateId || c.name === candidateId);
     if (!candidate) return { success: false, message: "Candidate not found" };
 
     const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    let existingApp = apps.find(a => a.worker_id === candidate.id || a.worker_name === candidate.name);
+    let existingApp = apps.find(a => (a.worker_id === candidate.id || a.worker_name === candidate.name) && (a.source === 'candidate_directory' || a.job_id === 'dir_selected'));
 
     if (!existingApp) {
       existingApp = {
@@ -616,17 +663,34 @@ class JobConnectApi {
 
   removeCandidateFromApplications(candidateIdOrAppId) {
     let apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    const targetApp = apps.find(a => a.id === candidateIdOrAppId || a.worker_id === candidateIdOrAppId);
-    const workerId = targetApp ? targetApp.worker_id : candidateIdOrAppId;
-    const workerName = targetApp ? targetApp.worker_name : "";
+    let candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
 
-    apps = apps.filter(a => a.id !== candidateIdOrAppId && a.worker_id !== candidateIdOrAppId);
+    const cand = candidates.find(c => c.id === candidateIdOrAppId || c.name === candidateIdOrAppId);
+    const app = apps.find(a => a.id === candidateIdOrAppId || a.worker_id === candidateIdOrAppId || (cand && a.worker_id === cand.id) || (cand && a.worker_name === cand.name));
+
+    const candId = cand ? cand.id : (app ? app.worker_id : candidateIdOrAppId);
+    const candName = cand ? cand.name : (app ? app.worker_name : '');
+    const appId = app ? app.id : (String(candidateIdOrAppId).startsWith('app_') ? candidateIdOrAppId : null);
+
+    // Remove directory cart item or explicit app ID
+    apps = apps.filter(a => {
+      if (appId && a.id === appId) return false;
+      const matchesCandidate = (candId && a.worker_id === candId) || (candName && a.worker_name === candName);
+      if (matchesCandidate && (a.source === 'candidate_directory' || a.job_id === 'dir_selected' || a.status === 'selected')) {
+        return false;
+      }
+      return true;
+    });
     localStorage.setItem('jc_apps', JSON.stringify(apps));
 
-    const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-    const cand = candidates.find(c => c.id === workerId || c.name === workerName);
-    if (cand) {
-      cand.selected = false;
+    // Clear selected flag in jc_candidates
+    if (candId || candName) {
+      candidates = candidates.map(c => {
+        if ((candId && c.id === candId) || (candName && c.name === candName)) {
+          return { ...c, selected: false };
+        }
+        return c;
+      });
       localStorage.setItem('jc_candidates', JSON.stringify(candidates));
     }
 

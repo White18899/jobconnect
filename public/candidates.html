@@ -895,7 +895,7 @@
       <div id="banner-employer-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
         <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 8px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span>Selected in Applications (<span id="banner-cart-count">0</span>) →</span>
+          <span>Selected Candidates (<span id="banner-cart-count">0</span>) →</span>
         </a>
         <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link link-line" style="font-size: 12px;">
           <span>Recharge Unlock Credits +</span>
@@ -1054,7 +1054,7 @@
       <span style="color: rgba(255,255,255,0.22); font-size: 11px;">|</span>
 
       <a href="/employer.html#applicants-section" class="cart-action-pill-btn">
-        <span>Open Applications (<span id="cart-btn-count">0</span>)</span>
+        <span>Review in Workspace (<span id="cart-btn-count">0</span>)</span>
         <span style="font-size: 12px;">→</span>
       </a>
 
@@ -1099,7 +1099,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=6"></script>
+  <script src="js/api.js?v=7"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Session State & Role Guard
@@ -1282,7 +1282,7 @@
                 <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
                   <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Contact Unlocked</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 In Applications</span>' : '<span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>')}
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Contact Unlocked</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>')}
                 </div>
 
                 <div class="cand-avatar-pill">
@@ -1318,9 +1318,9 @@
                         <span>→</span>
                       </a>
                     ` : (isSelected ? `
-                      <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from Applications Cart">
+                      <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from selection">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>In Applications</span>
+                        <span>Selected</span>
                         <span class="remove-cross" title="Remove">✕</span>
                       </button>
                     ` : `
@@ -1396,10 +1396,10 @@
 
         if (cand.selected) {
           window.jobApi.removeCandidateFromApplications(candId);
-          showToast(`Removed ${cand.name} from Applications.`, 'info');
+          showToast(`Removed ${cand.name} from selection.`, 'info');
         } else {
           window.jobApi.selectCandidate(candId);
-          showToast(`✓ Added ${cand.name} to Applications! Review or unlock in Workspace.`, 'success');
+          showToast(`✓ Added ${cand.name} to selection. Review or unlock in Employer Workspace.`, 'success');
         }
 
         renderCandidatesGrid();
@@ -1464,7 +1464,7 @@
               <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap;">
                 <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 In Applications</span>' : '')}
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 Selected</span>' : '')}
               </div>
               <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${c.name}</h2>
               <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 2px;">
@@ -1477,7 +1477,7 @@
           <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--color-border)'}; border-radius: var(--radius-s); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
             <div>
               <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">
-                ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected in Applications (Shielded)' : 'Direct Contact (Shielded in Viewer Mode)')}
+                ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected Candidate (Shielded)' : 'Direct Contact (Shielded in Viewer Mode)')}
               </div>
               <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
                 ${isUnlocked ? c.phone_unlocked : c.phone_masked}
@@ -1495,7 +1495,7 @@
                   </a>
                 ` : `
                   <button type="button" class="btn-unlock-contact ${isSelected ? 'selected-cart' : ''}" id="drawer-btn-cart-toggle" style="padding: 9px 14px;">
-                    ${isSelected ? '✓ In Applications (Remove ✕)' : '+ Select to Applications'}
+                    ${isSelected ? '✓ Selected (Remove ✕)' : '+ Select Candidate'}
                   </button>
                   <button type="button" class="nav-btn-solid" id="drawer-btn-unlock" style="padding: 9px 14px; font-size: 12px; cursor: pointer;">
                     Unlock (1 Credit)
@@ -1576,7 +1576,7 @@
           ${(isEmployer && (isUnlocked || isSelected)) ? `
             <div style="margin-top: 8px;">
               <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center; text-decoration: none;">
-                ${isUnlocked ? 'Open Full Candidate Pass in Workspace →' : 'Review & Unlock in Applications Workspace →'}
+                ${isUnlocked ? 'Open Full Candidate Pass in Workspace →' : 'Review & Unlock in Employer Workspace →'}
               </a>
             </div>
           ` : ''}
@@ -1614,7 +1614,7 @@
       // Cart Bar Clear Button
       document.getElementById('btn-clear-cart')?.addEventListener('click', () => {
         window.jobApi.clearSelectedCandidates();
-        showToast('Applications selection cart cleared.', 'info');
+        showToast('Candidate selection cart cleared.', 'info');
         renderCandidatesGrid();
       });
 
