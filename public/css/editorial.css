@@ -252,7 +252,7 @@ body.editorial-page a {
   vertical-align: middle;
   flex-shrink: 0;
   transition: transform 0.25s ease;
-  filter: drop-shadow(0 1px 4px rgba(212, 163, 70, 0.3));
+  filter: none;
 }
 
 .nav-logo:hover .brand-logo-img {
@@ -512,28 +512,31 @@ button.nav-btn-link:hover,
 .home-title-wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  gap: 2vw;
+  align-items: center;
+  gap: 0;
   perspective: 25vw;
   margin-top: 1vw;
+  position: relative;
 }
 
 .home-title-box-1,
 .home-title-box-2 {
-  overflow: hidden;
+  overflow: visible;
   height: 11vw;
   display: flex;
   align-items: center;
   gap: 0.2vw;
   transition: transform 1.5s cubic-bezier(0.66, 0, 0.23, 1);
+  position: relative;
+  z-index: 1;
 }
 
 .home-title-box-1 {
-  transform: translateX(8.3vw);
+  transform: translateX(2vw);
 }
 
 .home-title-box-2 {
-  transform: translateX(-8.3vw);
+  transform: translateX(-2vw);
 }
 
 .home-title-box-1.is-animated,
@@ -545,16 +548,20 @@ button.nav-btn-link:hover,
   height: 11vw;
   width: auto;
   color: var(--color-text);
+  display: block;
 }
 
 .home-title-image-box {
   position: relative;
+  z-index: 10;
   overflow: visible;
-  width: 11vw;
-  height: 11vw;
+  width: 10.5vw;
+  height: 10.5vw;
+  margin-left: -3vw;
+  margin-right: -3vw;
   align-self: center;
   border-radius: 0;
-  transform: scale(1.1) translateX(1.5vw) rotateY(90deg);
+  transform: scale(1.05) rotateY(90deg);
   opacity: 0;
   transform-style: preserve-3d;
   transform-origin: center;
@@ -569,25 +576,25 @@ button.nav-btn-link:hover,
 
 .home-title-image-box.is-animated {
   opacity: 1;
-  transform: scale(1) translateX(0) rotateY(0deg);
+  transform: scale(1) rotateY(0deg);
   transition:
-    transform 1.5s cubic-bezier(0.28, 0.54, 0.39, 1),
-    opacity 0.9s ease 0.1s;
+    transform 1.4s cubic-bezier(0.28, 0.54, 0.39, 1),
+    opacity 0.8s ease 0.1s;
 }
 
 .home-title-logo {
   width: 100%;
   height: 100%;
-  max-width: 11vw;
-  max-height: 11vw;
+  max-width: 10.5vw;
+  max-height: 10.5vw;
   object-fit: contain;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
-  filter: drop-shadow(0 6px 20px rgba(212, 163, 70, 0.45));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: none;
 }
 
 .home-title-image-box:hover .home-title-logo {
-  transform: scale(1.12) rotate(-3deg);
-  filter: drop-shadow(0 10px 28px rgba(212, 163, 70, 0.7));
+  transform: scale(1.1) rotate(-3deg);
+  filter: none;
 }
 
 @keyframes show-image {
@@ -986,7 +993,7 @@ button.nav-btn-link:hover,
 .footer-brand .brand-logo-img {
   width: 40px;
   height: 40px;
-  filter: drop-shadow(0 2px 6px rgba(212, 163, 70, 0.35));
+  filter: none;
 }
 
 .footer-copy {
@@ -1112,16 +1119,18 @@ button.nav-btn-link:hover,
   }
 
   .home-title-box-1 {
-    transform: translateX(10.6vw);
+    transform: translateX(2.5vw);
   }
 
   .home-title-box-2 {
-    transform: translateX(-10.6vw);
+    transform: translateX(-2.5vw);
   }
 
   .home-title-image-box {
     width: 14vw;
     height: 14vw;
+    margin-left: -3.8vw;
+    margin-right: -3.8vw;
   }
 
   .home-hero-subtitle {
