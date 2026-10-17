@@ -313,7 +313,7 @@ export function getVerificationEmailHtml(code: string, recipientEmail: string): 
       </p>
     </div>
     <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center; font-size: 11px; color: #94a3b8; line-height: 1.5;">
-      © ${new Date().getFullYear()} JobWay (job-way.in). Direct trade connections with zero agency commissions.<br>
+      JobWay (job-way.in). Direct trade connections with zero agency commissions.<br>
       This is an automated system notification sent from noreply@job-way.in.
     </div>
   </div>
@@ -356,7 +356,7 @@ export function getPasswordResetEmailHtml(code: string, recipientEmail: string):
       </div>
     </div>
     <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center; font-size: 11px; color: #94a3b8;">
-      © ${new Date().getFullYear()} JobWay (job-way.in). All rights reserved.
+      JobWay (job-way.in). All rights reserved.
     </div>
   </div>
 </body>
