@@ -6,6 +6,8 @@
     { "source": "/worker", "destination": "/worker.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/profile-edit", "destination": "/profile-edit.html" }
+    { "source": "/profile-edit", "destination": "/profile-edit.html" },
+    { "source": "/jobs", "destination": "/jobs.html" },
+    { "source": "/candidates", "destination": "/candidates.html" }
   ]
 }

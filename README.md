@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JobWay (JobConnect)
 
-## Getting Started
+India's Verified Technical & Industrial Trades Network — connecting certified automation engineers, CNC machinists, EV technicians, and precision engineering specialists directly with vetted industrial employers across India with zero wage brokerage deductions.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Architecture
+
+- **Frontend:** Vanilla HTML5, modern CSS3 (`editorial.css`, `style.css`), and JavaScript (`api.js`, `app.js`). Hosted on **Cloudflare Pages**.
+- **Backend:** **Cloudflare Workers** built with **Hono**, TypeScript, and Zod.
+- **Database:** **Cloudflare D1** (Serverless SQL with relational migrations).
+- **Session & KV:** **Cloudflare Workers KV** (OTPs, rate limits, session store).
+- **Object Storage:** **Cloudflare R2** (worker resumes, KYC docs, and certifications).
+- **Mailing:** SMTP relay (Brevo SMTP) for OTPs and notifications.
+
+---
+
+## Directory Structure
+
+```
+jobconnect/
+├── backend/                  # Cloudflare Workers API Engine
+│   ├── src/
+│   │   ├── config/           # Environment, constants, and typed bindings
+│   │   ├── db/               # D1 SQL schemas and migrations
+│   │   ├── middlewares/      # Auth, role-guards, rate-limiting, error handling
+│   │   ├── routes/           # Auth, Worker, Employer, Admin, Payments, Uploads
+│   │   ├── services/         # OTP, SMTP, Privacy shielding, R2 Storage
+│   │   └── index.ts          # Hono app entry point
+│   ├── wrangler.toml         # Workers deployment & D1/KV/R2 bindings config
+│   └── package.json
+├── public/                   # Cloudflare Pages static frontend
+│   ├── assets/               # Lettermarks, trade badges, hero photography
+│   ├── css/                  # Swiss editorial design system & core styles
+│   ├── js/                   # Live API client with offline fallback & page controllers
+│   ├── index.html            # Public landing showcase
+│   ├── jobs.html             # Vacancies directory & live application drawer
+│   ├── candidates.html       # Verified tradesmen directory & employer unlock cart
+│   ├── worker.html           # Worker desk & Trade Pass management
+│   ├── employer.html         # Employer terminal & vacancy management
+│   ├── profile-edit.html     # Worker Trade Pass editor & workshop photo uploader
+│   ├── login.html            # Unified OTP authentication
+│   └── admin.html            # Ledger oversight & candidate verification
+├── wrangler.jsonc            # Cloudflare Pages configuration
+├── package.json              # Workspace root scripts
+└── serve.json                # Local development server configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Start Local Frontend
+```bash
+npm run dev
+# Serves frontend on http://localhost:3000
+```
 
-## Learn More
+### 2. Start Local Backend
+```bash
+npm run backend:dev
+# Runs Cloudflare Workers dev server on http://localhost:8787
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Frontend (Cloudflare Pages)
+```bash
+npm run deploy:frontend
+```
 
-## Deploy on Vercel
+### Backend (Cloudflare Workers)
+```bash
+npm run backend:deploy
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### D1 Database Migrations (Remote)
+```bash
+npm run backend:migrate
+```
