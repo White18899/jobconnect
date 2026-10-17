@@ -232,10 +232,24 @@ body.editorial-page a {
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: var(--font-size-s);
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+.brand-logo-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.nav-logo:hover .brand-logo-img {
+  transform: scale(1.1) rotate(-4deg);
 }
 
 .nav-links-wrapper {
@@ -529,13 +543,18 @@ button.nav-btn-link:hover,
   overflow: hidden;
   width: 14vw;
   height: 10vw;
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-s);
   transform: scale(1.1) translateX(1.5vw) rotateY(90deg);
   opacity: 0;
   transform-style: preserve-3d;
   transform-origin: center;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
-  background: #09090b;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1vw;
+  cursor: pointer;
 }
 
 .home-title-image-box.is-animated {
@@ -546,38 +565,17 @@ button.nav-btn-link:hover,
     opacity 0.9s ease 0.1s;
 }
 
-.home-title-image-1,
-.home-title-image-2,
-.home-title-image-3,
-.home-title-image-4 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: translate(-50%, -50%);
-  opacity: 0;
+.home-title-logo {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  filter: drop-shadow(0 4px 14px rgba(234, 179, 8, 0.35));
 }
 
-.home-title-image-1.is-animated {
-  animation: show-image 6s cubic-bezier(0, 0.57, 1, 0.44) infinite;
-  animation-delay: 0s;
-}
-
-.home-title-image-2.is-animated {
-  animation: show-image 6s cubic-bezier(0, 0.57, 1, 0.44) infinite;
-  animation-delay: 1.5s;
-}
-
-.home-title-image-3.is-animated {
-  animation: show-image 6s cubic-bezier(0, 0.57, 1, 0.44) infinite;
-  animation-delay: 3s;
-}
-
-.home-title-image-4.is-animated {
-  animation: show-image 6s cubic-bezier(0, 0.57, 1, 0.44) infinite;
-  animation-delay: 4.5s;
+.home-title-image-box:hover .home-title-logo {
+  transform: scale(1.08) rotate(-2deg);
+  filter: drop-shadow(0 6px 20px rgba(234, 179, 8, 0.55));
 }
 
 @keyframes show-image {
@@ -968,6 +966,14 @@ button.nav-btn-link:hover,
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #000000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand .brand-logo-img {
+  width: 24px;
+  height: 24px;
 }
 
 .footer-copy {

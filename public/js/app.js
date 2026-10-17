@@ -131,13 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         imageBox.classList.add('is-animated');
       }, 950);
 
-      // Start 4-image infinite carousel
-      setTimeout(() => {
-        const carouselImages = document.querySelectorAll(
-          '.home-title-image-1, .home-title-image-2, .home-title-image-3, .home-title-image-4'
-        );
-        carouselImages.forEach(img => img.classList.add('is-animated'));
-      }, 1000);
+      // Logo reveal complete
     }
   }
   initHeroAnimations();
