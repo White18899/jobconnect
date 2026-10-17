@@ -120,16 +120,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       box2.classList.remove('is-animated');
       imageBox.classList.remove('is-animated');
 
-      // Trigger box inward slide
+      // Trigger letters reveal promptly
       setTimeout(() => {
         box1.classList.add('is-animated');
         box2.classList.add('is-animated');
-      }, 550);
+      }, 100);
 
-      // Trigger 3D image rotation & reveal
+      // Trigger 3D emblem unfold & reveal
       setTimeout(() => {
         imageBox.classList.add('is-animated');
-      }, 950);
+      }, 280);
 
       // Logo reveal complete
     }
