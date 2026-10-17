@@ -856,10 +856,14 @@ class JobConnectApi {
       if (!parsed.photo_key && (user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo'))) {
         parsed.photo_key = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo');
       }
+      if (!parsed.photo_thumb && (user?.cover_image || localStorage.getItem('jc_worker_cover'))) {
+        parsed.photo_thumb = user?.cover_image || localStorage.getItem('jc_worker_cover');
+      }
       return parsed;
     }
 
     const savedPhoto = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo') || '';
+    const savedCover = user?.cover_image || localStorage.getItem('jc_worker_cover') || 'assets/trades/mechanic.jpg';
 
     return {
       full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : 'Ramesh Kumar',
@@ -867,6 +871,7 @@ class JobConnectApi {
       phone: user?.phone || '+91 98491 23434',
       email: user?.email || 'worker@job-way.in',
       photo_key: savedPhoto,
+      photo_thumb: savedCover,
       skills: '["Two-Wheeler Mechanic", "Welder", "Electrical Helper"]',
       experience_years: 4.5,
       education_level: 'ITI Certificate',
@@ -889,6 +894,25 @@ class JobConnectApi {
     if (profileData.photo_key !== undefined) {
       localStorage.setItem('jc_worker_photo', profileData.photo_key || '');
     }
+    if (profileData.photo_thumb !== undefined) {
+      localStorage.setItem('jc_worker_cover', profileData.photo_thumb || '');
+    }
+
+    // Sync candidate list so candidate cards immediately display updated cover thumbnail & avatar
+    try {
+      const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+      const cand = candidates.find(c => c.name === (user?.name || 'Ramesh Kumar') || c.id === 'cand_07');
+      if (cand) {
+        if (profileData.photo_thumb) cand.photo_thumb = profileData.photo_thumb;
+        if (profileData.photo_key) cand.photo_key = profileData.photo_key;
+        if (profileData.full_name) cand.name = profileData.full_name;
+        if (profileData.trade_title) cand.trade_title = profileData.trade_title;
+        if (profileData.skills) cand.skills = profileData.skills;
+        if (profileData.city) cand.city = profileData.city;
+        if (profileData.experience_years !== undefined) cand.experience = profileData.experience_years;
+        localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+      }
+    } catch (e) {}
 
     try {
       const token = this.getAuthToken();
@@ -913,6 +937,9 @@ class JobConnectApi {
             user.avatar = profileData.photo_key;
             user.photo_key = profileData.photo_key;
           }
+          if (profileData.photo_thumb !== undefined) {
+            user.cover_image = profileData.photo_thumb;
+          }
           this.setCurrentUser(user);
         }
         localStorage.setItem(`jc_worker_profile_${user?.id || 'default'}`, JSON.stringify(data.profile));
@@ -935,6 +962,9 @@ class JobConnectApi {
       if (profileData.photo_key !== undefined) {
         user.avatar = profileData.photo_key;
         user.photo_key = profileData.photo_key;
+      }
+      if (profileData.photo_thumb !== undefined) {
+        user.cover_image = profileData.photo_thumb;
       }
       this.setCurrentUser(user);
     }

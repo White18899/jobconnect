@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS worker_profiles (
     full_name TEXT NOT NULL,
     trade_title TEXT,
     photo_key TEXT,
+    photo_thumb TEXT,
     phone TEXT,
     skills TEXT NOT NULL,
     experience_years REAL DEFAULT 0,

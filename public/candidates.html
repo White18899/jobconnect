@@ -1275,7 +1275,7 @@
                 </div>
 
                 <div class="cand-avatar-pill">
-                  ${initials}
+                  ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">` : initials}
                   <div class="cand-verified-microtick" title="KYC Verified">✓</div>
                 </div>
               </div>
@@ -1445,8 +1445,8 @@
         drawerBody.innerHTML = `
           <!-- Header Profile Row -->
           <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="width: 64px; height: 64px; border-radius: var(--radius-s); background: #000; color: #fff; font-size: 22px; font-weight: 750; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
-              ${initials}
+            <div style="width: 64px; height: 64px; border-radius: var(--radius-s); background: #000; color: #fff; font-size: 22px; font-weight: 750; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden;">
+              ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">` : initials}
               <div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 4px; background: #10b981; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">✓</div>
             </div>
             <div style="flex: 1;">
