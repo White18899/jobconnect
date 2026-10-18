@@ -178,7 +178,7 @@
         <button type="button" class="auth-mode-btn" id="tab-mode-register">
           Register
         </button>
-        <button type="button" class="auth-mode-btn" id="tab-mode-admin">
+        <button type="button" class="auth-mode-btn" id="tab-mode-admin" style="display: none;">
           Admin
         </button>
       </div>
@@ -426,29 +426,7 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
 
-          <button type="button" class="btn-signin-header" id="btn-demo-admin" style="width: 100%; justify-content: center; padding: 9px; font-size: 12.5px;">
-            <span>1-Click Administrator Testing</span>
-          </button>
         </form>
-      </div>
-
-      <!-- ========================================================= -->
-      <!-- FAST 1-CLICK DEMO ACCOUNTS                                -->
-      <!-- ========================================================= -->
-      <div id="section-demo-accounts" style="margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); text-align: center;">
-        <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 10px;">
-          1-Click Demo Accounts
-        </span>
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          <button type="button" class="btn-signin-header" id="btn-quick-worker" style="padding: 9px 12px; font-size: 12.5px; justify-content: center; display: flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
-            <span>Log In as Worker (worker@job-way.in)</span>
-          </button>
-          <button type="button" class="btn-signin-header" id="btn-quick-employer" style="padding: 9px 12px; font-size: 12.5px; justify-content: center; display: flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
-            <span>Log In as Employer (employer@job-way.in)</span>
-          </button>
-        </div>
       </div>
 
     </div>
@@ -467,7 +445,6 @@
       const viewVerifyCode = document.getElementById('view-verify-code');
       const viewForgotPassword = document.getElementById('view-forgot-password');
       const viewAdmin = document.getElementById('view-admin');
-      const sectionDemoAccounts = document.getElementById('section-demo-accounts');
 
       // Top Mode Tabs
       const tabModeLogin = document.getElementById('tab-mode-login');
@@ -516,11 +493,6 @@
       // Admin Inputs
       const inputAdminPass = document.getElementById('login-admin-pass');
       const btnSubmitAdmin = document.getElementById('btn-submit-admin');
-      const btnDemoAdmin = document.getElementById('btn-demo-admin');
-
-      // Quick Demo Buttons
-      const btnQuickWorker = document.getElementById('btn-quick-worker');
-      const btnQuickEmployer = document.getElementById('btn-quick-employer');
 
       // Toast notification helper
       function showToast(msg, type = 'success') {
@@ -539,14 +511,14 @@
         tabModeRegister.classList.toggle('active', mode === 'register');
         tabModeAdmin.classList.toggle('active', mode === 'admin');
 
+        // Only display the Admin tab when in admin mode (direct URL access)
+        tabModeAdmin.style.display = mode === 'admin' ? 'block' : 'none';
+
         viewLogin.style.display = mode === 'login' ? 'block' : 'none';
         viewRegister.style.display = mode === 'register' ? 'block' : 'none';
         viewVerifyCode.style.display = mode === 'verify' ? 'block' : 'none';
         viewForgotPassword.style.display = mode === 'forgot' ? 'block' : 'none';
         viewAdmin.style.display = mode === 'admin' ? 'block' : 'none';
-
-        // Hide demo accounts in admin or verify views
-        sectionDemoAccounts.style.display = (mode === 'verify' || mode === 'forgot') ? 'none' : 'block';
       }
 
       // Mode Switch Handlers
@@ -574,15 +546,15 @@
       cardRoleWorker.addEventListener('click', () => updateRole('worker'));
       cardRoleEmployer.addEventListener('click', () => updateRole('employer'));
 
-      // Check URL parameters (e.g. ?mode=signup or ?mode=admin or ?role=employer)
+      // Check URL parameters (e.g. ?mode=signup or ?mode=admin or ?role=admin or ?role=employer)
       const urlParams = new URLSearchParams(window.location.search);
       const modeParam = urlParams.get('mode');
       const roleParam = urlParams.get('role');
 
-      if (modeParam === 'signup' || modeParam === 'register') {
-        setMode('register');
-      } else if (modeParam === 'admin') {
+      if (modeParam === 'admin' || roleParam === 'admin') {
         setMode('admin');
+      } else if (modeParam === 'signup' || modeParam === 'register') {
+        setMode('register');
       } else {
         setMode('login');
       }
@@ -853,54 +825,6 @@
         } else {
           alert(res.error || 'Incorrect admin password.');
         }
-      });
-
-      btnDemoAdmin.addEventListener('click', () => {
-        window.jobApi.setCurrentUser({
-          id: 'admin_01',
-          email: 'admin@job-way.in',
-          name: 'Platform Administrator',
-          role: 'admin',
-          isVerified: true,
-        });
-        showToast('Administrator authenticated!');
-        setTimeout(() => {
-          window.location.href = '/admin.html';
-        }, 500);
-      });
-
-      // =========================================================
-      // 6. QUICK 1-CLICK TESTING (WORKER & EMPLOYER)
-      // =========================================================
-      btnQuickWorker.addEventListener('click', () => {
-        window.jobApi.setCurrentUser({
-          id: 'wrk-1',
-          email: 'worker@job-way.in',
-          name: 'Arjun Rao',
-          role: 'worker',
-          trade: 'Software Engineering',
-          trade_title: 'Senior Full-Stack Engineer',
-          isVerified: true,
-        });
-        showToast('Signed in as Candidate (Arjun Rao)!');
-        setTimeout(() => {
-          window.location.href = '/worker.html';
-        }, 400);
-      });
-
-      btnQuickEmployer.addEventListener('click', () => {
-        window.jobApi.setCurrentUser({
-          id: 'emp-1',
-          email: 'employer@job-way.in',
-          name: 'HyperScale Cloud Systems',
-          role: 'employer',
-          company: 'HyperScale Cloud Systems',
-          isVerified: true,
-        });
-        showToast('Signed in as Employer (HyperScale Cloud Systems)!');
-        setTimeout(() => {
-          window.location.href = '/employer.html';
-        }, 400);
       });
 
     });
