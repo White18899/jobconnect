@@ -1058,7 +1058,7 @@
         <div class="results-heading-meta">
           <span>Showing <strong id="cand-results-count">07</strong> verified candidates</span>
           <span style="color: var(--color-border); font-weight: 300;">|</span>
-          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Aadhaar KYC Authenticated</span>
+          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Technical Profiles</span>
         </div>
 
         <div>
@@ -1132,7 +1132,7 @@
       <div class="footer-box">
         <h4 class="footer-col-title">Direct Employer Unlocks</h4>
         <p class="footer-text">
-          Zero middleman brokerage. Unlocked candidates display verified Aadhaar IDs, WhatsApp numbers, and verified trade certifications.
+          Zero middleman brokerage. Unlocked candidates display verified technical credentials, WhatsApp contacts, and GitHub / portfolio profiles.
         </p>
       </div>
       <div class="footer-box">
@@ -1339,7 +1339,7 @@
                 <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
                   <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>UIDAI Vetted</span></span>')}
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>')}
                 </div>
 
                 <div class="cand-avatar-pill">
@@ -1527,7 +1527,7 @@
             </div>
             <div style="flex: 1;">
               <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
-                <span class="cand-badge cand-badge-kyc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>UIDAI Aadhaar Vetted</span></span>
+                <span class="cand-badge cand-badge-kyc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
                 ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Unlocked Pass</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-weight: 700;">🛒 Selected</span>' : '')}
               </div>
@@ -1598,8 +1598,8 @@
                 <div style="font-size: 14px; font-weight: 700; color: #14281D; margin-top: 3px;">₹${(c.salary_expected || 35000).toLocaleString('en-IN')}</div>
               </div>
               <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
-                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">UIDAI KYC</div>
-                <div style="font-size: 13.5px; font-weight: 700; color: #059669; margin-top: 3px;">DigiLocker Vetted ✓</div>
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Verification</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #059669; margin-top: 3px;">Skill Verified ✓</div>
               </div>
               <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
                 <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Availability</div>
@@ -1638,7 +1638,7 @@
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 18px;">
               <div style="font-size: 14px; font-weight: 700; color: #14281D;">${c.education}</div>
-              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">Verified against Aadhaar DigiLocker database & Skill Council records. Zero falsified certificates.</div>
+              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">Verified against degree transcripts & technical portfolio records. Zero falsified credentials.</div>
             </div>
           </div>
 

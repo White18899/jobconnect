@@ -89,7 +89,7 @@ const updateProfileSchema = z.object({
   salary_period: z.enum(['hourly', 'daily', 'monthly']).optional(),
   linkedin_url: z.string().optional(),
   linkedin_synced: z.number().optional(),
-  id_proof_type: z.enum(['aadhaar_masked', 'voter_id', 'driving_licence']).optional(),
+  id_proof_type: z.enum(['national_id', 'aadhaar_masked', 'voter_id', 'driving_licence', 'passport']).optional(),
   id_number_raw: z.string().optional(),
   id_doc_key: z.string().optional(),
   selfie_key: z.string().optional(),

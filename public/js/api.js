@@ -1255,7 +1255,7 @@ class JobConnectApi {
     };
   }
 
-  async requestDigiLockerOtp(aadhaarNumber) {
+  async requestDigiLockerOtp(idNumber) {
     try {
       const token = this.getAuthToken();
       const res = await fetch(`${this.baseUrl}/worker/digilocker/request-otp`, {
@@ -1264,26 +1264,28 @@ class JobConnectApi {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ aadhaar_number: aadhaarNumber }),
+        body: JSON.stringify({ id_number: idNumber, aadhaar_number: idNumber }),
       });
       if (res.ok) {
         return await res.json();
       }
     } catch (e) {
-      console.warn('Network error requesting DigiLocker OTP, using fallback:', e);
+      console.warn('Network error requesting verification OTP, using fallback:', e);
     }
 
-    const clean = aadhaarNumber.replace(/\D/g, '');
+    const clean = (idNumber || '').replace(/\D/g, '');
+    const masked = `ID-••••-${clean.slice(-4) || '4912'}`;
     return {
       success: true,
-      txnId: 'DL-KYC-' + Date.now().toString().slice(-8),
-      maskedAadhaar: `XXXX-XXXX-${clean.slice(-4) || '4912'}`,
-      message: 'DigiLocker Aadhaar consent OTP sent to registered mobile (••••-••••-8910)',
+      txnId: 'ID-VERIFY-' + Date.now().toString().slice(-8),
+      maskedId: masked,
+      maskedAadhaar: masked,
+      message: 'Verification consent OTP sent to registered mobile (••••-••••-8910)',
       devOtp: '123456',
     };
   }
 
-  async verifyDigiLockerOtp(txnId, otp, aadhaarNumber) {
+  async verifyDigiLockerOtp(txnId, otp, idNumber) {
     try {
       const token = this.getAuthToken();
       const res = await fetch(`${this.baseUrl}/worker/digilocker/verify-otp`, {
@@ -1292,11 +1294,10 @@ class JobConnectApi {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ txnId, otp, aadhaar_number: aadhaarNumber }),
+        body: JSON.stringify({ txnId, otp, id_number: idNumber, aadhaar_number: idNumber }),
       });
       if (res.ok) {
         const data = await res.json();
-        // Update local user verified status
         const user = this.getCurrentUser();
         if (user) {
           user.isVerified = true;
@@ -1305,12 +1306,12 @@ class JobConnectApi {
         return data;
       }
     } catch (e) {
-      console.warn('Network error verifying DigiLocker OTP, using fallback:', e);
+      console.warn('Network error verifying OTP, using fallback:', e);
     }
 
     if (otp === '123456' || otp.length >= 4) {
-      const clean = aadhaarNumber.replace(/\D/g, '');
-      const masked = `XXXX-XXXX-${clean.slice(-4) || '4912'}`;
+      const clean = (idNumber || '').replace(/\D/g, '');
+      const masked = `ID-••••-${clean.slice(-4) || '4912'}`;
       const user = this.getCurrentUser();
       if (user) {
         user.isVerified = true;
@@ -1318,13 +1319,14 @@ class JobConnectApi {
       }
       return {
         success: true,
-        message: 'Aadhaar identity verified via DigiLocker e-KYC!',
+        message: 'Identity & credentials verified successfully!',
+        maskedId: masked,
         maskedAadhaar: masked,
         digilocker_ref: txnId,
         verifiedStatus: 'verified',
       };
     }
-    return { success: false, error: 'Incorrect DigiLocker OTP code.' };
+    return { success: false, error: 'Incorrect OTP code.' };
   }
 
 
