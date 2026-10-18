@@ -1379,15 +1379,15 @@
       let activeCoverThumbData = '';
 
       function updateInitials(name) {
-        const rawName = name || inputName?.value || user.name || 'Ramesh Kumar';
-        const cleanDisplayName = rawName.replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim() || 'RK';
+        const rawName = name || inputName?.value || user.name || (user.email ? user.email.split('@')[0] : 'Worker');
+        const cleanDisplayName = rawName.replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z\s]/g, '').trim() || '--';
         const initials = cleanDisplayName
           .split(/\s+/)
           .filter(Boolean)
           .map(n => n[0])
           .slice(0, 2)
           .join('')
-          .toUpperCase() || 'RK';
+          .toUpperCase() || '--';
         if (avatarInitials) avatarInitials.textContent = initials;
       }
       updateInitials(user.name);

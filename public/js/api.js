@@ -14,462 +14,11 @@ const API_BASE_URL = (() => {
   return 'https://jobconnect-backend.white018899.workers.dev/api';
 })();
 
-// Initial fallback mock data if network is offline
-const INITIAL_JOBS = [
-  {
-    id: "job_01",
-    title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
-    description: "Architect and build scalable microservices, edge-native Cloudflare Workers, and high-performance React web applications. Responsible for distributed databases, caching, and CI/CD pipelines.",
-    category: "Software Engineering",
-    salary_min: 85000,
-    salary_max: 130000,
-    salary_period: "monthly",
-    location_area: "Hitec City Cyber Towers",
-    location_city: "Hyderabad",
-    working_hours: "10:00 AM - 7:00 PM (Hybrid)",
-    requirements: "B.Tech/BE in Computer Science, 4+ years building full-stack web platforms with TypeScript, React, Node.js, and SQL.",
-    vacancies: 2,
-    status: "open",
-    created_at: "2026-10-02",
-    business_name: "HyperScale Cloud Systems",
-    business_type: "SaaS & Cloud Platforms",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_02",
-    title: "SDET & QA Automation Engineer (Playwright & Cypress)",
-    description: "Design and execute end-to-end automated test suites for fintech payment gateways. Lead regression cycles, performance benchmarks, and automated security sanity checks.",
-    category: "QA & Testing",
-    salary_min: 65000,
-    salary_max: 95000,
-    salary_period: "monthly",
-    location_area: "Outer Ring Road Tech Corridor",
-    location_city: "Bangalore",
-    working_hours: "9:30 AM - 6:30 PM (Flexible)",
-    requirements: "3+ years QA automation with Playwright, Cypress, or Selenium. Strong API testing skills (REST / GraphQL / Postman).",
-    vacancies: 2,
-    status: "open",
-    created_at: "2026-10-04",
-    business_name: "FinEdge Fintech Solutions",
-    business_type: "Banking & Payments Tech",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_03",
-    title: "Technical Team Leader & Engineering Manager",
-    description: "Lead a high-performing squad of 8 engineers across frontend, backend, and infrastructure. Drive architecture reviews, sprint grooming, code quality standards, and technical roadmaps.",
-    category: "Team Leadership",
-    salary_min: 120000,
-    salary_max: 180000,
-    salary_period: "monthly",
-    location_area: "Financial District Gachibowli",
-    location_city: "Hyderabad",
-    working_hours: "9:30 AM - 6:30 PM",
-    requirements: "6+ years software development experience with at least 2+ years leading engineering teams or tech-leading complex distributed systems.",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-06",
-    business_name: "NextWave AI & Automation Labs",
-    business_type: "Enterprise AI Systems",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_04",
-    title: "Senior Technical Recruiter & HR Operations Partner",
-    description: "Manage 360-degree technical hiring lifecycle for software, QA, and cloud engineering squads. Partner with hiring managers, run tech sourcing campaigns, offer management, and onboarding.",
-    category: "Human Resources",
-    salary_min: 55000,
-    salary_max: 80000,
-    salary_period: "monthly",
-    location_area: "Hinjewadi Tech Hub",
-    location_city: "Pune",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "MBA / Degree in HR, 4+ years technical recruiting in fast-growth tech startups. Proven proficiency in LinkedIn Recruiter and modern ATS.",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-08",
-    business_name: "TalentSphere Global Technologies",
-    business_type: "People Ops & HR Tech",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_05",
-    title: "Cloud & DevOps Infrastructure Engineer",
-    description: "Manage enterprise Kubernetes clusters, Infrastructure as Code using Terraform, automated GitOps CI/CD pipelines, and 99.99% uptime observability with Prometheus and Datadog.",
-    category: "DevOps & Cloud",
-    salary_min: 90000,
-    salary_max: 140000,
-    salary_period: "monthly",
-    location_area: "Madhapur Tech Corridor",
-    location_city: "Hyderabad",
-    working_hours: "10:00 AM - 7:00 PM (Rotational On-Call)",
-    requirements: "4+ years hands-on DevOps / SRE experience, CKA certified preferred, production Docker/Kubernetes and AWS/GCP architecture.",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-09",
-    business_name: "HyperScale Cloud Systems",
-    business_type: "SaaS & Cloud Platforms",
-    employer_verified: "verified"
-  },
-  {
-    id: "job_06",
-    title: "Lead Mobile Application Developer (React Native & Flutter)",
-    description: "Lead mobile development for flagship consumer fintech and worker apps. Implement native modules, smooth 60fps animations, biometric authentication, and offline caching.",
-    category: "Mobile Development",
-    salary_min: 75000,
-    salary_max: 115000,
-    salary_period: "monthly",
-    location_area: "Koramangala Tech Corridor",
-    location_city: "Bangalore",
-    working_hours: "9:30 AM - 6:30 PM",
-    requirements: "4+ years mobile app development with React Native, Flutter, Swift, or Kotlin. Shipped production apps to App Store & Google Play.",
-    vacancies: 1,
-    status: "open",
-    created_at: "2026-10-10",
-    business_name: "FinEdge Fintech Solutions",
-    business_type: "Banking & Payments Tech",
-    employer_verified: "verified"
-  }
-];
-
-const INITIAL_APPLICATIONS = [
-  {
-    id: "app_101",
-    job_id: "job_01",
-    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
-    employer_name: "HyperScale Cloud Systems",
-    worker_id: "cand_01",
-    worker_name: "Rohan Sharma",
-    worker_category: "Software Engineering",
-    worker_experience: 4.5,
-    worker_city: "Hyderabad",
-    applied_date: "2026-10-08",
-    status: "applied",
-    priority: "PRIORITY_ACTIVE",
-    unlocked: false,
-    phone_masked: "+91 98••••••34",
-    phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
-    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
-    experience_notes: "4.5 Years Full-Stack (React 19, Node.js, TypeScript, Cloudflare Workers, PostgreSQL)"
-  },
-  {
-    id: "app_102",
-    job_id: "job_01",
-    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
-    employer_name: "HyperScale Cloud Systems",
-    worker_id: "cand_02",
-    worker_name: "Pooja Nair",
-    worker_category: "QA & Testing",
-    worker_experience: 4,
-    worker_city: "Bangalore",
-    applied_date: "2026-10-09",
-    status: "applied",
-    priority: "STANDARD",
-    unlocked: false,
-    phone_masked: "+91 94••••••89",
-    phone_unlocked: "+91 94402 91889",
-    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
-    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
-    experience_notes: "4 Years End-to-End Test Automation, API Testing, and Full-Stack Quality Engineering"
-  },
-  {
-    id: "app_103",
-    job_id: "job_01",
-    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
-    employer_name: "HyperScale Cloud Systems",
-    worker_id: "cand_06",
-    worker_name: "Divya Menon",
-    worker_category: "Mobile Development",
-    worker_experience: 4.5,
-    worker_city: "Bangalore",
-    applied_date: "2026-10-10",
-    status: "applied",
-    priority: "STANDARD",
-    unlocked: false,
-    phone_masked: "+91 93••••••40",
-    phone_unlocked: "+91 93910 88240",
-    address_masked: "Address Protected (Koramangala, Bangalore)",
-    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
-    experience_notes: "Cross-Platform Mobile & Web Development with React, React Native, TypeScript"
-  },
-  {
-    id: "app_104",
-    job_id: "job_03",
-    job_title: "Technical Team Leader & Engineering Manager",
-    employer_name: "NextWave AI & Automation Labs",
-    worker_id: "cand_03",
-    worker_name: "Ankit Verma",
-    worker_category: "Team Leadership",
-    worker_experience: 6.5,
-    worker_city: "Hyderabad",
-    applied_date: "2026-10-09",
-    status: "shortlisted",
-    priority: "PRIORITY_ACTIVE",
-    unlocked: true,
-    phone_masked: "+91 99••••••78",
-    phone_unlocked: "+91 99592 34178",
-    address_masked: "Address Protected (Financial District, Hyderabad)",
-    address_unlocked: "Villa 18, Rolling Hills, Gachibowli, Hyderabad - 500032",
-    experience_notes: "6.5 Years System Architecture, Agile Team Mentorship, Distributed Systems"
-  },
-  {
-    id: "app_105",
-    job_id: "job_03",
-    job_title: "Technical Team Leader & Engineering Manager",
-    employer_name: "NextWave AI & Automation Labs",
-    worker_id: "cand_01",
-    worker_name: "Rohan Sharma",
-    worker_category: "Software Engineering",
-    worker_experience: 4.5,
-    worker_city: "Hyderabad",
-    applied_date: "2026-10-10",
-    status: "applied",
-    priority: "STANDARD",
-    unlocked: false,
-    phone_masked: "+91 98••••••34",
-    phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
-    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
-    experience_notes: "Applying for Technical Lead transition with full-stack track record"
-  },
-  {
-    id: "app_106",
-    job_id: "job_02",
-    job_title: "SDET & QA Automation Engineer (Playwright & Cypress)",
-    employer_name: "FinEdge Fintech Solutions",
-    worker_id: "cand_02",
-    worker_name: "Pooja Nair",
-    worker_category: "QA & Testing",
-    worker_experience: 4,
-    worker_city: "Bangalore",
-    applied_date: "2026-10-08",
-    status: "shortlisted",
-    priority: "PRIORITY_ACTIVE",
-    unlocked: false,
-    phone_masked: "+91 94••••••89",
-    phone_unlocked: "+91 94402 91889",
-    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
-    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
-    experience_notes: "Lead SDET specializing in Playwright, Cypress, Postman, and CI/CD security pipelines"
-  },
-  {
-    id: "app_107",
-    job_id: "job_04",
-    job_title: "Senior Technical Recruiter & HR Operations Partner",
-    employer_name: "TalentSphere Global Technologies",
-    worker_id: "cand_04",
-    worker_name: "Sneha Kulkarni",
-    worker_category: "Human Resources",
-    worker_experience: 5,
-    worker_city: "Pune",
-    applied_date: "2026-10-09",
-    status: "applied",
-    priority: "STANDARD",
-    unlocked: false,
-    phone_masked: "+91 97••••••55",
-    phone_unlocked: "+91 97011 88955",
-    address_masked: "Address Protected (Hinjewadi Tech Hub, Pune)",
-    address_unlocked: "D-804, Blue Ridge Township, Hinjewadi Phase 1, Pune - 411057",
-    experience_notes: "5 Years Tech Recruiting, Sourcing Pipelines, Greenhouse ATS, Compensation Benchmarks"
-  },
-  {
-    id: "app_108",
-    job_id: "job_05",
-    job_title: "Cloud & DevOps Infrastructure Engineer",
-    employer_name: "HyperScale Cloud Systems",
-    worker_id: "cand_05",
-    worker_name: "Karthik Iyer",
-    worker_category: "DevOps & Cloud",
-    worker_experience: 5,
-    worker_city: "Hyderabad",
-    applied_date: "2026-10-10",
-    status: "applied",
-    priority: "PRIORITY_ACTIVE",
-    unlocked: false,
-    phone_masked: "+91 91••••••12",
-    phone_unlocked: "+91 91218 45612",
-    address_masked: "Address Protected (Madhapur, Hyderabad)",
-    address_unlocked: "Flat 201, Silicon Oasis, Silicon Valley Layout, Madhapur, Hyderabad - 500081",
-    experience_notes: "5 Years Production Kubernetes, Terraform IaC, AWS/GCP, and Grafana Observability"
-  },
-  {
-    id: "app_109",
-    job_id: "job_06",
-    job_title: "Lead Mobile Application Developer (React Native & Flutter)",
-    employer_name: "FinEdge Fintech Solutions",
-    worker_id: "cand_06",
-    worker_name: "Divya Menon",
-    worker_category: "Mobile Development",
-    worker_experience: 4.5,
-    worker_city: "Bangalore",
-    applied_date: "2026-10-10",
-    status: "applied",
-    priority: "STANDARD",
-    unlocked: false,
-    phone_masked: "+91 93••••••40",
-    phone_unlocked: "+91 93910 88240",
-    address_masked: "Address Protected (Koramangala, Bangalore)",
-    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
-    experience_notes: "4.5 Years Native and Cross-Platform Mobile Engineering (React Native, Flutter, Swift, Kotlin)"
-  }
-];
-
-const SAMPLE_PROOF_RECEIPT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="100%" height="100%" fill="%230c0e14"/><rect x="20" y="20" width="360" height="560" rx="16" fill="%23161b26" stroke="%23262f40" stroke-width="1.5"/><circle cx="200" cy="90" r="32" fill="%2310b981" fill-opacity="0.15"/><path d="M188 90 L196 98 L214 80" stroke="%2310b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="200" y="145" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="18" font-weight="700">Payment Successful</text><text x="200" y="170" text-anchor="middle" fill="%2394a3b8" font-family="sans-serif" font-size="12">10 Oct 2026, 10:15 AM</text><text x="200" y="225" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="34" font-weight="800">₹249.00</text><line x1="45" y1="260" x2="355" y2="260" stroke="%23262f40" stroke-width="1" stroke-dasharray="4"/><text x="50" y="295" fill="%2394a3b8" font-family="sans-serif" font-size="12">To Payee</text><text x="350" y="295" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">JobWay Network</text><text x="350" y="315" text-anchor="end" fill="%236366f1" font-family="monospace" font-size="11">jobconnect@icici</text><text x="50" y="355" fill="%2394a3b8" font-family="sans-serif" font-size="12">From Business</text><text x="350" y="355" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">HyperScale Cloud</text><text x="50" y="395" fill="%2394a3b8" font-family="sans-serif" font-size="12">Bank Ref (UTR)</text><text x="350" y="395" text-anchor="end" fill="%23ffffff" font-family="monospace" font-size="12" font-weight="600">428912304910</text><text x="50" y="435" fill="%2394a3b8" font-family="sans-serif" font-size="12">Selected Pack</text><text x="350" y="435" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="12">Growth Bundle (5 Unlocks)</text><rect x="45" y="475" width="310" height="60" rx="10" fill="%230f172a" stroke="%231e293b"/><text x="200" y="500" text-anchor="middle" fill="%2364748b" font-family="sans-serif" font-size="10" font-weight="600" letter-spacing="1">NPCI UPI 2.0 INSTANT SETTLEMENT</text><text x="200" y="520" text-anchor="middle" fill="%2310b981" font-family="sans-serif" font-size="12" font-weight="600">Verified By HDFC Bank</text></svg>`;
-
-const INITIAL_PAYMENTS = [
-  {
-    id: "pay_101",
-    type: "employer_unlock",
-    user_name: "HyperScale Cloud Systems",
-    user_role: "employer",
-    plan: "Growth Bundle (5 Worker Unlocks)",
-    amount: 249,
-    utr_number: "UPI/428912304910/HDFC",
-    submitted_at: "2026-10-10 10:15",
-    status: "verified",
-    target_id: "ep_01",
-    screenshot_url: SAMPLE_PROOF_RECEIPT,
-    credits: 5
-  },
-  {
-    id: "pay_102",
-    type: "worker_priority",
-    user_name: "Rohan Sharma",
-    user_role: "worker",
-    plan: "Priority Application Boost (₹149)",
-    amount: 149,
-    utr_number: "UPI/391029481920/SBI",
-    submitted_at: "2026-10-10 09:30",
-    status: "verified",
-    target_id: "app_101",
-    screenshot_url: SAMPLE_PROOF_RECEIPT,
-    credits: 0
-  }
-];
-
-const INITIAL_CANDIDATES = [
-  {
-    id: "cand_01",
-    name: "Rohan Sharma",
-    trade_title: "Senior Full-Stack Engineer",
-    category: "Software Engineering",
-    experience: 4.5,
-    city: "Hyderabad",
-    education: "B.Tech in Computer Science & Engineering (JNTU)",
-    skills: ["React 19", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers"],
-    salary_expected: 110000,
-    photo_key: "",
-    photo_thumb: "assets/trades/software.jpg",
-    phone_masked: "+91 98••••••34",
-    phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
-    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
-    bio: "4.5+ years building scalable microservices, edge computing runtimes with Cloudflare Workers, and low-latency frontend applications.",
-    unlocked: false,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_02",
-    name: "Pooja Nair",
-    trade_title: "SDET & QA Automation Lead",
-    category: "QA & Testing",
-    experience: 4,
-    city: "Bangalore",
-    education: "B.Tech in Information Technology (VTU)",
-    skills: ["Playwright", "Cypress", "Selenium", "Postman / RestAssured", "Jest"],
-    salary_expected: 85000,
-    photo_key: "",
-    photo_thumb: "assets/trades/qa.jpg",
-    phone_masked: "+91 94••••••89",
-    phone_unlocked: "+91 94402 91889",
-    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
-    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
-    bio: "Specialized in end-to-end automation pipelines, payment gateway security regression testing, and CI/CD quality gate enforcement.",
-    unlocked: false,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_03",
-    name: "Ankit Verma",
-    trade_title: "Technical Team Leader & System Architect",
-    category: "Team Leadership",
-    experience: 6.5,
-    city: "Hyderabad",
-    education: "M.Tech in Software Systems Architecture (IIIT-H)",
-    skills: ["System Design", "Microservices", "Agile / Scrum", "Spring Boot", "React"],
-    salary_expected: 150000,
-    photo_key: "",
-    photo_thumb: "assets/trades/teamlead.jpg",
-    phone_masked: "+91 99••••••78",
-    phone_unlocked: "+91 99592 34178",
-    address_masked: "Address Protected (Financial District, Hyderabad)",
-    address_unlocked: "Villa 18, Rolling Hills, Gachibowli, Hyderabad - 500032",
-    bio: "6.5+ years leading cross-functional engineering teams, architecting distributed event-driven systems, and mentoring engineers.",
-    unlocked: true,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_04",
-    name: "Sneha Kulkarni",
-    trade_title: "Senior Technical Recruiter & HR Operations Partner",
-    category: "Human Resources",
-    experience: 5,
-    city: "Pune",
-    education: "MBA in Human Resources (SIBM Pune) & SHRM Certified",
-    skills: ["Tech Talent Sourcing", "ATS / Greenhouse", "Salary Benchmarking", "Employee Relations"],
-    salary_expected: 70000,
-    photo_key: "",
-    photo_thumb: "assets/trades/hr.jpg",
-    phone_masked: "+91 97••••••55",
-    phone_unlocked: "+91 97011 88955",
-    address_masked: "Address Protected (Hinjewadi Tech Hub, Pune)",
-    address_unlocked: "D-804, Blue Ridge Township, Hinjewadi Phase 1, Pune - 411057",
-    bio: "Expertise in full-lifecycle technical recruitment for high-scale tech companies, compensation modeling, and cultural onboarding.",
-    unlocked: false,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_05",
-    name: "Karthik Iyer",
-    trade_title: "Cloud & DevOps Infrastructure Engineer",
-    category: "DevOps & Cloud",
-    experience: 5,
-    city: "Hyderabad",
-    education: "B.Tech in Electronics & CKA Kubernetes Certified",
-    skills: ["Kubernetes (EKS)", "Terraform", "Docker", "AWS / GCP", "Prometheus & Grafana"],
-    salary_expected: 125000,
-    photo_key: "",
-    photo_thumb: "assets/trades/devops.jpg",
-    phone_masked: "+91 91••••••12",
-    phone_unlocked: "+91 91218 45612",
-    address_masked: "Address Protected (Madhapur, Hyderabad)",
-    address_unlocked: "Flat 201, Silicon Oasis, Silicon Valley Layout, Madhapur, Hyderabad - 500081",
-    bio: "DevOps specialist managing multi-region Kubernetes clusters, GitOps CI/CD delivery, and automated infrastructure provisioning.",
-    unlocked: false,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_06",
-    name: "Divya Menon",
-    trade_title: "Lead Mobile App Developer (iOS & Android)",
-    category: "Mobile Development",
-    experience: 4.5,
-    city: "Bangalore",
-    education: "B.Tech in Computer Science (NIT Calicut)",
-    skills: ["React Native", "Flutter / Dart", "Swift (iOS)", "Kotlin (Android)", "App Store Deploy"],
-    salary_expected: 95000,
-    photo_key: "",
-    photo_thumb: "assets/trades/mobile.jpg",
-    phone_masked: "+91 93••••••40",
-    phone_unlocked: "+91 93910 88240",
-    address_masked: "Address Protected (Koramangala, Bangalore)",
-    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
-    bio: "Shipped 12+ apps to App Store and Google Play with 1M+ downloads. Specializes in smooth 60fps animations and offline synchronization.",
-    unlocked: false,
-    kyc_status: "verified"
-  }
-];
+// Clean slate initial state (no mock or demo data)
+const INITIAL_JOBS = [];
+const INITIAL_APPLICATIONS = [];
+const INITIAL_PAYMENTS = [];
+const INITIAL_CANDIDATES = [];
 
 class JobConnectApi {
   constructor() {
@@ -478,56 +27,42 @@ class JobConnectApi {
   }
 
   initStorage() {
-    const TECH_VERSION = 'v10_tech_ecosystem';
-    const version = localStorage.getItem('jc_jobs_version');
-    const existing = localStorage.getItem('jc_jobs');
-
-    // Completely wipe legacy blue-collar / trade data to guarantee modern tech roles
-    if (!existing || version !== TECH_VERSION || existing.includes('Two-Wheeler') || existing.includes('Sweet Maker') || existing.includes('Industrial Automation') || existing.includes('CNC Machining') || existing.includes('Precision Welding')) {
-      localStorage.setItem('jc_jobs', JSON.stringify(INITIAL_JOBS));
-      localStorage.setItem('jc_jobs_version', TECH_VERSION);
-      localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
-      localStorage.setItem('jc_apps_version', TECH_VERSION);
-      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
-      localStorage.setItem('jc_candidates_ver', TECH_VERSION);
-      localStorage.setItem('jc_candidates_v2', 'true');
-      localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
-      localStorage.setItem('jc_payments_v2', 'true');
-      localStorage.setItem('jc_credits', '5');
-
-      // Also clean up any legacy user profile stored in localStorage
-      try {
-        const authUser = JSON.parse(localStorage.getItem('jc_auth_user') || 'null');
-        if (authUser) {
-          if (authUser.role === 'employer' || authUser.name?.includes('Balaji') || authUser.name?.includes('Auto')) {
-            authUser.name = 'HyperScale Cloud Systems';
-            authUser.company = 'HyperScale Cloud Systems';
-            localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
-          } else if (authUser.trade_title?.includes('Automation') || authUser.name === 'Arun Varma' || authUser.name === 'Ramesh Kumar' || authUser.name?.includes('Mechanic')) {
-            authUser.name = 'Arjun Rao';
-            authUser.trade_title = 'Senior Full-Stack Engineer';
-            authUser.category = 'Software Engineering';
-            authUser.avatar = 'assets/trades/software.jpg';
-            localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
-          }
-        }
-      } catch (e) {}
-      return;
-    }
-
-    if (!localStorage.getItem('jc_apps')) {
-      localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
-      localStorage.setItem('jc_apps_version', TECH_VERSION);
-    }
-    if (!localStorage.getItem('jc_candidates')) {
-      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
-      localStorage.setItem('jc_candidates_ver', TECH_VERSION);
-    }
-    if (!localStorage.getItem('jc_payments')) {
-      localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
-    }
-    if (!localStorage.getItem('jc_credits')) {
-      localStorage.setItem('jc_credits', '5');
+    const CLEAN_VERSION = 'v22_manual_clean_slate_zero_mock';
+    if (typeof localStorage !== 'undefined') {
+      const purged = localStorage.getItem('jc_clean_purged');
+      if (purged !== CLEAN_VERSION) {
+        // Complete purge of all demo, mock, and seed artifacts
+        localStorage.removeItem('jc_jobs');
+        localStorage.removeItem('jc_jobs_version');
+        localStorage.removeItem('jc_apps');
+        localStorage.removeItem('jc_apps_version');
+        localStorage.removeItem('jc_candidates');
+        localStorage.removeItem('jc_candidates_ver');
+        localStorage.removeItem('jc_candidates_v2');
+        localStorage.removeItem('jc_payments');
+        localStorage.removeItem('jc_payments_v2');
+        localStorage.removeItem('jc_credits');
+        localStorage.removeItem('jc_auth_user');
+        localStorage.removeItem('jobconnect_token');
+        localStorage.removeItem('jc_worker_photo');
+        localStorage.removeItem('jc_worker_cover');
+        localStorage.setItem('jc_clean_purged', CLEAN_VERSION);
+      }
+      if (!localStorage.getItem('jc_jobs')) {
+        localStorage.setItem('jc_jobs', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('jc_apps')) {
+        localStorage.setItem('jc_apps', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('jc_candidates')) {
+        localStorage.setItem('jc_candidates', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('jc_payments')) {
+        localStorage.setItem('jc_payments', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('jc_credits')) {
+        localStorage.setItem('jc_credits', '0');
+      }
     }
   }
 
@@ -554,8 +89,8 @@ class JobConnectApi {
       const res = await fetch(url, { signal: AbortSignal.timeout(3500) });
       if (res.ok) {
         const data = await res.json();
-        if (data && Array.isArray(data.jobs) && data.jobs.length > 0) {
-          // Merge with local storage created jobs
+        if (data && Array.isArray(data.jobs)) {
+          // Merge with local storage created jobs if any
           const localJobs = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
           const serverIds = new Set(data.jobs.map(j => j.id));
           const uniqueLocal = localJobs.filter(j => !serverIds.has(j.id));
@@ -1000,24 +535,7 @@ class JobConnectApi {
     const raw = localStorage.getItem('jc_auth_user');
     if (!raw) return null;
     try {
-      const user = JSON.parse(raw);
-      if (user) {
-        let changed = false;
-        if (user.role === 'employer' && (user.name?.includes('Balaji') || user.name?.includes('Auto') || !user.name)) {
-          user.name = 'HyperScale Cloud Systems';
-          user.company = 'HyperScale Cloud Systems';
-          changed = true;
-        } else if (user.role === 'worker' && (user.name?.includes('Ramesh') || user.name?.includes('Mechanic') || user.name?.includes('Varma') || user.trade?.includes('Mechanic') || !user.name)) {
-          user.name = 'Arjun Rao';
-          user.trade_title = 'Senior Full-Stack Engineer';
-          user.category = 'Software Engineering';
-          changed = true;
-        }
-        if (changed) {
-          localStorage.setItem('jc_auth_user', JSON.stringify(user));
-        }
-      }
-      return user;
+      return JSON.parse(raw);
     } catch (e) {
       return null;
     }
@@ -1069,29 +587,29 @@ class JobConnectApi {
     }
 
     const savedPhoto = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo') || '';
-    const savedCover = user?.cover_image || localStorage.getItem('jc_worker_cover') || 'assets/trades/software.jpg';
+    const savedCover = user?.cover_image || localStorage.getItem('jc_worker_cover') || '';
 
     return {
-      full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : 'Rohan Sharma',
-      trade_title: user?.trade_title || user?.category || 'Senior Full-Stack Engineer',
-      phone: user?.phone || '+91 98491 23434',
-      email: user?.email || 'rohan.sharma.tech@gmail.com',
+      full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : (user?.email ? user.email.split('@')[0] : 'Candidate'),
+      trade_title: user?.trade_title || user?.category || 'Technical Professional',
+      phone: user?.phone || '',
+      email: user?.email || '',
       photo_key: savedPhoto,
       photo_thumb: savedCover,
-      skills: '["React 19", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Next.js"]',
-      experience_years: 4.5,
-      education_level: 'B.Tech',
-      education_institute: 'JNTU College of Engineering',
-      education_specialization: 'Computer Science & Engineering',
-      education_year: 2022,
-      past_company: 'HyperScale Cloud Systems',
-      experience_description: 'Architecting scalable web applications, serverless microservices, and distributed databases.',
-      preferred_area: 'Hitec City / Madhapur',
-      city: 'Hyderabad',
-      expected_salary_min: 85000,
-      expected_salary_max: 130000,
+      skills: '[]',
+      experience_years: 0,
+      education_level: '',
+      education_institute: '',
+      education_specialization: '',
+      education_year: '',
+      past_company: '',
+      experience_description: '',
+      preferred_area: '',
+      city: '',
+      expected_salary_min: 0,
+      expected_salary_max: 0,
       salary_period: 'monthly',
-      digilocker_verified: 1,
+      digilocker_verified: 0,
     };
   }
 
@@ -1107,7 +625,7 @@ class JobConnectApi {
     // Sync candidate list so candidate cards immediately display updated cover thumbnail & avatar
     try {
       const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-      const cand = candidates.find(c => c.name === (user?.name || 'Ramesh Kumar') || c.id === 'cand_07');
+      const cand = candidates.find(c => (user?.name && c.name === user.name) || (user?.id && c.id === user.id));
       if (cand) {
         if (profileData.photo_thumb) cand.photo_thumb = profileData.photo_thumb;
         if (profileData.photo_key) cand.photo_key = profileData.photo_key;
@@ -1417,49 +935,9 @@ class JobConnectApi {
       }
       return { success: false, error: data.error || 'Invalid email or password' };
     } catch (e) {
-      console.warn('Network error during login, checking demo credentials:', e);
+      console.warn('Network error during login:', e);
+      return { success: false, error: 'Unable to connect to service. Please check your internet connection.' };
     }
-
-    // Fallback simulation for testing
-    if (email.includes('worker') || email === 'worker@job-way.in') {
-      const user = {
-        id: 'wrk-1',
-        email: 'worker@job-way.in',
-        name: 'Arjun Rao (Senior Full-Stack Engineer)',
-        role: 'worker',
-        category: 'Software Engineering',
-        trade_title: 'Senior Full-Stack Engineer',
-        phone: '+91 98491 23434',
-        isVerified: true,
-      };
-      this.setCurrentUser(user);
-      return { success: true, user };
-    } else if (email.includes('employer') || email === 'employer@job-way.in') {
-      const user = {
-        id: 'emp-1',
-        email: 'employer@job-way.in',
-        name: 'HyperScale Cloud Systems',
-        role: 'employer',
-        company: 'HyperScale Cloud Systems',
-        phone: '+91 98490 11223',
-        isVerified: true,
-      };
-      this.setCurrentUser(user);
-      return { success: true, user };
-    } else if (email.includes('admin') || email === 'admin@job-way.in') {
-      const user = {
-        id: 'admin_01',
-        email: 'admin@job-way.in',
-        name: 'Platform Administrator',
-        role: 'admin',
-        phone: '+91 99999 99999',
-        isVerified: true,
-      };
-      this.setCurrentUser(user);
-      return { success: true, user };
-    }
-
-    return { success: false, error: 'No account found with this email in offline mode. Please create an account.' };
   }
 
   async forgotPasswordRequest(email) {

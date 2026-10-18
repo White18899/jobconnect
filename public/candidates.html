@@ -917,9 +917,9 @@
           <a href="/employer.html" class="nav-profile-chip" id="nav-profile-link" title="Employer Workspace">
             <div class="nav-profile-avatar">
               <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
-              <span id="nav-user-avatar-initials">HS</span>
+              <span id="nav-user-avatar-initials">--</span>
             </div>
-            <span class="nav-profile-name" id="nav-user-display-name">HyperScale Cloud Systems</span>
+            <span class="nav-profile-name" id="nav-user-display-name">Employer</span>
           </a>
           <button type="button" class="nav-btn-link" id="btn-header-logout" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1200,12 +1200,12 @@
       if (user) {
         if (authLoggedOut) authLoggedOut.style.display = 'none';
         if (authLoggedIn) authLoggedIn.style.display = 'flex';
-        const cleanName = (user.name || 'HyperScale Cloud Systems').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
+        const cleanName = (user.name || (user.email ? user.email.split('@')[0] : 'Employer')).replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
         if (navDisplayName) navDisplayName.textContent = cleanName;
         const initialsEl = document.getElementById('nav-user-avatar-initials');
         if (initialsEl) {
           const parts = cleanName.split(/\s+/).filter(Boolean);
-          initialsEl.textContent = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || 'HS';
+          initialsEl.textContent = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || '--';
         }
       } else {
         if (authLoggedOut) authLoggedOut.style.display = 'flex';

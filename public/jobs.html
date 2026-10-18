@@ -56,14 +56,14 @@
     html.is-logged-out #auth-logged-in { display: none !important; }
 
     /* Worker Role */
-    html.role-worker #nav-worker-link,
-    html.role-worker #nav-trade-pass-link {
+    html.role-worker #nav-worker-link {
       display: inline-block !important;
     }
     html.role-worker #banner-worker-actions {
       display: flex !important;
     }
     html.role-worker #nav-candidates-link,
+    html.role-worker #nav-trade-pass-link,
     html.role-worker #nav-employer-link,
     html.role-worker #nav-workspace-link,
     html.role-worker #btn-header-post-vacancy-user,
@@ -1038,9 +1038,6 @@
         <a href="/employer.html" class="nav-link" id="nav-employer-link" style="display: none;">
           <span class="link-line">Employer Workspace</span>
         </a>
-        <a href="/candidates.html" class="nav-link" id="nav-trade-pass-link" style="display: none;">
-          <span class="link-line">Candidates</span>
-        </a>
       </div>
 
       <!-- Right Actions: Auth State -->
@@ -1057,9 +1054,9 @@
           <a href="/worker.html" class="nav-profile-chip" id="nav-profile-link" title="My Workspace">
             <div class="nav-profile-avatar">
               <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
-              <span id="nav-user-avatar-initials">RK</span>
+              <span id="nav-user-avatar-initials">--</span>
             </div>
-            <span class="nav-profile-name" id="nav-user-display-name">Ramesh Kumar</span>
+            <span class="nav-profile-name" id="nav-user-display-name">My Profile</span>
           </a>
           <button type="button" class="nav-btn-link" id="btn-header-logout" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1517,7 +1514,7 @@
         if (authLoggedOut) authLoggedOut.style.display = 'none';
         if (authLoggedIn) authLoggedIn.style.display = 'flex';
         
-        const clean = sanitizeName(user.name) || (user.role === 'employer' ? 'HyperScale Cloud Systems' : 'Arjun Rao');
+        const clean = sanitizeName(user.name) || (user.email ? user.email.split('@')[0] : (user.role === 'employer' ? 'Employer' : 'Worker'));
         if (navDisplayName) navDisplayName.textContent = clean;
         const initials = getInitials(clean);
         const initialPhoto = user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
@@ -1545,7 +1542,7 @@
           }
           // Strictly HIDE Post Job, Candidates directory, and Employer Workspace
           if (navWorkerLink) navWorkerLink.style.display = 'inline-block';
-          if (navTradePassLink) navTradePassLink.style.display = 'inline-block';
+          if (navTradePassLink) navTradePassLink.style.display = 'none';
           if (navEmployerLink) navEmployerLink.style.display = 'none';
           if (navCandidatesLink) navCandidatesLink.style.display = 'none';
           if (btnHeaderPostJobUser) btnHeaderPostJobUser.style.display = 'none';
@@ -1806,11 +1803,11 @@
         try {
           const workerData = {
             id: user.id || user.userId || 'wrk-1',
-            name: sanitizeName(user.name) || 'Ramesh Kumar',
+            name: sanitizeName(user.name) || (user.email ? user.email.split('@')[0] : 'Applicant'),
             category: currentWorkerProfile?.trade_title || user.category || job.category,
-            experience: currentWorkerProfile?.experience_years || 3,
-            city: currentWorkerProfile?.city || user.city || 'Hyderabad',
-            phone: user.phone || currentWorkerProfile?.phone || '+91 98491 23434'
+            experience: currentWorkerProfile?.experience_years || 0,
+            city: currentWorkerProfile?.city || user.city || '',
+            phone: user.phone || currentWorkerProfile?.phone || ''
           };
 
           await window.jobApi.applyJob(job.id, workerData, false);
@@ -2012,7 +2009,7 @@
         // Pre-fill business name if user is logged in
         const bizNameInput = document.getElementById('post-job-biz-name');
         if (bizNameInput && !bizNameInput.value) {
-          bizNameInput.value = user?.name || 'HyperScale Cloud Systems';
+          bizNameInput.value = user?.name || '';
         }
         postVacancyModal.classList.add('active');
         document.body.style.overflow = 'hidden';
