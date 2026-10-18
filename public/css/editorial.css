@@ -547,11 +547,15 @@ button.nav-btn-link:hover,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3vw;
-  padding: 4.5vw 2.5vw 6vw;
+  justify-content: center;
+  min-height: calc(100vh - 72px);
+  min-height: calc(100dvh - 72px);
+  gap: 2.5vw;
+  padding: 3vw 2.5vw 4vw;
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .home-hero-pill {
@@ -742,6 +746,14 @@ button.nav-btn-link:hover,
    Approach & Info Grid
    ============================== */
 
+.editorial-approach-section {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 5vw 2.5vw 6vw;
+  box-sizing: border-box;
+}
+
 .infos-box {
   position: relative;
   display: grid;
@@ -749,7 +761,7 @@ button.nav-btn-link:hover,
   align-items: flex-start;
   padding-top: 2.5vw;
   width: 100%;
-  margin-top: 2.5vw;
+  margin-top: 0;
 }
 
 .infos-box-left {
@@ -1409,7 +1421,13 @@ button.nav-btn-link:hover,
 
   .home-hero {
     gap: 6vw;
-    padding: 16vw 4vw 16vw;
+    padding: 12vw 4vw 14vw;
+    min-height: calc(100vh - 64px);
+    min-height: calc(100dvh - 64px);
+  }
+
+  .editorial-approach-section {
+    padding: 8vw 4vw 12vw;
   }
 
   .home-title-wrapper {
