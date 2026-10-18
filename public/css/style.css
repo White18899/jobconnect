@@ -4,83 +4,73 @@
    ========================================================================== */
 
 :root {
-  /* Brand & Signature Colors (Atelier Engineering Theme) */
-  --primary: #2E3D28;
-  --primary-hover: #3C4E34;
-  --primary-active: #222E1E;
-  --primary-light: rgba(46, 61, 40, 0.08);
-  --primary-border: rgba(46, 61, 40, 0.18);
-  --primary-glow: rgba(169, 184, 135, 0.25);
+  /* Brand & Signature Colors (High-Trust Precision Engineering Theme) */
+  --primary: #14281D;
+  --primary-hover: #1C3829;
+  --primary-active: #0E1C14;
+  --primary-light: rgba(20, 40, 29, 0.07);
+  --primary-border: rgba(20, 40, 29, 0.16);
+  --primary-glow: rgba(16, 185, 129, 0.22);
 
-  /* Neutrals (Linen Canvas & Deep Forest Scale) */
-  --bg-page: #E8E9DF;
-  --surface: #FAFBF7;
-  --surface-secondary: #F3F4ED;
-  --surface-tertiary: #DFE1D5;
+  /* Neutrals (Porcelain Linen & Deep Slate Scale) */
+  --bg-page: #F8F9FA;
+  --surface: #FFFFFF;
+  --surface-secondary: #F1F5F9;
+  --surface-tertiary: #E2E8F0;
   
-  --text-primary: #2E3D28;
-  --text-secondary: #586851;
-  --text-muted: #75856E;
-  --text-subtle: #97A690;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-subtle: #94A3B8;
 
   /* Hairline Precision Borders */
-  --border: rgba(46, 61, 40, 0.12);
-  --border-light: rgba(46, 61, 40, 0.06);
-  --border-strong: rgba(46, 61, 40, 0.28);
-  --border-focus: #2E3D28;
+  --border: #E2E8F0;
+  --border-light: rgba(15, 23, 42, 0.06);
+  --border-strong: #CBD5E1;
+  --border-focus: #14281D;
 
   /* Semantic Feedback & Verification Badges */
-  --success: #2E3D28;
-  --success-light: rgba(169, 184, 135, 0.22);
-  --success-border: rgba(169, 184, 135, 0.4);
-  --success-text: #2E3D28;
+  --success: #059669;
+  --success-light: rgba(16, 185, 129, 0.12);
+  --success-border: rgba(16, 185, 129, 0.35);
+  --success-text: #065F46;
 
-  /* Conversion, Unlock Credits & Badges (Warm Brass / Gold) */
-  --accent: #D4A346;
-  --accent-hover: #B88930;
-  --accent-light: rgba(212, 163, 70, 0.12);
-  --accent-border: rgba(212, 163, 70, 0.35);
-  --accent-text: #8E6310;
+  /* Conversion, Unlock Credits & Badges (Executive Royal Sapphire / Navy) */
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
+  --accent-light: #EFF6FF;
+  --accent-border: #BFDBFE;
+  --accent-text: #1E40AF;
 
-  --danger: #dc2626;
+  --danger: #DC2626;
   --danger-light: rgba(220, 38, 38, 0.08);
   --danger-border: rgba(220, 38, 38, 0.25);
-  --danger-text: #b91c1c;
+  --danger-text: #B91C1C;
 
-  /* Craft-Morphism Engineering Tokens (Clean Tactile Depth) */
-  --surface-craft: #ffffff;
-  --surface-craft-hover: #fafafa;
-  --surface-craft-subtle: transparent;
-  --specular-rim: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
-  --specular-rim-dark: inset 0 1px 0 0 rgba(0, 0, 0, 0.04);
-  --shadow-craft: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  --shadow-craft-hover: 0 6px 20px -2px rgba(0, 0, 0, 0.07);
-  --shadow-craft-btn: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-craft-pressed: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  --shadow-deboss: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-  /* Ambient Multi-Layer Shadows */
+  /* Modern Ambient Shadows & Tactile Depth */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 20px 32px -6px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.1);
+  --shadow-xl: 0 20px 40px -8px rgba(15, 23, 42, 0.14);
+  --shadow-button-primary: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 6px rgba(20, 40, 29, 0.18);
+  --shadow-button-primary-hover: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 6px 18px rgba(20, 40, 29, 0.24);
 
   /* Geometry & Radii */
-  --radius-xs: 3px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
   --radius-full: 9999px;
 
   /* Engineered Typography System */
-  --font-sans: 'Geist', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Transition Curves */
-  --transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-slow: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ==========================================================================
@@ -1047,11 +1037,7 @@ button, input, select, textarea {
   transition: var(--transition);
 }
 
-.panel-card:hover {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.035) !important;
-  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
+
 
 .panel-header {
   padding: 20px 24px;
@@ -1083,11 +1069,7 @@ button, input, select, textarea {
   transition: var(--transition);
 }
 
-.portal-welcome-banner:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.035) !important;
-  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
+
 
 .portal-welcome-badge {
   display: inline-flex;
@@ -1138,9 +1120,7 @@ button, input, select, textarea {
   border-bottom: none;
 }
 
-.divided-row:hover {
-  background: rgba(255, 255, 255, 0.035);
-}
+
 
 /* ==========================================================================
    Right-Rail Alignment System: Badges, Metadata & Actions
@@ -2367,11 +2347,11 @@ div[id],
   box-shadow: var(--shadow-craft-pressed);
 }
 
-/* 5. Industrial Tactile Amber Action Button (Unlock / Post) */
+/* 5. Industrial Tactile Executive Action Button (Unlock / Post) */
 .craft-btn-accent {
-  background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+  background: #14281D;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid #14281D;
   border-radius: var(--radius-md);
   padding: 10px 20px;
   font-weight: 600;
@@ -2381,19 +2361,20 @@ div[id],
   justify-content: center;
   gap: 7px;
   cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(217, 119, 6, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px 0 rgba(20, 40, 29, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
   transition: var(--transition);
 }
 
 .craft-btn-accent:hover {
-  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  background: #234331;
+  border-color: #234331;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px 0 rgba(217, 119, 6, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 14px 0 rgba(20, 40, 29, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
 }
 
 .craft-btn-accent:active {
   transform: translateY(1px);
-  box-shadow: 0 1px 2px 0 rgba(217, 119, 6, 0.2), inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 2px 0 rgba(20, 40, 29, 0.2), inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
 }
 
 /* 6. Tactile Specular Pill */

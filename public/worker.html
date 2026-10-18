@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -34,7 +34,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Worker Desk ]</span>
+        <span class="nav-badge-pill worker">Worker Desk</span>
       </a>
 
       <!-- Header Center Links -->
@@ -71,88 +71,94 @@
   <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
     <!-- Welcome Banner with Integrated Mini Stats -->
-    <div class="portal-welcome-banner reveal-on-scroll">
-      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+    <div class="portal-welcome-banner reveal-on-scroll" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 26px 30px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 6px 16px rgba(15,23,42,0.02);">
+      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 22px; flex-wrap: wrap;">
         <!-- Worker Profile Avatar -->
         <a href="/profile-edit.html" class="portal-worker-avatar-wrap" title="Click to view or edit profile photo" style="position: relative; flex-shrink: 0; display: block; text-decoration: none;">
-          <div id="banner-avatar-frame" style="width: 78px; height: 78px; border-radius: var(--radius-md); border: 2px solid var(--border-strong); overflow: hidden; background: #121214; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transition: transform 0.2s ease, border-color 0.2s ease;" onmouseover="this.style.transform='scale(1.04)'; this.style.borderColor='var(--primary)'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='var(--border-strong)'">
-            <img id="banner-worker-avatar-img" src="" alt="Worker Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none; border-radius: var(--radius-md);">
+          <div id="banner-avatar-frame" style="width: 82px; height: 82px; border-radius: 16px; border: 2px solid #E2E8F0; overflow: hidden; background: #0F172A; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15,23,42,0.08); transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;" onmouseover="this.style.transform='scale(1.04)'; this.style.borderColor='#14281D'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='#E2E8F0'">
+            <img id="banner-worker-avatar-img" src="" alt="Worker Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 14px;">
             <span id="banner-worker-avatar-fallback" style="font-size: 26px; font-weight: 750; color: #ffffff; letter-spacing: -0.02em; font-family: var(--font-sans);">
               RK
             </span>
           </div>
           <!-- Verified KYC Shield Badge -->
-          <div title="KYC Verified Tradesman" style="position: absolute; bottom: -3px; right: -3px; width: 20px; height: 20px; border-radius: 4px; background: #10b981; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.18);">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <div title="UIDAI Aadhaar & KYC Verified Tradesman" style="position: absolute; bottom: -4px; right: -4px; width: 24px; height: 24px; border-radius: 7px; background: #059669; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(5,150,105,0.35);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </a>
 
         <div>
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-            <span class="bracket-tag">[ KYC Verified Tradesman ]</span>
-            <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11px; padding: 2px 8px; border: 1px solid var(--border); border-radius: var(--radius-xs);">
-              <span>Edit Profile ↗</span>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span class="portal-welcome-badge" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 9999px; background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Aadhaar & Trade Verified</span>
+            </span>
+            <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11.5px; padding: 3px 10px; border: 1px solid #E2E8F0; border-radius: 6px; background: #FFFFFF; color: #475569; display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <span>Edit Profile</span>
             </a>
           </div>
-          <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
+          <h1 style="font-size: 26px; font-weight: 700; color: #0F172A; margin: 2px 0 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
             Worker Desk: Ramesh Kumar
           </h1>
-          <p style="color: #52525b; font-size: 14px; max-width: 580px; line-height: 1.5; margin: 0;">
+          <p style="color: #64748B; font-size: 13.5px; max-width: 580px; line-height: 1.5; margin: 0;">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
           </p>
         </div>
       </div>
 
-      <div class="portal-welcome-aside">
+      <div class="portal-welcome-aside" style="display: flex; flex-direction: column; align-items: flex-end; gap: 14px;">
         <div class="portal-welcome-actions">
-          <a href="/jobs.html" class="nav-btn-solid">
-            <span>Find More Jobs →</span>
+          <a href="/jobs.html" class="nav-btn-solid" style="padding: 8px 18px; font-size: 13px; font-weight: 600; gap: 8px; border-radius: 8px;">
+            <span>Find More Jobs</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
 
-        <!-- Integrated Mini Stats Bar -->
-        <div class="portal-welcome-stats">
-          <div class="portal-stat-pill variant-primary">
-            <div class="portal-stat-pill-top">
-              <span class="portal-stat-pill-label">Applications Submitted</span>
-              <div class="portal-stat-pill-icon primary">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <!-- Integrated Elevated KPI Stats Cards -->
+        <div class="portal-welcome-stats" style="display: flex; gap: 12px; align-items: stretch;">
+          
+          <!-- Stat 1: Applications -->
+          <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+              <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">Applications</span>
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #F1F5F9; color: #1E293B; display: flex; align-items: center; justify-content: center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </div>
             </div>
-            <div class="portal-stat-pill-val stat-card-value" id="stat-worker-apps">0</div>
-            <div class="portal-stat-pill-sub">
-              <span class="stat-pulse-dot primary"></span>
-              <span>Direct employer submissions</span>
+            <div class="portal-stat-pill-val stat-card-value" id="stat-worker-apps" style="font-size: 24px; font-weight: 800; color: #0F172A; font-family: var(--font-primary); font-variant-numeric: tabular-nums; line-height: 1.15;">0</div>
+            <div style="font-size: 10.5px; color: #94A3B8; margin-top: 2px; white-space: nowrap;">Direct submissions</div>
+          </div>
+
+          <!-- Stat 2: Shortlisted -->
+          <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+              <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #059669;">Shortlisted</span>
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val stat-card-value" id="stat-worker-shortlisted" style="font-size: 24px; font-weight: 800; color: #059669; font-family: var(--font-primary); font-variant-numeric: tabular-nums; line-height: 1.15;">0</div>
+            <div style="font-size: 10.5px; color: #059669; margin-top: 2px; white-space: nowrap;">Preparing to call you</div>
+          </div>
+
+          <!-- Stat 3: Placement Status with Live Radar Pulse -->
+          <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #1E40AF;">Placement</span>
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; display: flex; align-items: center; justify-content: center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+            </div>
+            <div class="portal-stat-pill-val stat-card-value" id="stat-worker-priority" style="font-size: 20px; font-weight: 800; color: #1E3A8A; font-family: var(--font-primary); line-height: 1.25;">Active</div>
+            <div style="font-size: 10.5px; color: #1E40AF; display: flex; align-items: center; gap: 5px; margin-top: 2px; white-space: nowrap;">
+              <span style="position: relative; display: inline-flex; width: 6px; height: 6px; border-radius: 50%; background: #10B981;">
+                <span style="position: absolute; inset: -2px; border-radius: 50%; border: 1.5px solid #10B981; animation: radar-ping 1.8s infinite ease-out;"></span>
+              </span>
+              <span>Featured in queues</span>
             </div>
           </div>
 
-          <div class="portal-stat-pill variant-success">
-            <div class="portal-stat-pill-top">
-              <span class="portal-stat-pill-label">Shortlisted Candidates</span>
-              <div class="portal-stat-pill-icon success">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-            </div>
-            <div class="portal-stat-pill-val success stat-card-value" id="stat-worker-shortlisted">0</div>
-            <div class="portal-stat-pill-sub">
-              <span class="stat-pulse-dot success"></span>
-              <span>Employers preparing to call you</span>
-            </div>
-          </div>
-
-          <div class="portal-stat-pill variant-accent">
-            <div class="portal-stat-pill-top">
-              <span class="portal-stat-pill-label">Placement Status</span>
-              <div class="portal-stat-pill-icon accent">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              </div>
-            </div>
-            <div class="portal-stat-pill-val accent stat-card-value" id="stat-worker-priority">Active</div>
-            <div class="portal-stat-pill-sub">
-              <span class="stat-pulse-dot accent"></span>
-              <span>Featured in candidate queues</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -175,111 +181,167 @@
       </div>
     </section>
 
-    <!-- Section 2: Worker Profile & Trade Details -->
-    <section id="profile-section" class="panel-card reveal-on-scroll">
-      <div class="panel-header">
+    <!-- Section 2: Worker Profile & Trade Details (Digital Trade Passport) -->
+    <section id="profile-section" class="panel-card reveal-on-scroll" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 6px 16px rgba(15,23,42,0.02);">
+      
+      <!-- Panel Header with Edit CTA -->
+      <div class="panel-header" style="padding: 20px 26px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #FFFFFF;">
         <div>
-          <h2 class="panel-title">
+          <h2 class="panel-title" style="font-size: 18px; font-weight: 700; color: #0F172A; letter-spacing: -0.02em; margin: 0;">
             Trade Profile Details
           </h2>
-          <p class="panel-subtitle">
+          <p class="panel-subtitle" style="font-size: 13px; color: #64748B; margin-top: 3px;">
             Visible to verified employers when reviewing applications
           </p>
         </div>
-        <a href="/profile-edit.html" class="btn-signin-header" style="font-size: 12.5px; padding: 7px 14px;">
+        <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 12.5px; font-weight: 600; padding: 7px 16px; border: 1px solid #E2E8F0; border-radius: 8px; background: #FFFFFF; color: #0F172A; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: all 0.2s ease;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           <span>Edit Profile</span>
         </a>
       </div>
 
-      <div class="kv-grid">
+      <!-- Trade Passport Strength & Verification Strip -->
+      <div style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; padding: 12px 26px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 28px; height: 28px; border-radius: 7px; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.3); display: flex; align-items: center; justify-content: center; color: #059669;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div>
+            <span style="font-size: 12.5px; font-weight: 700; color: #0F172A;">Digital Trade Passport</span>
+            <span style="color: #94A3B8; margin: 0 6px;">•</span>
+            <span style="font-size: 12px; color: #64748B;">Aadhaar & ITI Certified</span>
+          </div>
+        </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 11.5px; color: #64748B;">Profile Strength:</span>
+          <div style="width: 120px; height: 6px; background: #E2E8F0; border-radius: 9999px; overflow: hidden;">
+            <div style="width: 85%; height: 100%; background: linear-gradient(90deg, #10B981, #059669); border-radius: 9999px;"></div>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; color: #059669;">85%</span>
+        </div>
+      </div>
+
+      <!-- 8-Card Elevated Grid -->
+      <div class="kv-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; padding: 22px 26px; background: #FFFFFF;">
+
+        <!-- 1. Full Legal Name -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
             <span>Full Legal Name</span>
           </div>
-          <div class="kv-value" id="profile-name">Arun Varma</div>
+          <div class="kv-value" id="profile-name" style="font-size: 14px; font-weight: 700; color: #0F172A; padding-left: 34px;">Arun Varma</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <!-- 2. Primary Discipline & Skills -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
             <span>Primary Discipline & Skills</span>
           </div>
-          <div class="kv-value" id="profile-trade">Industrial Automation & PLC / Robotics</div>
+          <div class="kv-value" id="profile-trade" style="font-size: 14px; font-weight: 700; color: #0F172A; padding-left: 34px;">Industrial Automation & PLC / Robotics</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <!-- 3. Total Technical Experience -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
             <span>Total Technical Experience</span>
           </div>
-          <div class="kv-value" id="profile-exp">4+ Years Industrial Automation</div>
+          <div class="kv-value" id="profile-exp" style="font-size: 14px; font-weight: 700; color: #0F172A; padding-left: 34px;">4+ Years Industrial Automation</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <!-- 4. Education & Qualifications -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
             <span>Education & Qualifications</span>
           </div>
-          <div class="kv-value" id="profile-edu">Diploma in Mechatronics & Siemens TIA Certified</div>
+          <div class="kv-value" id="profile-edu" style="font-size: 13.5px; font-weight: 600; color: #0F172A; padding-left: 34px;">Diploma in Mechatronics & Siemens TIA Certified</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <!-- 5. Past Industrial Employer -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
             <span>Past Industrial Employer</span>
           </div>
-          <div class="kv-value" id="profile-company">Precision Automation Dynamics Pvt Ltd</div>
+          <div class="kv-value" id="profile-company" style="font-size: 14px; font-weight: 700; color: #0F172A; padding-left: 34px;">Precision Automation Dynamics Pvt Ltd</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <!-- 6. Verified Email -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
             <span>Verified Email</span>
           </div>
-          <div class="kv-value" id="profile-email" style="color: var(--primary);">worker@job-way.in</div>
+          <div class="kv-value" id="profile-email" style="font-size: 13.5px; font-weight: 600; color: #059669; padding-left: 34px;">worker@job-way.in</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <!-- 7. Trade Contact Phone -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
             <span>Trade Contact Phone</span>
           </div>
-          <div class="kv-value" id="profile-phone">+91 98491 23434</div>
+          <div class="kv-value" id="profile-phone" style="font-size: 13.5px; font-weight: 600; color: #0F172A; padding-left: 34px;">+91 98491 23434</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <!-- 8. Home Area & City -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
             <span>Home Area & City</span>
           </div>
-          <div class="kv-value" id="profile-city">KPHB Colony, Hyderabad, Telangana</div>
+          <div class="kv-value" id="profile-city" style="font-size: 13.5px; font-weight: 600; color: #0F172A; padding-left: 34px;">KPHB Colony, Hyderabad, Telangana</div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <!-- 9. Account Status -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
             <span>Account Status</span>
           </div>
-          <div class="kv-value" id="profile-account-status">
-            <span style="color: var(--success); display: inline-flex; align-items: center; gap: 5px;">
+          <div class="kv-value" id="profile-account-status" style="padding-left: 34px;">
+            <span style="color: #059669; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               <span>Verified Trade Professional</span>
             </span>
           </div>
         </div>
 
-        <div class="kv-item">
-          <div class="kv-label">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
+        <!-- 10. LinkedIn Profile -->
+        <div class="kv-item" style="padding: 16px 18px; border: 1px solid #E2E8F0; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(15,23,42,0.02); display: flex; flex-direction: column; gap: 8px;">
+          <div class="kv-label" style="display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">
+            <div style="width: 26px; height: 26px; border-radius: 6px; background: #EFF6FF; color: #0284C7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.65 1.65 0 0 0 0-3.3 1.65 1.65 0 0 0 0 3.3m1.4 9.74V9.91H5.06v8.59z"/></svg>
+            </div>
             <span>LinkedIn Profile</span>
           </div>
-          <div class="kv-value" id="profile-linkedin">
-            <a href="/profile-edit.html" style="color: var(--text-muted); font-size: 13px; text-decoration: none;">+ Add LinkedIn Link</a>
+          <div class="kv-value" id="profile-linkedin" style="padding-left: 34px;">
+            <a href="/profile-edit.html" style="color: #64748B; font-size: 13px; text-decoration: none; font-weight: 500;">+ Add LinkedIn Link</a>
           </div>
         </div>
+
       </div>
     </section>
 
@@ -546,33 +608,40 @@
         }
 
         container.innerHTML = currentApps.map(app => `
-          <div class="divided-row">
+          <div class="divided-row" style="padding: 20px 26px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
-                <h3 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0;">${app.job_title}</h3>
-                <span class="category-tag">${app.worker_category}</span>
-                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority">Priority Boosted</span>' : ''}
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
+                <h3 style="font-size: 15.5px; font-weight: 700; color: #0F172A; margin: 0;">${app.job_title}</h3>
+                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10.5px; padding: 2px 8px; border-radius: 6px;">${app.worker_category}</span>
+                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 2px rgba(29, 78, 216, 0.06);"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Priority Boosted</span>' : ''}
               </div>
-              <div style="font-size: 13px; color: var(--text-secondary);">
-                Employer: <strong style="color: var(--text-primary); font-weight: 600;">${app.employer_name}</strong> • Applied: <span class="mono-tag" style="font-size: 11px;">${app.applied_date}</span>
+              <div style="font-size: 13px; color: #64748B;">
+                Employer: <strong style="color: #0F172A; font-weight: 600;">${app.employer_name}</strong> • Applied: <span class="mono-tag" style="font-size: 11px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 2px 7px; border-radius: 4px;">${app.applied_date}</span>
               </div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+              <div style="font-size: 12px; color: #94A3B8; margin-top: 3px;">
                 Experience on file: ${app.worker_experience} Years
               </div>
             </div>
 
-            <div class="action-rail">
-              <span class="status-badge ${app.status === 'shortlisted' ? 'verified' : 'pending'}">
-                ${app.status.toUpperCase()}
-              </span>
+            <div class="action-rail" style="display: flex; align-items: center; gap: 12px;">
+              ${app.status === 'shortlisted' ? `
+                <span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
+                  ● SHORTLISTED
+                </span>
+              ` : `
+                <span class="status-badge pending" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-weight: 600; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
+                  ● APPLIED
+                </span>
+              `}
 
               ${app.priority !== 'PRIORITY_ACTIVE' ? `
-                <button class="btn-apply-priority trigger-boost-btn" data-id="${app.id}">
-                  Boost App (₹149)
+                <button class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <span>Boost App (₹149)</span>
                 </button>
               ` : `
-                <span class="action-rail-pill">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span class="action-rail-pill" style="display: inline-flex; align-items: center; gap: 6px; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.35); color: #065F46; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   <span>Top Placement Active</span>
                 </span>
               `}
@@ -648,20 +717,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Support ]</span>
+        <h4 class="footer-col-title">Worker Support</h4>
         <p class="footer-text">
           Direct helpline for certified technical and engineering trades. Zero wage brokerage deductions.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Links ]</span>
+        <h4 class="footer-col-title">Quick Links</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Public Landing</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>

@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -34,7 +34,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Admin Ledger ]</span>
+        <span class="nav-badge-pill admin">Admin Ledger</span>
       </a>
 
       <!-- Header Center Links -->
@@ -71,11 +71,13 @@
     <!-- Welcome Banner -->
     <div class="portal-welcome-banner reveal-on-scroll">
       <div>
-        <div class="bracket-tag" style="margin-bottom: 8px;">[ Root Administrator Console ]</div>
-        <h1 style="font-size: 26px; font-weight: 600; color: #09090b; margin-bottom: 6px; letter-spacing: -0.025em;">
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(20, 40, 29, 0.06); border: 1px solid rgba(20, 40, 29, 0.15); padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; color: #14281D; margin-bottom: 8px;">
+          <span>Root Administrator Console</span>
+        </div>
+        <h1 style="font-size: 26px; font-weight: 750; color: #14281D; margin-bottom: 6px; letter-spacing: -0.025em;">
           UPI Financial Ledger & Platform Console
         </h1>
-        <p style="color: #52525b; font-size: 14px; max-width: 600px; line-height: 1.5;">
+        <p style="color: #4B5563; font-size: 14px; max-width: 600px; line-height: 1.55;">
           Verify 12-digit bank UTR numbers, audit candidate unlock settlements, and monitor active job listings on Cloudflare D1.
         </p>
       </div>
@@ -213,7 +215,7 @@
     <div class="modal-card" style="max-width: 720px; max-height: 92vh; display: flex; flex-direction: column;">
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span class="bracket-tag">[ Proof Verification Audit ]</span>
+          <span class="nav-badge-pill admin">Proof Verification Audit</span>
           <h3 class="modal-title" id="admin-proof-title" style="margin: 0; font-size: 16px;">Payment Proof Audit</h3>
         </div>
         <button type="button" class="modal-close-btn" id="close-admin-proof-modal" aria-label="Close modal">&times;</button>
@@ -503,20 +505,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Console ]</span>
+        <h4 class="footer-col-title">Admin Console</h4>
         <p class="footer-text">
           Direct financial ledger audits & candidate verification protocols.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Portals ]</span>
+        <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Public Landing</a>
           <a class="footer-link" href="/worker.html">Worker Desk</a>

@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -27,17 +27,17 @@
   </script>
   <style>
     .profile-card-section {
-      background: #FAFBF7 !important;
-      border: 1px solid rgba(46, 61, 40, 0.14) !important;
-      border-radius: var(--radius-m);
+      background: #FFFFFF !important;
+      border: 1px solid rgba(20, 40, 29, 0.08) !important;
+      border-radius: 14px;
       padding: 26px;
       margin-bottom: 24px;
-      box-shadow: 0 4px 16px rgba(46, 61, 40, 0.04);
-      transition: all 0.25s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 6px 16px rgba(0, 0, 0, 0.02);
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     .profile-card-section:hover {
-      border-color: rgba(46, 61, 40, 0.3);
-      box-shadow: 0 8px 24px rgba(46, 61, 40, 0.08);
+      border-color: rgba(20, 40, 29, 0.2);
+      box-shadow: 0 10px 28px rgba(20, 40, 29, 0.07);
       background: #FFFFFF !important;
     }
     .profile-section-title {
@@ -403,7 +403,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Trade Credentials ]</span>
+        <span class="nav-badge-pill neutral">Trade Credentials</span>
       </a>
       <div style="display: flex; align-items: center; gap: 14px;">
         <span style="font-size: 12.5px; color: var(--color-text-secondary); font-family: var(--font-mono);" id="user-header-email"></span>
@@ -455,7 +455,7 @@
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="bracket-tag" style="font-size: 10px;">[ 1:1 SQUARE AVATAR ]</span>
+                <span class="nav-badge-pill neutral" style="font-size: 10px; padding: 2px 7px; margin-left: 0;">1:1 Square</span>
                 <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Trade Profile Photo</span>
               </div>
               <span style="font-size: 11px; color: #10b981; font-weight: 600;">Verified Ready</span>
@@ -501,7 +501,7 @@
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="bracket-tag" style="font-size: 10px;">[ 16:9 PASS COVER ]</span>
+                <span class="nav-badge-pill neutral" style="font-size: 10px; padding: 2px 7px; margin-left: 0;">16:9 Cover</span>
                 <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Workshop Cover Thumbnail</span>
               </div>
               <span style="font-size: 11px; color: #10b981; font-weight: 600;">Candidate Card Banner</span>
@@ -1918,20 +1918,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Privacy Shield ]</span>
+        <h4 class="footer-col-title">Privacy Shield</h4>
         <p class="footer-text">
           Direct Aadhaar KYC vetting with contact shielding. Unlocked exclusively by vetted industrial employers.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Navigation ]</span>
+        <h4 class="footer-col-title">Navigation</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>

@@ -14,8 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheets -->
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
 
   <script>
     (function() {
@@ -425,29 +425,43 @@
     }
 
     .card-badge {
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #000000;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: var(--radius-xs);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      background: rgba(20, 40, 29, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FFFFFF;
+      font-family: var(--font-primary), -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', sans-serif !important;
+      font-size: 11.5px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      padding: 4.5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.25;
+      text-transform: none;
     }
 
     .card-badge-verified {
-      background: #000000;
-      color: #ffffff;
-      border: none;
+      background: #059669 !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.28) !important;
+      font-weight: 700 !important;
+      font-size: 11px !important;
+      letter-spacing: 0.02em !important;
     }
 
     .card-badge-applied {
-      background: #10b981;
-      color: #ffffff;
-      border: none;
+      background: #059669 !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      font-weight: 700 !important;
+      font-size: 11px !important;
     }
 
     /* Card Details Body */
@@ -515,30 +529,59 @@
     }
 
     .btn-card-apply {
-      background: #2E3D28;
-      color: #E8E9DF;
-      border: 1px solid #2E3D28;
-      border-radius: var(--radius-xs);
-      padding: 6px 14px;
-      font-size: 11.5px;
-      font-weight: 600;
+      background: #14281D;
+      color: #FFFFFF;
+      border: 1px solid #14281D;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 650;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       font-family: var(--font-primary);
+      box-shadow: 0 1px 3px rgba(20, 40, 29, 0.12);
     }
 
     .btn-card-apply:hover {
-      background: #3C4E34;
-      border-color: #3C4E34;
+      background: #234331;
+      border-color: #234331;
       color: #FFFFFF;
       transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(20, 40, 29, 0.18);
     }
 
     .btn-card-apply.applied {
-      background: #2E3D28;
-      border-color: #2E3D28;
-      color: #E8E9DF;
+      background: #059669;
+      border-color: #059669;
+      color: #FFFFFF;
       cursor: default;
+    }
+
+    .btn-card-specs {
+      width: 100%;
+      justify-content: center;
+      background: #14281D !important;
+      color: #FFFFFF !important;
+      border: 1px solid #14281D !important;
+      border-radius: 8px !important;
+      padding: 9.5px 16px !important;
+      font-family: var(--font-primary) !important;
+      font-size: 12.5px !important;
+      font-weight: 650 !important;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.16) !important;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .btn-card-specs:hover {
+      background: #234331 !important;
+      border-color: #234331 !important;
+      color: #FFFFFF !important;
+      transform: translateY(-1.5px) !important;
+      box-shadow: 0 4px 12px rgba(20, 40, 29, 0.22) !important;
     }
 
     .btn-card-view {
@@ -978,7 +1021,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Verified Vacancies ]</span>
+        <span class="nav-badge-pill">Verified Vacancies</span>
       </a>
 
       <!-- Center Links -->
@@ -1028,30 +1071,35 @@
   </header>
 
   <!-- Top Breadcrumb Directory Banner -->
-  <section class="directory-banner">
+  <section class="directory-banner" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0; padding: 26px 3vw;">
     <div class="directory-banner-inner">
       <div>
-        <div class="bracket-tag">[ Directory / Engineering & Industrial Trades ]</div>
-        <h1 class="directory-title-main">Verified Technical Vacancies</h1>
+        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
+          Engineering & Industrial Trades Directory
+        </div>
+        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Technical Vacancies</h1>
       </div>
-      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
-        <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 18px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-          <span>+ Post New Vacancy</span>
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Post New Vacancy</span>
         </button>
-        <a href="/candidates.html" id="banner-browse-candidates" class="nav-btn-link link-line" style="font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px;">
-          <span>Browse Verified Candidates →</span>
+        <a href="/candidates.html" id="banner-browse-candidates" class="nav-btn-link" style="padding: 8px 16px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; gap: 6px;">
+          <span>Browse Verified Candidates</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
       <div id="banner-worker-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
-        <a href="/worker.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        <a href="/worker.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
           <span>Worker Desk & Applications →</span>
         </a>
       </div>
       <div id="banner-guest-actions" style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-        <a href="/candidates.html" class="nav-btn-link link-line" style="font-size: 13px; display: inline-flex; align-items: center; gap: 4px;">
-          <span>Browse Verified Candidates →</span>
+        <a href="/candidates.html" class="nav-btn-link" style="padding: 8px 16px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; gap: 6px;">
+          <span>Browse Candidates</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="/login.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        <a href="/login.html" class="nav-btn-solid" style="padding: 9px 20px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
           <span>Sign In to Apply or Hire →</span>
         </a>
       </div>
@@ -1067,7 +1115,7 @@
       <!-- 1. Search Box -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Search ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Vacancies</span>
         </div>
         <div class="filter-search-box">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1078,7 +1126,7 @@
       <!-- 2. Category / Trade Discipline -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Trade Discipline ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Trade Discipline</span>
         </div>
         <div class="filter-list-group" id="filter-category-list">
           <button type="button" class="filter-item-btn active" data-cat="all">
@@ -1115,7 +1163,7 @@
       <!-- 3. Location Hub -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Location Hub ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub</span>
         </div>
         <select id="filter-city-select" class="sidebar-select">
           <option value="all">All Locations (India)</option>
@@ -1133,7 +1181,7 @@
       <!-- 4. Minimum Compensation -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Minimum Salary ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Minimum Salary</span>
         </div>
         <select id="filter-salary-select" class="sidebar-select">
           <option value="0">All Pay Scales</option>
@@ -1144,8 +1192,8 @@
       </div>
 
       <!-- Reset Action -->
-      <button type="button" class="btn-reset-filters" id="btn-reset-all">
-        [ Clear All Filters ]
+      <button type="button" class="btn-reset-filters" id="btn-reset-all" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
+        Reset All Filters
       </button>
 
     </aside>
@@ -1185,7 +1233,10 @@
       
       <!-- Drawer Header -->
       <div class="drawer-header">
-        <span class="bracket-tag">[ Technical Specification & Apply ]</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #059669;"></span>
+          <span style="font-size: 13px; font-weight: 750; color: #14281D; letter-spacing: 0.04em; text-transform: uppercase;">Technical Specification & Apply</span>
+        </div>
         <button type="button" class="btn-close-drawer" id="btn-close-drawer" title="Close drawer">✕</button>
       </div>
 
@@ -1202,12 +1253,12 @@
     <div class="vacancy-modal-card">
       
       <!-- Modal Header -->
-      <div class="vacancy-modal-header">
+      <div class="vacancy-modal-header" style="padding: 20px 28px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #FFFFFF;">
         <div>
-          <span class="bracket-tag">[ Direct Employer Listing ]</span>
-          <h2 class="vacancy-modal-title" id="post-vacancy-modal-title">Publish Technical Trade Opening</h2>
+          <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.3); padding: 3px 9px; border-radius: 6px;">Direct Employer Listing</span>
+          <h2 class="vacancy-modal-title" id="post-vacancy-modal-title" style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 4px 0 0; letter-spacing: -0.02em;">Publish Technical Trade Opening</h2>
         </div>
-        <button type="button" class="btn-close-drawer" id="btn-close-post-modal" title="Close modal">✕</button>
+        <button type="button" class="btn-close-drawer" id="btn-close-post-modal" title="Close modal" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: all 0.2s ease;">✕</button>
       </div>
 
       <!-- Modal Body (Form) -->
@@ -1215,35 +1266,37 @@
         
         <!-- SECTION 1: Custom Workshop Cover Image Upload -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label">Workshop / Workplace Cover Image</label>
-          <div class="image-picker-box">
-            <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 2px;">
-              Upload your custom workshop, shop-floor, or equipment photo:
+          <label class="vacancy-label" style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #475569;">Workshop / Workplace Cover Image</label>
+          <div class="image-picker-box" style="border: 1px solid #E2E8F0; border-radius: 10px; padding: 18px; background: #F8FAFC; display: flex; flex-direction: column; gap: 12px;">
+            <div style="font-size: 12.5px; color: #64748B;">
+              Upload your custom workshop, shop-floor, or equipment photo to attract qualified candidates:
             </div>
 
             <!-- Custom Upload Dropzone -->
-            <div class="custom-upload-zone" id="btn-trigger-custom-img">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div class="custom-upload-zone" id="btn-trigger-custom-img" style="border: 2px dashed #CBD5E1; border-radius: 10px; padding: 18px 24px; background: #FFFFFF; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s ease;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 40px; height: 40px; border-radius: 10px; background: #F1F5F9; color: #14281D; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
                 <div>
-                  <span style="font-size: 13px; font-weight: 500; color: #000000;">Upload Custom Workshop Photo</span>
-                  <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 2px;">PNG, JPG, WebP format (Max 5MB)</div>
+                  <div style="font-size: 13.5px; font-weight: 600; color: #0F172A;">Upload Custom Workshop Photo</div>
+                  <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">PNG, JPG, WebP format (Max 5MB)</div>
                 </div>
               </div>
-              <span class="bracket-tag" style="font-size: 11px;">[ Browse File ]</span>
+              <span class="nav-btn-link" style="padding: 6px 14px; font-size: 12px; font-weight: 600; border: 1px solid #E2E8F0; border-radius: 6px; background: #F8FAFC; color: #0F172A;">Browse File</span>
               <input type="file" id="modal-custom-file-input" accept="image/*" style="display: none;">
             </div>
 
             <!-- Live Selected Preview Bar -->
-            <div class="img-preview-row" id="modal-preview-row" style="display: none;">
-              <img src="" id="modal-selected-preview-thumb" class="img-preview-thumb" alt="Custom Cover Photo">
+            <div class="img-preview-row" id="modal-preview-row" style="display: none; align-items: center; gap: 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 14px;">
+              <img src="" id="modal-selected-preview-thumb" class="img-preview-thumb" alt="Custom Cover Photo" style="width: 50px; height: 50px; border-radius: 6px; object-fit: cover;">
               <div style="flex: 1; overflow: hidden;">
-                <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Selected Workshop Photo</div>
-                <div id="modal-selected-preview-text" style="font-size: 12.5px; font-weight: 600; color: #000000; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                <div style="font-size: 11px; font-family: var(--font-mono); color: #059669; font-weight: 600; text-transform: uppercase;">Selected Workshop Photo</div>
+                <div id="modal-selected-preview-text" style="font-size: 13px; font-weight: 600; color: #0F172A; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
                   No file selected
                 </div>
               </div>
-              <button type="button" id="btn-remove-custom-img" style="background: #fef2f2; border: 1px solid #fee2e2; border-radius: var(--radius-xs); color: #dc2626; padding: 4px 10px; font-size: 11.5px; font-weight: 500; cursor: pointer;">
+              <button type="button" id="btn-remove-custom-img" style="background: #FEF2F2; border: 1px solid #FEE2E2; border-radius: 6px; color: #DC2626; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer;">
                 Remove
               </button>
             </div>
@@ -1352,12 +1405,13 @@
         </div>
 
         <!-- Modal Footer Actions -->
-        <div class="vacancy-modal-footer">
-          <button type="button" class="btn-reset-filters" id="btn-cancel-post-modal" style="width: auto; padding: 8px 18px;">
+        <div class="vacancy-modal-footer" style="padding: 16px 28px; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end; align-items: center; gap: 12px; background: #F8FAFC;">
+          <button type="button" class="btn-reset-filters" id="btn-cancel-post-modal" style="width: auto; padding: 9px 20px; font-family: var(--font-primary); font-size: 13px; font-weight: 600; border-radius: 8px;">
             Cancel
           </button>
-          <button type="submit" class="nav-btn-solid" style="padding: 10px 22px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-            <span>Publish Vacancy to Directory →</span>
+          <button type="submit" class="nav-btn-solid" style="padding: 10px 24px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 8px;">
+            <span>Publish Vacancy to Directory</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
         </div>
 
@@ -1380,20 +1434,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Direct Trade Pass ]</span>
+        <h4 class="footer-col-title">Direct Trade Pass</h4>
         <p class="footer-text">
           Zero middleman fees for tradesmen. Every candidate holds an authenticated digital pass with verified technical qualifications.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Portals ]</span>
+        <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
@@ -1658,7 +1712,7 @@
         if (filtered.length === 0) {
           gridContainer.innerHTML = `
             <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-s);">
-              <div class="bracket-tag" style="margin-bottom: 8px;">[ 0 Matches ]</div>
+              <div style="margin-bottom: 8px;"><span class="nav-badge-pill neutral" style="margin-left: 0;">0 Matches Found</span></div>
               <h3 style="font-size: 18px; font-weight: 500; margin-bottom: 6px;">No vacancies match current criteria</h3>
               <p style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px;">Try adjusting search terms or resetting filters.</p>
               <button type="button" class="btn-reset-filters" id="btn-empty-reset" style="width: auto; padding: 8px 18px;">Reset All Filters</button>
@@ -1682,43 +1736,44 @@
           );
 
           return `
-            <article class="job-editorial-card" data-job-id="${job.id}">
-              <div class="job-card-image-box">
-                <img src="${coverImg}" alt="${job.title}" loading="lazy">
-                <div class="job-floating-badges">
-                  <span class="card-badge">₹${minSal} – ₹${maxSal} / mo</span>
-                  ${isOwnJob ? '<span class="card-badge" style="background: #000; color: #fff; font-weight: 700;">★ Your Vacancy</span>' : '<span class="card-badge card-badge-verified">Verified</span>'}
-                  ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied">✓ Applied</span>' : ''}
+            <article class="job-editorial-card" data-job-id="${job.id}" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;">
+              <div class="job-card-image-box" style="position: relative; width: 100%; height: 180px; overflow: hidden; background: #F1F5F9;">
+                <img src="${coverImg}" alt="${job.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                <div class="job-floating-badges" style="position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 2;">
+                  <span class="card-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">₹${minSal} – ₹${maxSal} / mo</span>
+                  ${isOwnJob ? '<span class="card-badge" style="background: #14281D; color: #fff; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <span>Your Vacancy</span></span>' : '<span class="card-badge card-badge-verified" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified</span></span>'}
+                  ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied" style="background: #059669; color: #ffffff; border-radius: 6px; padding: 4.5px 10px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Applied</span></span>' : ''}
                 </div>
               </div>
 
-              <div class="job-card-body">
-                <div class="job-card-serial-row">
-                  <span class="job-card-number">${serial} • ${job.category}</span>
-                  <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary);">${job.vacancies || 1} Open</span>
+              <div class="job-card-body" style="padding: 18px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
+                <div class="job-card-serial-row" style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${job.category}</span>
+                  <span style="font-family: var(--font-mono); font-size: 11px; color: #059669; font-weight: 600; background: #ECFDF5; padding: 2px 7px; border-radius: 4px;">${job.vacancies || 1} Open</span>
                 </div>
 
-                <h3 class="job-card-heading">${job.title}</h3>
+                <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${job.title}</h3>
 
-                <div class="job-card-company-line">
-                  <strong>${job.business_name || 'Verified Workshop'}</strong> • ${job.location_city}
+                <div class="job-card-company-line" style="font-size: 12.5px; color: #64748B; display: flex; align-items: center; gap: 6px;">
+                  <strong style="color: #0F172A; font-weight: 600;">${job.business_name || 'Verified Workshop'}</strong> • ${job.location_city}
                 </div>
 
-                <div class="job-card-footer-action">
+                <div class="job-card-footer-action" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 14px; border-top: 1px solid #F1F5F9; margin-top: auto;">
                   ${isEmployer ? `
-                    <button type="button" class="btn-card-apply" data-action="view" data-job-id="${job.id}" style="background: #ffffff; color: #000000 !important; border: 1px solid var(--color-border-strong); border-radius: var(--radius-xs); padding: 6px 14px; font-size: 11.5px; font-weight: 600; cursor: pointer;">
-                      View Specs →
+                    <button type="button" class="btn-card-specs" data-action="view" data-job-id="${job.id}">
+                      <span>View Specifications</span>
+                      <span style="font-size: 13px;">→</span>
                     </button>
                   ` : `
-                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''}>
-                      ${isApplied ? '✓ Applied' : '1-Click Apply'}
+                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''} style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                      ${isApplied ? '<span>✓ Applied</span>' : '<span>1-Click Apply</span>'}
                     </button>
-                  `}
 
-                  <a class="btn-card-view" data-action="view" data-job-id="${job.id}">
-                    <span>Specs</span>
-                    <span>→</span>
-                  </a>
+                    <a class="btn-card-view" data-action="view" data-job-id="${job.id}" style="font-size: 12px; font-weight: 600; color: #64748B; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+                      <span>Details</span>
+                      <span>→</span>
+                    </a>
+                  `}
                 </div>
               </div>
             </article>
@@ -1817,10 +1872,10 @@
           <!-- Salary Highlight -->
           <div class="drawer-salary-highlight">
             <div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">Direct Bank Payroll</div>
+              <div style="font-size: 11px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Direct Bank Payroll</div>
               <div class="drawer-salary-val">₹${minSal} – ₹${maxSal} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ month</span></div>
             </div>
-            <span class="bracket-tag">[ 0% Commission ]</span>
+            <span class="nav-badge-pill" style="margin-left: 0;">0% Commission</span>
           </div>
 
           <!-- Action Buttons -->
@@ -1849,7 +1904,10 @@
 
           <!-- Section: Scope -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Technical Scope ]</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Technical Scope
+            </div>
             <p style="font-size: 13.5px; line-height: 1.6; color: var(--color-text-secondary); margin: 0;">
               ${job.description || 'On-site technical operations, preventive maintenance, calibration, and machine operation in compliance with factory safety standards.'}
             </p>
@@ -1857,7 +1915,10 @@
 
           <!-- Section: Requirements -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Machine & Certification Standards ]</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Machine & Certification Standards
+            </div>
             <div style="background: #fafafa; border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 14px 16px;">
               <div style="font-size: 13px; font-weight: 600; color: #000000; margin-bottom: 4px;">Verified Qualifications</div>
               <div style="font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.5;">
@@ -1868,15 +1929,18 @@
 
           <!-- Section: Workshop Meta -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Workshop Specifications ]</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Workshop Specifications
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px;">
-                <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--color-text-secondary);">LOCATION / SEZ</div>
-                <div style="font-size: 13px; font-weight: 600; margin-top: 2px;">${job.location_area || job.location_city || 'SEZ Hub'}</div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
+                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">LOCATION / SEZ</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${job.location_area || job.location_city || 'SEZ Hub'}</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px;">
-                <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--color-text-secondary);">SHIFT SCHEDULE</div>
-                <div style="font-size: 13px; font-weight: 600; margin-top: 2px;">${job.working_hours || 'Day Shift (8 hrs)'}</div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
+                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">SHIFT SCHEDULE</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${job.working_hours || 'Day Shift (8 hrs)'}</div>
               </div>
               <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px;">
                 <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--color-text-secondary);">VACANCIES OPEN</div>

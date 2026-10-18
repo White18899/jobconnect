@@ -14,8 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Core Stylesheets -->
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
 
   <script>
     (function() {
@@ -82,12 +82,12 @@
        JobWay Candidates Directory (Swiss Minimalist Editorial Architecture)
        ========================================================================== */
     :root {
-      --color-background: #E8E9DF;
-      --color-surface: #FAFBF7;
-      --color-text: #2E3D28;
-      --color-text-secondary: #586851;
-      --color-border: rgba(46, 61, 40, 0.12);
-      --color-border-strong: rgba(46, 61, 40, 0.28);
+      --color-background: #ffffff;
+      --color-surface: #ffffff;
+      --color-text: #000000;
+      --color-text-secondary: #52525b;
+      --color-border: rgba(0, 0, 0, 0.08);
+      --color-border-strong: rgba(0, 0, 0, 0.18);
       --font-primary: 'Geist', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'Geist Mono', ui-monospace, monospace;
       --radius-s: 4px;
@@ -95,8 +95,8 @@
     }
 
     body.editorial-page {
-      background-color: #E8E9DF !important;
-      color: #2E3D28 !important;
+      background-color: #ffffff !important;
+      color: #000000 !important;
       font-family: var(--font-primary) !important;
       min-height: 100vh;
       display: flex;
@@ -108,7 +108,7 @@
     /* Top Directory Breadcrumb Header */
     .directory-banner {
       border-bottom: 1px solid var(--color-border);
-      background: #FAFBF7;
+      background: #fafafa;
       padding: 24px 3vw;
     }
 
@@ -124,11 +124,11 @@
 
     .directory-title-main {
       font-size: clamp(1.6rem, 2.8vw, 2.5rem);
-      font-weight: 400;
+      font-weight: 750;
       letter-spacing: -0.03em;
       line-height: 1.15;
       margin: 6px 0 0;
-      color: #2E3D28;
+      color: #14281D;
     }
 
     /* Main Container: Sidebar + 3-Card Grid */
@@ -334,30 +334,32 @@
     }
 
     /* Candidate Card Component */
+    /* Candidate Card Component - Modern Engineering Atelier Style */
     .candidate-card {
-      background: #FAFBF7;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-s);
+      background: #FFFFFF;
+      border: 1px solid rgba(20, 40, 29, 0.09);
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
       cursor: pointer;
       position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.02);
     }
 
     .candidate-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(46, 61, 40, 0.35);
-      box-shadow: 0 12px 32px rgba(46, 61, 40, 0.09);
+      transform: translateY(-3px);
+      border-color: rgba(20, 40, 29, 0.22);
+      box-shadow: 0 12px 28px rgba(20, 40, 29, 0.09), 0 4px 10px rgba(0, 0, 0, 0.04);
       background: #FFFFFF;
     }
 
     .candidate-card-header-box {
       position: relative;
       width: 100%;
-      height: 140px;
-      background: #E8E9DF;
+      height: 148px;
+      background: linear-gradient(135deg, #14281D 0%, #1e3a29 100%);
       overflow: hidden;
     }
 
@@ -365,15 +367,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(10%) contrast(105%);
+      filter: contrast(102%);
       transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .candidate-card:hover .candidate-card-header-box img {
-      transform: scale(1.04);
+      transform: scale(1.05);
     }
 
-    /* Floating Badges */
+    /* Floating Badges on Cover */
     .candidate-floating-badges {
       position: absolute;
       top: 10px;
@@ -385,29 +387,44 @@
     }
 
     .cand-badge {
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #000000;
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: var(--radius-xs);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      background: rgba(20, 40, 29, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FFFFFF;
+      font-family: var(--font-primary), -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', sans-serif !important;
+      font-size: 11.5px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      padding: 4.5px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.25;
+      text-transform: none;
     }
 
     .cand-badge-kyc {
-      background: #10b981;
-      color: #ffffff;
-      border: none;
+      background: #059669 !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.28) !important;
+      font-weight: 700 !important;
+      font-size: 11px !important;
+      letter-spacing: 0.02em !important;
     }
 
     .cand-badge-unlocked {
-      background: #000000;
-      color: #ffffff;
-      border: none;
+      background: #14281D !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.25) !important;
+      font-weight: 700 !important;
+      font-size: 11px !important;
     }
 
     /* Candidate Avatar Badge overlaying cover */
@@ -417,100 +434,107 @@
       left: 16px;
       width: 52px;
       height: 52px;
-      border-radius: var(--radius-s);
-      background: #09090b;
-      border: 2.5px solid #ffffff;
+      border-radius: 50%;
+      background: #14281D;
+      border: 3px solid #ffffff;
       color: #ffffff;
-      font-size: 18px;
-      font-weight: 750;
+      font-size: 17px;
+      font-weight: 800;
       font-family: var(--font-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
       z-index: 3;
+      overflow: visible;
     }
 
     .cand-verified-microtick {
       position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 16px;
-      height: 16px;
-      border-radius: 3px;
-      background: #10b981;
-      border: 1.5px solid #ffffff;
+      bottom: 0px;
+      right: -1px;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: #059669;
+      border: 2px solid #ffffff;
       color: #ffffff;
-      font-size: 9px;
+      font-size: 9.5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
+      font-weight: 900;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
     }
 
     /* Candidate Body */
     .candidate-card-body {
-      padding: 26px 16px 14px;
+      padding: 28px 18px 16px;
       display: flex;
       flex-direction: column;
       flex: 1;
-      gap: 10px;
+      gap: 12px;
+      background: #FFFFFF;
     }
 
     .cand-name-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
-      color: #000000;
+      color: #14281D;
       line-height: 1.25;
       letter-spacing: -0.015em;
       margin: 0;
     }
 
     .cand-trade-subtitle {
-      font-size: 12.5px;
-      color: var(--color-text-secondary);
+      font-size: 13px;
+      color: #4B5563;
+      font-weight: 500;
       line-height: 1.35;
-      min-height: 34px;
+      min-height: 36px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      margin-top: 2px;
     }
 
     .cand-skills-chips {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin: 2px 0 6px;
+      margin: 2px 0 4px;
     }
 
     .cand-skill-tag {
       font-size: 11px;
+      font-weight: 600;
       font-family: var(--font-mono);
-      background: #fafafa;
-      border: 1px solid var(--color-border);
-      padding: 2px 6px;
-      border-radius: var(--radius-xs);
-      color: var(--color-text-secondary);
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #334155;
+      letter-spacing: -0.01em;
     }
 
     .cand-contact-shield {
-      background: #fafafa;
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-xs);
-      padding: 8px 10px;
-      font-size: 11.5px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
       font-family: var(--font-mono);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--color-text-secondary);
+      color: #4B5563;
     }
 
     .cand-contact-shield.unlocked {
-      background: rgba(16, 185, 129, 0.08);
-      border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(5, 150, 105, 0.08);
+      border-color: rgba(5, 150, 105, 0.3);
       color: #047857;
       font-weight: 600;
     }
@@ -519,50 +543,67 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      padding-top: 12px;
-      border-top: 1px solid var(--color-border);
+      gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(20, 40, 29, 0.08);
       margin-top: auto;
     }
 
     .btn-unlock-contact {
-      background: #000000;
+      background: #14281D;
       color: #ffffff;
-      border: 1px solid #000000;
-      border-radius: var(--radius-xs);
-      padding: 7px 14px;
-      font-size: 11.5px;
+      border: 1px solid #14281D;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 12px;
       font-weight: 600;
       font-family: var(--font-primary);
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.15);
     }
 
     .btn-unlock-contact:hover {
-      background: #27272a;
+      background: #234331;
+      border-color: #234331;
+      transform: translateY(-1.5px);
+      box-shadow: 0 4px 12px rgba(20, 40, 29, 0.25);
     }
 
     .btn-unlock-contact.unlocked {
-      background: #10b981;
-      border-color: #10b981;
+      background: #059669;
+      border-color: #059669;
       color: #ffffff;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+    }
+
+    .btn-unlock-contact.selected-cart {
+      background: #14281D;
+      border-color: #14281D;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(20, 40, 29, 0.2);
     }
 
     .btn-view-pass {
-      font-size: 11.5px;
-      font-family: var(--font-mono);
-      color: var(--color-text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-primary);
+      color: #4B5563;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 4px 6px;
     }
 
     .btn-view-pass:hover {
-      color: #000000;
+      color: #14281D;
+      transform: translateX(2px);
     }
 
     /* ==========================================================================
@@ -842,7 +883,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Verified Candidates ]</span>
+        <span class="nav-badge-pill">Verified Candidates</span>
       </a>
 
       <!-- Center Links -->
@@ -890,25 +931,29 @@
   </header>
 
   <!-- Top Breadcrumb Directory Banner -->
-  <section class="directory-banner">
+  <section class="directory-banner" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0; padding: 26px 3vw;">
     <div class="directory-banner-inner">
       <div>
-        <div class="bracket-tag">[ Directory / Vetted Technical Tradesmen & Engineers ]</div>
-        <h1 class="directory-title-main">Verified Candidate Passes</h1>
+        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
+          Vetted Technical Tradesmen & Engineers Directory
+        </div>
+        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidate Passes</h1>
       </div>
-      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">
-        <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 8px 16px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 9px 18px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span>Selected Candidates (<span id="banner-cart-count">0</span>) →</span>
+          <span>Selected Candidates (<span id="banner-cart-count">0</span>)</span>
+          <span style="font-size: 13px;">→</span>
         </a>
-        <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link link-line" style="font-size: 12px;">
-          <span>Recharge Unlock Credits +</span>
+        <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link" style="padding: 8px 16px; border: 1px solid #FCD34D; background: #FFFBEB; color: #92400E; border-radius: 8px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Recharge Unlock Credits</span>
         </a>
       </div>
       <div id="banner-viewer-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <span class="bracket-tag" style="background: rgba(0,0,0,0.04); padding: 5px 10px; border-radius: 4px;">[ Public Viewer Mode ]</span>
-        <a href="/login.html?role=employer&returnUrl=/candidates.html" class="nav-btn-solid" style="padding: 8px 16px; font-size: 12.5px; text-decoration: none;">
-          Sign In to Unlock Direct Contacts →
+        <span style="background: #F1F5F9; color: #475569; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid #E2E8F0;">Public Viewer Mode</span>
+        <a href="/login.html?role=employer&returnUrl=/candidates.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; font-weight: 600; text-decoration: none; border-radius: 8px;">
+          <span>Sign In to Unlock Contacts →</span>
         </a>
       </div>
     </div>
@@ -923,7 +968,7 @@
       <!-- 1. Search Box -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Search Candidates ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Candidates</span>
         </div>
         <div class="filter-search-box">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -934,7 +979,7 @@
       <!-- 2. Trade Discipline -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Trade Discipline ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Trade Discipline</span>
         </div>
         <div class="filter-list-group" id="cand-category-list">
           <button type="button" class="filter-item-btn active" data-cat="all">
@@ -971,7 +1016,7 @@
       <!-- 3. Experience Filter -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Total Experience ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Total Experience</span>
         </div>
         <select id="cand-exp-select" class="sidebar-select">
           <option value="0">All Experience Levels</option>
@@ -984,7 +1029,7 @@
       <!-- 4. Location Hub -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span class="bracket-tag">[ Location Hub ]</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub</span>
         </div>
         <select id="cand-city-select" class="sidebar-select">
           <option value="all">All Locations (India)</option>
@@ -997,8 +1042,8 @@
       </div>
 
       <!-- Reset Action -->
-      <button type="button" class="btn-reset-filters" id="btn-reset-cands">
-        [ Clear All Filters ]
+      <button type="button" class="btn-reset-filters" id="btn-reset-cands" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
+        Reset All Filters
       </button>
 
     </aside>
@@ -1036,7 +1081,10 @@
     <div class="drawer-panel" id="cand-drawer-panel">
       
       <div class="drawer-header">
-        <span class="bracket-tag">[ Verified Tradesman Pass Details ]</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #059669;"></span>
+          <span style="font-size: 13px; font-weight: 750; color: #14281D; letter-spacing: 0.04em; text-transform: uppercase;">Verified Tradesman Pass</span>
+        </div>
         <button type="button" class="btn-close-drawer" id="btn-close-cand-drawer" title="Close drawer">✕</button>
       </div>
 
@@ -1080,20 +1128,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Direct Employer Unlocks ]</span>
+        <h4 class="footer-col-title">Direct Employer Unlocks</h4>
         <p class="footer-text">
           Zero middleman brokerage. Unlocked candidates display verified Aadhaar IDs, WhatsApp numbers, and verified trade certifications.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Portals ]</span>
+        <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
@@ -1263,7 +1311,7 @@
         if (filtered.length === 0) {
           gridContainer.innerHTML = `
             <div style="grid-column: 1 / -1; padding: 60px 20px; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-s);">
-              <div class="bracket-tag" style="margin-bottom: 8px;">[ 0 Candidates ]</div>
+              <div style="margin-bottom: 8px;"><span class="nav-badge-pill neutral" style="margin-left: 0;">0 Candidates Found</span></div>
               <h3 style="font-size: 18px; font-weight: 500; margin-bottom: 6px;">No candidate profiles match current criteria</h3>
               <p style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px;">Try adjusting search terms or resetting filters.</p>
               <button type="button" class="btn-reset-filters" id="btn-empty-cands-reset" style="width: auto; padding: 8px 18px;">Reset All Filters</button>
@@ -1288,21 +1336,21 @@
               <div class="candidate-card-header-box">
                 <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
-                  <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Contact Unlocked</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc">UIDAI Vetted</span>')}
+                  <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>UIDAI Vetted</span></span>')}
                 </div>
 
                 <div class="cand-avatar-pill">
-                  ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">` : initials}
+                  ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : initials}
                   <div class="cand-verified-microtick" title="KYC Verified">✓</div>
                 </div>
               </div>
 
               <div class="candidate-card-body">
                 <div>
-                  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-                    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); font-weight: 600;">${serial} • ${c.category}</span>
-                    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary);">${c.city}</span>
+                  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                    <span style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">${serial} • ${c.category}</span>
+                    <span style="font-family: var(--font-mono); font-size: 11.5px; color: #64748B; font-weight: 600;">${c.city}</span>
                   </div>
                   <h3 class="cand-name-title">${c.name}</h3>
                   <div class="cand-trade-subtitle">${c.trade_title}</div>
@@ -1313,7 +1361,15 @@
                 </div>
 
                 <div class="cand-contact-shield ${isUnlocked ? 'unlocked' : ''}">
-                  <span>${isUnlocked ? 'Direct Contact:' : 'Shielded Phone:'}</span>
+                  <span style="display: flex; align-items: center; gap: 5px;">
+                    ${isUnlocked ? `
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>Direct Contact:</span>
+                    ` : `
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      <span>Shielded Phone:</span>
+                    `}
+                  </span>
                   <strong>${isUnlocked ? c.phone_unlocked : c.phone_masked}</strong>
                 </div>
 
@@ -1328,7 +1384,7 @@
                       <button type="button" class="btn-unlock-contact selected-cart" data-action="toggle-cart" data-cand-id="${c.id}" title="Click to remove from selection">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>Selected</span>
-                        <span class="remove-cross" title="Remove">✕</span>
+                        <span class="remove-cross" title="Remove" style="margin-left: 4px; opacity: 0.8;">✕</span>
                       </button>
                     ` : `
                       <button type="button" class="btn-unlock-contact" data-action="toggle-cart" data-cand-id="${c.id}">
@@ -1337,7 +1393,7 @@
                       </button>
                     `)}
                   ` : `
-                    <button type="button" class="btn-unlock-contact" data-action="viewer-unlock" data-cand-id="${c.id}" style="background: #ffffff; color: #000000; border: 1px solid var(--color-border-strong);">
+                    <button type="button" class="btn-unlock-contact" data-action="viewer-unlock" data-cand-id="${c.id}" style="background: #F8FAFC; color: #14281D; border: 1px solid #CBD5E1; box-shadow: none;">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                       <span>Unlock Contact</span>
                     </button>
@@ -1345,7 +1401,7 @@
 
                   <a class="btn-view-pass" data-action="view" data-cand-id="${c.id}">
                     <span>Pass</span>
-                    <span>→</span>
+                    <span style="font-size: 13px;">→</span>
                   </a>
                 </div>
               </div>
@@ -1463,30 +1519,30 @@
         drawerBody.innerHTML = `
           <!-- Header Profile Row -->
           <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="width: 64px; height: 64px; border-radius: var(--radius-s); background: #000; color: #fff; font-size: 22px; font-weight: 750; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; overflow: hidden;">
-              ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">` : initials}
-              <div style="position: absolute; bottom: -2px; right: -2px; width: 18px; height: 18px; border-radius: 4px; background: #10b981; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800;">✓</div>
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #14281D; color: #fff; font-size: 22px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; border: 3px solid #E2E8F0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+              ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : initials}
+              <div style="position: absolute; bottom: 0; right: 0; width: 18px; height: 18px; border-radius: 50%; background: #059669; border: 2px solid #fff; color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">✓</div>
             </div>
             <div style="flex: 1;">
-              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap;">
-                <span class="cand-badge cand-badge-kyc">UIDAI Aadhaar Vetted</span>
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
+                <span class="cand-badge cand-badge-kyc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>UIDAI Aadhaar Vetted</span></span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
-                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked">✓ Unlocked Pass</span>' : (isSelected ? '<span class="cand-badge" style="background: #000; color: #fff; font-weight: 700;">🛒 Selected</span>' : '')}
+                ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Unlocked Pass</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-weight: 700;">🛒 Selected</span>' : '')}
               </div>
-              <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #000;">${c.name}</h2>
-              <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 2px;">
+              <h2 style="font-size: 22px; font-weight: 750; margin: 0; color: #14281D; letter-spacing: -0.02em;">${c.name}</h2>
+              <div style="font-size: 13.5px; color: #4B5563; margin-top: 3px; font-weight: 500;">
                 ${c.trade_title} • ${c.city}
               </div>
             </div>
           </div>
 
           <!-- Contact Unlock & Cart Action Banner -->
-          <div style="background: ${isUnlocked ? 'rgba(16, 185, 129, 0.08)' : '#fafafa'}; border: 1px solid ${isUnlocked ? 'rgba(16, 185, 129, 0.3)' : 'var(--color-border)'}; border-radius: var(--radius-s); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <div style="background: ${isUnlocked ? 'rgba(5, 150, 105, 0.08)' : '#F8FAFC'}; border: 1px solid ${isUnlocked ? 'rgba(5, 150, 105, 0.25)' : '#E2E8F0'}; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
             <div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase;">
+              <div style="font-size: 11px; font-family: var(--font-mono); color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">
                 ${isUnlocked ? 'Direct Phone & WhatsApp' : (isSelected ? 'Selected Candidate (Shielded)' : 'Direct Contact (Shielded in Viewer Mode)')}
               </div>
-              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: #000; margin-top: 2px;">
+              <div style="font-family: var(--font-mono); font-size: 19px; font-weight: 750; color: #14281D; margin-top: 2px;">
                 ${isUnlocked ? c.phone_unlocked : c.phone_masked}
               </div>
             </div>
@@ -1518,71 +1574,86 @@
 
           <!-- Candidate Specifications Grid -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 8px;">[ Verified Candidate Specifications ]</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 10px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Verified Candidate Specifications
+            </div>
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Discipline</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.category}</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Discipline</div>
+                <div style="font-size: 14px; font-weight: 700; color: #14281D; margin-top: 3px;">${c.category}</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Hands-on Exp</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.experience}+ Years</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Hands-on Exp</div>
+                <div style="font-size: 14px; font-weight: 700; color: #14281D; margin-top: 3px;">${c.experience}+ Years</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Deployment Hub</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">${c.city}</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Deployment Hub</div>
+                <div style="font-size: 14px; font-weight: 700; color: #14281D; margin-top: 3px;">${c.city}</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Target Wage / Mo</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #000; margin-top: 2px;">₹${(c.salary_expected || 35000).toLocaleString('en-IN')}</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Target Wage / Mo</div>
+                <div style="font-size: 14px; font-weight: 700; color: #14281D; margin-top: 3px;">₹${(c.salary_expected || 35000).toLocaleString('en-IN')}</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">UIDAI KYC</div>
-                <div style="font-size: 13px; font-weight: 600; color: #10b981; margin-top: 2px;">DigiLocker Vetted ✓</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">UIDAI KYC</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #059669; margin-top: 3px;">DigiLocker Vetted ✓</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
-                <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; font-family: var(--font-mono);">Availability</div>
-                <div style="font-size: 13px; font-weight: 600; color: #000; margin-top: 2px;">Immediate (7 Days)</div>
+              <div style="border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; background: #F8FAFC;">
+                <div style="font-size: 11px; color: #64748B; text-transform: uppercase; font-family: var(--font-primary); font-weight: 700; letter-spacing: 0.05em;">Availability</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 3px;">Immediate (7 Days)</div>
               </div>
             </div>
           </div>
 
           <!-- Section: Scope & Bio -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Technical Profile & Hands-on Scope ]</div>
-            <p style="font-size: 13.5px; line-height: 1.6; color: var(--color-text-secondary); margin: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Technical Profile & Hands-on Scope
+            </div>
+            <p style="font-size: 14px; line-height: 1.65; color: #4B5563; margin: 0; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 16px;">
               ${c.bio}
             </p>
           </div>
 
           <!-- Section: Key Machine Skills -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Machine & Controller Proficiencies ]</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Machine & Controller Proficiencies
+            </div>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              ${(c.skills || []).map(s => `<span class="cand-skill-tag" style="padding: 4px 10px; font-size: 12px;">⚡ ${s}</span>`).join('')}
+              ${(c.skills || []).map(s => `<span class="cand-skill-tag" style="padding: 5px 12px; font-size: 12px; background: #F1F5F9; border-color: #CBD5E1; color: #1E293B;">⚡ ${s}</span>`).join('')}
             </div>
           </div>
 
           <!-- Section: Education & Qualifications -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Qualifications & Certifications ]</div>
-            <div style="background: #fafafa; border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 12px 16px;">
-              <div style="font-size: 13px; font-weight: 600; color: #000;">${c.education}</div>
-              <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 2px;">Verified against Aadhaar DigiLocker database & Skill Council records. Zero falsified certificates.</div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Qualifications & Certifications
+            </div>
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 18px;">
+              <div style="font-size: 14px; font-weight: 700; color: #14281D;">${c.education}</div>
+              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">Verified against Aadhaar DigiLocker database & Skill Council records. Zero falsified certificates.</div>
             </div>
           </div>
 
           <!-- Section: Residential Location -->
           <div>
-            <div class="bracket-tag" style="margin-bottom: 6px;">[ Verified Residential Address ]</div>
-            <div style="font-size: 13px; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: var(--radius-xs); padding: 10px 14px; background: #fafafa;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
+              Verified Residential Address
+            </div>
+            <div style="font-size: 13px; color: #4B5563; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; background: #F8FAFC;">
               ${isUnlocked ? c.address_unlocked : (c.address_masked + ' (Full residential address unlocks with contact details)')}
             </div>
           </div>
 
           ${(isEmployer && (isUnlocked || isSelected)) ? `
-            <div style="margin-top: 8px;">
-              <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 42px; font-size: 13px; justify-content: center; text-decoration: none;">
+            <div style="margin-top: 10px;">
+              <a href="${workspaceHref}" class="nav-btn-solid" style="width: 100%; height: 44px; font-size: 13px; justify-content: center; text-decoration: none; font-weight: 700; border-radius: 8px;">
                 ${isUnlocked ? 'Open Full Candidate Pass in Workspace →' : 'Review & Unlock in Employer Workspace →'}
               </a>
             </div>

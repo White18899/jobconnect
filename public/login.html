@@ -10,17 +10,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=18">
-  <link rel="stylesheet" href="css/editorial.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/editorial.css?v=20">
   <style>
     .auth-mode-switch {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      background: rgba(46, 61, 40, 0.08);
+      background: #F1F5F9;
       padding: 4px;
-      border-radius: var(--radius-m);
+      border-radius: 10px;
       margin-bottom: 24px;
-      border: 1px solid rgba(46, 61, 40, 0.14);
+      border: 1px solid #E2E8F0;
       gap: 3px;
     }
     .auth-mode-btn {
@@ -29,20 +29,21 @@
       padding: 8px 10px;
       font-size: 12.5px;
       font-weight: 600;
-      color: var(--color-text-secondary);
-      border-radius: var(--radius-xs);
+      color: #64748B;
+      border-radius: 7px;
       cursor: pointer;
       transition: all 0.2s ease;
       text-align: center;
     }
     .auth-mode-btn:hover {
-      color: var(--color-text);
-      background: rgba(169, 184, 135, 0.2);
+      color: #14281D;
+      background: rgba(255, 255, 255, 0.6);
     }
     .auth-mode-btn.active {
-      background: #2E3D28;
-      color: #E8E9DF;
-      box-shadow: 0 1px 4px rgba(46, 61, 40, 0.2);
+      background: #14281D;
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.2);
+      font-weight: 700;
     }
     .role-toggle-grid {
       display: grid;
@@ -51,24 +52,25 @@
       margin-bottom: 18px;
     }
     .role-toggle-card {
-      border: 1.5px solid rgba(46, 61, 40, 0.16);
-      border-radius: var(--radius-s);
+      border: 1.5px solid #E2E8F0;
+      border-radius: 10px;
       padding: 14px;
       cursor: pointer;
       transition: all 0.2s ease;
-      background: #FAFBF7;
+      background: #F8FAFC;
       text-align: left;
-      color: #2E3D28;
+      color: #14281D;
     }
     .role-toggle-card:hover {
-      border-color: #2E3D28;
+      border-color: #14281D;
       transform: translateY(-1px);
-      background: rgba(169, 184, 135, 0.14);
+      background: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
     }
     .role-toggle-card.selected {
-      border-color: #2E3D28;
-      background: rgba(169, 184, 135, 0.22);
-      box-shadow: 0 0 0 1px #2E3D28;
+      border-color: #14281D;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 1px #14281D, 0 4px 12px rgba(20, 40, 29, 0.08);
     }
     .code-input-field {
       font-size: 22px !important;
@@ -76,24 +78,26 @@
       text-align: center !important;
       font-weight: 700 !important;
       font-family: monospace !important;
-      color: #2E3D28 !important;
-      background: #FAFBF7 !important;
-      border: 1px solid rgba(46, 61, 40, 0.2) !important;
+      color: #14281D !important;
+      background: #F8FAFC !important;
+      border: 1px solid #CBD5E1 !important;
+      border-radius: 8px !important;
       padding: 12px !important;
     }
     .code-input-field:focus {
-      border-color: #2E3D28 !important;
-      box-shadow: 0 0 0 2px rgba(169, 184, 135, 0.35) !important;
+      border-color: #14281D !important;
+      box-shadow: 0 0 0 2px rgba(20, 40, 29, 0.2) !important;
+      background: #FFFFFF !important;
     }
     .auth-card {
-      background: #FAFBF7 !important;
-      border: 1px solid rgba(46, 61, 40, 0.14) !important;
-      border-radius: var(--radius-m);
-      box-shadow: 0 12px 36px rgba(46, 61, 40, 0.08);
+      background: #FFFFFF !important;
+      border: 1px solid rgba(20, 40, 29, 0.09) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 16px 40px rgba(20, 40, 29, 0.08) !important;
       width: 100%;
       max-width: 480px;
-      padding: 34px 32px;
-      color: #2E3D28;
+      padding: 36px 32px;
+      color: #14281D;
     }
     .form-group {
       margin-bottom: 16px;
@@ -102,25 +106,25 @@
       display: block;
       font-size: 12.5px;
       font-weight: 600;
-      color: #2E3D28;
+      color: #14281D;
       margin-bottom: 6px;
     }
     .form-input {
       width: 100%;
       padding: 10px 14px;
-      border-radius: var(--radius-xs);
-      border: 1px solid rgba(46, 61, 40, 0.18);
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
       font-size: 13.5px;
-      background: #FAFBF7;
-      color: #2E3D28;
+      background: #FFFFFF;
+      color: #14281D;
       outline: none;
       transition: all 0.2s ease;
       box-sizing: border-box;
     }
     .form-input:focus {
       background: #FFFFFF;
-      border-color: #2E3D28;
-      box-shadow: 0 0 0 2px rgba(169, 184, 135, 0.35);
+      border-color: #14281D;
+      box-shadow: 0 0 0 2px rgba(20, 40, 29, 0.2);
     }
     .btn-demo-quick {
       display: flex;
@@ -128,20 +132,20 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 9px 14px;
-      background: #FAFBF7;
-      border: 1px solid rgba(46, 61, 40, 0.2);
-      border-radius: var(--radius-xs);
+      padding: 10px 14px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
       font-size: 12.5px;
       font-weight: 600;
-      color: #2E3D28;
+      color: #14281D;
       cursor: pointer;
       transition: all 0.2s ease;
     }
     .btn-demo-quick:hover {
-      background: rgba(169, 184, 135, 0.22);
-      border-color: #2E3D28;
-      color: #2E3D28;
+      background: #F1F5F9;
+      border-color: #94A3B8;
+      color: #14281D;
       transform: translateY(-1px);
     }
   </style>
@@ -154,7 +158,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="bracket-tag" style="margin-left: 8px;">[ Account Access ]</span>
+        <span style="margin-left: 8px; font-size: 11px; font-weight: 700; background: rgba(5, 150, 105, 0.08); color: #047857; padding: 2.5px 8px; border-radius: 6px; letter-spacing: 0.04em;">Account Access</span>
       </a>
       <a href="/" class="nav-btn-link link-line">
         ← Back to Home
@@ -912,20 +916,20 @@
     </div>
     <div class="footer-right">
       <div class="footer-box">
-        <span class="bracket-tag">[ Verification ]</span>
+        <h4 class="footer-col-title">Identity Verification</h4>
         <p class="footer-text">
           Zero password vulnerabilities. One-time passcodes delivered via official job-way.in SMTP.
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Hubs ]</span>
+        <h4 class="footer-col-title">Industrial Hubs</h4>
         <p class="footer-text">
           Hyderabad • Visakhapatnam<br>
           Pune • Bengaluru • Chennai
         </p>
       </div>
       <div class="footer-box">
-        <span class="bracket-tag">[ Portals ]</span>
+        <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Public Landing</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
