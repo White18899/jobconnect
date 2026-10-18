@@ -7,9 +7,9 @@ const API_BASE_URL = (() => {
   if (typeof window !== 'undefined') {
     const override = localStorage.getItem('jc_api_url');
     if (override) return override;
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      return 'http://localhost:8787/api';
-    }
+    // Connect directly to the live Cloudflare Worker API on both localhost and domain
+    // (Live Cloudflare backend already permits CORS from localhost and 127.0.0.1)
+    // To route to a local worker instead, set localStorage.setItem('jc_api_url', 'http://localhost:8787/api')
   }
   return 'https://jobconnect-backend.white018899.workers.dev/api';
 })();
