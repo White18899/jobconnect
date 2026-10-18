@@ -2361,3 +2361,47 @@ textarea:focus {
 .nav-link:hover {
   color: #14281D !important;
 }
+
+/* ==========================================================================
+   14. Modal Overlays & Layering (Always Above Sticky Header)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 10000 !important;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+.modal-overlay.active {
+  display: flex !important;
+}
+
+.modal-card {
+  margin: auto !important;
+  max-height: calc(100vh - 64px) !important;
+  max-height: calc(100dvh - 64px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.35) !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+
+.modal-header {
+  flex-shrink: 0 !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.modal-body {
+  overflow-y: auto !important;
+  flex: 1 1 auto !important;
+}

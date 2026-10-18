@@ -2055,11 +2055,13 @@ div[id],
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 100;
+  z-index: 10000;
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px 16px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .modal-overlay.active {
@@ -2073,10 +2075,15 @@ div[id],
   border-radius: var(--radius-xl);
   width: 100%;
   max-width: 540px;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  margin: auto;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.12);
   overflow: hidden;
   animation: modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes modalPop {
@@ -2091,6 +2098,7 @@ div[id],
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .modal-title {
