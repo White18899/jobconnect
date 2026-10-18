@@ -1123,38 +1123,38 @@
         </div>
       </div>
 
-      <!-- 2. Category / Trade Discipline -->
+      <!-- 2. Category / Technical Specialization -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Trade Discipline</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Technical Discipline</span>
         </div>
         <div class="filter-list-group" id="filter-category-list">
           <button type="button" class="filter-item-btn active" data-cat="all">
-            <span>All Trades</span>
+            <span>All Specializations</span>
             <span class="filter-item-count" id="count-all-trades">(06)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="Automation">
-            <span>Automation & Robotics</span>
+          <button type="button" class="filter-item-btn" data-cat="Software Engineering">
+            <span>Software Engineering</span>
             <span class="filter-item-count">(01)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="CNC">
-            <span>CNC Machining</span>
+          <button type="button" class="filter-item-btn" data-cat="QA & Testing">
+            <span>QA & Automation Testing</span>
             <span class="filter-item-count">(01)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="EV">
-            <span>EV & Powertrain</span>
+          <button type="button" class="filter-item-btn" data-cat="Team Leadership">
+            <span>Team Leadership & Mgmt</span>
             <span class="filter-item-count">(01)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="Solar">
-            <span>Solar & High-Tension Grid</span>
+          <button type="button" class="filter-item-btn" data-cat="Human Resources">
+            <span>Human Resources & Talent</span>
             <span class="filter-item-count">(01)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="Welding">
-            <span>Precision Welding</span>
+          <button type="button" class="filter-item-btn" data-cat="DevOps & Cloud">
+            <span>DevOps & Cloud Systems</span>
             <span class="filter-item-count">(01)</span>
           </button>
-          <button type="button" class="filter-item-btn" data-cat="HVAC">
-            <span>HVAC Cleanroom Systems</span>
+          <button type="button" class="filter-item-btn" data-cat="Mobile Development">
+            <span>Mobile Development</span>
             <span class="filter-item-count">(01)</span>
           </button>
         </div>
@@ -1163,18 +1163,16 @@
       <!-- 3. Location Hub -->
       <div class="filter-section">
         <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub</span>
+          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Tech Location Hub</span>
         </div>
         <select id="filter-city-select" class="sidebar-select">
           <option value="all">All Locations (India)</option>
-          <option value="Hyderabad">Hyderabad Hub</option>
-          <option value="Visakhapatnam">Visakhapatnam SEZ</option>
-          <option value="Bangalore">Bangalore Manufacturing</option>
-          <option value="Chennai">Chennai Auto Corridor</option>
-          <option value="Mumbai">Mumbai Industrial</option>
-          <option value="Delhi NCR">Delhi NCR Hub</option>
-          <option value="Pune">Pune Auto Hub</option>
-          <option value="Ananthapur">Ananthapur Solar Park</option>
+          <option value="Hyderabad">Hyderabad (Hitec City / Financial Dist)</option>
+          <option value="Bangalore">Bangalore (Outer Ring Rd / Whitefield)</option>
+          <option value="Pune">Pune (Hinjewadi Tech Hub)</option>
+          <option value="Mumbai">Mumbai (BKC / Powai)</option>
+          <option value="Delhi NCR">Delhi NCR (Gurugram / Noida)</option>
+          <option value="Chennai">Chennai (OMR Corridor)</option>
         </select>
       </div>
 
@@ -1185,9 +1183,9 @@
         </div>
         <select id="filter-salary-select" class="sidebar-select">
           <option value="0">All Pay Scales</option>
-          <option value="25000">₹25,000+ / month</option>
-          <option value="35000">₹35,000+ / month</option>
-          <option value="45000">₹45,000+ / month</option>
+          <option value="60000">₹60,000+ / month</option>
+          <option value="80000">₹80,000+ / month</option>
+          <option value="110000">₹1,10,000+ / month</option>
         </select>
       </div>
 
@@ -1307,20 +1305,18 @@
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-title">Job Title / Technical Headline *</label>
-            <input type="text" id="post-job-title" class="vacancy-input" placeholder="e.g. Senior 5-Axis CNC Milling Specialist" required>
+            <input type="text" id="post-job-title" class="vacancy-input" placeholder="e.g. Senior Full-Stack Engineer / SDET Lead / Cloud Architect" required>
           </div>
 
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-category">Trade Discipline *</label>
+            <label class="vacancy-label" for="post-job-category">Specialization / Discipline *</label>
             <select id="post-job-category" class="vacancy-select" required>
-              <option value="Automation">Automation & Robotics / PLC</option>
-              <option value="CNC Machining">CNC Machining & Tooling</option>
-              <option value="EV Systems">EV Powertrain & High-Voltage Battery</option>
-              <option value="Solar & Grid">Solar & High-Tension Grid Systems</option>
-              <option value="Precision Welding">Precision Welding & Fabrication (TIG/MIG)</option>
-              <option value="HVAC Systems">HVAC Cleanroom & Industrial Chillers</option>
-              <option value="Commercial Mechanics">Commercial Fleet Mechanics & Hydraulics</option>
-              <option value="Industrial Electrical">Industrial Electrical & Substations</option>
+              <option value="Software Engineering">Software Engineering (Full-Stack / Backend / Web)</option>
+              <option value="QA & Testing">QA & Automation Testing (SDET / CI/CD)</option>
+              <option value="Team Leadership">Team Leadership & Engineering Management</option>
+              <option value="Human Resources">Human Resources & Tech Recruitment</option>
+              <option value="DevOps & Cloud">DevOps & Cloud Infrastructure (Kubernetes / IaC)</option>
+              <option value="Mobile Development">Mobile Application Development (iOS / Android / Flutter)</option>
             </select>
           </div>
         </div>
@@ -1329,12 +1325,12 @@
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-salary-min">Min Monthly Salary (₹) *</label>
-            <input type="number" id="post-job-salary-min" class="vacancy-input" placeholder="28000" min="8000" step="500" required>
+            <input type="number" id="post-job-salary-min" class="vacancy-input" placeholder="60000" min="20000" step="5000" required>
           </div>
 
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-salary-max">Max Monthly Salary (₹) *</label>
-            <input type="number" id="post-job-salary-max" class="vacancy-input" placeholder="42000" min="8000" step="500" required>
+            <input type="number" id="post-job-salary-max" class="vacancy-input" placeholder="120000" min="20000" step="5000" required>
           </div>
         </div>
 
@@ -1343,20 +1339,18 @@
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-city">Location Hub / City *</label>
             <select id="post-job-city" class="vacancy-select" required>
-              <option value="Hyderabad">Hyderabad Aerospace / Industrial</option>
-              <option value="Pune">Pune Auto Manufacturing</option>
-              <option value="Bangalore">Bangalore Precision Hardware</option>
-              <option value="Visakhapatnam">Visakhapatnam Marine & SEZ</option>
-              <option value="Chennai">Chennai Auto Corridor</option>
-              <option value="Delhi NCR">Delhi NCR Industrial Hub</option>
-              <option value="Mumbai">Mumbai Western Zone</option>
-              <option value="Ananthapur">Ananthapur Solar Park</option>
+              <option value="Hyderabad">Hyderabad (Hitec City / Financial Dist)</option>
+              <option value="Bangalore">Bangalore (Outer Ring Rd / Whitefield)</option>
+              <option value="Pune">Pune (Hinjewadi Tech Hub)</option>
+              <option value="Mumbai">Mumbai (BKC / Powai)</option>
+              <option value="Delhi NCR">Delhi NCR (Gurugram / Noida)</option>
+              <option value="Chennai">Chennai (OMR Corridor)</option>
             </select>
           </div>
 
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-area">Area / Industrial Estate *</label>
-            <input type="text" id="post-job-area" class="vacancy-input" placeholder="e.g. Adibatla Aerospace SEZ / Chakan Phase II" required>
+            <label class="vacancy-label" for="post-job-area">Area / Tech Park *</label>
+            <input type="text" id="post-job-area" class="vacancy-input" placeholder="e.g. Hitec City Cyber Towers / Embassy TechVillage" required>
           </div>
         </div>
 
@@ -1369,39 +1363,39 @@
 
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-hours">Working Hours & Shift *</label>
-            <input type="text" id="post-job-hours" class="vacancy-input" placeholder="e.g. 9:00 AM - 6:00 PM (Rotational Shift)" value="9:00 AM - 6:00 PM (Rotational Shift)" required>
+            <input type="text" id="post-job-hours" class="vacancy-input" placeholder="e.g. 10:00 AM - 7:00 PM (Hybrid)" value="10:00 AM - 7:00 PM (Hybrid)" required>
           </div>
         </div>
 
         <!-- SECTION 6: Business Details -->
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-biz-name">Workshop / Company Name *</label>
-            <input type="text" id="post-job-biz-name" class="vacancy-input" placeholder="e.g. Balaji Precision Engineering Works" required>
+            <label class="vacancy-label" for="post-job-biz-name">Company / Organization Name *</label>
+            <input type="text" id="post-job-biz-name" class="vacancy-input" placeholder="e.g. HyperScale Cloud Systems" required>
           </div>
 
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-biz-type">Industry Sector / Business Type</label>
-            <input type="text" id="post-job-biz-type" class="vacancy-input" placeholder="e.g. Precision CNC Machining OEM" value="Automated Manufacturing OEM">
+            <input type="text" id="post-job-biz-type" class="vacancy-input" placeholder="e.g. Enterprise SaaS & Cloud Platforms" value="Enterprise SaaS & Cloud Platforms">
           </div>
         </div>
 
         <!-- SECTION 7: Scope & Machinery -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label" for="post-job-desc">Technical Scope & Daily Duties *</label>
-          <textarea id="post-job-desc" class="vacancy-textarea" placeholder="Detail the equipment, machine operations, calibration standards, or daily tasks expected..." required></textarea>
+          <label class="vacancy-label" for="post-job-desc">Technical Scope & Responsibilities *</label>
+          <textarea id="post-job-desc" class="vacancy-textarea" placeholder="Detail the system architecture, code delivery expectations, tech stack, or team responsibilities..." required></textarea>
         </div>
 
         <!-- SECTION 8: Qualifications & Requirements -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label" for="post-job-reqs">Machine Proficiencies & Certification Standards *</label>
-          <textarea id="post-job-reqs" class="vacancy-textarea" placeholder="e.g. ITI/Diploma in Mechatronics, 3+ years operating Siemens/Mazak controllers, blueprint reading..." required></textarea>
+          <label class="vacancy-label" for="post-job-reqs">Technical Proficiencies & Qualifications *</label>
+          <textarea id="post-job-reqs" class="vacancy-textarea" placeholder="e.g. B.Tech/BE in Computer Science, 4+ years building production applications with React, TypeScript, Node.js..." required></textarea>
         </div>
 
         <!-- SECTION 9: Perks & Overtime -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label" for="post-job-perks">Overtime Policy & Statutory Benefits</label>
-          <input type="text" id="post-job-perks" class="vacancy-input" placeholder="e.g. 1.5x Overtime + PF + ESI + Subsidized Canteen" value="1.5x Overtime + PF + ESI + Subsidized Canteen">
+          <label class="vacancy-label" for="post-job-perks">Benefits & Work Culture</label>
+          <input type="text" id="post-job-perks" class="vacancy-input" placeholder="e.g. Comprehensive Health Cover + Flexible Hours + Annual Upskilling Budget" value="Comprehensive Health Cover + Flexible Hours + Annual Upskilling Budget">
         </div>
 
         <!-- Modal Footer Actions -->
@@ -1619,23 +1613,23 @@
       const btnCloseDrawer = document.getElementById('btn-close-drawer');
 
       const TRADE_IMAGES = {
-        automation: 'assets/trades/automation.jpg',
-        cnc: 'assets/trades/cnc.jpg',
-        ev: 'assets/trades/ev.jpg',
-        solar: 'assets/trades/solar.jpg',
-        welding: 'assets/trades/welding.jpg',
-        hvac: 'assets/trades/hvac.jpg'
+        software: 'assets/trades/software.jpg',
+        qa: 'assets/trades/qa.jpg',
+        teamlead: 'assets/trades/teamlead.jpg',
+        hr: 'assets/trades/hr.jpg',
+        devops: 'assets/trades/devops.jpg',
+        mobile: 'assets/trades/mobile.jpg'
       };
 
       function getJobImage(category = '') {
         const cat = (category || '').toLowerCase();
-        if (cat.includes('auto') || cat.includes('robot') || cat.includes('plc')) return TRADE_IMAGES.automation;
-        if (cat.includes('cnc') || cat.includes('machin') || cat.includes('turn')) return TRADE_IMAGES.cnc;
-        if (cat.includes('ev') || cat.includes('battery') || cat.includes('power')) return TRADE_IMAGES.ev;
-        if (cat.includes('solar') || cat.includes('grid') || cat.includes('pv')) return TRADE_IMAGES.solar;
-        if (cat.includes('weld') || cat.includes('pipe') || cat.includes('tig')) return TRADE_IMAGES.welding;
-        if (cat.includes('hvac') || cat.includes('chiller') || cat.includes('cleanroom')) return TRADE_IMAGES.hvac;
-        return TRADE_IMAGES.automation;
+        if (cat.includes('soft') || cat.includes('eng') || cat.includes('dev') || cat.includes('full') || cat.includes('web')) return TRADE_IMAGES.software;
+        if (cat.includes('qa') || cat.includes('test') || cat.includes('sdet') || cat.includes('quality')) return TRADE_IMAGES.qa;
+        if (cat.includes('team') || cat.includes('lead') || cat.includes('manage') || cat.includes('director')) return TRADE_IMAGES.teamlead;
+        if (cat.includes('hr') || cat.includes('recruit') || cat.includes('talent') || cat.includes('people')) return TRADE_IMAGES.hr;
+        if (cat.includes('cloud') || cat.includes('devops') || cat.includes('infra') || cat.includes('sre')) return TRADE_IMAGES.devops;
+        if (cat.includes('mobile') || cat.includes('app') || cat.includes('ios') || cat.includes('android') || cat.includes('flutter')) return TRADE_IMAGES.mobile;
+        return TRADE_IMAGES.software;
       }
 
       function showToast(msg, type = 'success') {

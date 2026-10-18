@@ -178,29 +178,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   // =========================================================================
   const homeJobsGrid = document.getElementById('home-jobs-grid');
   const headerVacanciesCount = document.getElementById('header-vacancies-count');
-  const filterButtons = document.querySelectorAll('.editorial-filter[data-category]');
+  const tradeFiltersContainer = document.getElementById('trade-filters-container');
 
   let allJobs = [];
+  let allApplications = [];
   let activeCategory = 'all';
 
   const TRADE_IMAGES = {
-    automation: 'assets/trades/automation.jpg',
-    cnc: 'assets/trades/cnc.jpg',
-    ev: 'assets/trades/ev.jpg',
-    solar: 'assets/trades/solar.jpg',
-    welding: 'assets/trades/welding.jpg',
-    hvac: 'assets/trades/hvac.jpg'
+    software: 'assets/trades/software.jpg',
+    qa: 'assets/trades/qa.jpg',
+    teamlead: 'assets/trades/teamlead.jpg',
+    hr: 'assets/trades/hr.jpg',
+    devops: 'assets/trades/devops.jpg',
+    mobile: 'assets/trades/mobile.jpg'
   };
 
   function getJobImage(category = '') {
     const cat = (category || '').toLowerCase();
-    if (cat.includes('auto') || cat.includes('robot') || cat.includes('plc') || cat.includes('vision')) return TRADE_IMAGES.automation;
-    if (cat.includes('cnc') || cat.includes('machin') || cat.includes('turn') || cat.includes('mill') || cat.includes('tool')) return TRADE_IMAGES.cnc;
-    if (cat.includes('ev') || cat.includes('battery') || cat.includes('powertrain') || cat.includes('electric vehicle')) return TRADE_IMAGES.ev;
-    if (cat.includes('solar') || cat.includes('grid') || cat.includes('renewable') || cat.includes('pv')) return TRADE_IMAGES.solar;
-    if (cat.includes('weld') || cat.includes('pipe') || cat.includes('fabricat') || cat.includes('vessel')) return TRADE_IMAGES.welding;
-    if (cat.includes('hvac') || cat.includes('chiller') || cat.includes('cleanroom') || cat.includes('refriger') || cat.includes('ac')) return TRADE_IMAGES.hvac;
-    return TRADE_IMAGES.automation;
+    if (cat.includes('soft') || cat.includes('eng') || cat.includes('dev') || cat.includes('full') || cat.includes('web')) return TRADE_IMAGES.software;
+    if (cat.includes('qa') || cat.includes('test') || cat.includes('sdet') || cat.includes('quality')) return TRADE_IMAGES.qa;
+    if (cat.includes('team') || cat.includes('lead') || cat.includes('manage') || cat.includes('director')) return TRADE_IMAGES.teamlead;
+    if (cat.includes('hr') || cat.includes('recruit') || cat.includes('talent') || cat.includes('people')) return TRADE_IMAGES.hr;
+    if (cat.includes('cloud') || cat.includes('devops') || cat.includes('infra') || cat.includes('sre')) return TRADE_IMAGES.devops;
+    if (cat.includes('mobile') || cat.includes('app') || cat.includes('ios') || cat.includes('android') || cat.includes('flutter')) return TRADE_IMAGES.mobile;
+    return TRADE_IMAGES.software;
   }
 
   function escapeHtml(str) {
@@ -213,13 +214,86 @@ document.addEventListener('DOMContentLoaded', async () => {
       .replace(/'/g, '&#39;');
   }
 
+  function renderDynamicCategoryFilters() {
+    if (!tradeFiltersContainer) return;
+
+    // 1. Map job IDs to categories and calculate job count per category
+    const jobCountByCategory = {};
+    const jobIdToCategory = {};
+    allJobs.forEach(job => {
+      const cat = job.category || 'Software Engineering';
+      jobIdToCategory[job.id] = cat;
+      jobCountByCategory[cat] = (jobCountByCategory[cat] || 0) + 1;
+    });
+
+    // 2. Calculate applications count per category (demand)
+    const appCountByCategory = {};
+    allApplications.forEach(app => {
+      let cat = app.worker_category;
+      if (app.job_id && jobIdToCategory[app.job_id]) {
+        cat = jobIdToCategory[app.job_id];
+      }
+      if (cat) {
+        appCountByCategory[cat] = (appCountByCategory[cat] || 0) + 1;
+      }
+    });
+
+    // 3. Extract unique categories present in jobs
+    const categories = Object.keys(jobCountByCategory);
+
+    // 4. Sort dynamically: highest applied jobs category first!
+    categories.sort((a, b) => {
+      const appsA = appCountByCategory[a] || 0;
+      const appsB = appCountByCategory[b] || 0;
+      if (appsB !== appsA) {
+        return appsB - appsA; // Top applied first!
+      }
+      return (jobCountByCategory[b] || 0) - (jobCountByCategory[a] || 0);
+    });
+
+    // 5. Build filter buttons HTML
+    const allCount = String(allJobs.length).padStart(2, '0');
+    let buttonsHtml = `
+      <button type="button" class="editorial-filter ${activeCategory === 'all' ? 'active' : ''}" data-category="all">
+        <span>All (${allCount})</span>
+      </button>
+    `;
+
+    categories.forEach(cat => {
+      const count = String(jobCountByCategory[cat] || 0).padStart(2, '0');
+      const apps = appCountByCategory[cat] || 0;
+      const isActive = activeCategory.toLowerCase() === cat.toLowerCase();
+      buttonsHtml += `
+        <button type="button" class="editorial-filter ${isActive ? 'active' : ''}" data-category="${escapeHtml(cat)}" title="${apps} candidate application${apps === 1 ? '' : 's'} submitted">
+          <span>${escapeHtml(cat)} (${count})</span>
+        </button>
+      `;
+    });
+
+    tradeFiltersContainer.innerHTML = buttonsHtml;
+
+    // 6. Bind filter clicks
+    tradeFiltersContainer.querySelectorAll('.editorial-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        tradeFiltersContainer.querySelectorAll('.editorial-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.category || 'all';
+        renderFilteredJobs();
+      });
+    });
+  }
+
   async function fetchAndRenderJobs() {
     if (!homeJobsGrid) return;
     try {
       allJobs = await window.jobApi.getJobs();
+      allApplications = window.jobApi.getApplications();
+
       if (headerVacanciesCount) {
         headerVacanciesCount.textContent = `(${String(allJobs.length).padStart(2, '0')})`;
       }
+
+      renderDynamicCategoryFilters();
       renderFilteredJobs();
     } catch (err) {
       console.error('Error fetching vacancies:', err);
@@ -241,14 +315,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (filtered.length === 0) {
       homeJobsGrid.innerHTML = `
         <div style="grid-column: 1 / -1; padding: 4vw; text-align: center; border: 1px dashed var(--color-border); border-radius: var(--radius-s);">
-          <p style="font-size: var(--font-size-m); font-weight: 500; margin-bottom: 0.5vw;">No vacancies found in this trade</p>
-          <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-bottom: 1.5vw;">Try selecting "All" to browse all active trade vacancies.</p>
+          <p style="font-size: var(--font-size-m); font-weight: 500; margin-bottom: 0.5vw;">No vacancies found in this specialization</p>
+          <p style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-bottom: 1.5vw;">Try selecting "All" to browse all active technical positions.</p>
           <button type="button" class="nav-btn-solid" id="btn-reset-editorial-filter">Show All Vacancies</button>
         </div>
       `;
       document.getElementById('btn-reset-editorial-filter')?.addEventListener('click', () => {
         activeCategory = 'all';
-        filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.category === 'all'));
+        if (tradeFiltersContainer) {
+          tradeFiltersContainer.querySelectorAll('.editorial-filter').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.category === 'all');
+          });
+        }
         renderFilteredJobs();
       });
       return;
@@ -256,8 +334,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     homeJobsGrid.innerHTML = filtered.map((job, index) => {
       const coverImg = getJobImage(job.category);
-      const minSal = (job.salary_min || 16000).toLocaleString('en-IN');
-      const maxSal = (job.salary_max || 25000).toLocaleString('en-IN');
+      const minSal = (job.salary_min || 60000).toLocaleString('en-IN');
+      const maxSal = (job.salary_max || 120000).toLocaleString('en-IN');
 
       return `
         <a class="project-card" href="/jobs.html?id=${encodeURIComponent(job.id)}">
@@ -280,22 +358,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
 
           <div class="project-card-meta">
-            🏢 ${escapeHtml(job.business_name || 'Verified Workshop')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Hyderabad')}
+            🏢 ${escapeHtml(job.business_name || 'Verified Tech Enterprise')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Hyderabad')}
           </div>
         </a>
       `;
     }).join('');
   }
-
-  // Filter click handlers
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeCategory = btn.dataset.category || 'all';
-      renderFilteredJobs();
-    });
-  });
 
   // Fetch jobs immediately
   await fetchAndRenderJobs();

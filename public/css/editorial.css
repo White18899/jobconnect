@@ -800,7 +800,8 @@ button.nav-btn-link:hover,
 .home-work-filters {
   display: flex;
   align-items: center;
-  gap: 1.2vw;
+  flex-wrap: wrap;
+  gap: 0.8vw;
 }
 
 .editorial-filter {

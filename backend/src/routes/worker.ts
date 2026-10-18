@@ -346,21 +346,26 @@ workerRoutes.post('/worker/linkedin-sync', async (c) => {
       photoUrl = ogImage;
     }
 
-      // Detect trade skills
+      // Detect technical & engineering skills
       const combinedText = `${ogTitle} ${ogDesc} ${headline}`.toLowerCase();
-      const tradeSkills = [
-        'Two-Wheeler Mechanic', 'Engine Tuning', 'Electrical Wiring', 'Electrician',
-        'Plumber', 'AC Technician', 'Welder', 'Driver', 'Cook / Chef', 'Carpenter', 'Painter', 'Helper'
+      const techSkills = [
+        'Full-Stack Development', 'React', 'TypeScript', 'Node.js', 'Next.js',
+        'QA Automation', 'Playwright', 'Cypress', 'Selenium', 'API Testing',
+        'System Architecture', 'Agile / Scrum', 'Engineering Management', 'Team Leadership',
+        'Cloud Infrastructure', 'DevOps', 'Kubernetes', 'Docker', 'Terraform', 'AWS',
+        'Mobile Development', 'React Native', 'Flutter', 'Swift', 'Kotlin',
+        'Technical Recruiting', 'HR Operations', 'Talent Acquisition'
       ];
-      detectedSkills = tradeSkills.filter(skill => {
+      detectedSkills = techSkills.filter(skill => {
         const s = skill.toLowerCase();
-        if (s.includes('electrician') && combinedText.includes('electr')) return true;
-        if (s.includes('mechanic') && (combinedText.includes('mechanic') || combinedText.includes('auto') || combinedText.includes('motor'))) return true;
-        if (s.includes('wiring') && (combinedText.includes('wiring') || combinedText.includes('electrical'))) return true;
-        if (s.includes('welder') && combinedText.includes('weld')) return true;
-        if (s.includes('plumber') && combinedText.includes('plumb')) return true;
-        if (s.includes('driver') && combinedText.includes('driv')) return true;
-        if (s.includes('ac technician') && (combinedText.includes('hvac') || combinedText.includes('air condition') || combinedText.includes('cooling'))) return true;
+        if (s.includes('react') && combinedText.includes('react')) return true;
+        if (s.includes('typescript') && combinedText.includes('typescript')) return true;
+        if (s.includes('node') && combinedText.includes('node')) return true;
+        if (s.includes('qa') && (combinedText.includes('qa') || combinedText.includes('test') || combinedText.includes('sdet'))) return true;
+        if (s.includes('devops') && (combinedText.includes('devops') || combinedText.includes('cloud') || combinedText.includes('infra') || combinedText.includes('sre'))) return true;
+        if (s.includes('leadership') && (combinedText.includes('lead') || combinedText.includes('manager') || combinedText.includes('director'))) return true;
+        if (s.includes('mobile') && (combinedText.includes('mobile') || combinedText.includes('ios') || combinedText.includes('android') || combinedText.includes('flutter'))) return true;
+        if (s.includes('recruiting') && (combinedText.includes('recruit') || combinedText.includes('talent') || combinedText.includes('hr'))) return true;
         return combinedText.includes(s);
       });
   } catch (fetchErr) {

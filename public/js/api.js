@@ -18,116 +18,116 @@ const API_BASE_URL = (() => {
 const INITIAL_JOBS = [
   {
     id: "job_01",
-    title: "Industrial Automation & PLC Commissioning Engineer",
-    description: "Siemens S7-1500 & Allen-Bradley ControlLogix PLC programming, KUKA/ABB robotic arm motion tuning, SCADA HMI integration, and automated assembly line commissioning.",
-    category: "Automation",
-    salary_min: 36000,
-    salary_max: 52000,
+    title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
+    description: "Architect and build scalable microservices, edge-native Cloudflare Workers, and high-performance React web applications. Responsible for distributed databases, caching, and CI/CD pipelines.",
+    category: "Software Engineering",
+    salary_min: 85000,
+    salary_max: 130000,
     salary_period: "monthly",
-    location_area: "Chakan Industrial Hub",
-    location_city: "Pune",
-    working_hours: "9:00 AM - 6:00 PM (Rotational Shift)",
-    requirements: "Diploma/B.Tech/ITI in Mechatronics/Electrical, 3+ years in PLC/SCADA & industrial automation",
+    location_area: "Hitec City Cyber Towers",
+    location_city: "Hyderabad",
+    working_hours: "10:00 AM - 7:00 PM (Hybrid)",
+    requirements: "B.Tech/BE in Computer Science, 4+ years building full-stack web platforms with TypeScript, React, Node.js, and SQL.",
     vacancies: 2,
     status: "open",
     created_at: "2026-10-02",
-    business_name: "Precision Automation Dynamics Pvt Ltd",
-    business_type: "Industrial Automation OEM",
+    business_name: "HyperScale Cloud Systems",
+    business_type: "SaaS & Cloud Platforms",
     employer_verified: "verified"
   },
   {
     id: "job_02",
-    title: "5-Axis CNC Milling Center Specialist (DMG Mori / Mazak)",
-    description: "Setup, workpiece alignment, and precision operation of 5-axis simultaneous CNC milling centers for aerospace turbine components. GD&T tolerance within ±5 microns.",
-    category: "CNC Machining",
-    salary_min: 34000,
-    salary_max: 48000,
+    title: "SDET & QA Automation Engineer (Playwright & Cypress)",
+    description: "Design and execute end-to-end automated test suites for fintech payment gateways. Lead regression cycles, performance benchmarks, and automated security sanity checks.",
+    category: "QA & Testing",
+    salary_min: 65000,
+    salary_max: 95000,
     salary_period: "monthly",
-    location_area: "Adibatla Aerospace Corridor",
-    location_city: "Hyderabad",
-    working_hours: "8:00 AM - 5:00 PM",
-    requirements: "Mastercam / Siemens NX CAM post-processing knowledge, 4+ years 5-axis CNC operation",
-    vacancies: 1,
+    location_area: "Outer Ring Road Tech Corridor",
+    location_city: "Bangalore",
+    working_hours: "9:30 AM - 6:30 PM (Flexible)",
+    requirements: "3+ years QA automation with Playwright, Cypress, or Selenium. Strong API testing skills (REST / GraphQL / Postman).",
+    vacancies: 2,
     status: "open",
     created_at: "2026-10-04",
-    business_name: "AeroCraft Precision Engineering Ltd",
-    business_type: "Aerospace Machining",
+    business_name: "FinEdge Fintech Solutions",
+    business_type: "Banking & Payments Tech",
     employer_verified: "verified"
   },
   {
     id: "job_03",
-    title: "Electric Vehicle High-Voltage Battery Specialist",
-    description: "Diagnostics and servicing of 400V/800V lithium-ion battery packs, BMS cell balancing, high-voltage insulation resistance testing, and contactor maintenance.",
-    category: "EV Systems",
-    salary_min: 35000,
-    salary_max: 48000,
+    title: "Technical Team Leader & Engineering Manager",
+    description: "Lead a high-performing squad of 8 engineers across frontend, backend, and infrastructure. Drive architecture reviews, sprint grooming, code quality standards, and technical roadmaps.",
+    category: "Team Leadership",
+    salary_min: 120000,
+    salary_max: 180000,
     salary_period: "monthly",
-    location_area: "Financial District / Gachibowli",
+    location_area: "Financial District Gachibowli",
     location_city: "Hyderabad",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "High-Voltage EV safety certification, CAN bus diagnostic telemetry, battery pack repair",
+    working_hours: "9:30 AM - 6:30 PM",
+    requirements: "6+ years software development experience with at least 2+ years leading engineering teams or tech-leading complex distributed systems.",
     vacancies: 1,
     status: "open",
     created_at: "2026-10-06",
-    business_name: "VoltDrive Mobility Solutions R&D",
-    business_type: "Electric Powertrain OEM",
+    business_name: "NextWave AI & Automation Labs",
+    business_type: "Enterprise AI Systems",
     employer_verified: "verified"
   },
   {
     id: "job_04",
-    title: "Utility Solar Inverter & HT Switchgear Specialist",
-    description: "Testing and commissioning of 1MW central solar inverters, 33kV vacuum circuit breakers (VCB), SCADA remote telemetry monitoring, and earth pit resistance auditing on utility solar farms.",
-    category: "Solar & Grid",
-    salary_min: 30000,
-    salary_max: 42000,
+    title: "Senior Technical Recruiter & HR Operations Partner",
+    description: "Manage 360-degree technical hiring lifecycle for software, QA, and cloud engineering squads. Partner with hiring managers, run tech sourcing campaigns, offer management, and onboarding.",
+    category: "Human Resources",
+    salary_min: 55000,
+    salary_max: 80000,
     salary_period: "monthly",
-    location_area: "Ananthapur Solar Park Hub",
-    location_city: "Ananthapur",
-    working_hours: "8:00 AM - 5:00 PM",
-    requirements: "CEA Electrical Supervisor License, 3+ years utility-scale solar PV commissioning",
+    location_area: "Hinjewadi Tech Hub",
+    location_city: "Pune",
+    working_hours: "9:00 AM - 6:00 PM",
+    requirements: "MBA / Degree in HR, 4+ years technical recruiting in fast-growth tech startups. Proven proficiency in LinkedIn Recruiter and modern ATS.",
     vacancies: 1,
     status: "open",
     created_at: "2026-10-08",
-    business_name: "SunGrid Renewable Energy Infrastructure",
-    business_type: "Clean Energy Utility",
+    business_name: "TalentSphere Global Technologies",
+    business_type: "People Ops & HR Tech",
     employer_verified: "verified"
   },
   {
     id: "job_05",
-    title: "Aerospace TIG Welder (Titanium & Inconel Alloys)",
-    description: "ASME Section IX and AWS D17.1 certified Gas Tungsten Arc Welding (GTAW) on thin-wall titanium hydraulic tubing and Inconel thrust chambers. 100% radiographic X-ray pass rate required.",
-    category: "Precision Welding",
-    salary_min: 34000,
-    salary_max: 48000,
+    title: "Cloud & DevOps Infrastructure Engineer",
+    description: "Manage enterprise Kubernetes clusters, Infrastructure as Code using Terraform, automated GitOps CI/CD pipelines, and 99.99% uptime observability with Prometheus and Datadog.",
+    category: "DevOps & Cloud",
+    salary_min: 90000,
+    salary_max: 140000,
     salary_period: "monthly",
-    location_area: "Aerospace SEZ Adibatla",
+    location_area: "Madhapur Tech Corridor",
     location_city: "Hyderabad",
-    working_hours: "8:00 AM - 5:00 PM",
-    requirements: "Valid 6G/6GR welder qualification certification, min 4 years exotic metallurgy welding",
+    working_hours: "10:00 AM - 7:00 PM (Rotational On-Call)",
+    requirements: "4+ years hands-on DevOps / SRE experience, CKA certified preferred, production Docker/Kubernetes and AWS/GCP architecture.",
     vacancies: 1,
     status: "open",
     created_at: "2026-10-09",
-    business_name: "AeroWeld Advanced Metallics",
-    business_type: "Aerospace & Defense",
+    business_name: "HyperScale Cloud Systems",
+    business_type: "SaaS & Cloud Platforms",
     employer_verified: "verified"
   },
   {
     id: "job_06",
-    title: "Industrial Chiller & Cleanroom HVAC Specialist",
-    description: "Overhaul and preventive maintenance of 500-ton centrifugal chillers (Trane/Carrier), cleanroom laminar airflow HEPA filter certification (ISO Class 5), and BMS BACnet automation tuning.",
-    category: "HVAC Systems",
-    salary_min: 28000,
-    salary_max: 40000,
+    title: "Lead Mobile Application Developer (React Native & Flutter)",
+    description: "Lead mobile development for flagship consumer fintech and worker apps. Implement native modules, smooth 60fps animations, biometric authentication, and offline caching.",
+    category: "Mobile Development",
+    salary_min: 75000,
+    salary_max: 115000,
     salary_period: "monthly",
-    location_area: "Genome Valley Pharma SEZ",
-    location_city: "Hyderabad",
-    working_hours: "9:00 AM - 6:00 PM",
-    requirements: "Refrigerant handling EPA/Indian standard certification, 3+ years commercial chiller plants",
+    location_area: "Koramangala Tech Corridor",
+    location_city: "Bangalore",
+    working_hours: "9:30 AM - 6:30 PM",
+    requirements: "4+ years mobile app development with React Native, Flutter, Swift, or Kotlin. Shipped production apps to App Store & Google Play.",
     vacancies: 1,
     status: "open",
     created_at: "2026-10-10",
-    business_name: "Apex Cleanroom Environmental Systems",
-    business_type: "Cleanroom & HVAC Engineering",
+    business_name: "FinEdge Fintech Solutions",
+    business_type: "Banking & Payments Tech",
     employer_verified: "verified"
   }
 ];
@@ -136,12 +136,12 @@ const INITIAL_APPLICATIONS = [
   {
     id: "app_101",
     job_id: "job_01",
-    job_title: "Industrial Automation & PLC Commissioning Engineer",
-    employer_name: "Precision Automation Dynamics Pvt Ltd",
+    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
+    employer_name: "HyperScale Cloud Systems",
     worker_id: "cand_01",
-    worker_name: "Arun Varma",
-    worker_category: "Automation",
-    worker_experience: 4,
+    worker_name: "Rohan Sharma",
+    worker_category: "Software Engineering",
+    worker_experience: 4.5,
     worker_city: "Hyderabad",
     applied_date: "2026-10-08",
     status: "applied",
@@ -149,53 +149,193 @@ const INITIAL_APPLICATIONS = [
     unlocked: false,
     phone_masked: "+91 98••••••34",
     phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (KPHB Colony, Hyderabad)",
-    address_unlocked: "Flat 204, Sai Residency, Road No. 3, KPHB Colony, Hyderabad - 500072",
-    experience_notes: "4 Years PLC Programming (Siemens S7-1500 & TIA Portal) and ABB Robot Integration"
+    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
+    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
+    experience_notes: "4.5 Years Full-Stack (React 19, Node.js, TypeScript, Cloudflare Workers, PostgreSQL)"
   },
   {
     id: "app_102",
-    job_id: "job_02",
-    job_title: "5-Axis CNC Milling Center Specialist (DMG Mori / Mazak)",
-    employer_name: "AeroCraft Precision Engineering Ltd",
+    job_id: "job_01",
+    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
+    employer_name: "HyperScale Cloud Systems",
     worker_id: "cand_02",
-    worker_name: "Suresh Rao",
-    worker_category: "CNC Machining",
-    worker_experience: 5,
-    worker_city: "Visakhapatnam",
+    worker_name: "Pooja Nair",
+    worker_category: "QA & Testing",
+    worker_experience: 4,
+    worker_city: "Bangalore",
     applied_date: "2026-10-09",
-    status: "shortlisted",
+    status: "applied",
     priority: "STANDARD",
     unlocked: false,
     phone_masked: "+91 94••••••89",
     phone_unlocked: "+91 94402 91889",
-    address_masked: "Address Protected (Gajuwaka, Visakhapatnam)",
-    address_unlocked: "D.No 14-22/1, New Colony, Gajuwaka, Visakhapatnam - 530026",
-    experience_notes: "5 Years 5-Axis Aerospace Tooling & Mastercam CAM Setup"
+    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
+    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
+    experience_notes: "4 Years End-to-End Test Automation, API Testing, and Full-Stack Quality Engineering"
+  },
+  {
+    id: "app_103",
+    job_id: "job_01",
+    job_title: "Senior Full-Stack Software Engineer (TypeScript & Cloudflare)",
+    employer_name: "HyperScale Cloud Systems",
+    worker_id: "cand_06",
+    worker_name: "Divya Menon",
+    worker_category: "Mobile Development",
+    worker_experience: 4.5,
+    worker_city: "Bangalore",
+    applied_date: "2026-10-10",
+    status: "applied",
+    priority: "STANDARD",
+    unlocked: false,
+    phone_masked: "+91 93••••••40",
+    phone_unlocked: "+91 93910 88240",
+    address_masked: "Address Protected (Koramangala, Bangalore)",
+    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
+    experience_notes: "Cross-Platform Mobile & Web Development with React, React Native, TypeScript"
+  },
+  {
+    id: "app_104",
+    job_id: "job_03",
+    job_title: "Technical Team Leader & Engineering Manager",
+    employer_name: "NextWave AI & Automation Labs",
+    worker_id: "cand_03",
+    worker_name: "Ankit Verma",
+    worker_category: "Team Leadership",
+    worker_experience: 6.5,
+    worker_city: "Hyderabad",
+    applied_date: "2026-10-09",
+    status: "shortlisted",
+    priority: "PRIORITY_ACTIVE",
+    unlocked: true,
+    phone_masked: "+91 99••••••78",
+    phone_unlocked: "+91 99592 34178",
+    address_masked: "Address Protected (Financial District, Hyderabad)",
+    address_unlocked: "Villa 18, Rolling Hills, Gachibowli, Hyderabad - 500032",
+    experience_notes: "6.5 Years System Architecture, Agile Team Mentorship, Distributed Systems"
+  },
+  {
+    id: "app_105",
+    job_id: "job_03",
+    job_title: "Technical Team Leader & Engineering Manager",
+    employer_name: "NextWave AI & Automation Labs",
+    worker_id: "cand_01",
+    worker_name: "Rohan Sharma",
+    worker_category: "Software Engineering",
+    worker_experience: 4.5,
+    worker_city: "Hyderabad",
+    applied_date: "2026-10-10",
+    status: "applied",
+    priority: "STANDARD",
+    unlocked: false,
+    phone_masked: "+91 98••••••34",
+    phone_unlocked: "+91 98491 23434",
+    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
+    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
+    experience_notes: "Applying for Technical Lead transition with full-stack track record"
+  },
+  {
+    id: "app_106",
+    job_id: "job_02",
+    job_title: "SDET & QA Automation Engineer (Playwright & Cypress)",
+    employer_name: "FinEdge Fintech Solutions",
+    worker_id: "cand_02",
+    worker_name: "Pooja Nair",
+    worker_category: "QA & Testing",
+    worker_experience: 4,
+    worker_city: "Bangalore",
+    applied_date: "2026-10-08",
+    status: "shortlisted",
+    priority: "PRIORITY_ACTIVE",
+    unlocked: false,
+    phone_masked: "+91 94••••••89",
+    phone_unlocked: "+91 94402 91889",
+    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
+    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
+    experience_notes: "Lead SDET specializing in Playwright, Cypress, Postman, and CI/CD security pipelines"
+  },
+  {
+    id: "app_107",
+    job_id: "job_04",
+    job_title: "Senior Technical Recruiter & HR Operations Partner",
+    employer_name: "TalentSphere Global Technologies",
+    worker_id: "cand_04",
+    worker_name: "Sneha Kulkarni",
+    worker_category: "Human Resources",
+    worker_experience: 5,
+    worker_city: "Pune",
+    applied_date: "2026-10-09",
+    status: "applied",
+    priority: "STANDARD",
+    unlocked: false,
+    phone_masked: "+91 97••••••55",
+    phone_unlocked: "+91 97011 88955",
+    address_masked: "Address Protected (Hinjewadi Tech Hub, Pune)",
+    address_unlocked: "D-804, Blue Ridge Township, Hinjewadi Phase 1, Pune - 411057",
+    experience_notes: "5 Years Tech Recruiting, Sourcing Pipelines, Greenhouse ATS, Compensation Benchmarks"
+  },
+  {
+    id: "app_108",
+    job_id: "job_05",
+    job_title: "Cloud & DevOps Infrastructure Engineer",
+    employer_name: "HyperScale Cloud Systems",
+    worker_id: "cand_05",
+    worker_name: "Karthik Iyer",
+    worker_category: "DevOps & Cloud",
+    worker_experience: 5,
+    worker_city: "Hyderabad",
+    applied_date: "2026-10-10",
+    status: "applied",
+    priority: "PRIORITY_ACTIVE",
+    unlocked: false,
+    phone_masked: "+91 91••••••12",
+    phone_unlocked: "+91 91218 45612",
+    address_masked: "Address Protected (Madhapur, Hyderabad)",
+    address_unlocked: "Flat 201, Silicon Oasis, Silicon Valley Layout, Madhapur, Hyderabad - 500081",
+    experience_notes: "5 Years Production Kubernetes, Terraform IaC, AWS/GCP, and Grafana Observability"
+  },
+  {
+    id: "app_109",
+    job_id: "job_06",
+    job_title: "Lead Mobile Application Developer (React Native & Flutter)",
+    employer_name: "FinEdge Fintech Solutions",
+    worker_id: "cand_06",
+    worker_name: "Divya Menon",
+    worker_category: "Mobile Development",
+    worker_experience: 4.5,
+    worker_city: "Bangalore",
+    applied_date: "2026-10-10",
+    status: "applied",
+    priority: "STANDARD",
+    unlocked: false,
+    phone_masked: "+91 93••••••40",
+    phone_unlocked: "+91 93910 88240",
+    address_masked: "Address Protected (Koramangala, Bangalore)",
+    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
+    experience_notes: "4.5 Years Native and Cross-Platform Mobile Engineering (React Native, Flutter, Swift, Kotlin)"
   }
 ];
 
-const SAMPLE_PROOF_RECEIPT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="100%" height="100%" fill="%230c0e14"/><rect x="20" y="20" width="360" height="560" rx="16" fill="%23161b26" stroke="%23262f40" stroke-width="1.5"/><circle cx="200" cy="90" r="32" fill="%2310b981" fill-opacity="0.15"/><path d="M188 90 L196 98 L214 80" stroke="%2310b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="200" y="145" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="18" font-weight="700">Payment Successful</text><text x="200" y="170" text-anchor="middle" fill="%2394a3b8" font-family="sans-serif" font-size="12">10 Oct 2026, 10:15 AM</text><text x="200" y="225" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="34" font-weight="800">₹249.00</text><line x1="45" y1="260" x2="355" y2="260" stroke="%23262f40" stroke-width="1" stroke-dasharray="4"/><text x="50" y="295" fill="%2394a3b8" font-family="sans-serif" font-size="12">To Payee</text><text x="350" y="295" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">JobWay Network</text><text x="350" y="315" text-anchor="end" fill="%236366f1" font-family="monospace" font-size="11">jobconnect@icici</text><text x="50" y="355" fill="%2394a3b8" font-family="sans-serif" font-size="12">From Business</text><text x="350" y="355" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">Precision Automation</text><text x="50" y="395" fill="%2394a3b8" font-family="sans-serif" font-size="12">Bank Ref (UTR)</text><text x="350" y="395" text-anchor="end" fill="%23ffffff" font-family="monospace" font-size="12" font-weight="600">428912304910</text><text x="50" y="435" fill="%2394a3b8" font-family="sans-serif" font-size="12">Selected Pack</text><text x="350" y="435" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="12">Growth Bundle (5 Unlocks)</text><rect x="45" y="475" width="310" height="60" rx="10" fill="%230f172a" stroke="%231e293b"/><text x="200" y="500" text-anchor="middle" fill="%2364748b" font-family="sans-serif" font-size="10" font-weight="600" letter-spacing="1">NPCI UPI 2.0 INSTANT SETTLEMENT</text><text x="200" y="520" text-anchor="middle" fill="%2310b981" font-family="sans-serif" font-size="12" font-weight="600">Verified By HDFC Bank</text></svg>`;
+const SAMPLE_PROOF_RECEIPT = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="100%" height="100%" fill="%230c0e14"/><rect x="20" y="20" width="360" height="560" rx="16" fill="%23161b26" stroke="%23262f40" stroke-width="1.5"/><circle cx="200" cy="90" r="32" fill="%2310b981" fill-opacity="0.15"/><path d="M188 90 L196 98 L214 80" stroke="%2310b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="200" y="145" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="18" font-weight="700">Payment Successful</text><text x="200" y="170" text-anchor="middle" fill="%2394a3b8" font-family="sans-serif" font-size="12">10 Oct 2026, 10:15 AM</text><text x="200" y="225" text-anchor="middle" fill="%23ffffff" font-family="sans-serif" font-size="34" font-weight="800">₹249.00</text><line x1="45" y1="260" x2="355" y2="260" stroke="%23262f40" stroke-width="1" stroke-dasharray="4"/><text x="50" y="295" fill="%2394a3b8" font-family="sans-serif" font-size="12">To Payee</text><text x="350" y="295" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">JobWay Network</text><text x="350" y="315" text-anchor="end" fill="%236366f1" font-family="monospace" font-size="11">jobconnect@icici</text><text x="50" y="355" fill="%2394a3b8" font-family="sans-serif" font-size="12">From Business</text><text x="350" y="355" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="13" font-weight="600">HyperScale Cloud</text><text x="50" y="395" fill="%2394a3b8" font-family="sans-serif" font-size="12">Bank Ref (UTR)</text><text x="350" y="395" text-anchor="end" fill="%23ffffff" font-family="monospace" font-size="12" font-weight="600">428912304910</text><text x="50" y="435" fill="%2394a3b8" font-family="sans-serif" font-size="12">Selected Pack</text><text x="350" y="435" text-anchor="end" fill="%23ffffff" font-family="sans-serif" font-size="12">Growth Bundle (5 Unlocks)</text><rect x="45" y="475" width="310" height="60" rx="10" fill="%230f172a" stroke="%231e293b"/><text x="200" y="500" text-anchor="middle" fill="%2364748b" font-family="sans-serif" font-size="10" font-weight="600" letter-spacing="1">NPCI UPI 2.0 INSTANT SETTLEMENT</text><text x="200" y="520" text-anchor="middle" fill="%2310b981" font-family="sans-serif" font-size="12" font-weight="600">Verified By HDFC Bank</text></svg>`;
 
 const INITIAL_PAYMENTS = [
   {
     id: "pay_101",
     type: "employer_unlock",
-    user_name: "Precision Automation Dynamics Pvt Ltd",
+    user_name: "HyperScale Cloud Systems",
     user_role: "employer",
     plan: "Growth Bundle (5 Worker Unlocks)",
     amount: 249,
     utr_number: "UPI/428912304910/HDFC",
     submitted_at: "2026-10-10 10:15",
-    status: "pending_verification",
-    target_id: "emp-1",
+    status: "verified",
+    target_id: "ep_01",
     screenshot_url: SAMPLE_PROOF_RECEIPT,
     credits: 5
   },
   {
     id: "pay_102",
     type: "worker_priority",
-    user_name: "Arun Varma",
+    user_name: "Rohan Sharma",
     user_role: "worker",
     plan: "Priority Application Boost (₹149)",
     amount: 149,
@@ -211,141 +351,121 @@ const INITIAL_PAYMENTS = [
 const INITIAL_CANDIDATES = [
   {
     id: "cand_01",
-    name: "Arun Varma",
-    trade_title: "Industrial Automation & PLC Commissioning Engineer",
-    category: "Automation",
-    experience: 4,
+    name: "Rohan Sharma",
+    trade_title: "Senior Full-Stack Engineer",
+    category: "Software Engineering",
+    experience: 4.5,
     city: "Hyderabad",
-    education: "Diploma in Mechatronics & Siemens TIA Certified",
-    skills: ["Siemens S7-1500", "ABB Robot IRC5", "SCADA HMI", "TIA Portal V19"],
-    salary_expected: 45000,
+    education: "B.Tech in Computer Science & Engineering (JNTU)",
+    skills: ["React 19", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers"],
+    salary_expected: 110000,
     photo_key: "",
-    photo_thumb: "assets/trades/automation.jpg",
+    photo_thumb: "assets/trades/software.jpg",
     phone_masked: "+91 98••••••34",
     phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (KPHB Colony, Hyderabad)",
-    address_unlocked: "Flat 204, Sai Residency, Road No. 3, KPHB Colony, Hyderabad - 500072",
-    bio: "4+ years on automotive BIW assembly lines. Certified in 6-axis robot motion programming and Profinet network diagnostics.",
+    address_masked: "Address Protected (Hitec City / Madhapur, Hyderabad)",
+    address_unlocked: "Flat 402, Cyber Heights, Road 36, Madhapur, Hyderabad - 500081",
+    bio: "4.5+ years building scalable microservices, edge computing runtimes with Cloudflare Workers, and low-latency frontend applications.",
     unlocked: false,
     kyc_status: "verified"
   },
   {
     id: "cand_02",
-    name: "Suresh Rao",
-    trade_title: "5-Axis CNC Milling Center Specialist",
-    category: "CNC Machining",
-    experience: 5,
-    city: "Visakhapatnam",
-    education: "NTTF Certified Precision Tooling Specialist",
-    skills: ["DMG Mori 5-Axis", "Mazak Mazatrol", "Mastercam 2024", "Aerospace G-Code"],
-    salary_expected: 42000,
+    name: "Pooja Nair",
+    trade_title: "SDET & QA Automation Lead",
+    category: "QA & Testing",
+    experience: 4,
+    city: "Bangalore",
+    education: "B.Tech in Information Technology (VTU)",
+    skills: ["Playwright", "Cypress", "Selenium", "Postman / RestAssured", "Jest"],
+    salary_expected: 85000,
     photo_key: "",
-    photo_thumb: "assets/trades/cnc.jpg",
+    photo_thumb: "assets/trades/qa.jpg",
     phone_masked: "+91 94••••••89",
     phone_unlocked: "+91 94402 91889",
-    address_masked: "Address Protected (Gajuwaka, Visakhapatnam)",
-    address_unlocked: "D.No 14-22/1, New Colony, Gajuwaka, Visakhapatnam - 530026",
-    bio: "Specialized in 15-micron titanium impeller machining and aerospace manifold fabrication under AS9100 quality standards.",
+    address_masked: "Address Protected (Outer Ring Road, Bangalore)",
+    address_unlocked: "Tower 3, Bellandur Lake View, Outer Ring Road, Bangalore - 560103",
+    bio: "Specialized in end-to-end automation pipelines, payment gateway security regression testing, and CI/CD quality gate enforcement.",
     unlocked: false,
     kyc_status: "verified"
   },
   {
     id: "cand_03",
-    name: "Vikram Reddy",
-    trade_title: "Electric Vehicle High-Voltage Battery Specialist",
-    category: "EV Systems",
-    experience: 3,
-    city: "Pune",
-    education: "B.Tech Electrical & Certified High-Voltage Safety",
-    skills: ["800V Architecture", "BMS Firmware Tuning", "Pouch Cell Balancing", "Thermal Runaway Mit."],
-    salary_expected: 40000,
+    name: "Ankit Verma",
+    trade_title: "Technical Team Leader & System Architect",
+    category: "Team Leadership",
+    experience: 6.5,
+    city: "Hyderabad",
+    education: "M.Tech in Software Systems Architecture (IIIT-H)",
+    skills: ["System Design", "Microservices", "Agile / Scrum", "Spring Boot", "React"],
+    salary_expected: 150000,
     photo_key: "",
-    photo_thumb: "assets/trades/ev.jpg",
-    phone_masked: "+91 91••••••12",
-    phone_unlocked: "+91 91218 45612",
-    address_masked: "Address Protected (Chakan Industrial Hub, Pune)",
-    address_unlocked: "Plot 45, MIDC Phase II, Chakan, Pune - 410501",
-    bio: "Hands-on experience with prismatic and cylindrical lithium-ion packs, CAN bus data logging, and high-voltage isolation tests.",
-    unlocked: false,
+    photo_thumb: "assets/trades/teamlead.jpg",
+    phone_masked: "+91 99••••••78",
+    phone_unlocked: "+91 99592 34178",
+    address_masked: "Address Protected (Financial District, Hyderabad)",
+    address_unlocked: "Villa 18, Rolling Hills, Gachibowli, Hyderabad - 500032",
+    bio: "6.5+ years leading cross-functional engineering teams, architecting distributed event-driven systems, and mentoring engineers.",
+    unlocked: true,
     kyc_status: "verified"
   },
   {
     id: "cand_04",
-    name: "Rajesh Sharma",
-    trade_title: "Utility Solar Inverter & HT Switchgear Specialist",
-    category: "Solar & Grid",
-    experience: 4,
-    city: "Ananthapur",
-    education: "CEA Electrical Supervisor License & Diploma EEE",
-    skills: ["Central Solar Inverters (1MW)", "33kV Vacuum Circuit Breakers", "SCADA Telemetry", "Earth Pit Auditing"],
-    salary_expected: 38000,
+    name: "Sneha Kulkarni",
+    trade_title: "Senior Technical Recruiter & HR Operations Partner",
+    category: "Human Resources",
+    experience: 5,
+    city: "Pune",
+    education: "MBA in Human Resources (SIBM Pune) & SHRM Certified",
+    skills: ["Tech Talent Sourcing", "ATS / Greenhouse", "Salary Benchmarking", "Employee Relations"],
+    salary_expected: 70000,
     photo_key: "",
-    photo_thumb: "assets/trades/solar.jpg",
+    photo_thumb: "assets/trades/hr.jpg",
     phone_masked: "+91 97••••••55",
     phone_unlocked: "+91 97011 88955",
-    address_masked: "Address Protected (Solar Park, Ananthapur)",
-    address_unlocked: "H.No 3-91, Subhash Nagar, Ananthapur - 515001",
-    bio: "Commissioned 50MW+ utility solar plants. Expert in transformer oil breakdown testing and remote RTU integration.",
+    address_masked: "Address Protected (Hinjewadi Tech Hub, Pune)",
+    address_unlocked: "D-804, Blue Ridge Township, Hinjewadi Phase 1, Pune - 411057",
+    bio: "Expertise in full-lifecycle technical recruitment for high-scale tech companies, compensation modeling, and cultural onboarding.",
     unlocked: false,
     kyc_status: "verified"
   },
   {
     id: "cand_05",
-    name: "Amit Patel",
-    trade_title: "Aerospace TIG Welder (Titanium & Inconel Alloys)",
-    category: "Precision Welding",
+    name: "Karthik Iyer",
+    trade_title: "Cloud & DevOps Infrastructure Engineer",
+    category: "DevOps & Cloud",
     experience: 5,
     city: "Hyderabad",
-    education: "AWS D17.1 Certified 6G Pipe & Exotic Metallics",
-    skills: ["GTAW (TIG) Thin-Wall", "Inconel 718", "Titanium Ti-6Al-4V", "100% X-Ray Radiography"],
-    salary_expected: 48000,
+    education: "B.Tech in Electronics & CKA Kubernetes Certified",
+    skills: ["Kubernetes (EKS)", "Terraform", "Docker", "AWS / GCP", "Prometheus & Grafana"],
+    salary_expected: 125000,
     photo_key: "",
-    photo_thumb: "assets/trades/welding.jpg",
-    phone_masked: "+91 99••••••78",
-    phone_unlocked: "+91 99592 34178",
-    address_masked: "Address Protected (Adibatla Aerospace SEZ, Hyderabad)",
-    address_unlocked: "B-12, Green City, Adibatla, Hyderabad - 501510",
-    bio: "Ex-aerospace contractor with zero radiographic failure history on rocket nozzle cooling jackets and aircraft fuel lines.",
+    photo_thumb: "assets/trades/devops.jpg",
+    phone_masked: "+91 91••••••12",
+    phone_unlocked: "+91 91218 45612",
+    address_masked: "Address Protected (Madhapur, Hyderabad)",
+    address_unlocked: "Flat 201, Silicon Oasis, Silicon Valley Layout, Madhapur, Hyderabad - 500081",
+    bio: "DevOps specialist managing multi-region Kubernetes clusters, GitOps CI/CD delivery, and automated infrastructure provisioning.",
     unlocked: false,
     kyc_status: "verified"
   },
   {
     id: "cand_06",
-    name: "Kiran Kumar",
-    trade_title: "Industrial Chiller & Cleanroom HVAC Specialist",
-    category: "HVAC Systems",
-    experience: 4,
-    city: "Hyderabad",
-    education: "Refrigerant Handling EPA Indian Standard & ITI RAC",
-    skills: ["500-Ton Centrifugal Chillers", "ISO Class 5 Laminar Flow", "BACnet BMS", "HEPA Leak Testing"],
-    salary_expected: 36000,
+    name: "Divya Menon",
+    trade_title: "Lead Mobile App Developer (iOS & Android)",
+    category: "Mobile Development",
+    experience: 4.5,
+    city: "Bangalore",
+    education: "B.Tech in Computer Science (NIT Calicut)",
+    skills: ["React Native", "Flutter / Dart", "Swift (iOS)", "Kotlin (Android)", "App Store Deploy"],
+    salary_expected: 95000,
     photo_key: "",
-    photo_thumb: "assets/trades/hvac.jpg",
+    photo_thumb: "assets/trades/mobile.jpg",
     phone_masked: "+91 93••••••40",
     phone_unlocked: "+91 93910 88240",
-    address_masked: "Address Protected (Genome Valley Pharma SEZ, Hyderabad)",
-    address_unlocked: "Flat 101, Pharma Towers, Genome Valley, Hyderabad - 500078",
-    bio: "Overhaul and preventive maintenance for large pharmaceutical cleanrooms and water-cooled chiller plants.",
-    unlocked: false,
-    kyc_status: "verified"
-  },
-  {
-    id: "cand_07",
-    name: "Ramesh Kumar",
-    trade_title: "Heavy Vehicle Auto Mechanic & Diagnostics",
-    category: "Automation",
-    experience: 4,
-    city: "Hyderabad",
-    education: "Diploma in Automobile Engineering & ITI Certified",
-    skills: ["Common Rail CRDi Diesel", "OBD-II ECU Flashing", "Hydraulic Brake Line Bleeding", "Torque Converters"],
-    salary_expected: 35000,
-    photo_key: "",
-    photo_thumb: "assets/trades/mechanic.jpg",
-    phone_masked: "+91 98••••••34",
-    phone_unlocked: "+91 98491 23434",
-    address_masked: "Address Protected (KPHB Colony, Hyderabad)",
-    address_unlocked: "Plot 89, Trade Nagar, Industrial Area, Hyderabad - 500072",
-    bio: "4+ years troubleshooting commercial fleets, BS-VI exhaust gas recirculation (EGR), and hydraulic tipper hydraulics.",
+    address_masked: "Address Protected (Koramangala, Bangalore)",
+    address_unlocked: "Flat 12B, Green Glen Layout, Bellandur, Bangalore - 560103",
+    bio: "Shipped 12+ apps to App Store and Google Play with 1M+ downloads. Specializes in smooth 60fps animations and offline synchronization.",
     unlocked: false,
     kyc_status: "verified"
   }
@@ -358,56 +478,50 @@ class JobConnectApi {
   }
 
   initStorage() {
-    const existing = localStorage.getItem('jc_jobs');
+    const TECH_VERSION = 'v10_tech_ecosystem';
     const version = localStorage.getItem('jc_jobs_version');
-    // Overwrite legacy entries or previous 12-jobs list to guarantee 6 distinct technical jobs
-    if (!existing || version !== 'v6_distinct' || (existing && JSON.parse(existing).length !== 6) || existing.includes('Two-Wheeler') || existing.includes('Sweet Maker') || existing.includes('Delivery Driver') || existing.includes('Plumbing')) {
+    const existing = localStorage.getItem('jc_jobs');
+
+    // Completely wipe legacy blue-collar / trade data to guarantee modern tech roles
+    if (!existing || version !== TECH_VERSION || existing.includes('Two-Wheeler') || existing.includes('Sweet Maker') || existing.includes('Industrial Automation') || existing.includes('CNC Machining') || existing.includes('Precision Welding')) {
       localStorage.setItem('jc_jobs', JSON.stringify(INITIAL_JOBS));
-      localStorage.setItem('jc_jobs_version', 'v6_distinct');
-    }
-    const existingApps = localStorage.getItem('jc_apps');
-    const appsVersion = localStorage.getItem('jc_apps_version');
-    if (!existingApps || existingApps.includes('Two-Wheeler') || appsVersion !== 'v5_sync_ids') {
-      let apps = JSON.parse(existingApps || '[]');
-      if (apps.length === 0 || existingApps.includes('Two-Wheeler')) {
-        apps = INITIAL_APPLICATIONS;
-      } else {
-        apps = apps.map(a => {
-          if (a.worker_id === 'wrk-1') return { ...a, worker_id: 'cand_01' };
-          if (a.worker_id === 'wrk-2') return { ...a, worker_id: 'cand_02' };
-          return a;
-        });
-      }
-      localStorage.setItem('jc_apps', JSON.stringify(apps));
-      localStorage.setItem('jc_apps_version', 'v5_sync_ids');
-    }
-    const candVersion = localStorage.getItem('jc_candidates_ver');
-    if (!localStorage.getItem('jc_candidates') || !localStorage.getItem('jc_candidates_v2') || candVersion !== 'v5_sync_clean') {
-      const stored = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-      if (stored.length === 0 || stored.length !== INITIAL_CANDIDATES.length) {
-        localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
-      } else {
-        const currentApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-        const dirSet = new Set(
-          currentApps
-            .filter(a => (a.source === 'candidate_directory' || a.status === 'selected' || a.job_id === 'dir_selected') && !a.unlocked)
-            .map(a => a.worker_id)
-        );
-        const cleaned = stored.map(c => ({
-          ...c,
-          selected: dirSet.has(c.id)
-        }));
-        localStorage.setItem('jc_candidates', JSON.stringify(cleaned));
-      }
+      localStorage.setItem('jc_jobs_version', TECH_VERSION);
+      localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
+      localStorage.setItem('jc_apps_version', TECH_VERSION);
+      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
+      localStorage.setItem('jc_candidates_ver', TECH_VERSION);
       localStorage.setItem('jc_candidates_v2', 'true');
-      localStorage.setItem('jc_candidates_ver', 'v5_sync_clean');
-    }
-    if (!localStorage.getItem('jc_payments') || !localStorage.getItem('jc_payments_v2')) {
       localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
       localStorage.setItem('jc_payments_v2', 'true');
+      localStorage.setItem('jc_credits', '5');
+
+      // Also clean up any legacy user profile stored in localStorage
+      try {
+        const authUser = JSON.parse(localStorage.getItem('jc_auth_user') || 'null');
+        if (authUser && (authUser.trade_title?.includes('Automation') || authUser.name === 'Arun Varma' || authUser.name === 'Ramesh Kumar')) {
+          authUser.name = 'Rohan Sharma';
+          authUser.trade_title = 'Senior Full-Stack Engineer';
+          authUser.category = 'Software Engineering';
+          authUser.avatar = 'assets/trades/software.jpg';
+          localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
+        }
+      } catch (e) {}
+      return;
+    }
+
+    if (!localStorage.getItem('jc_apps')) {
+      localStorage.setItem('jc_apps', JSON.stringify(INITIAL_APPLICATIONS));
+      localStorage.setItem('jc_apps_version', TECH_VERSION);
+    }
+    if (!localStorage.getItem('jc_candidates')) {
+      localStorage.setItem('jc_candidates', JSON.stringify(INITIAL_CANDIDATES));
+      localStorage.setItem('jc_candidates_ver', TECH_VERSION);
+    }
+    if (!localStorage.getItem('jc_payments')) {
+      localStorage.setItem('jc_payments', JSON.stringify(INITIAL_PAYMENTS));
     }
     if (!localStorage.getItem('jc_credits')) {
-      localStorage.setItem('jc_credits', '3'); // Employer unlock credits
+      localStorage.setItem('jc_credits', '5');
     }
   }
 
@@ -927,29 +1041,29 @@ class JobConnectApi {
     }
 
     const savedPhoto = user?.avatar || user?.photo_key || localStorage.getItem('jc_worker_photo') || '';
-    const savedCover = user?.cover_image || localStorage.getItem('jc_worker_cover') || 'assets/trades/mechanic.jpg';
+    const savedCover = user?.cover_image || localStorage.getItem('jc_worker_cover') || 'assets/trades/software.jpg';
 
     return {
-      full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : 'Ramesh Kumar',
-      trade_title: user?.category || 'Mechanic',
+      full_name: user?.name ? user.name.replace(/\s*\([^)]*\)/, '').trim() : 'Rohan Sharma',
+      trade_title: user?.trade_title || user?.category || 'Senior Full-Stack Engineer',
       phone: user?.phone || '+91 98491 23434',
-      email: user?.email || 'worker@job-way.in',
+      email: user?.email || 'rohan.sharma.tech@gmail.com',
       photo_key: savedPhoto,
       photo_thumb: savedCover,
-      skills: '["Two-Wheeler Mechanic", "Welder", "Electrical Helper"]',
+      skills: '["React 19", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Next.js"]',
       experience_years: 4.5,
-      education_level: 'ITI Certificate',
-      education_institute: 'Government Industrial Training Institute (ITI)',
-      education_specialization: 'Automobile Mechanic Trade',
-      education_year: 2021,
-      past_company: 'Sri Balaji Auto Hub',
-      experience_description: 'Overhauling engines, two-wheeler servicing, brake assembly and electrical tuning.',
-      preferred_area: 'KPHB Colony',
+      education_level: 'B.Tech',
+      education_institute: 'JNTU College of Engineering',
+      education_specialization: 'Computer Science & Engineering',
+      education_year: 2022,
+      past_company: 'HyperScale Cloud Systems',
+      experience_description: 'Architecting scalable web applications, serverless microservices, and distributed databases.',
+      preferred_area: 'Hitec City / Madhapur',
       city: 'Hyderabad',
-      expected_salary_min: 18000,
-      expected_salary_max: 24000,
+      expected_salary_min: 85000,
+      expected_salary_max: 130000,
       salary_period: 'monthly',
-      digilocker_verified: 0,
+      digilocker_verified: 1,
     };
   }
 
