@@ -160,7 +160,6 @@ body.editorial-page a {
    Animations
    ============================== */
 
-.home-title-letter,
 .text-in,
 .nav-in {
   display: inline-block;
@@ -514,29 +513,28 @@ button.nav-btn-link:hover,
   justify-content: center;
   align-items: center;
   gap: 1.8vw;
-  perspective: 1200px;
   margin-top: 1vw;
   position: relative;
 }
 
 .home-title-box-1,
 .home-title-box-2 {
-  overflow: visible;
-  height: 11vw;
   display: flex;
   align-items: center;
   gap: 0.25vw;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 2;
 }
 
-.home-title-box-1.is-animated,
-.home-title-box-2.is-animated {
-  opacity: 1;
-  transform: translateY(0);
+/* Invisible overflow mask for crisp editorial reveal */
+.letter-mask {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 11vw;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .home-title-letter {
@@ -546,34 +544,45 @@ button.nav-btn-link:hover,
   display: block;
   user-select: none;
   -webkit-user-drag: none;
+  transform: translateY(115%);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  transition-delay: var(--letter-delay, 0s);
+  will-change: transform, opacity;
 }
 
+.home-title-wrapper.is-animated .home-title-letter,
+.home-title-letter.is-revealed {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Pure editorial upward glide - zero 3D distortion or flap flip */
 .home-title-image-box {
   position: relative;
   z-index: 5;
-  overflow: visible;
   width: 8.8vw;
   height: 8.8vw;
   margin: 0;
   align-self: center;
   border-radius: 0;
-  transform: scale(0.65) rotateY(55deg);
-  opacity: 0;
-  transform-style: preserve-3d;
-  transform-origin: center;
-  box-shadow: none;
   background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   cursor: pointer;
-  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateY(22px) scale(0.92);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--image-delay, 0.26s);
+  will-change: transform, opacity;
 }
 
+.home-title-wrapper.is-animated .home-title-image-box,
 .home-title-image-box.is-animated {
   opacity: 1;
-  transform: scale(1) rotateY(0deg);
+  transform: translateY(0) scale(1);
 }
 
 .home-title-logo {
@@ -582,7 +591,7 @@ button.nav-btn-link:hover,
   max-width: 8.8vw;
   max-height: 8.8vw;
   object-fit: contain;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
   filter: none;
   user-select: none;
   -webkit-user-drag: none;
@@ -590,7 +599,7 @@ button.nav-btn-link:hover,
 
 .home-title-image-box:hover .home-title-logo {
   transform: scale(1.08) rotate(-2deg);
-  filter: none;
+  filter: drop-shadow(0 6px 16px rgba(46, 61, 40, 0.15));
 }
 
 @keyframes show-image {
@@ -1112,7 +1121,10 @@ button.nav-btn-link:hover,
   .home-title-box-1,
   .home-title-box-2 {
     height: 14vw;
-    transform: none !important;
+  }
+
+  .letter-mask {
+    height: 14vw;
   }
 
   .home-title-letter {

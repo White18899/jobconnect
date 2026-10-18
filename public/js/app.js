@@ -96,42 +96,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // =========================================================================
-  // 2. Signature Hero Title & 3D Interactive Card Animation
+    // =========================================================================
+  // 2. Staggered Editorial Masthead Reveal: J -> O -> B -> Emblem -> W -> A -> Y
   // =========================================================================
   function initHeroAnimations() {
+    const wrapper = document.querySelector('.home-title-wrapper');
     const box1 = document.querySelector('.home-title-box-1');
     const box2 = document.querySelector('.home-title-box-2');
     const imageBox = document.querySelector('.home-title-image-box');
 
-    // Stagger letter reveals
-    const letters = document.querySelectorAll('.home-title-letter');
-    letters.forEach((letter, index) => {
-      letter.style.setProperty('--stagger-delay', `${0.1 + index * 0.08}s`);
+    // Stagger letter reveals across JOB [Emblem] WAY
+    // Sequence: J (0.06s) -> O (0.13s) -> B (0.20s) -> Emblem (0.27s) -> W (0.34s) -> A (0.41s) -> Y (0.48s)
+    const letters1 = box1 ? box1.querySelectorAll('.home-title-letter') : [];
+    const letters2 = box2 ? box2.querySelectorAll('.home-title-letter') : [];
+
+    letters1.forEach((letter, index) => {
+      letter.style.setProperty('--letter-delay', (0.06 + index * 0.07).toFixed(2) + 's');
     });
 
+    if (imageBox) {
+      imageBox.style.setProperty('--image-delay', '0.27s');
+    }
+
+    letters2.forEach((letter, index) => {
+      letter.style.setProperty('--letter-delay', (0.34 + index * 0.07).toFixed(2) + 's');
+    });
+
+    // Subtitle lines glide up right after the wordmark finishes
     const textInElements = document.querySelectorAll('.text-in');
     textInElements.forEach((el, index) => {
-      el.style.setProperty('--stagger-delay', `${0.3 + index * 0.12}s`);
+      el.style.setProperty('--stagger-delay', (0.58 + index * 0.12).toFixed(2) + 's');
     });
 
-    if (box1 && box2 && imageBox) {
-      box1.classList.remove('is-animated');
-      box2.classList.remove('is-animated');
-      imageBox.classList.remove('is-animated');
-
-      // Trigger letters reveal promptly
+    if (wrapper) {
       setTimeout(() => {
-        box1.classList.add('is-animated');
-        box2.classList.add('is-animated');
-      }, 100);
-
-      // Trigger 3D emblem unfold & reveal
-      setTimeout(() => {
-        imageBox.classList.add('is-animated');
-      }, 280);
-
-      // Logo reveal complete
+        wrapper.classList.add('is-animated');
+        if (box1) box1.classList.add('is-animated');
+        if (box2) box2.classList.add('is-animated');
+        if (imageBox) imageBox.classList.add('is-animated');
+      }, 50);
     }
   }
   initHeroAnimations();
