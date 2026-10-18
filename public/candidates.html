@@ -983,34 +983,7 @@
           <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Specialization</span>
         </div>
         <div class="filter-list-group" id="cand-category-list">
-          <button type="button" class="filter-item-btn active" data-cat="all">
-            <span>All Specializations</span>
-            <span class="filter-item-count" id="count-all-cands">(06)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Software Engineering">
-            <span>Software Engineering</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="QA & Testing">
-            <span>QA & Automation Testing</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Team Leadership">
-            <span>Team Leadership & Mgmt</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Human Resources">
-            <span>Human Resources & Talent</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="DevOps & Cloud">
-            <span>DevOps & Cloud Systems</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Mobile Development">
-            <span>Mobile Development</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
+          <!-- Dynamically populated according to Candidate titles in database -->
         </div>
       </div>
 
@@ -1240,15 +1213,79 @@
       const expSelect = document.getElementById('cand-exp-select');
       const citySelect = document.getElementById('cand-city-select');
       const sortSelect = document.getElementById('cand-sort-select');
-      const categoryButtons = document.querySelectorAll('#cand-category-list .filter-item-btn');
       const btnReset = document.getElementById('btn-reset-cands');
 
       const drawerOverlay = document.getElementById('cand-drawer-overlay');
       const drawerBody = document.getElementById('cand-drawer-body');
       const btnCloseDrawer = document.getElementById('btn-close-cand-drawer');
 
-      allCandidates = window.jobApi.getCandidates();
-      if (countAllCands) countAllCands.textContent = `(${String(allCandidates.length).padStart(2, '0')})`;
+      function escapeAttr(str) {
+        return (str || '').replace(/"/g, '&quot;');
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function renderDynamicCandidateCategoryFilters() {
+        const catListContainer = document.getElementById('cand-category-list');
+        if (!catListContainer) return;
+
+        allCandidates = window.jobApi.getCandidates();
+        const total = allCandidates.length;
+
+        // Group by Candidate Titles
+        const map = new Map();
+        allCandidates.forEach(c => {
+          const rawTitle = (c.trade_title || c.category || '').trim();
+          if (!rawTitle) return;
+          const key = rawTitle.toLowerCase();
+          if (!map.has(key)) {
+            map.set(key, { title: rawTitle, count: 0 });
+          }
+          map.get(key).count += 1;
+        });
+
+        if (activeCategory !== 'all' && !map.has(activeCategory.toLowerCase())) {
+          activeCategory = 'all';
+        }
+
+        let html = `
+          <button type="button" class="filter-item-btn ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">
+            <span>All Specializations</span>
+            <span class="filter-item-count" id="count-all-cands">(${String(total).padStart(2, '0')})</span>
+          </button>
+        `;
+
+        const sorted = Array.from(map.values()).sort((a, b) => b.count - a.count || a.title.localeCompare(b.title));
+
+        sorted.forEach(item => {
+          const isActive = activeCategory.toLowerCase() === item.title.toLowerCase();
+          html += `
+            <button type="button" class="filter-item-btn ${isActive ? 'active' : ''}" data-cat="${escapeAttr(item.title)}">
+              <span>${escapeHtml(item.title)}</span>
+              <span class="filter-item-count">(${String(item.count).padStart(2, '0')})</span>
+            </button>
+          `;
+        });
+
+        catListContainer.innerHTML = html;
+
+        catListContainer.querySelectorAll('.filter-item-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            catListContainer.querySelectorAll('.filter-item-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.cat;
+            renderCandidatesGrid();
+          });
+        });
+      }
 
       function getFilteredCandidates() {
         const query = (searchInput.value || '').trim().toLowerCase();
@@ -1258,8 +1295,10 @@
 
         let filtered = allCandidates.filter(c => {
           if (activeCategory !== 'all') {
-            const catMatch = (c.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
-                             (c.trade_title || '').toLowerCase().includes(activeCategory.toLowerCase());
+            const q = activeCategory.toLowerCase();
+            const cTitle = (c.trade_title || '').toLowerCase();
+            const cCat = (c.category || '').toLowerCase();
+            const catMatch = cTitle === q || cCat === q || cTitle.includes(q) || cCat.includes(q);
             if (!catMatch) return false;
           }
           if (city !== 'all') {
@@ -1351,7 +1390,7 @@
               <div class="candidate-card-body">
                 <div>
                   <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                    <span style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">${serial} • ${c.category}</span>
+                    <span style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">${serial} • ${c.category || c.trade_title || 'Specialist'}</span>
                     <span style="font-family: var(--font-mono); font-size: 11.5px; color: #64748B; font-weight: 600;">${c.city}</span>
                   </div>
                   <h3 class="cand-name-title">${c.name}</h3>
@@ -1704,27 +1743,19 @@
       citySelect.addEventListener('change', renderCandidatesGrid);
       sortSelect.addEventListener('change', renderCandidatesGrid);
 
-      categoryButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          categoryButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          activeCategory = btn.dataset.cat;
-          renderCandidatesGrid();
-        });
-      });
-
       function resetFilters() {
         searchInput.value = '';
         expSelect.value = '0';
         citySelect.value = 'all';
         sortSelect.value = 'exp';
         activeCategory = 'all';
-        categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+        renderDynamicCandidateCategoryFilters();
         renderCandidatesGrid();
       }
       if (btnReset) btnReset.addEventListener('click', resetFilters);
 
-      // Initial Render & Cart Count Check
+      // Initial Dynamic Filters & Render
+      renderDynamicCandidateCategoryFilters();
       renderCandidatesGrid();
     });
   </script>

@@ -1126,34 +1126,7 @@
           <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Technical Discipline</span>
         </div>
         <div class="filter-list-group" id="filter-category-list">
-          <button type="button" class="filter-item-btn active" data-cat="all">
-            <span>All Specializations</span>
-            <span class="filter-item-count" id="count-all-trades">(06)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Software Engineering">
-            <span>Software Engineering</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="QA & Testing">
-            <span>QA & Automation Testing</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Team Leadership">
-            <span>Team Leadership & Mgmt</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Human Resources">
-            <span>Human Resources & Talent</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="DevOps & Cloud">
-            <span>DevOps & Cloud Systems</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
-          <button type="button" class="filter-item-btn" data-cat="Mobile Development">
-            <span>Mobile Development</span>
-            <span class="filter-item-count">(01)</span>
-          </button>
+          <!-- Dynamically populated according to Job titles & disciplines in database -->
         </div>
       </div>
 
@@ -1600,7 +1573,6 @@
       const citySelect = document.getElementById('filter-city-select');
       const salarySelect = document.getElementById('filter-salary-select');
       const sortSelect = document.getElementById('filter-sort-select');
-      const categoryButtons = document.querySelectorAll('#filter-category-list .filter-item-btn');
       const btnResetAll = document.getElementById('btn-reset-all');
 
       // Drawer Elements
@@ -1608,6 +1580,73 @@
       const drawerPanel = document.getElementById('drawer-panel');
       const drawerBody = document.getElementById('drawer-body-content');
       const btnCloseDrawer = document.getElementById('btn-close-drawer');
+
+      function escapeAttr(str) {
+        return (str || '').replace(/"/g, '&quot;');
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function renderDynamicJobCategoryFilters() {
+        const catListContainer = document.getElementById('filter-category-list');
+        if (!catListContainer) return;
+
+        const total = allJobs.length;
+
+        // Group by job titles (or category if title missing)
+        const map = new Map();
+        allJobs.forEach(j => {
+          const rawTitle = (j.title || j.category || '').trim();
+          if (!rawTitle) return;
+          const key = rawTitle.toLowerCase();
+          if (!map.has(key)) {
+            map.set(key, { title: rawTitle, count: 0 });
+          }
+          map.get(key).count += 1;
+        });
+
+        if (activeCategory !== 'all' && !map.has(activeCategory.toLowerCase())) {
+          activeCategory = 'all';
+        }
+
+        let html = `
+          <button type="button" class="filter-item-btn ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">
+            <span>All Specializations</span>
+            <span class="filter-item-count" id="count-all-trades">(${String(total).padStart(2, '0')})</span>
+          </button>
+        `;
+
+        const sorted = Array.from(map.values()).sort((a, b) => b.count - a.count || a.title.localeCompare(b.title));
+
+        sorted.forEach(item => {
+          const isActive = activeCategory.toLowerCase() === item.title.toLowerCase();
+          html += `
+            <button type="button" class="filter-item-btn ${isActive ? 'active' : ''}" data-cat="${escapeAttr(item.title)}">
+              <span>${escapeHtml(item.title)}</span>
+              <span class="filter-item-count">(${String(item.count).padStart(2, '0')})</span>
+            </button>
+          `;
+        });
+
+        catListContainer.innerHTML = html;
+
+        catListContainer.querySelectorAll('.filter-item-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            catListContainer.querySelectorAll('.filter-item-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.cat;
+            render3CardGrid();
+          });
+        });
+      }
 
       const TRADE_IMAGES = {
         software: 'assets/trades/software.jpg',
@@ -1641,7 +1680,6 @@
 
       try {
         allJobs = await window.jobApi.getJobs();
-        if (countAllTrades) countAllTrades.textContent = `(${String(allJobs.length).padStart(2, '0')})`;
       } catch (err) {
         console.error("Error loading vacancies:", err);
       }
@@ -1660,8 +1698,10 @@
         let filtered = allJobs.filter(job => {
           // Category
           if (activeCategory !== 'all') {
-            const matchCat = (job.category || '').toLowerCase().includes(activeCategory.toLowerCase()) ||
-                             (job.title || '').toLowerCase().includes(activeCategory.toLowerCase());
+            const q = activeCategory.toLowerCase();
+            const jTitle = (job.title || '').toLowerCase();
+            const jCat = (job.category || '').toLowerCase();
+            const matchCat = jTitle === q || jCat === q || jTitle.includes(q) || jCat.includes(q);
             if (!matchCat) return false;
           }
 
@@ -2100,7 +2140,7 @@
         });
 
         allJobs.unshift(newJob);
-        if (countAllTrades) countAllTrades.textContent = `(${String(allJobs.length).padStart(2, '0')})`;
+        renderDynamicJobCategoryFilters();
         render3CardGrid();
         closePostVacancyModal();
         postVacancyForm.reset();
@@ -2114,22 +2154,13 @@
       salarySelect.addEventListener('change', render3CardGrid);
       sortSelect.addEventListener('change', render3CardGrid);
 
-      categoryButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          categoryButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          activeCategory = btn.dataset.cat;
-          render3CardGrid();
-        });
-      });
-
       function resetAllFilters() {
         searchInput.value = '';
         citySelect.value = 'all';
         salarySelect.value = '0';
         sortSelect.value = 'latest';
         activeCategory = 'all';
-        categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+        renderDynamicJobCategoryFilters();
         render3CardGrid();
       }
 
@@ -2140,7 +2171,8 @@
         setTimeout(() => openJobDrawer(initialJobId), 150);
       }
 
-      // Initial Render
+      // Initial Dynamic Filters & 3-Card Grid Render
+      renderDynamicJobCategoryFilters();
       render3CardGrid();
     });
   </script>

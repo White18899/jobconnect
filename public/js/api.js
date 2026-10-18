@@ -625,18 +625,51 @@ class JobConnectApi {
     // Sync candidate list so candidate cards immediately display updated cover thumbnail & avatar
     try {
       const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-      const cand = candidates.find(c => (user?.name && c.name === user.name) || (user?.id && c.id === user.id));
+      let cand = candidates.find(c => (user?.name && c.name === user.name) || (user?.id && c.id === user.id));
       if (cand) {
         if (profileData.photo_thumb) cand.photo_thumb = profileData.photo_thumb;
         if (profileData.photo_key) cand.photo_key = profileData.photo_key;
         if (profileData.full_name) cand.name = profileData.full_name;
-        if (profileData.trade_title) cand.trade_title = profileData.trade_title;
+        if (profileData.trade_title) {
+          cand.trade_title = profileData.trade_title;
+          cand.category = profileData.trade_title;
+        }
         if (profileData.skills) cand.skills = profileData.skills;
         if (profileData.city) cand.city = profileData.city;
         if (profileData.experience_years !== undefined) cand.experience = profileData.experience_years;
+        if (profileData.experience_description) cand.bio = profileData.experience_description;
+        if (profileData.education_level) cand.education = profileData.education_level;
+        if (profileData.expected_salary_min) cand.salary_expected = profileData.expected_salary_min;
+        if (profileData.phone) cand.phone_unlocked = profileData.phone;
+        localStorage.setItem('jc_candidates', JSON.stringify(candidates));
+      } else if (!user || user.role === 'worker') {
+        const phoneDigits = (profileData.phone || '9876543210').replace(/\D/g, '');
+        const last3 = phoneDigits.slice(-3) || '892';
+        const newCand = {
+          id: user?.id || ('cand_' + Date.now()),
+          name: profileData.full_name || user?.name || 'Verified Professional',
+          trade_title: profileData.trade_title || 'Technical Specialist',
+          category: profileData.trade_title || 'Specialist',
+          city: profileData.city || 'Hyderabad',
+          experience: profileData.experience_years || 1,
+          salary_expected: profileData.expected_salary_min || 35000,
+          phone_masked: `•••• ••• ${last3}`,
+          phone_unlocked: profileData.phone || '+91 98765 43210',
+          address_masked: `${profileData.city || 'Hyderabad'} Tech Corridor`,
+          address_unlocked: `${profileData.preferred_area || 'Tech Zone'}, ${profileData.city || 'Hyderabad'}`,
+          skills: profileData.skills && profileData.skills.length ? profileData.skills : ['Software Engineering', 'Technical Scope'],
+          bio: profileData.experience_description || 'Technical professional with verified credentials.',
+          education: profileData.education_level || 'B.Tech / Professional Degree',
+          photo_key: profileData.photo_key || '',
+          photo_thumb: profileData.photo_thumb || '',
+          verified: true
+        };
+        candidates.push(newCand);
         localStorage.setItem('jc_candidates', JSON.stringify(candidates));
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error("Error syncing candidate in jc_candidates:", e);
+    }
 
     try {
       const token = this.getAuthToken();
