@@ -447,6 +447,80 @@ workerRoutes.get('/jobs', async (c) => {
   return c.json({ jobs: results || [] });
 });
 
+// 3b. Public Candidates Directory Feed (Live from Cloudflare D1 worker_profiles)
+workerRoutes.get('/candidates', async (c) => {
+  const { category, city, limit = '50', offset = '0' } = c.req.query();
+
+  let query = `
+    SELECT
+      wp.id,
+      wp.full_name as name,
+      wp.trade_title,
+      wp.skills,
+      wp.experience_years as experience,
+      wp.city,
+      wp.preferred_area,
+      wp.photo_key,
+      wp.photo_thumb,
+      wp.verification_status,
+      wp.digilocker_verified,
+      wp.created_at,
+      wp.phone
+    FROM worker_profiles wp
+    JOIN users u ON wp.user_id = u.id
+    WHERE u.is_blocked = 0
+  `;
+
+  const params: any[] = [];
+  if (city && city !== 'all') {
+    query += ' AND wp.city = ?';
+    params.push(city);
+  }
+  if (category && category !== 'all') {
+    query += ' AND (wp.trade_title LIKE ? OR wp.skills LIKE ?)';
+    params.push(`%${category}%`, `%${category}%`);
+  }
+
+  query += ' ORDER BY wp.experience_years DESC, wp.created_at DESC LIMIT ? OFFSET ?';
+  params.push(parseInt(limit, 10), parseInt(offset, 10));
+
+  const { results } = await c.env.DB.prepare(query).bind(...params).all<any>();
+
+  const candidates = (results || []).map((row: any) => {
+    let parsedSkills: string[] = [];
+    try {
+      parsedSkills = typeof row.skills === 'string' ? JSON.parse(row.skills) : (row.skills || []);
+    } catch {
+      parsedSkills = [];
+    }
+
+    // Mask phone for public candidate directory view
+    const rawPhone = row.phone || '';
+    const cleanPhone = rawPhone.replace(/\D/g, '');
+    const lastDigits = cleanPhone.slice(-4) || '9999';
+    const maskedPhone = `+91 ••••••${lastDigits}`;
+
+    return {
+      id: row.id,
+      name: row.name,
+      trade_title: row.trade_title || 'Technical Specialist',
+      category: row.trade_title || 'Software Engineering',
+      skills: parsedSkills,
+      experience: row.experience || 0,
+      city: row.city || 'Hyderabad',
+      preferred_area: row.preferred_area || '',
+      photo_key: row.photo_key || '',
+      photo_thumb: row.photo_thumb || '',
+      verified: row.verification_status === 'verified' || row.digilocker_verified === 1,
+      phone: maskedPhone,
+      phone_masked: maskedPhone,
+      unlocked: false,
+    };
+  });
+
+  return c.json({ candidates });
+});
+
 // 4. Job Details (Exact address remains hidden)
 workerRoutes.get('/jobs/:id', async (c) => {
   const jobId = c.req.param('id');

@@ -1129,8 +1129,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/job-library.js?v=22"></script>
-  <script src="js/api.js?v=21"></script>
+  <script src="js/job-library.js?v=23"></script>
+  <script src="js/api.js?v=23"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Session State & Role Guard
@@ -1310,7 +1310,8 @@
             if ((c.experience || 0) < minExp) return false;
           }
           if (query) {
-            const corpus = `${c.name} ${c.trade_title} ${(c.skills || []).join(' ')} ${c.city} ${c.education} ${c.bio}`.toLowerCase();
+            const skillsStr = Array.isArray(c.skills) ? c.skills.join(' ') : (c.skills || '');
+            const corpus = `${c.name || ''} ${c.trade_title || ''} ${skillsStr} ${c.city || ''} ${c.education || ''} ${c.bio || ''}`.toLowerCase();
             if (!corpus.includes(query)) return false;
           }
           return true;
@@ -1779,9 +1780,22 @@
       }
       if (btnReset) btnReset.addEventListener('click', resetFilters);
 
-      // Initial Dynamic Filters & Render
+      // Initial Dynamic Filters & Render from local cache
       renderDynamicCandidateCategoryFilters();
       renderCandidatesGrid();
+
+      // Fetch live verified candidates from Cloudflare D1 database (sync across all domains)
+      (async function syncCandidatesFromD1() {
+        try {
+          if (window.jobApi && typeof window.jobApi.fetchCandidates === 'function') {
+            await window.jobApi.fetchCandidates();
+            renderDynamicCandidateCategoryFilters();
+            renderCandidatesGrid();
+          }
+        } catch (err) {
+          console.warn("Live candidate sync error:", err);
+        }
+      })();
     });
   </script>
 </body>

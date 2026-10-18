@@ -27,11 +27,11 @@ class JobConnectApi {
   }
 
   initStorage() {
-    const CLEAN_VERSION = 'v22_manual_clean_slate_zero_mock';
+    const CLEAN_VERSION = 'v23_d1_multi_domain_live_sync';
     if (typeof localStorage !== 'undefined') {
       const purged = localStorage.getItem('jc_clean_purged');
       if (purged !== CLEAN_VERSION) {
-        // Complete purge of all demo, mock, and seed artifacts
+        // Complete purge of all stale demo and mock artifacts across domains
         localStorage.removeItem('jc_jobs');
         localStorage.removeItem('jc_jobs_version');
         localStorage.removeItem('jc_apps');
@@ -42,10 +42,6 @@ class JobConnectApi {
         localStorage.removeItem('jc_payments');
         localStorage.removeItem('jc_payments_v2');
         localStorage.removeItem('jc_credits');
-        localStorage.removeItem('jc_auth_user');
-        localStorage.removeItem('jobconnect_token');
-        localStorage.removeItem('jc_worker_photo');
-        localStorage.removeItem('jc_worker_cover');
         localStorage.setItem('jc_clean_purged', CLEAN_VERSION);
       }
       if (!localStorage.getItem('jc_jobs')) {
@@ -90,24 +86,24 @@ class JobConnectApi {
       if (res.ok) {
         const data = await res.json();
         if (data && Array.isArray(data.jobs)) {
-          // Merge with local storage created jobs if any
-          const localJobs = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
-          const serverIds = new Set(data.jobs.map(j => j.id));
-          const uniqueLocal = localJobs.filter(j => !serverIds.has(j.id));
-          return [...uniqueLocal, ...data.jobs];
+          // Live D1 is authoritative: cache to localStorage and return
+          try {
+            localStorage.setItem('jc_jobs', JSON.stringify(data.jobs));
+          } catch(e) {}
+          return data.jobs;
         }
       }
     } catch (err) {
       console.warn("Live API fetch fallback to local storage:", err);
     }
     
-    // Filter local storage jobs
+    // Filter local storage jobs (offline fallback)
     let local = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
     if (filters.category && filters.category !== 'all') {
-      local = local.filter(j => j.category.toLowerCase() === filters.category.toLowerCase());
+      local = local.filter(j => j.category && j.category.toLowerCase() === filters.category.toLowerCase());
     }
     if (filters.city && filters.city !== 'all') {
-      local = local.filter(j => j.location_city.toLowerCase() === filters.city.toLowerCase());
+      local = local.filter(j => j.location_city && j.location_city.toLowerCase() === filters.city.toLowerCase());
     }
     if (filters.minSalary) {
       local = local.filter(j => (j.salary_max || j.salary_min) >= Number(filters.minSalary));
@@ -220,6 +216,52 @@ class JobConnectApi {
     }
 
     return { success: true, app, remainingCredits: credits };
+  }
+
+  async fetchCandidates(filters = {}) {
+    try {
+      const params = new URLSearchParams();
+      if (filters.category && filters.category !== 'all') params.append('category', filters.category);
+      if (filters.city && filters.city !== 'all') params.append('city', filters.city);
+
+      const url = `${this.baseUrl}/candidates?${params.toString()}`;
+      const res = await fetch(url, { signal: AbortSignal.timeout(3500) });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.candidates)) {
+          const localCands = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
+          const serverIds = new Set(data.candidates.map(c => c.id));
+          const serverNames = new Set(data.candidates.map(c => (c.name || '').toLowerCase()));
+
+          const enrichedServerCands = data.candidates.map(sc => {
+            const existingLocal = localCands.find(lc => lc.id === sc.id || (lc.name && lc.name.toLowerCase() === sc.name.toLowerCase()));
+            return {
+              ...sc,
+              bio: sc.bio || existingLocal?.bio || `${sc.trade_title} with ${sc.experience}+ years experience in technical development and engineering architecture.`,
+              education: sc.education || existingLocal?.education || 'B.Tech / Professional Degree in Technical Discipline',
+              address_masked: sc.address_masked || existingLocal?.address_masked || `${sc.preferred_area || sc.city || 'Hyderabad'} Tech Corridor`,
+              address_unlocked: sc.address_unlocked || existingLocal?.address_unlocked || `${sc.preferred_area || 'Tech Zone'}, ${sc.city || 'Hyderabad'}`,
+              phone_masked: sc.phone_masked || sc.phone || '+91 ••••••9999',
+              phone_unlocked: sc.phone_unlocked || existingLocal?.phone_unlocked || sc.phone || '+91 98765 43210',
+              salary_expected: sc.salary_expected || existingLocal?.salary_expected || 45000,
+            };
+          });
+
+          // Retain any pending local candidate not yet in backend
+          const pendingLocals = localCands.filter(lc => !serverIds.has(lc.id) && !serverNames.has((lc.name || '').toLowerCase()));
+          const unified = [...enrichedServerCands, ...pendingLocals];
+
+          try {
+            localStorage.setItem('jc_candidates', JSON.stringify(unified));
+          } catch (e) {}
+
+          return this.getCandidates(filters);
+        }
+      }
+    } catch (err) {
+      console.warn("Live candidates API fetch fallback to local cache:", err);
+    }
+    return this.getCandidates(filters);
   }
 
   getCandidates(filters = {}) {
