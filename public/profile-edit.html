@@ -868,6 +868,11 @@
         });
       }
 
+      // Skills and Autocomplete State Variables
+      let currentSkills = [];
+      let activeSuggestionIndex = -1;
+      let currentMatches = [];
+
       // Master Skill Categories & Dynamic Explorer
       const skillCatTabsContainer = document.getElementById('skill-category-tabs');
       const skillCountBadge = document.getElementById('skill-category-count-badge');
@@ -904,9 +909,10 @@
 
       function renderSkillSuggestions() {
         if (!skillSuggestionsList) return;
-        let skillsToShow = SKILL_DATABASE;
+        const allSkills = (window.SKILLS_LIBRARY && window.SKILLS_LIBRARY.length > 0) ? window.SKILLS_LIBRARY : SKILL_DATABASE;
+        let skillsToShow = allSkills;
         if (activeSkillCategory !== 'All') {
-          skillsToShow = SKILL_DATABASE.filter(s => s.category === activeSkillCategory);
+          skillsToShow = allSkills.filter(s => s.category === activeSkillCategory);
         }
 
         if (skillCountBadge) {
@@ -914,7 +920,7 @@
         }
 
         skillSuggestionsList.innerHTML = skillsToShow.map(item => {
-          const isSelected = currentSkills.some(s => s.toLowerCase() === item.name.toLowerCase());
+          const isSelected = Array.isArray(currentSkills) && currentSkills.some(s => (s || '').toLowerCase() === item.name.toLowerCase());
           return `
             <span class="skill-suggestion-pill ${isSelected ? 'selected' : ''}" data-skill="${item.name}">
               ${isSelected ? '✓ ' : '+ '}${item.name}
@@ -925,8 +931,8 @@
         skillSuggestionsList.querySelectorAll('.skill-suggestion-pill').forEach(pill => {
           pill.addEventListener('click', () => {
             const skillName = pill.dataset.skill;
-            if (currentSkills.some(s => s.toLowerCase() === skillName.toLowerCase())) {
-              const idx = currentSkills.findIndex(s => s.toLowerCase() === skillName.toLowerCase());
+            if (Array.isArray(currentSkills) && currentSkills.some(s => (s || '').toLowerCase() === skillName.toLowerCase())) {
+              const idx = currentSkills.findIndex(s => (s || '').toLowerCase() === skillName.toLowerCase());
               if (idx !== -1) removeSkill(idx);
             } else {
               addSkill(skillName);
@@ -937,10 +943,6 @@
 
       renderSkillCategoriesTabs();
       renderSkillSuggestions();
-
-      let currentSkills = [];
-      let activeSuggestionIndex = -1;
-      let currentMatches = [];
 
       function escapeRegex(str) {
         return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1018,9 +1020,9 @@
         }
 
         const qLower = query.toLowerCase();
-        // Exclude skills already selected
-        const unselected = SKILL_DATABASE.filter(s => 
-          !currentSkills.some(existing => existing.toLowerCase() === s.name.toLowerCase())
+        const pool = (window.SKILLS_LIBRARY && window.SKILLS_LIBRARY.length > 0) ? window.SKILLS_LIBRARY : SKILL_DATABASE;
+        const unselected = pool.filter(s => 
+          !currentSkills.some(existing => (existing || '').toLowerCase() === s.name.toLowerCase())
         );
 
         // Prioritized buckets: exact matches, startsWith name, alias matches, contains name/category
