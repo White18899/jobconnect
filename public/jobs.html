@@ -978,6 +978,27 @@
       background: #fbfbfb;
     }
 
+    .post-title-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3.5px 9px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .post-title-pill:hover {
+      background: #14281D;
+      border-color: #14281D;
+      color: #FFFFFF;
+    }
+
     .img-preview-row {
       display: flex;
       align-items: center;
@@ -1275,18 +1296,30 @@
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-title">Job Title / Technical Headline *</label>
-            <input type="text" id="post-job-title" class="vacancy-input" placeholder="e.g. Senior Full-Stack Engineer / SDET Lead / Cloud Architect" required>
+            <input type="text" id="post-job-title" class="vacancy-input" list="library-post-job-titles" placeholder="e.g. Full-Stack Developer, DevOps Engineer, QA Automation Lead..." required autocomplete="off">
+            <datalist id="library-post-job-titles"></datalist>
+
+            <div style="margin-top: 8px;">
+              <span style="font-size: 11px; color: var(--color-text-secondary); font-weight: 600; display: inline-block; margin-bottom: 5px;">
+                Popular roles (Click to fill):
+              </span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="post-title-quick-pills"></div>
+            </div>
           </div>
 
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-category">Specialization / Discipline *</label>
             <select id="post-job-category" class="vacancy-select" required>
               <option value="Software Engineering">Software Engineering (Full-Stack / Backend / Web)</option>
-              <option value="QA & Testing">QA & Automation Testing (SDET / CI/CD)</option>
-              <option value="Team Leadership">Team Leadership & Engineering Management</option>
-              <option value="Human Resources">Human Resources & Tech Recruitment</option>
               <option value="DevOps & Cloud">DevOps & Cloud Infrastructure (Kubernetes / IaC)</option>
+              <option value="QA & Testing">QA & Automation Testing (SDET / CI/CD)</option>
               <option value="Mobile Development">Mobile Application Development (iOS / Android / Flutter)</option>
+              <option value="Data & AI">Data Engineering & Machine Learning (AI / Big Data)</option>
+              <option value="Cybersecurity">Cybersecurity & Information Security</option>
+              <option value="Team Leadership">Team Leadership & Engineering Management</option>
+              <option value="Product & Design">Product Management & UI/UX Design</option>
+              <option value="Systems & Embedded">Systems, Embedded & IoT</option>
+              <option value="Human Resources">Human Resources & Tech Recruitment</option>
             </select>
           </div>
         </div>
@@ -1424,7 +1457,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=18"></script>
+  <script src="js/job-library.js?v=20"></script>
+  <script src="js/api.js?v=20"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Session State Check
@@ -1701,7 +1735,8 @@
             const q = activeCategory.toLowerCase();
             const jTitle = (job.title || '').toLowerCase();
             const jCat = (job.category || '').toLowerCase();
-            const matchCat = jTitle === q || jCat === q || jTitle.includes(q) || jCat.includes(q);
+            const predictedCat = (window.JobLibrary && typeof window.JobLibrary.getCategoryForTitle === 'function') ? window.JobLibrary.getCategoryForTitle(job.title).toLowerCase() : '';
+            const matchCat = jTitle === q || jCat === q || predictedCat === q || jTitle.includes(q) || jCat.includes(q);
             if (!matchCat) return false;
           }
 
@@ -2075,6 +2110,60 @@
           closePostVacancyModal();
         }
       });
+
+      // Master Job Titles Datalist & Quick Roles Setup
+      const postTitlesDatalist = document.getElementById('library-post-job-titles');
+      if (postTitlesDatalist && window.JOB_TITLES_LIBRARY) {
+        postTitlesDatalist.innerHTML = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+      }
+
+      const postTitleInput = document.getElementById('post-job-title');
+      const postCategorySelect = document.getElementById('post-job-category');
+      const postTitleQuickPills = document.getElementById('post-title-quick-pills');
+
+      if (postTitleQuickPills) {
+        const topRoles = [
+          "Full-Stack Developer",
+          "Frontend Developer",
+          "Backend Developer",
+          "DevOps Engineer",
+          "QA Automation Engineer",
+          "Cloud Solutions Architect",
+          "React & Next.js Developer",
+          "Python / Django Developer",
+          "Mobile Application Developer",
+          "AI / Machine Learning Engineer"
+        ];
+        postTitleQuickPills.innerHTML = topRoles.map(r => `<span class="post-title-pill" data-title="${r}">+ ${r}</span>`).join('');
+        postTitleQuickPills.querySelectorAll('.post-title-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            if (postTitleInput) {
+              postTitleInput.value = pill.dataset.title;
+              syncCategoryFromTitle();
+            }
+          });
+        });
+      }
+
+      function syncCategoryFromTitle() {
+        if (!postTitleInput || !postCategorySelect || !window.JobLibrary) return;
+        const val = postTitleInput.value.trim();
+        if (!val) return;
+        const detectedCat = window.JobLibrary.getCategoryForTitle(val);
+        if (detectedCat) {
+          for (let i = 0; i < postCategorySelect.options.length; i++) {
+            if (postCategorySelect.options[i].value.toLowerCase() === detectedCat.toLowerCase()) {
+              postCategorySelect.selectedIndex = i;
+              break;
+            }
+          }
+        }
+      }
+
+      if (postTitleInput) {
+        postTitleInput.addEventListener('input', syncCategoryFromTitle);
+        postTitleInput.addEventListener('change', syncCategoryFromTitle);
+      }
 
       // Custom file upload
       btnTriggerCustomImg.addEventListener('click', () => modalFileInput.click());

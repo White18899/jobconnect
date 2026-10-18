@@ -1129,7 +1129,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=18"></script>
+  <script src="js/job-library.js?v=20"></script>
+  <script src="js/api.js?v=20"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Session State & Role Guard
@@ -1298,7 +1299,8 @@
             const q = activeCategory.toLowerCase();
             const cTitle = (c.trade_title || '').toLowerCase();
             const cCat = (c.category || '').toLowerCase();
-            const catMatch = cTitle === q || cCat === q || cTitle.includes(q) || cCat.includes(q);
+            const predictedCat = (window.JobLibrary && typeof window.JobLibrary.getCategoryForTitle === 'function') ? window.JobLibrary.getCategoryForTitle(c.trade_title).toLowerCase() : '';
+            const catMatch = cTitle === q || cCat === q || predictedCat === q || cTitle.includes(q) || cCat.includes(q);
             if (!catMatch) return false;
           }
           if (city !== 'all') {

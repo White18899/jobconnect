@@ -170,6 +170,56 @@
       background: #ffffff;
       transform: translateY(-1px);
     }
+    .skill-cat-tab-btn {
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm, 6px);
+      background: #ffffff;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .skill-cat-tab-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+    .skill-cat-tab-btn.active {
+      background: #14281D !important;
+      border-color: #14281D !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.2);
+    }
+    .title-quick-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 550;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .title-quick-pill:hover {
+      border-color: #14281D;
+      color: #14281D;
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+    .skill-suggestion-pill.selected {
+      background: #14281D !important;
+      border-color: #14281D !important;
+      color: #ffffff !important;
+      font-weight: 600;
+    }
     .skills-autocomplete-menu {
       position: absolute;
       top: calc(100% + 6px);
@@ -546,8 +596,16 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="worker-title">Professional / Trade Title *</label>
-          <input type="text" id="worker-title" class="form-input" placeholder="e.g. Auto Mechanic, CNC Operator, Electrician" required>
+          <label class="form-label" for="worker-title">Professional / Technical Title *</label>
+          <input type="text" id="worker-title" class="form-input" list="library-job-titles-list" placeholder="e.g. Full-Stack Developer, DevOps Engineer, React & Next.js Developer, QA Automation..." required autocomplete="off">
+          <datalist id="library-job-titles-list"></datalist>
+
+          <div style="margin-top: 8px;">
+            <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; display: inline-block; margin-bottom: 5px;">
+              Popular specializations (Click to fill):
+            </span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="title-quick-pills"></div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -673,31 +731,22 @@
           <!-- Dynamically populated tags with remove buttons -->
         </div>
 
-        <!-- Quick Suggestions Pill Row -->
-        <div style="margin-top: 10px;">
-          <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 600; display: inline-block; margin-bottom: 6px;">
-            Suggested technical stacks & languages (Click to add):
-          </span>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="skill-suggestions-list">
-            <span class="skill-suggestion-pill" data-skill="Frontend Development">+ Frontend Development</span>
-            <span class="skill-suggestion-pill" data-skill="Backend Development">+ Backend Development</span>
-            <span class="skill-suggestion-pill" data-skill="Full Stack Development">+ Full Stack Development</span>
-            <span class="skill-suggestion-pill" data-skill="React.js">+ React.js</span>
-            <span class="skill-suggestion-pill" data-skill="Next.js">+ Next.js</span>
-            <span class="skill-suggestion-pill" data-skill="JavaScript (ES6+)">+ JavaScript</span>
-            <span class="skill-suggestion-pill" data-skill="TypeScript">+ TypeScript</span>
-            <span class="skill-suggestion-pill" data-skill="Python">+ Python</span>
-            <span class="skill-suggestion-pill" data-skill="Java">+ Java</span>
-            <span class="skill-suggestion-pill" data-skill="HTML5 & Semantic Markup">+ HTML5</span>
-            <span class="skill-suggestion-pill" data-skill="CSS3 & Modern Layouts">+ CSS3</span>
-            <span class="skill-suggestion-pill" data-skill="Tailwind CSS">+ Tailwind CSS</span>
-            <span class="skill-suggestion-pill" data-skill="Node.js & Express">+ Node.js</span>
-            <span class="skill-suggestion-pill" data-skill="SQL & Database Design">+ SQL / PostgreSQL</span>
-            <span class="skill-suggestion-pill" data-skill="MongoDB & NoSQL">+ MongoDB</span>
-            <span class="skill-suggestion-pill" data-skill="Docker & Containerization">+ Docker</span>
-            <span class="skill-suggestion-pill" data-skill="AWS (Amazon Web Services)">+ AWS</span>
-            <span class="skill-suggestion-pill" data-skill="Git & GitHub / Version Control">+ Git & GitHub</span>
+        <!-- Interactive Master Skill Explorer with Categories -->
+        <div style="margin-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 11.5px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">
+              Suggested technical stacks & languages (Click to add):
+            </span>
+            <span id="skill-category-count-badge" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">
+              160+ Standardized Skills
+            </span>
           </div>
+
+          <!-- Category Filter Tabs -->
+          <div id="skill-category-tabs" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;"></div>
+
+          <!-- Dynamic Categorized Skills Grid -->
+          <div id="skill-suggestions-list" style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 200px; overflow-y: auto; padding: 10px 12px; background: var(--surface-secondary); border: 1px solid var(--border); border-radius: var(--radius-md);"></div>
         </div>
       </div>
 
@@ -726,7 +775,8 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=18"></script>
+  <script src="js/job-library.js?v=20"></script>
+  <script src="js/api.js?v=20"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const user = window.jobApi.getCurrentUser();
@@ -778,72 +828,115 @@
       const skillSuggestionsList = document.getElementById('skill-suggestions-list');
       const skillsAutocompleteDropdown = document.getElementById('skills-autocomplete-dropdown');
 
-      // Comprehensive Technical Software Engineering & Modern Tech Skill Knowledge Base
-      const SKILL_DATABASE = [
-        // Core Web & Full Stack Roles
-        { name: 'Full Stack Development', category: 'Core Role', aliases: ['full stack', 'fullstack', 'full-stack', 'web', 'mern', 'mean'] },
-        { name: 'Frontend Development', category: 'Core Role', aliases: ['frontend', 'front-end', 'front end', 'web', 'ui'] },
-        { name: 'Backend Development', category: 'Core Role', aliases: ['backend', 'back-end', 'back end', 'api', 'server'] },
-        { name: 'Web Development', category: 'Core Role', aliases: ['web', 'website', 'web dev', 'webdev'] },
-        { name: 'Mobile App Development', category: 'Mobile', aliases: ['mobile', 'app', 'android', 'ios'] },
-        { name: 'DevOps & Cloud Engineering', category: 'DevOps', aliases: ['devops', 'infra', 'cloud', 'sre'] },
+      // Master Technical Skills Knowledge Base (160+ Standardized Skills from Library)
+      const SKILL_DATABASE = (window.SKILLS_LIBRARY && window.SKILLS_LIBRARY.length > 0) ? window.SKILLS_LIBRARY : [];
 
-        // Programming Languages
-        { name: 'JavaScript (ES6+)', category: 'Language', aliases: ['js', 'javascript', 'vanilla js', 'web'] },
-        { name: 'TypeScript', category: 'Language', aliases: ['ts', 'typescript', 'typed js'] },
-        { name: 'Python', category: 'Language', aliases: ['py', 'python', 'python3', 'django', 'fastapi'] },
-        { name: 'Java', category: 'Language', aliases: ['java', 'core java', 'spring', 'jvm'] },
-        { name: 'HTML5 & Semantic Markup', category: 'Frontend', aliases: ['html', 'html5', 'web', 'markup'] },
-        { name: 'CSS3 & Modern Layouts', category: 'Frontend', aliases: ['css', 'css3', 'scss', 'sass', 'web', 'styles'] },
-        { name: 'C++ & Systems Programming', category: 'Language', aliases: ['cpp', 'c++', 'c'] },
-        { name: 'C# / .NET Core', category: 'Backend', aliases: ['c#', 'csharp', 'dotnet', '.net'] },
-        { name: 'Go / Golang', category: 'Backend', aliases: ['go', 'golang'] },
-        { name: 'PHP & Laravel', category: 'Backend', aliases: ['php', 'laravel', 'wordpress'] },
-        { name: 'Rust', category: 'Systems', aliases: ['rust', 'rustlang'] },
-        { name: 'SQL & Database Design', category: 'Database', aliases: ['sql', 'rdbms', 'mysql', 'postgres'] },
+      // Populate Master Job Titles Datalist
+      const jobTitlesDatalist = document.getElementById('library-job-titles-list');
+      if (jobTitlesDatalist && window.JOB_TITLES_LIBRARY) {
+        jobTitlesDatalist.innerHTML = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+      }
 
-        // Frontend Frameworks & Libraries
-        { name: 'React.js', category: 'Frontend', aliases: ['react', 'reactjs', 'jsx', 'web', 'js'] },
-        { name: 'Next.js', category: 'Full Stack', aliases: ['next', 'nextjs', 'react', 'ssr', 'fullstack', 'web'] },
-        { name: 'Vue.js & Nuxt', category: 'Frontend', aliases: ['vue', 'vuejs', 'nuxt'] },
-        { name: 'Angular', category: 'Frontend', aliases: ['angular', 'angularjs', 'ts'] },
-        { name: 'Tailwind CSS', category: 'Styling', aliases: ['tailwind', 'css', 'utility css'] },
-        { name: 'Redux Toolkit & Zustand', category: 'State Mgmt', aliases: ['redux', 'zustand', 'state'] },
-        { name: 'Responsive Web Design & Flexbox/Grid', category: 'Frontend', aliases: ['responsive', 'mobile friendly', 'css', 'web'] },
-        { name: 'Vite & Webpack', category: 'Build Tools', aliases: ['vite', 'webpack', 'bundler'] },
+      // Populate Quick Roles Pills
+      const titleQuickPillsContainer = document.getElementById('title-quick-pills');
+      if (titleQuickPillsContainer) {
+        const popularTitles = [
+          "Full-Stack Developer",
+          "Frontend Developer",
+          "Backend Developer",
+          "DevOps Engineer",
+          "React & Next.js Developer",
+          "Cloud Solutions Architect",
+          "QA Automation Engineer",
+          "Python / Django Developer",
+          "Mobile Application Developer",
+          "AI / Machine Learning Engineer",
+          "Data Engineer",
+          "Cybersecurity Analyst",
+          "Technical Team Lead"
+        ];
+        titleQuickPillsContainer.innerHTML = popularTitles.map(t => `<span class="title-quick-pill" data-title="${t}">+ ${t}</span>`).join('');
+        titleQuickPillsContainer.querySelectorAll('.title-quick-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            if (inputTitle) {
+              inputTitle.value = pill.dataset.title;
+              inputTitle.dispatchEvent(new Event('input'));
+              inputTitle.dispatchEvent(new Event('change'));
+              showToast(`Selected role: ${pill.dataset.title}`, 'info');
+            }
+          });
+        });
+      }
 
-        // Backend Frameworks & Runtimes
-        { name: 'Node.js & Express', category: 'Backend', aliases: ['node', 'nodejs', 'express', 'expressjs', 'js', 'backend'] },
-        { name: 'Django & REST Framework', category: 'Backend', aliases: ['django', 'drf', 'py', 'python'] },
-        { name: 'FastAPI (Python)', category: 'Backend', aliases: ['fastapi', 'py', 'python', 'api'] },
-        { name: 'Spring Boot (Java)', category: 'Backend', aliases: ['spring', 'springboot', 'java', 'backend'] },
-        { name: 'NestJS', category: 'Backend', aliases: ['nestjs', 'nest', 'ts', 'node'] },
-        { name: 'RESTful API Architecture', category: 'APIs', aliases: ['rest', 'api', 'apis', 'restful'] },
-        { name: 'GraphQL & Apollo', category: 'APIs', aliases: ['graphql', 'gql', 'apollo'] },
-        { name: 'Microservices & Distributed Systems', category: 'Architecture', aliases: ['microservices', 'distributed', 'system design'] },
-        { name: 'WebSockets & Realtime APIs', category: 'Realtime', aliases: ['websockets', 'socket.io', 'realtime', 'web'] },
-
-        // Databases & Storage
-        { name: 'PostgreSQL', category: 'Database', aliases: ['postgres', 'postgresql', 'psql', 'sql'] },
-        { name: 'MongoDB & NoSQL', category: 'Database', aliases: ['mongo', 'mongodb', 'nosql', 'mern'] },
-        { name: 'MySQL', category: 'Database', aliases: ['mysql', 'sql', 'mariadb'] },
-        { name: 'Redis & In-Memory Caching', category: 'Database', aliases: ['redis', 'cache', 'caching'] },
-        { name: 'Prisma & Drizzle ORM', category: 'Database', aliases: ['prisma', 'drizzle', 'orm'] },
-        { name: 'Firebase & Supabase', category: 'BaaS', aliases: ['firebase', 'supabase', 'auth'] },
-
-        // Cloud, DevOps & Tools
-        { name: 'Git & GitHub / Version Control', category: 'Dev Tools', aliases: ['git', 'github', 'gitlab', 'vcs'] },
-        { name: 'Docker & Containerization', category: 'DevOps', aliases: ['docker', 'containers'] },
-        { name: 'Kubernetes (K8s)', category: 'DevOps', aliases: ['k8s', 'kubernetes'] },
-        { name: 'AWS (Amazon Web Services)', category: 'Cloud', aliases: ['aws', 'cloud', 's3', 'ec2', 'lambda'] },
-        { name: 'CI/CD Pipelines (GitHub Actions)', category: 'DevOps', aliases: ['ci/cd', 'cicd', 'github actions', 'pipeline'] },
-        { name: 'Linux Administration & Bash', category: 'DevOps', aliases: ['linux', 'bash', 'shell', 'ubuntu'] },
-
-        // Mobile & Testing
-        { name: 'React Native', category: 'Mobile', aliases: ['react native', 'rn', 'mobile'] },
-        { name: 'Flutter & Dart', category: 'Mobile', aliases: ['flutter', 'dart', 'mobile'] },
-        { name: 'Unit & End-to-End Testing (Jest / Cypress)', category: 'QA', aliases: ['testing', 'jest', 'cypress', 'playwright', 'qa'] }
+      // Master Skill Categories & Dynamic Explorer
+      const skillCatTabsContainer = document.getElementById('skill-category-tabs');
+      const skillCountBadge = document.getElementById('skill-category-count-badge');
+      const skillCategories = [
+        'All',
+        'Languages',
+        'Frontend',
+        'Backend & APIs',
+        'Databases',
+        'Cloud & DevOps',
+        'QA & Testing',
+        'Mobile',
+        'Data & AI',
+        'Tools & Practices'
       ];
+      let activeSkillCategory = 'All';
+
+      function renderSkillCategoriesTabs() {
+        if (!skillCatTabsContainer) return;
+        skillCatTabsContainer.innerHTML = skillCategories.map(cat => `
+          <button type="button" class="skill-cat-tab-btn ${cat === activeSkillCategory ? 'active' : ''}" data-cat="${cat}">
+            ${cat}
+          </button>
+        `).join('');
+
+        skillCatTabsContainer.querySelectorAll('.skill-cat-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeSkillCategory = btn.dataset.cat;
+            renderSkillCategoriesTabs();
+            renderSkillSuggestions();
+          });
+        });
+      }
+
+      function renderSkillSuggestions() {
+        if (!skillSuggestionsList) return;
+        let skillsToShow = SKILL_DATABASE;
+        if (activeSkillCategory !== 'All') {
+          skillsToShow = SKILL_DATABASE.filter(s => s.category === activeSkillCategory);
+        }
+
+        if (skillCountBadge) {
+          skillCountBadge.textContent = `${skillsToShow.length} skills in ${activeSkillCategory}`;
+        }
+
+        skillSuggestionsList.innerHTML = skillsToShow.map(item => {
+          const isSelected = currentSkills.some(s => s.toLowerCase() === item.name.toLowerCase());
+          return `
+            <span class="skill-suggestion-pill ${isSelected ? 'selected' : ''}" data-skill="${item.name}">
+              ${isSelected ? '✓ ' : '+ '}${item.name}
+            </span>
+          `;
+        }).join('');
+
+        skillSuggestionsList.querySelectorAll('.skill-suggestion-pill').forEach(pill => {
+          pill.addEventListener('click', () => {
+            const skillName = pill.dataset.skill;
+            if (currentSkills.some(s => s.toLowerCase() === skillName.toLowerCase())) {
+              const idx = currentSkills.findIndex(s => s.toLowerCase() === skillName.toLowerCase());
+              if (idx !== -1) removeSkill(idx);
+            } else {
+              addSkill(skillName);
+            }
+          });
+        });
+      }
+
+      renderSkillCategoriesTabs();
+      renderSkillSuggestions();
 
       let currentSkills = [];
       let activeSuggestionIndex = -1;
@@ -1002,13 +1095,8 @@
           });
         }
 
-        if (skillSuggestionsList) {
-          skillSuggestionsList.querySelectorAll('.skill-suggestion-pill').forEach(pill => {
-            const rawSkill = pill.dataset.skill || pill.textContent.replace(/^\+\s*/, '').trim();
-            const exists = currentSkills.some(s => s.toLowerCase() === rawSkill.toLowerCase());
-            pill.style.opacity = exists ? '0.35' : '1';
-            pill.style.pointerEvents = exists ? 'none' : 'auto';
-          });
+        if (typeof renderSkillSuggestions === 'function') {
+          renderSkillSuggestions();
         }
       }
 
@@ -1794,7 +1882,7 @@
         }
 
         if (!tradeTitle) {
-          alert('Please enter your professional or trade title (e.g. Auto Mechanic, Electrician).');
+          alert('Please enter your professional or technical role title (e.g. Full-Stack Developer, DevOps Engineer).');
           inputTitle.focus();
           return;
         }
