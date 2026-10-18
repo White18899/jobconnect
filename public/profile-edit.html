@@ -784,7 +784,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/job-library.js?v=20"></script>
+  <script src="js/job-library.js?v=22"></script>
   <script src="js/api.js?v=21"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -895,6 +895,8 @@
         'QA & Testing',
         'Mobile',
         'Data & AI',
+        'Cybersecurity',
+        'Systems & Hardware',
         'Tools & Practices'
       ];
       let activeSkillCategory = 'All';
@@ -921,7 +923,14 @@
         const allSkills = (window.SKILLS_LIBRARY && window.SKILLS_LIBRARY.length > 0) ? window.SKILLS_LIBRARY : SKILL_DATABASE;
         let skillsToShow = allSkills;
         if (activeSkillCategory !== 'All') {
-          skillsToShow = allSkills.filter(s => s.category === activeSkillCategory);
+          skillsToShow = allSkills.filter(s => {
+            if (s.category === activeSkillCategory) return true;
+            if (s.category && activeSkillCategory) {
+              const prefix = activeSkillCategory.split(' ')[0].toLowerCase();
+              return s.category.toLowerCase().startsWith(prefix);
+            }
+            return false;
+          });
         }
 
         if (skillCountBadge) {
