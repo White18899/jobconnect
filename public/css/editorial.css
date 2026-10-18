@@ -1984,12 +1984,47 @@ tr:hover,
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 8px 20px rgba(20, 40, 29, 0.25) !important;
 }
 
+.btn-post-job-header *,
+.btn-apply-priority *,
+.btn-unlock *,
+.btn-primary-action *,
+.btn-submit-action *,
+.btn-card-apply *,
+.btn-apply-job *,
+.btn-unlock-contact *,
+.search-btn *,
+.btn-primary *,
+.nav-btn-solid * {
+  color: #FFFFFF !important;
+}
+
+.btn-post-job-header span,
+.btn-apply-priority span,
+.btn-unlock span,
+.btn-primary-action span,
+.btn-submit-action span,
+.btn-card-apply span,
+.btn-apply-job span,
+.btn-unlock-contact span,
+.search-btn span,
+.btn-primary span,
+.nav-btn-solid span {
+  color: #FFFFFF !important;
+}
+
 .btn-post-job-header svg,
 .btn-apply-priority svg,
 .btn-unlock svg,
+.btn-primary-action svg,
+.btn-submit-action svg,
 .btn-card-apply svg,
-.btn-unlock-contact svg {
+.btn-apply-job svg,
+.btn-unlock-contact svg,
+.search-btn svg,
+.btn-primary svg,
+.nav-btn-solid svg {
   stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 /* 6. Secondary & Outline Buttons */

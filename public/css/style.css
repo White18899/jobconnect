@@ -1247,12 +1247,13 @@ button, input, select, textarea {
   transform: scale(0.98);
 }
 
-/* Primary Action Buttons (High-Contrast White Button with Crisp Dark Text) */
+/* Primary Action Buttons (Tactile Obsidian Green with Crisp White Text) */
 .search-btn,
-.btn-primary-action {
-  background: #ffffff !important;
-  color: #09090b !important;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+.btn-primary-action,
+.btn-submit-action {
+  background: #14281D !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
   font-weight: 650;
@@ -1263,42 +1264,56 @@ button, input, select, textarea {
   gap: 8px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 6px rgba(20, 40, 29, 0.18);
   transition: var(--transition);
 }
 
 .search-btn:hover,
-.btn-primary-action:hover {
-  background: #e4e4e7 !important;
-  color: #000000 !important;
-  border-color: #ffffff !important;
+.btn-primary-action:hover,
+.btn-submit-action:hover {
+  background: #1C3829 !important;
+  color: #FFFFFF !important;
+  border-color: #1C3829 !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(255, 255, 255, 0.42), inset 0 1px 0 #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 8px 20px rgba(20, 40, 29, 0.25);
 }
 
 .search-btn:active,
-.btn-primary-action:active {
+.btn-primary-action:active,
+.btn-submit-action:active {
   transform: translateY(1px);
 }
 
+.search-btn *,
+.btn-primary-action *,
+.btn-submit-action * {
+  color: #FFFFFF !important;
+}
+
 .search-btn span,
-.btn-primary-action span {
-  color: #09090b !important;
+.btn-primary-action span,
+.btn-submit-action span {
+  color: #FFFFFF !important;
 }
 
 .search-btn:hover span,
-.btn-primary-action:hover span {
-  color: #000000 !important;
+.btn-primary-action:hover span,
+.btn-submit-action:hover span {
+  color: #FFFFFF !important;
 }
 
 .search-btn svg,
-.btn-primary-action svg {
-  stroke: #09090b !important;
+.btn-primary-action svg,
+.btn-submit-action svg {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 .search-btn:hover svg,
-.btn-primary-action:hover svg {
-  stroke: #000000 !important;
+.btn-primary-action:hover svg,
+.btn-submit-action:hover svg {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 /* Active Status Pill in Action Rail (e.g. "Top Placement Active") */
