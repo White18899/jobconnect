@@ -162,6 +162,98 @@ employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), as
   return c.json({ jobs: results || [] });
 });
 
+// 4b. Get All Applications for Employer across all jobs
+employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employer']), async (c) => {
+  const user = c.get('user');
+  let employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  if (!employer) {
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, verification_status, created_at, updated_at)
+      VALUES (?, ?, ?, 'Tech Company', ?, 'Hyderabad', 'Tech Hub', 'Platform Verified Address', 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
+    employer = { id: epId };
+  }
+
+  const { results } = await c.env.DB.prepare(`
+    SELECT
+      a.id as application_id, a.id, a.status as application_status, a.status, a.applied_at,
+      j.id as job_id, j.title as job_title, j.category as job_category,
+      wp.id as worker_id, wp.full_name as worker_name, wp.trade_title, wp.skills as worker_skills,
+      wp.experience_years as worker_experience, wp.preferred_area as worker_area, wp.city as worker_city,
+      wp.verification_status as worker_verification_status, wp.digilocker_verified, wp.id_number_masked,
+      u.phone as worker_phone, u.email as worker_email,
+      ep.business_name as employer_name,
+      p.status as payment_status
+    FROM applications a
+    JOIN jobs j ON a.job_id = j.id
+    JOIN worker_profiles wp ON a.worker_id = wp.id
+    JOIN users u ON wp.user_id = u.id
+    JOIN employer_profiles ep ON a.employer_id = ep.id
+    LEFT JOIN payments p ON p.application_id = a.id
+    WHERE a.employer_id = ?
+    ORDER BY a.applied_at DESC
+  `).bind(employer.id).all<any>();
+
+  const applications = (results || []).map((row: any) => {
+    const isUnlocked = row.application_status === 'unlocked' || row.status === 'unlocked';
+    const rawPhone = row.worker_phone || '+91 98491 55678';
+    const maskedPhone = rawPhone.length > 5 ? rawPhone.slice(0, 6) + '••••' + rawPhone.slice(-2) : '+91 98••••••42';
+    
+    let parsedSkills: string[] = [];
+    try {
+      parsedSkills = typeof row.worker_skills === 'string' ? JSON.parse(row.worker_skills) : (row.worker_skills || []);
+    } catch {
+      parsedSkills = [];
+    }
+
+    return {
+      id: row.id || row.application_id,
+      application_id: row.application_id || row.id,
+      job_id: row.job_id,
+      job_title: row.job_title,
+      employer_name: row.employer_name,
+      worker_id: row.worker_id,
+      worker_name: row.worker_name,
+      worker_category: row.trade_title || row.job_category || 'Software Engineering',
+      worker_skills: parsedSkills,
+      worker_experience: row.worker_experience || 0,
+      worker_city: row.worker_city || 'Hyderabad',
+      worker_area: row.worker_area || 'Central Area',
+      applied_date: row.applied_at ? row.applied_at.split('T')[0] : new Date().toISOString().split('T')[0],
+      status: row.application_status || row.status || 'applied',
+      priority: 'STANDARD',
+      unlocked: isUnlocked,
+      phone_masked: maskedPhone,
+      phone_unlocked: rawPhone,
+      worker_phone: isUnlocked ? rawPhone : maskedPhone,
+      worker_email: isUnlocked ? row.worker_email : 'Locked (Unlock to view)',
+      address_masked: 'Address Protected (Unlock to view)',
+      address_unlocked: `${row.worker_area || ''}, ${row.worker_city || 'Hyderabad'}`,
+      experience_notes: `${row.worker_experience || 0}+ years experienced ${row.trade_title || row.job_category || 'specialist'}`,
+      verification_status: row.worker_verification_status || 'verified',
+      digilocker_verified: !!row.digilocker_verified,
+    };
+  });
+
+  return c.json({ applications });
+});
+
+// 4c. Unlock Candidate Application Contact Details
+employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGuard(['employer']), async (c) => {
+  const user = c.get('user');
+  const appId = c.req.param('id');
+  const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  if (!employer) return c.json({ error: 'Unauthorized' }, 401);
+
+  const app = await c.env.DB.prepare('SELECT id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first();
+  if (!app) return c.json({ error: 'Application not found' }, 404);
+
+  await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
+
+  return c.json({ success: true, message: 'Applicant contact details unlocked successfully' });
+});
+
 // 5. Update Job Status (open / closed)
 employerRoutes.put('/employer/jobs/:id', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');

@@ -1460,7 +1460,7 @@
 
   <!-- Scripts -->
   <script src="js/job-library.js?v=24"></script>
-  <script src="js/api.js?v=24"></script>
+  <script src="js/api.js?v=25"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Session State Check
@@ -1561,7 +1561,7 @@
         }
 
         try {
-          const apps = window.jobApi.getApplications();
+          const apps = await window.jobApi.getWorkerApplications();
           apps.forEach(a => {
             if (a.job_id) appliedJobIds.add(a.job_id);
           });

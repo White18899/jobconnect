@@ -477,7 +477,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=24"></script>
+  <script src="js/api.js?v=25"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Check auth
@@ -523,9 +523,9 @@
       }
       updateCredits();
 
-      // Render Applicants
-      function renderApplicants() {
-        const apps = window.jobApi.getApplications();
+      // Render Applicants (Live D1 Backend Sync)
+      async function renderApplicants() {
+        const apps = await window.jobApi.getEmployerApplications();
         const container = document.getElementById('employer-applicants-list');
         const statApps = document.getElementById('stat-emp-apps');
         const statUnlocked = document.getElementById('stat-emp-unlocked');
@@ -646,13 +646,13 @@
         });
 
         document.querySelectorAll('.trigger-unlock-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
+          btn.addEventListener('click', async (e) => {
             const id = e.currentTarget.dataset.id;
-            const res = window.jobApi.unlockWorker(id);
+            const res = await window.jobApi.unlockWorker(id);
             if (res.success) {
               showToast(`Contact info unlocked for ${res.app.worker_name}!`);
               updateCredits();
-              renderApplicants();
+              await renderApplicants();
             } else if (res.needCredits) {
               showToast('You have 0 credits remaining! Please recharge below.', 'error');
               openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
@@ -867,12 +867,12 @@
           </div>
         `;
 
-        document.getElementById('pass-drawer-unlock-btn')?.addEventListener('click', () => {
-          const res = window.jobApi.unlockWorker(app.id);
+        document.getElementById('pass-drawer-unlock-btn')?.addEventListener('click', async () => {
+          const res = await window.jobApi.unlockWorker(app.id);
           if (res.success) {
             showToast(`Contact info unlocked for ${res.app.worker_name}!`, 'success');
             updateCredits();
-            renderApplicants();
+            await renderApplicants();
             openApplicantPassDrawer(app.id);
           } else if (res.needCredits) {
             showToast('You have 0 credits remaining! Please recharge below.', 'error');

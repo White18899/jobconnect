@@ -157,8 +157,29 @@ class JobConnectApi {
 
   async applyJob(jobId, workerData, isPriority = false) {
     const job = await this.getJobById(jobId);
+    let serverAppId = null;
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/jobs/${jobId}/apply`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(workerData || {})
+        });
+        if (res.ok) {
+          const data = await res.json();
+          serverAppId = data.applicationId;
+        }
+      }
+    } catch (e) {
+      console.warn('Network error while applying for job, falling back to local storage:', e);
+    }
+
     const newApp = {
-      id: `app_${Date.now().toString().slice(-6)}`,
+      id: serverAppId || `app_${Date.now().toString().slice(-6)}`,
       job_id: jobId,
       job_title: job ? job.title : "Trade Job",
       employer_name: job ? (job.business_name || job.employerName || "Hiring Employer") : "Hiring Employer",
@@ -175,11 +196,16 @@ class JobConnectApi {
       phone_unlocked: workerData.phone || "+91 98491 55678",
       address_masked: "Address Protected (Unlock to view)",
       address_unlocked: workerData.address || "Plot 89, Trade Nagar, Industrial Area, Hyderabad",
-      experience_notes: workerData.notes || "Skilled with 3+ years experience"
+      experience_notes: workerData.notes || `${workerData.experience || 3}+ years experienced specialist`
     };
 
     const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    apps.unshift(newApp);
+    const existingIdx = apps.findIndex(a => a.job_id === jobId);
+    if (existingIdx >= 0) {
+      apps[existingIdx] = newApp;
+    } else {
+      apps.unshift(newApp);
+    }
     localStorage.setItem('jc_apps', JSON.stringify(apps));
 
     return newApp;
@@ -189,33 +215,90 @@ class JobConnectApi {
     return JSON.parse(localStorage.getItem('jc_apps') || '[]');
   }
 
-  unlockWorker(appId) {
-    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    const app = apps.find(a => a.id === appId);
-    let credits = Number(localStorage.getItem('jc_credits') || '0');
+  async getEmployerApplications() {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/employer/applications`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.applications)) {
+            const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+            const dirCartApps = localApps.filter(a => a.source === 'candidate_directory' && !data.applications.some(sa => sa.id === a.id));
+            const merged = [...data.applications, ...dirCartApps];
+            localStorage.setItem('jc_apps', JSON.stringify(merged));
+            return merged;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Network error loading employer applications:', e);
+    }
+    return JSON.parse(localStorage.getItem('jc_apps') || '[]');
+  }
 
-    if (!app) return { success: false, message: "Application not found" };
+  async getWorkerApplications() {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/worker/applications`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.applications)) {
+            return data.applications;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Network error loading worker applications:', e);
+    }
+    return JSON.parse(localStorage.getItem('jc_apps') || '[]');
+  }
+
+  async unlockWorker(appId) {
+    let credits = Number(localStorage.getItem('jc_credits') || '0');
 
     if (credits <= 0) {
       return { success: false, needCredits: true, message: "Insufficient unlock credits. Please purchase an unlock bundle." };
     }
 
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        await fetch(`${this.baseUrl}/employer/applications/${appId}/unlock`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+    } catch (e) {
+      console.warn('Network error unlocking application on D1:', e);
+    }
+
     credits -= 1;
     localStorage.setItem('jc_credits', String(credits));
-    app.unlocked = true;
-    app.status = "unlocked";
-    localStorage.setItem('jc_apps', JSON.stringify(apps));
+
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const app = apps.find(a => a.id === appId);
+    if (app) {
+      app.unlocked = true;
+      app.status = "unlocked";
+      localStorage.setItem('jc_apps', JSON.stringify(apps));
+    }
 
     // Also sync candidate in jc_candidates if this was from directory
     const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-    const cand = candidates.find(c => c.id === app.worker_id || c.name === app.worker_name);
+    const cand = candidates.find(c => c.id === app?.worker_id || c.name === app?.worker_name);
     if (cand) {
       cand.unlocked = true;
       cand.selected = true;
       localStorage.setItem('jc_candidates', JSON.stringify(candidates));
     }
 
-    return { success: true, app, remainingCredits: credits };
+    return { success: true, app: app || { id: appId, worker_name: 'Candidate' }, remainingCredits: credits };
   }
 
   async fetchCandidates(filters = {}) {
