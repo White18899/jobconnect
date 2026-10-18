@@ -1,7 +1,7 @@
 export async function logAdminAudit(
   db: D1Database,
   adminId: string,
-  action: 'approve' | 'reject' | 'refund' | 'block' | 'unblock' | 'delete_job',
+  action: 'approve' | 'reject' | 'refund' | 'block' | 'unblock' | 'delete_job' | 'edit_user' | 'delete_user' | 'toggle_verify' | 'edit_job' | string,
   targetType: 'worker' | 'employer' | 'payment' | 'job' | 'user',
   targetId: string,
   details: Record<string, any> = {},

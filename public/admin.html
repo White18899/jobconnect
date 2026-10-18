@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Ledger • JobWay (job-way.in)</title>
-  <meta name="description" content="Administrator Platform Ledger: Verify UPI payments, audit candidate unlocks, and manage job listings.">
+  <title>Admin Console & Infrastructure Ledger • JobWay (job-way.in)</title>
+  <meta name="description" content="Administrator Platform Governance: Direct oversight of registered workers, employers, active vacancies, and UPI settlement audits on Cloudflare D1.">
   <link rel="canonical" href="https://job-way.in/admin.html">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20">
-  <link rel="stylesheet" href="css/editorial.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=24">
+  <link rel="stylesheet" href="css/editorial.css?v=24">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -25,6 +25,357 @@
       }
     } catch(e) {}
   </script>
+  <style>
+    /* Scoped Admin Enhancements */
+    .admin-toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: #FAFAF9;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+    }
+    .admin-search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 6px 12px;
+      flex: 1 1 280px;
+      max-width: 440px;
+      transition: all 0.2s ease;
+    }
+    .admin-search-box:focus-within {
+      border-color: #14281D;
+      box-shadow: 0 0 0 3px rgba(20, 40, 29, 0.08);
+    }
+    .admin-search-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 13px;
+      font-family: inherit;
+      width: 100%;
+      color: #0F172A;
+    }
+    .admin-filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .admin-filter-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .admin-filter-tab:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .admin-filter-tab.active {
+      background: #14281D;
+      color: #FFFFFF;
+      border-color: #14281D;
+    }
+    .admin-filter-tab .badge-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      font-size: 10.5px;
+      font-weight: 700;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.06);
+      color: inherit;
+    }
+    .admin-filter-tab.active .badge-count {
+      background: rgba(255,255,255,0.22);
+      color: #FFFFFF;
+    }
+
+    /* User Row Presentation */
+    .user-identity-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .user-avatar-badge.worker {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border-color: #BFDBFE;
+    }
+    .user-avatar-badge.employer {
+      background: #ECFDF5;
+      color: #047857;
+      border-color: #A7F3D0;
+    }
+    .user-avatar-badge.admin {
+      background: #1E293B;
+      color: #F8FAFC;
+      border-color: #334155;
+    }
+    .user-meta-name {
+      font-weight: 700;
+      color: #0F172A;
+      font-size: 13.5px;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .user-meta-email {
+      font-size: 11.5px;
+      color: #64748B;
+      font-family: var(--font-mono, monospace);
+    }
+    .user-meta-phone {
+      font-size: 11px;
+      color: #475569;
+    }
+
+    /* Role Pills */
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .role-badge.worker {
+      background: #DBEAFE;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+    }
+    .role-badge.employer {
+      background: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .role-badge.admin {
+      background: #0F172A;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+    }
+
+    /* Status Badges */
+    .badge-pill-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #ECFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .badge-pill-pending {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FFFBEB;
+      color: #B45309;
+      border: 1px solid #FDE68A;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .badge-pill-blocked {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FEF2F2;
+      color: #B91C1C;
+      border: 1px solid #FECACA;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .badge-pill-active {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #F0FDF4;
+      color: #15803D;
+      border: 1px solid #BBF7D0;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    /* Action Buttons in Table */
+    .admin-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .admin-action-btn:hover {
+      background: #F8FAFC;
+      border-color: #94A3B8;
+      color: #0F172A;
+    }
+    .admin-action-btn.edit:hover {
+      background: #EFF6FF;
+      border-color: #93C5FD;
+      color: #1D4ED8;
+    }
+    .admin-action-btn.verify {
+      color: #047857;
+      border-color: #A7F3D0;
+      background: #ECFDF5;
+    }
+    .admin-action-btn.verify:hover {
+      background: #047857;
+      color: #FFFFFF;
+    }
+    .admin-action-btn.unverify {
+      color: #B45309;
+      border-color: #FDE68A;
+      background: #FFFBEB;
+    }
+    .admin-action-btn.unverify:hover {
+      background: #B45309;
+      color: #FFFFFF;
+    }
+    .admin-action-btn.block {
+      color: #DC2626;
+      border-color: #FECACA;
+      background: #FEF2F2;
+    }
+    .admin-action-btn.block:hover {
+      background: #DC2626;
+      color: #FFFFFF;
+    }
+    .admin-action-btn.unblock {
+      color: #15803D;
+      border-color: #BBF7D0;
+      background: #F0FDF4;
+    }
+    .admin-action-btn.unblock:hover {
+      background: #15803D;
+      color: #FFFFFF;
+    }
+    .admin-action-btn.delete {
+      color: #991B1B;
+      border-color: #FCA5A5;
+      background: #FFFFFF;
+    }
+    .admin-action-btn.delete:hover {
+      background: #991B1B;
+      color: #FFFFFF;
+      border-color: #991B1B;
+    }
+
+    /* Modal Form Inputs */
+    .admin-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 640px) {
+      .admin-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .admin-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .admin-form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    .admin-form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      letter-spacing: -0.01em;
+    }
+    .admin-form-input, .admin-form-select {
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #0F172A;
+      background: #FFFFFF;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .admin-form-input:focus, .admin-form-select:focus {
+      border-color: #14281D;
+      box-shadow: 0 0 0 3px rgba(20, 40, 29, 0.08);
+    }
+    .admin-form-hint {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+    .admin-toggle-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .admin-toggle-box input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: #14281D;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body class="editorial-page">
 
@@ -42,13 +393,17 @@
         <a href="/" class="nav-link">
           <span class="link-line">Public Site</span>
         </a>
-        <a href="#ledger-section" class="nav-link">
-          <span class="link-line">Payment Ledger</span>
-          <span class="nav-link-count">(Audit)</span>
+        <a href="#accounts-section" class="nav-link active">
+          <span class="link-line">All Accounts</span>
+          <span class="nav-link-count" id="nav-count-users">(5)</span>
         </a>
         <a href="#jobs-section" class="nav-link">
           <span class="link-line">Job Listings</span>
-          <span class="nav-link-count">(Live)</span>
+          <span class="nav-link-count" id="nav-count-jobs">(2)</span>
+        </a>
+        <a href="#ledger-section" class="nav-link">
+          <span class="link-line">Payment Ledger</span>
+          <span class="nav-link-count" id="nav-count-payments">(Audit)</span>
         </a>
       </div>
 
@@ -66,70 +421,95 @@
   </header>
 
   <!-- Main Admin Content -->
-  <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
+  <main class="main-content" style="max-width: 1440px; margin: 0 auto; padding: 2.5vw;">
     
     <!-- Welcome Banner -->
-    <div class="portal-welcome-banner reveal-on-scroll">
+    <div class="portal-welcome-banner reveal-on-scroll" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px;">
       <div>
         <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(20, 40, 29, 0.06); border: 1px solid rgba(20, 40, 29, 0.15); padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; color: #14281D; margin-bottom: 8px;">
-          <span>Root Administrator Console</span>
+          <span>Root Administrator Console • Cloudflare D1 Authoritative</span>
         </div>
         <h1 style="font-size: 26px; font-weight: 750; color: #14281D; margin-bottom: 6px; letter-spacing: -0.025em;">
-          UPI Financial Ledger & Platform Console
+          Platform Accounts & Infrastructure Governance
         </h1>
-        <p style="color: #4B5563; font-size: 14px; max-width: 600px; line-height: 1.55;">
-          Verify 12-digit bank UTR numbers, audit candidate unlock settlements, and monitor active job listings on Cloudflare D1.
+        <p style="color: #4B5563; font-size: 14px; max-width: 680px; line-height: 1.55;">
+          Direct administrative control over all registered technical workers, hiring employers, platform vacancies, and verified financial UPI settlements.
         </p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button type="button" id="btn-open-create-user" class="search-btn" style="padding: 10px 16px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>+ Provision New Account</span>
+        </button>
       </div>
     </div>
 
-    <!-- Stats Row -->
-    <div class="hub-stats-grid reveal-on-scroll stagger-group">
+    <!-- Stats Row (5 Key Metrics) -->
+    <div class="hub-stats-grid reveal-on-scroll stagger-group" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+      <!-- Total Accounts -->
       <div class="stat-card variant-primary">
         <div class="stat-card-top">
-          <span class="stat-card-label">Active Vacancies</span>
+          <span class="stat-card-label">Total Registered Accounts</span>
+          <div class="stat-card-icon primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        <div class="stat-card-value" id="kpi-total-users">0</div>
+        <div class="stat-card-sub">
+          <span class="stat-pulse-dot primary"></span>
+          <span id="kpi-users-sub">Workers & Employers on D1</span>
+        </div>
+      </div>
+
+      <!-- Trade Workers -->
+      <div class="stat-card variant-primary">
+        <div class="stat-card-top">
+          <span class="stat-card-label">Verified Trade Workers</span>
           <div class="stat-card-icon primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
           </div>
         </div>
-        <div class="stat-card-value" id="kpi-jobs">0</div>
+        <div class="stat-card-value" id="kpi-workers">0</div>
         <div class="stat-card-sub">
           <span class="stat-pulse-dot primary"></span>
-          <span>Published on Cloudflare D1</span>
+          <span>Candidate talent pool</span>
         </div>
       </div>
 
+      <!-- Hiring Employers -->
       <div class="stat-card variant-primary">
         <div class="stat-card-top">
-          <span class="stat-card-label">Applications Submitted</span>
+          <span class="stat-card-label">Hiring Employers</span>
           <div class="stat-card-icon primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M19 21v-4"/><path d="M19 13v-2"/><path d="M19 7V3a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v18"/><path d="M9 7h2"/><path d="M9 11h2"/><path d="M9 15h2"/><path d="M9 19h2"/></svg>
           </div>
         </div>
-        <div class="stat-card-value" id="kpi-apps">0</div>
+        <div class="stat-card-value" id="kpi-employers">0</div>
         <div class="stat-card-sub">
           <span class="stat-pulse-dot primary"></span>
-          <span>Registered trade workers</span>
+          <span>Verified corporate entities</span>
         </div>
       </div>
 
+      <!-- Active Vacancies -->
       <div class="stat-card variant-accent">
         <div class="stat-card-top">
-          <span class="stat-card-label">Pending Verifications</span>
+          <span class="stat-card-label">Active Platform Vacancies</span>
           <div class="stat-card-icon accent">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
         </div>
-        <div class="stat-card-value accent" id="kpi-pending">0</div>
+        <div class="stat-card-value accent" id="kpi-jobs">0</div>
         <div class="stat-card-sub">
           <span class="stat-pulse-dot accent"></span>
-          <span>Awaiting admin review</span>
+          <span>Live job openings</span>
         </div>
       </div>
 
+      <!-- Verified Revenue -->
       <div class="stat-card variant-success">
         <div class="stat-card-top">
-          <span class="stat-card-label">Verified Revenue</span>
+          <span class="stat-card-label">Settled UPI Revenue</span>
           <div class="stat-card-icon success">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
@@ -137,12 +517,130 @@
         <div class="stat-card-value success" id="kpi-revenue">₹0</div>
         <div class="stat-card-sub">
           <span class="stat-pulse-dot success"></span>
-          <span>Settled platform earnings</span>
+          <span>Audited ledger total</span>
         </div>
       </div>
     </div>
 
-    <!-- Section 1: Payment Ledger Table (Panel Card Architecture) -->
+    <!-- =========================================================================
+         SECTION 1: ALL PLATFORM ACCOUNTS MANAGEMENT (PRIMARY FOCUS)
+         ========================================================================= -->
+    <section id="accounts-section" class="panel-card reveal-on-scroll" style="margin-bottom: 32px;">
+      <div class="panel-header" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px;">
+        <div>
+          <h2 class="panel-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>All Platform Accounts</span>
+            <span class="nav-badge-pill admin" style="font-size: 11px;">Authoritative D1</span>
+          </h2>
+          <p class="panel-subtitle">
+            Complete database of registered Workers, Employers, and Administrators. Edit profile parameters, reset passwords, toggle verification badges, or permanently delete accounts.
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="btn-refresh-users" class="nav-btn-link" style="padding: 6px 12px; font-size: 12px; border: 1px solid #CBD5E1; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+            <span>Refresh Table</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar: Live Search & Role Tabs -->
+      <div class="admin-toolbar-row">
+        <!-- Search Box -->
+        <div class="admin-search-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="admin-user-search" class="admin-search-input" placeholder="Search accounts by name, email, phone, trade, city..." autocomplete="off">
+        </div>
+
+        <!-- Role Filter Tabs -->
+        <div class="admin-filter-tabs" id="user-role-filter-tabs">
+          <button type="button" class="admin-filter-tab active" data-role="all">
+            <span>All Accounts</span>
+            <span class="badge-count" id="count-role-all">0</span>
+          </button>
+          <button type="button" class="admin-filter-tab" data-role="worker">
+            <span>👷 Trade Workers</span>
+            <span class="badge-count" id="count-role-workers">0</span>
+          </button>
+          <button type="button" class="admin-filter-tab" data-role="employer">
+            <span>🏢 Employers</span>
+            <span class="badge-count" id="count-role-employers">0</span>
+          </button>
+          <button type="button" class="admin-filter-tab" data-role="admin">
+            <span>🛡️ Admins</span>
+            <span class="badge-count" id="count-role-admins">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Accounts Table -->
+      <div class="data-table-wrapper" style="overflow-x: auto;">
+        <table class="admin-table" id="admin-users-table" style="min-width: 1080px;">
+          <thead>
+            <tr>
+              <th style="min-width: 250px;">Account Identity</th>
+              <th style="width: 110px;">Role</th>
+              <th style="min-width: 220px;">Profile & Trade Title</th>
+              <th style="width: 130px;">Verification</th>
+              <th style="width: 120px;">Access Status</th>
+              <th style="width: 130px;">Registered</th>
+              <th style="min-width: 200px; text-align: right;">Administrative Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-tbody">
+            <!-- Populated via JavaScript -->
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 36px; color: #64748B;">
+                Loading live accounts from Cloudflare D1...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 2: ACTIVE PLATFORM VACANCIES (WITH EDIT & DELETE CONTROLS)
+         ========================================================================= -->
+    <section id="jobs-section" class="panel-card reveal-on-scroll" style="margin-bottom: 32px;">
+      <div class="panel-header" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 16px;">
+        <div>
+          <h2 class="panel-title">
+            Active Platform Vacancies
+          </h2>
+          <p class="panel-subtitle">
+            Live job postings published across Hyderabad, Bangalore, and Visakhapatnam corridors. Full edit and delete permissions.
+          </p>
+        </div>
+        <div>
+          <input type="text" id="admin-job-search" class="admin-form-input" style="padding: 6px 12px; font-size: 12px; width: 220px;" placeholder="Filter vacancies...">
+        </div>
+      </div>
+
+      <div class="data-table-wrapper" style="overflow-x: auto;">
+        <table class="admin-table" id="admin-jobs-table" style="min-width: 980px;">
+          <thead>
+            <tr>
+              <th style="width: 100px;">Job ID</th>
+              <th style="min-width: 240px;">Headline / Role</th>
+              <th style="width: 140px;">Category</th>
+              <th style="min-width: 180px;">Employer Business</th>
+              <th style="min-width: 150px;">Location</th>
+              <th style="width: 150px;">Salary (₹/mo)</th>
+              <th style="width: 100px;">Status</th>
+              <th style="min-width: 160px; text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-jobs-tbody">
+            <!-- Populated via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 3: UPI SETTLEMENTS LEDGER (AUDIT & PROOFS)
+         ========================================================================= -->
     <section id="ledger-section" class="panel-card reveal-on-scroll">
       <div class="panel-header">
         <div>
@@ -150,13 +648,13 @@
             UPI Settlements Ledger
           </h2>
           <p class="panel-subtitle">
-            All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475).
+            All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475). Audit payment screenshot proofs and approve credits.
           </p>
         </div>
       </div>
 
-      <div class="data-table-wrapper">
-        <table class="admin-table">
+      <div class="data-table-wrapper" style="overflow-x: auto;">
+        <table class="admin-table" style="min-width: 920px;">
           <thead>
             <tr>
               <th>Tx ID</th>
@@ -176,41 +674,318 @@
       </div>
     </section>
 
-    <!-- Section 2: All Active Vacancies (Panel Card Architecture) -->
-    <section id="jobs-section" class="panel-card reveal-on-scroll">
-      <div class="panel-header">
-        <div>
-          <h2 class="panel-title">
-            Active Platform Vacancies
-          </h2>
-          <p class="panel-subtitle">
-            Live job postings across Hyderabad, Visakhapatnam, and Vijayawada.
-          </p>
-        </div>
-      </div>
-
-      <div class="data-table-wrapper">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Job ID</th>
-              <th>Headline</th>
-              <th>Category</th>
-              <th>Employer Business</th>
-              <th>Location</th>
-              <th>Salary (₹/mo)</th>
-            </tr>
-          </thead>
-          <tbody id="admin-jobs-tbody">
-            <!-- Rendered by JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
   </main>
 
-  <!-- Modal: Admin Payment Proof Audit Lightbox -->
+  <!-- =========================================================================
+       MODAL 1: EDIT USER & PROFILE (FULL CRUD + PASSWORD RESET)
+       ========================================================================= -->
+  <div class="modal-overlay" id="admin-edit-user-modal" role="dialog" aria-modal="true" aria-labelledby="admin-edit-user-title">
+    <div class="modal-card" style="max-width: 660px; width: 100%;">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="nav-badge-pill admin">Edit Account</span>
+          <h3 class="modal-title" id="admin-edit-user-title" style="margin: 0; font-size: 16px; font-weight: 700;">Account & Profile Settings</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-edit-user-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-edit-user" class="modal-body" style="padding: 20px;">
+        <input type="hidden" id="edit-user-id">
+
+        <div class="admin-form-grid">
+          <!-- User ID Badge Display -->
+          <div class="admin-form-group full-width" style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; font-weight: 700;">Account Record ID</span>
+              <div id="display-edit-user-id" style="font-family: var(--font-mono, monospace); font-weight: 700; color: #0F172A; font-size: 14px;">usr_00</div>
+            </div>
+            <span id="display-edit-user-role-badge" class="role-badge worker">WORKER</span>
+          </div>
+
+          <!-- Full Name -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-name">Full Name / Business Name *</label>
+            <input type="text" id="edit-user-name" class="admin-form-input" required>
+          </div>
+
+          <!-- Email Address -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-email">Email Address *</label>
+            <input type="email" id="edit-user-email" class="admin-form-input" required>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-phone">Phone Number</label>
+            <input type="tel" id="edit-user-phone" class="admin-form-input" placeholder="+91 98765 43210">
+          </div>
+
+          <!-- Role -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-role">Platform Role</label>
+            <select id="edit-user-role" class="admin-form-select">
+              <option value="worker">Trade Worker</option>
+              <option value="employer">Employer / Business</option>
+              <option value="admin">Platform Administrator</option>
+            </select>
+          </div>
+
+          <!-- Trade Title / Business Name -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-trade">Trade Title / Business Type</label>
+            <input type="text" id="edit-user-trade" class="admin-form-input" placeholder="e.g. Senior Software Engineer">
+          </div>
+
+          <!-- Experience Years -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-exp">Experience (Years)</label>
+            <input type="number" id="edit-user-exp" class="admin-form-input" min="0" max="45" step="1">
+          </div>
+
+          <!-- City -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-city">City</label>
+            <input type="text" id="edit-user-city" class="admin-form-input" placeholder="e.g. Hyderabad">
+          </div>
+
+          <!-- Area -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-user-area">Preferred Area / Location</label>
+            <input type="text" id="edit-user-area" class="admin-form-input" placeholder="e.g. Hitec City">
+          </div>
+
+          <!-- Toggles: Verified & Suspended -->
+          <div class="admin-form-group full-width" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;">
+            <label class="admin-toggle-box">
+              <input type="checkbox" id="edit-user-verified">
+              <div>
+                <strong style="font-size: 12.5px; color: #065F46; display: block;">KYC / Digilocker Verified</strong>
+                <span style="font-size: 11px; color: #64748B;">Grants verified green trust badge</span>
+              </div>
+            </label>
+
+            <label class="admin-toggle-box">
+              <input type="checkbox" id="edit-user-blocked">
+              <div>
+                <strong style="font-size: 12.5px; color: #991B1B; display: block;">Suspend Account Access</strong>
+                <span style="font-size: 11px; color: #64748B;">Blocks login access immediately</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Password Override -->
+          <div class="admin-form-group full-width" style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 12px 14px; border-radius: 8px;">
+            <label class="admin-form-label" for="edit-user-password" style="color: #92400E;">Admin Password Override (Optional)</label>
+            <input type="password" id="edit-user-password" class="admin-form-input" placeholder="Enter new password to reset (min 6 characters)" style="background: #FFFFFF;">
+            <span class="admin-form-hint" style="color: #B45309; margin-top: 4px; display: block;">
+              Leave blank to retain user's existing PBKDF2 password. Entering a new string directly overrides their credentials.
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-signin-header" id="btn-cancel-edit-user" style="padding: 10px 18px; font-size: 13px;">Cancel</button>
+          <button type="submit" class="search-btn" id="btn-save-edit-user" style="padding: 10px 22px; font-size: 13px; font-weight: 700;">Save Account Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: PROVISION NEW ACCOUNT DIRECTLY FROM ADMIN
+       ========================================================================= -->
+  <div class="modal-overlay" id="admin-create-user-modal" role="dialog" aria-modal="true" aria-labelledby="admin-create-user-title">
+    <div class="modal-card" style="max-width: 580px; width: 100%;">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="nav-badge-pill admin">Direct Provision</span>
+          <h3 class="modal-title" id="admin-create-user-title" style="margin: 0; font-size: 16px; font-weight: 700;">Provision New Account</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-create-user-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-create-user" class="modal-body" style="padding: 20px;">
+        <p style="font-size: 12.5px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
+          Directly provision an account into Cloudflare D1 with automatic PBKDF2 credential hashing and pre-verified platform status.
+        </p>
+
+        <div class="admin-form-grid">
+          <!-- Role Selector -->
+          <div class="admin-form-group full-width">
+            <label class="admin-form-label">Select Account Type *</label>
+            <div style="display: flex; gap: 12px;">
+              <label class="admin-toggle-box" style="flex: 1;">
+                <input type="radio" name="create-role" value="worker" checked>
+                <div>
+                  <strong style="font-size: 13px; color: #1D4ED8; display: block;">👷 Trade Worker</strong>
+                  <span style="font-size: 11px; color: #64748B;">Candidate profile with trade title</span>
+                </div>
+              </label>
+
+              <label class="admin-toggle-box" style="flex: 1;">
+                <input type="radio" name="create-role" value="employer">
+                <div>
+                  <strong style="font-size: 13px; color: #047857; display: block;">🏢 Employer</strong>
+                  <span style="font-size: 11px; color: #64748B;">Hiring company profile</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Name -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-name">Full Name / Business Name *</label>
+            <input type="text" id="create-name" class="admin-form-input" placeholder="e.g. Anand Varma" required>
+          </div>
+
+          <!-- Email -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-email">Email Address *</label>
+            <input type="email" id="create-email" class="admin-form-input" placeholder="e.g. anand@example.com" required>
+          </div>
+
+          <!-- Password -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-password">Initial Password *</label>
+            <input type="text" id="create-password" class="admin-form-input" value="Password@123" required>
+          </div>
+
+          <!-- Phone -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-phone">Phone Number</label>
+            <input type="tel" id="create-phone" class="admin-form-input" placeholder="+91 98765 43210">
+          </div>
+
+          <!-- Trade Title / Business Category -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-trade">Trade Title / Business Type</label>
+            <input type="text" id="create-trade" class="admin-form-input" placeholder="e.g. Senior Software Engineer">
+          </div>
+
+          <!-- City -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="create-city">City</label>
+            <input type="text" id="create-city" class="admin-form-input" value="Hyderabad">
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-signin-header" id="btn-cancel-create-user" style="padding: 10px 18px; font-size: 13px;">Cancel</button>
+          <button type="submit" class="search-btn" id="btn-submit-create-user" style="padding: 10px 22px; font-size: 13px; font-weight: 700;">Provision Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: EDIT JOB VACANCY
+       ========================================================================= -->
+  <div class="modal-overlay" id="admin-edit-job-modal" role="dialog" aria-modal="true" aria-labelledby="admin-edit-job-title">
+    <div class="modal-card" style="max-width: 620px; width: 100%;">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="nav-badge-pill admin">Edit Vacancy</span>
+          <h3 class="modal-title" id="admin-edit-job-title" style="margin: 0; font-size: 16px; font-weight: 700;">Platform Job Vacancy</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-edit-job-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-edit-job" class="modal-body" style="padding: 20px;">
+        <input type="hidden" id="edit-job-id">
+
+        <div class="admin-form-grid">
+          <!-- Job Headline -->
+          <div class="admin-form-group full-width">
+            <label class="admin-form-label" for="edit-job-title">Job Title / Headline *</label>
+            <input type="text" id="edit-job-title" class="admin-form-input" required>
+          </div>
+
+          <!-- Category -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-category">Category</label>
+            <input type="text" id="edit-job-category" class="admin-form-input" required>
+          </div>
+
+          <!-- Status -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-status">Listing Status</label>
+            <select id="edit-job-status" class="admin-form-select">
+              <option value="open">Open (Active on Board)</option>
+              <option value="closed">Closed (Archived)</option>
+            </select>
+          </div>
+
+          <!-- Min Salary -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-salary-min">Min Salary (₹/mo)</label>
+            <input type="number" id="edit-job-salary-min" class="admin-form-input" step="1000" min="0">
+          </div>
+
+          <!-- Max Salary -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-salary-max">Max Salary (₹/mo)</label>
+            <input type="number" id="edit-job-salary-max" class="admin-form-input" step="1000" min="0">
+          </div>
+
+          <!-- City -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-city">Location City</label>
+            <input type="text" id="edit-job-city" class="admin-form-input">
+          </div>
+
+          <!-- Area -->
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-job-area">Location Area / Hub</label>
+            <input type="text" id="edit-job-area" class="admin-form-input">
+          </div>
+
+          <!-- Vacancies -->
+          <div class="admin-form-group full-width">
+            <label class="admin-form-label" for="edit-job-vacancies">Vacancies Count</label>
+            <input type="number" id="edit-job-vacancies" class="admin-form-input" min="1" max="100">
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-signin-header" id="btn-cancel-edit-job" style="padding: 10px 18px; font-size: 13px;">Cancel</button>
+          <button type="submit" class="search-btn" id="btn-save-edit-job" style="padding: 10px 22px; font-size: 13px; font-weight: 700;">Update Vacancy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: DELETE CONFIRMATION MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="admin-confirm-modal" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width: 460px; width: 100%;">
+      <div class="modal-header" style="padding: 16px 20px; border-bottom: 1px solid #FECACA; background: #FEF2F2;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #DC2626; color: #FFF; font-weight: 800; font-size: 13px;">⚠️</span>
+          <h3 id="confirm-modal-title" style="margin: 0; font-size: 16px; font-weight: 750; color: #991B1B;">Confirm Deletion</h3>
+        </div>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <p id="confirm-modal-msg" style="font-size: 13.5px; color: #334155; line-height: 1.55; margin-bottom: 12px;">
+          Are you sure you want to permanently delete this record?
+        </p>
+        <div id="confirm-modal-target" style="padding: 10px 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; font-family: var(--font-mono, monospace); font-size: 12px; color: #0F172A; margin-bottom: 20px;">
+          -
+        </div>
+        <p style="font-size: 11.5px; color: #991B1B; line-height: 1.4; margin-bottom: 20px;">
+          ⚠️ This action cascades across all associated profile entries, job listings, applications, and payments on Cloudflare D1. This cannot be undone.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-signin-header" id="btn-cancel-confirm" style="padding: 9px 16px; font-size: 13px;">Cancel</button>
+          <button type="button" class="btn-table-action danger" id="btn-proceed-confirm" style="height: auto; padding: 9px 18px; font-size: 13px; font-weight: 700;">Delete Permanently</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 5: PAYMENT PROOF AUDIT LIGHTBOX
+       ========================================================================= -->
   <div class="modal-overlay" id="admin-proof-modal" role="dialog" aria-modal="true" aria-labelledby="admin-proof-title">
     <div class="modal-card" style="max-width: 720px; max-height: 92vh; display: flex; flex-direction: column;">
       <div class="modal-header">
@@ -285,26 +1060,27 @@
     </div>
   </div>
 
-  <!-- Toast Container -->
+  <!-- Toast Notification System -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=23"></script>
+  <script src="js/api.js?v=24"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      // Check auth
+      // 1. Auth Guard
       const user = window.jobApi.getCurrentUser();
       if (!user || user.role !== 'admin') {
-        window.location.href = '/login.html?mode=admin';
+        window.location.replace('/login.html?mode=admin');
         return;
       }
 
       // Logout handler
       document.getElementById('btn-admin-logout').addEventListener('click', () => {
         window.jobApi.logout();
-        window.location.href = '/';
+        window.location.href = '/login.html?mode=admin';
       });
 
+      // Toast utility
       function showToast(msg, type = 'success') {
         const c = document.getElementById('toast-container');
         if (!c) return;
@@ -312,24 +1088,645 @@
         t.className = `toast toast-${type}`;
         t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
         c.appendChild(t);
-        setTimeout(() => t.remove(), 3500);
+        setTimeout(() => t.remove(), 4000);
       }
 
-      const allJobs = await window.jobApi.getJobs();
+      // State stores
+      let cachedUsers = [];
+      let cachedJobs = [];
+      let activeRoleFilter = 'all';
+      let activeUserSearch = '';
 
+      // =========================================================================
+      // USERS CONTROLLER
+      // =========================================================================
+      async function loadUsers() {
+        const tbody = document.getElementById('admin-users-tbody');
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 36px; color: #64748B;">
+              Loading platform accounts from Cloudflare D1...
+            </td>
+          </tr>
+        `;
+
+        try {
+          cachedUsers = await window.jobApi.adminGetUsers();
+          renderUsers();
+          updateKPIs();
+        } catch (e) {
+          console.error('Error fetching users:', e);
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 36px; color: #EF4444;">
+                Failed to load accounts. Please check connection and refresh.
+              </td>
+            </tr>
+          `;
+        }
+      }
+
+      function renderUsers() {
+        const tbody = document.getElementById('admin-users-tbody');
+        const term = activeUserSearch.trim().toLowerCase();
+
+        // Filter by role and search string
+        const filtered = cachedUsers.filter(u => {
+          const matchRole = activeRoleFilter === 'all' || u.role === activeRoleFilter;
+          if (!matchRole) return false;
+
+          if (!term) return true;
+          const searchSpace = `${u.name || ''} ${u.email || ''} ${u.phone || ''} ${u.worker_title || ''} ${u.employer_business_name || ''} ${u.worker_city || ''} ${u.employer_city || ''}`.toLowerCase();
+          return searchSpace.includes(term);
+        });
+
+        // Update Tab Counters
+        const totalCount = cachedUsers.length;
+        const workerCount = cachedUsers.filter(u => u.role === 'worker').length;
+        const empCount = cachedUsers.filter(u => u.role === 'employer').length;
+        const adminCount = cachedUsers.filter(u => u.role === 'admin').length;
+
+        document.getElementById('count-role-all').textContent = totalCount;
+        document.getElementById('count-role-workers').textContent = workerCount;
+        document.getElementById('count-role-employers').textContent = empCount;
+        document.getElementById('count-role-admins').textContent = adminCount;
+        document.getElementById('nav-count-users').textContent = `(${totalCount})`;
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 48px 16px; color: #64748B;">
+                <div style="font-size: 28px; margin-bottom: 8px;">🔍</div>
+                <strong style="color: #0F172A; font-size: 14px;">No matching accounts found</strong>
+                <p style="font-size: 12px; margin-top: 4px;">Try refining your search keyword or switching role filter tabs.</p>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(u => {
+          const roleClass = u.role === 'worker' ? 'worker' : (u.role === 'employer' ? 'employer' : 'admin');
+          const initial = (u.name || u.email || 'U').charAt(0).toUpperCase();
+          const tradeOrBiz = u.role === 'worker' ? (u.worker_title || 'Trade Specialist') : (u.employer_business_name || 'Business Entity');
+          const cityArea = u.role === 'worker' ? (u.worker_city || 'India') : (u.employer_city || 'India');
+          const expYears = u.worker_exp !== null && u.worker_exp !== undefined ? `${u.worker_exp}y exp` : '';
+          const regDate = u.created_at ? new Date(u.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent';
+
+          const isVerified = u.is_verified;
+          const isBlocked = u.is_blocked;
+
+          return `
+            <tr data-user-id="${u.id}">
+              <!-- Identity -->
+              <td>
+                <div class="user-identity-cell">
+                  <div class="user-avatar-badge ${roleClass}">${initial}</div>
+                  <div>
+                    <div class="user-meta-name">
+                      <span>${escapeHtml(u.name || 'Unnamed')}</span>
+                      <span class="mono-code" style="font-size: 10.5px; padding: 1px 5px; color: #64748B;">${u.id}</span>
+                    </div>
+                    <div class="user-meta-email">${escapeHtml(u.email || '-')}</div>
+                    <div class="user-meta-phone">${escapeHtml(u.phone || 'No phone recorded')}</div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Role -->
+              <td>
+                <span class="role-badge ${roleClass}">${u.role.toUpperCase()}</span>
+              </td>
+
+              <!-- Profile Details -->
+              <td>
+                <div style="font-weight: 600; font-size: 13px; color: #0F172A;">${escapeHtml(tradeOrBiz)}</div>
+                <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">
+                  <span>📍 ${escapeHtml(cityArea)}</span>
+                  ${expYears ? `<span style="margin-left: 6px; font-weight: 600; color: #475569;">• ${expYears}</span>` : ''}
+                </div>
+              </td>
+
+              <!-- Verification -->
+              <td>
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+                  ${isVerified ? `
+                    <span class="badge-pill-verified">✓ VERIFIED</span>
+                    <button type="button" class="admin-action-btn unverify btn-toggle-verify" data-id="${u.id}" data-action="unverify" title="Revoke verification badge">
+                      Revoke
+                    </button>
+                  ` : `
+                    <span class="badge-pill-pending">⏳ PENDING</span>
+                    <button type="button" class="admin-action-btn verify btn-toggle-verify" data-id="${u.id}" data-action="verify" title="Grant verified badge">
+                      ✓ Verify
+                    </button>
+                  `}
+                </div>
+              </td>
+
+              <!-- Account Access / Block -->
+              <td>
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+                  ${isBlocked ? `
+                    <span class="badge-pill-blocked">🚫 SUSPENDED</span>
+                    <button type="button" class="admin-action-btn unblock btn-toggle-block" data-id="${u.id}" data-action="unblock" title="Restore login access">
+                      Restore
+                    </button>
+                  ` : `
+                    <span class="badge-pill-active">● ACTIVE</span>
+                    <button type="button" class="admin-action-btn block btn-toggle-block" data-id="${u.id}" data-action="block" title="Suspend account access">
+                      Suspend
+                    </button>
+                  `}
+                </div>
+              </td>
+
+              <!-- Registered Date -->
+              <td>
+                <span style="font-size: 12px; color: #475569; font-variant-numeric: tabular-nums;">${regDate}</span>
+              </td>
+
+              <!-- Administrative Actions -->
+              <td style="text-align: right;">
+                <div style="display: inline-flex; align-items: center; gap: 6px; justify-content: flex-end;">
+                  <button type="button" class="admin-action-btn edit btn-edit-user" data-id="${u.id}" title="Edit User Profile & Credentials">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    <span>Edit</span>
+                  </button>
+
+                  ${u.id !== 'usr_admin_01' && u.role !== 'admin' ? `
+                    <button type="button" class="admin-action-btn delete btn-delete-user" data-id="${u.id}" data-name="${escapeHtml(u.name || u.email)}" title="Permanently delete account">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                      <span>Delete</span>
+                    </button>
+                  ` : `
+                    <span class="mono-code" style="font-size: 10px; color: #94A3B8; padding: 2px 6px;">Root</span>
+                  `}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        // Wire Event Listeners
+        wireUserActionListeners();
+      }
+
+      function wireUserActionListeners() {
+        // Edit User Buttons
+        document.querySelectorAll('.btn-edit-user').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const u = cachedUsers.find(item => item.id === id);
+            if (u) openEditUserModal(u);
+          });
+        });
+
+        // Toggle Verify Buttons
+        document.querySelectorAll('.btn-toggle-verify').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const res = await window.jobApi.adminToggleVerifyUser(id);
+            if (res.success) {
+              showToast(res.message || 'Verification updated');
+              loadUsers();
+            } else {
+              showToast(res.error || 'Failed to update verification', 'error');
+            }
+          });
+        });
+
+        // Toggle Block / Suspend Buttons
+        document.querySelectorAll('.btn-toggle-block').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const action = e.currentTarget.dataset.action;
+            const res = action === 'block' 
+              ? await window.jobApi.adminBlockUser(id)
+              : await window.jobApi.adminUnblockUser(id);
+            if (res.success) {
+              showToast(action === 'block' ? 'Account suspended' : 'Account restored');
+              loadUsers();
+            } else {
+              showToast(res.error || 'Failed to update access status', 'error');
+            }
+          });
+        });
+
+        // Delete User Buttons
+        document.querySelectorAll('.btn-delete-user').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const name = e.currentTarget.dataset.name;
+            openConfirmModal({
+              title: 'Delete Platform Account?',
+              message: `You are about to permanently purge the account of ${name} (${id}) from Cloudflare D1. All associated job postings, candidate passes, and ledger links will be wiped immediately.`,
+              target: `Account: ${name} [${id}]`,
+              onProceed: async () => {
+                const res = await window.jobApi.adminDeleteUser(id);
+                if (res.success) {
+                  showToast('Account permanently removed from D1');
+                  loadUsers();
+                  loadJobs();
+                } else {
+                  showToast(res.error || 'Failed to delete user', 'error');
+                }
+              }
+            });
+          });
+        });
+      }
+
+      // Role Filter Tab clicks
+      document.querySelectorAll('#user-role-filter-tabs .admin-filter-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          document.querySelectorAll('#user-role-filter-tabs .admin-filter-tab').forEach(t => t.classList.remove('active'));
+          const btn = e.currentTarget;
+          btn.classList.add('active');
+          activeRoleFilter = btn.dataset.role;
+          renderUsers();
+        });
+      });
+
+      // User Search Input
+      document.getElementById('admin-user-search').addEventListener('input', (e) => {
+        activeUserSearch = e.target.value;
+        renderUsers();
+      });
+
+      // Refresh Button
+      document.getElementById('btn-refresh-users').addEventListener('click', () => {
+        loadUsers();
+        showToast('Refreshed accounts from Cloudflare D1');
+      });
+
+      // =========================================================================
+      // EDIT USER MODAL CONTROLLER
+      // =========================================================================
+      const editUserModal = document.getElementById('admin-edit-user-modal');
+
+      function openEditUserModal(u) {
+        document.getElementById('edit-user-id').value = u.id;
+        document.getElementById('display-edit-user-id').textContent = u.id;
+        document.getElementById('display-edit-user-role-badge').className = `role-badge ${u.role}`;
+        document.getElementById('display-edit-user-role-badge').textContent = u.role.toUpperCase();
+
+        document.getElementById('edit-user-name').value = u.name || '';
+        document.getElementById('edit-user-email').value = u.email || '';
+        document.getElementById('edit-user-phone').value = u.phone || '';
+        document.getElementById('edit-user-role').value = u.role;
+        document.getElementById('edit-user-trade').value = u.worker_title || u.employer_business_name || '';
+        document.getElementById('edit-user-exp').value = u.worker_exp !== null && u.worker_exp !== undefined ? u.worker_exp : '';
+        document.getElementById('edit-user-city').value = u.worker_city || u.employer_city || 'Hyderabad';
+        document.getElementById('edit-user-area').value = u.worker_area || u.employer_area || '';
+        document.getElementById('edit-user-verified').checked = !!u.is_verified;
+        document.getElementById('edit-user-blocked').checked = !!u.is_blocked;
+        document.getElementById('edit-user-password').value = '';
+
+        editUserModal.classList.add('active');
+      }
+
+      function closeEditUserModal() {
+        editUserModal.classList.remove('active');
+      }
+
+      document.getElementById('close-edit-user-modal').addEventListener('click', closeEditUserModal);
+      document.getElementById('btn-cancel-edit-user').addEventListener('click', closeEditUserModal);
+
+      document.getElementById('form-edit-user').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('edit-user-id').value;
+        const submitBtn = document.getElementById('btn-save-edit-user');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving...';
+
+        const updateData = {
+          name: document.getElementById('edit-user-name').value.trim(),
+          email: document.getElementById('edit-user-email').value.trim(),
+          phone: document.getElementById('edit-user-phone').value.trim(),
+          role: document.getElementById('edit-user-role').value,
+          trade_title: document.getElementById('edit-user-trade').value.trim(),
+          business_name: document.getElementById('edit-user-trade').value.trim(),
+          experience: document.getElementById('edit-user-exp').value ? Number(document.getElementById('edit-user-exp').value) : undefined,
+          city: document.getElementById('edit-user-city').value.trim(),
+          preferred_area: document.getElementById('edit-user-area').value.trim(),
+          is_verified: document.getElementById('edit-user-verified').checked,
+          is_blocked: document.getElementById('edit-user-blocked').checked,
+        };
+
+        const pass = document.getElementById('edit-user-password').value.trim();
+        if (pass.length >= 6) {
+          updateData.password = pass;
+        }
+
+        const res = await window.jobApi.adminUpdateUser(id, updateData);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Save Account Changes';
+
+        if (res.success) {
+          showToast('Account profile successfully updated on D1');
+          closeEditUserModal();
+          loadUsers();
+        } else {
+          showToast(res.error || 'Failed to update account', 'error');
+        }
+      });
+
+      // =========================================================================
+      // CREATE USER MODAL CONTROLLER
+      // =========================================================================
+      const createUserModal = document.getElementById('admin-create-user-modal');
+
+      document.getElementById('btn-open-create-user').addEventListener('click', () => {
+        document.getElementById('form-create-user').reset();
+        document.getElementById('create-password').value = 'Password@123';
+        document.getElementById('create-city').value = 'Hyderabad';
+        createUserModal.classList.add('active');
+      });
+
+      function closeCreateUserModal() {
+        createUserModal.classList.remove('active');
+      }
+
+      document.getElementById('close-create-user-modal').addEventListener('click', closeCreateUserModal);
+      document.getElementById('btn-cancel-create-user').addEventListener('click', closeCreateUserModal);
+
+      document.getElementById('form-create-user').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btn-submit-create-user');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Provisioning...';
+
+        const role = document.querySelector('input[name="create-role"]:checked').value;
+        const payload = {
+          role,
+          name: document.getElementById('create-name').value.trim(),
+          email: document.getElementById('create-email').value.trim(),
+          password: document.getElementById('create-password').value.trim(),
+          phone: document.getElementById('create-phone').value.trim(),
+          trade_title: document.getElementById('create-trade').value.trim(),
+          city: document.getElementById('create-city').value.trim(),
+        };
+
+        const res = await window.jobApi.adminCreateUser(payload);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Provision Account';
+
+        if (res.success) {
+          showToast(`Account provisioned (${res.userId})`);
+          closeCreateUserModal();
+          loadUsers();
+        } else {
+          showToast(res.error || 'Failed to create user', 'error');
+        }
+      });
+
+      // =========================================================================
+      // JOBS CONTROLLER (WITH EDIT & DELETE)
+      // =========================================================================
+      async function loadJobs() {
+        const tbody = document.getElementById('admin-jobs-tbody');
+        try {
+          cachedJobs = await window.jobApi.adminGetJobs();
+          renderJobs();
+          updateKPIs();
+        } catch (e) {
+          console.error('Error fetching jobs:', e);
+        }
+      }
+
+      function renderJobs() {
+        const tbody = document.getElementById('admin-jobs-tbody');
+        const searchJob = (document.getElementById('admin-job-search').value || '').trim().toLowerCase();
+
+        const filtered = cachedJobs.filter(j => {
+          if (!searchJob) return true;
+          const text = `${j.title || ''} ${j.category || ''} ${j.business_name || ''} ${j.location_city || ''}`.toLowerCase();
+          return text.includes(searchJob);
+        });
+
+        document.getElementById('nav-count-jobs').textContent = `(${cachedJobs.length})`;
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 36px; color: #64748B;">
+                No vacancies match your query.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(j => {
+          const isOpen = j.status === 'open';
+          return `
+            <tr data-job-id="${j.id}">
+              <td><span class="mono-code" style="color: #0F172A; font-weight: 700;">${j.id}</span></td>
+              <td><strong style="color: #0F172A; font-size: 13.5px;">${escapeHtml(j.title)}</strong></td>
+              <td><span class="category-tag">${escapeHtml(j.category)}</span></td>
+              <td style="color: #334155; font-size: 13px;">${escapeHtml(j.business_name || 'Direct Employer')}</td>
+              <td style="color: #475569; font-size: 12.5px;">${escapeHtml(j.location_area || '')}, ${escapeHtml(j.location_city || '')}</td>
+              <td>
+                <span class="tabular-nums" style="font-weight: 700; color: #0F172A;">
+                  ₹${(j.salary_min || 0).toLocaleString()} - ₹${(j.salary_max || 0).toLocaleString()}
+                </span>
+              </td>
+              <td>
+                <span class="status-badge ${isOpen ? 'verified' : 'pending'}">
+                  ${isOpen ? 'OPEN' : 'CLOSED'}
+                </span>
+              </td>
+              <td style="text-align: right;">
+                <div style="display: inline-flex; align-items: center; gap: 6px; justify-content: flex-end;">
+                  <button type="button" class="admin-action-btn edit btn-edit-job" data-id="${j.id}" title="Edit Job Parameters">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    <span>Edit</span>
+                  </button>
+
+                  <button type="button" class="admin-action-btn ${isOpen ? 'unverify' : 'verify'} btn-toggle-job-status" data-id="${j.id}" data-status="${isOpen ? 'closed' : 'open'}" title="Toggle Vacancy Status">
+                    <span>${isOpen ? 'Close' : 'Reopen'}</span>
+                  </button>
+
+                  <button type="button" class="admin-action-btn delete btn-delete-job" data-id="${j.id}" data-title="${escapeHtml(j.title)}" title="Delete Vacancy">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        // Wire Job action listeners
+        document.querySelectorAll('.btn-edit-job').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const j = cachedJobs.find(item => item.id === id);
+            if (j) openEditJobModal(j);
+          });
+        });
+
+        document.querySelectorAll('.btn-toggle-job-status').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.currentTarget.dataset.id;
+            const newStatus = e.currentTarget.dataset.status;
+            const res = await window.jobApi.adminUpdateJob(id, { status: newStatus });
+            if (res.success) {
+              showToast(`Job ${id} status set to ${newStatus}`);
+              loadJobs();
+            } else {
+              showToast(res.error || 'Failed to update job status', 'error');
+            }
+          });
+        });
+
+        document.querySelectorAll('.btn-delete-job').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.dataset.id;
+            const title = e.currentTarget.dataset.title;
+            openConfirmModal({
+              title: 'Delete Job Vacancy?',
+              message: `Permanently delete the listing "${title}" (${id})? All candidate applications submitted against this vacancy will also be cleared.`,
+              target: `Job Listing: ${title} [${id}]`,
+              onProceed: async () => {
+                const res = await window.jobApi.adminDeleteJob(id);
+                if (res.success) {
+                  showToast('Job vacancy deleted permanently');
+                  loadJobs();
+                } else {
+                  showToast(res.error || 'Failed to delete job', 'error');
+                }
+              }
+            });
+          });
+        });
+      }
+
+      document.getElementById('admin-job-search').addEventListener('input', renderJobs);
+
+      // =========================================================================
+      // EDIT JOB MODAL CONTROLLER
+      // =========================================================================
+      const editJobModal = document.getElementById('admin-edit-job-modal');
+
+      function openEditJobModal(j) {
+        document.getElementById('edit-job-id').value = j.id;
+        document.getElementById('edit-job-title').value = j.title || '';
+        document.getElementById('edit-job-category').value = j.category || '';
+        document.getElementById('edit-job-status').value = j.status || 'open';
+        document.getElementById('edit-job-salary-min').value = j.salary_min || 0;
+        document.getElementById('edit-job-salary-max').value = j.salary_max || 0;
+        document.getElementById('edit-job-city').value = j.location_city || '';
+        document.getElementById('edit-job-area').value = j.location_area || '';
+        document.getElementById('edit-job-vacancies').value = j.vacancies || 1;
+        editJobModal.classList.add('active');
+      }
+
+      function closeEditJobModal() {
+        editJobModal.classList.remove('active');
+      }
+
+      document.getElementById('close-edit-job-modal').addEventListener('click', closeEditJobModal);
+      document.getElementById('btn-cancel-edit-job').addEventListener('click', closeEditJobModal);
+
+      document.getElementById('form-edit-job').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('edit-job-id').value;
+        const submitBtn = document.getElementById('btn-save-edit-job');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving...';
+
+        const payload = {
+          title: document.getElementById('edit-job-title').value.trim(),
+          category: document.getElementById('edit-job-category').value.trim(),
+          status: document.getElementById('edit-job-status').value,
+          salary_min: Number(document.getElementById('edit-job-salary-min').value),
+          salary_max: Number(document.getElementById('edit-job-salary-max').value),
+          location_city: document.getElementById('edit-job-city').value.trim(),
+          location_area: document.getElementById('edit-job-area').value.trim(),
+          vacancies: Number(document.getElementById('edit-job-vacancies').value) || 1,
+        };
+
+        const res = await window.jobApi.adminUpdateJob(id, payload);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Update Vacancy';
+
+        if (res.success) {
+          showToast('Job vacancy updated successfully');
+          closeEditJobModal();
+          loadJobs();
+        } else {
+          showToast(res.error || 'Failed to update vacancy', 'error');
+        }
+      });
+
+      // =========================================================================
+      // CONFIRMATION MODAL CONTROLLER
+      // =========================================================================
+      const confirmModal = document.getElementById('admin-confirm-modal');
+      let confirmCallback = null;
+
+      function openConfirmModal({ title, message, target, onProceed }) {
+        document.getElementById('confirm-modal-title').textContent = title;
+        document.getElementById('confirm-modal-msg').textContent = message;
+        document.getElementById('confirm-modal-target').textContent = target;
+        confirmCallback = onProceed;
+        confirmModal.classList.add('active');
+      }
+
+      function closeConfirmModal() {
+        confirmModal.classList.remove('active');
+        confirmCallback = null;
+      }
+
+      document.getElementById('btn-cancel-confirm').addEventListener('click', closeConfirmModal);
+      document.getElementById('btn-proceed-confirm').addEventListener('click', async () => {
+        if (confirmCallback) {
+          const cb = confirmCallback;
+          closeConfirmModal();
+          await cb();
+        }
+      });
+
+      // =========================================================================
+      // KPI METRICS UPDATE
+      // =========================================================================
+      function updateKPIs() {
+        const total = cachedUsers.length;
+        const workers = cachedUsers.filter(u => u.role === 'worker').length;
+        const employers = cachedUsers.filter(u => u.role === 'employer').length;
+
+        document.getElementById('kpi-total-users').textContent = total;
+        document.getElementById('kpi-users-sub').textContent = `${workers} Workers • ${employers} Employers`;
+        document.getElementById('kpi-workers').textContent = workers;
+        document.getElementById('kpi-employers').textContent = employers;
+        document.getElementById('kpi-jobs').textContent = cachedJobs.length;
+      }
+
+      // =========================================================================
+      // PAYMENT AUDIT LEDGER CONTROLLER
+      // =========================================================================
       function renderLedger() {
         const payments = window.jobApi.getPayments();
-        const apps = window.jobApi.getApplications();
         const tbody = document.getElementById('admin-ledger-tbody');
 
         const verifiedRev = payments
           .filter(p => p.status === 'verified')
           .reduce((sum, p) => sum + (p.amount || 0), 0);
 
-        document.getElementById('kpi-jobs').textContent = allJobs.length;
-        document.getElementById('kpi-apps').textContent = apps.length;
-        document.getElementById('kpi-pending').textContent = payments.filter(p => p.status === 'pending_verification').length;
         document.getElementById('kpi-revenue').textContent = `₹${verifiedRev.toLocaleString()}`;
+
+        if (payments.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 24px; color: #64748B;">
+                No pending UPI settlements. All platform payments are audited.
+              </td>
+            </tr>
+          `;
+          return;
+        }
 
         tbody.innerHTML = payments.map(p => `
           <tr>
@@ -339,9 +1736,9 @@
                 ${p.type === 'worker_priority' ? 'Worker Boost' : 'Employer Unlocks'}
               </span>
             </td>
-            <td><strong>${p.user_name}</strong> <span style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">(${p.user_role})</span></td>
+            <td><strong>${escapeHtml(p.user_name || '')}</strong> <span style="font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono);">(${p.user_role})</span></td>
             <td><strong class="tabular-nums" style="font-size: 13.5px; font-weight: 650; color: var(--text-primary);">₹${p.amount}</strong></td>
-            <td><span class="mono-tag">${p.utr_number}</span></td>
+            <td><span class="mono-tag">${escapeHtml(p.utr_number || '-')}</span></td>
             <td>
               ${p.screenshot_url ? `
                 <button type="button" class="btn-table-action primary admin-view-proof-btn" data-id="${p.id}" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; cursor: pointer;">
@@ -381,7 +1778,7 @@
           b.addEventListener('click', (e) => {
             const id = e.currentTarget.dataset.id;
             window.jobApi.verifyPayment(id, true);
-            showToast(`Payment ${id} verified and credits/badge activated!`);
+            showToast(`Payment ${id} verified and credits activated!`);
             renderLedger();
           });
         });
@@ -403,16 +1800,16 @@
       function openProofModal(p) {
         activeInspectingPaymentId = p.id;
         document.getElementById('admin-modal-proof-id').textContent = p.id;
-        document.getElementById('admin-modal-proof-user').textContent = p.user_name;
-        document.getElementById('admin-modal-proof-role').textContent = p.user_role;
+        document.getElementById('admin-modal-proof-user').textContent = p.user_name || '-';
+        document.getElementById('admin-modal-proof-role').textContent = p.user_role || '-';
         document.getElementById('admin-modal-proof-plan').textContent = p.plan || `${p.amount} Pack`;
         document.getElementById('admin-modal-proof-amount').textContent = `₹${p.amount}`;
-        document.getElementById('admin-modal-proof-utr').textContent = p.utr_number;
-        document.getElementById('admin-modal-proof-date').textContent = p.submitted_at;
+        document.getElementById('admin-modal-proof-utr').textContent = p.utr_number || '-';
+        document.getElementById('admin-modal-proof-date').textContent = p.submitted_at || '-';
 
         const statusEl = document.getElementById('admin-modal-proof-status');
         statusEl.className = `status-badge ${p.status === 'verified' ? 'verified' : (p.status === 'rejected' ? 'danger' : 'pending')}`;
-        statusEl.textContent = p.status.toUpperCase();
+        statusEl.textContent = (p.status || 'pending').toUpperCase();
 
         const imgEl = document.getElementById('admin-modal-proof-img');
         const linkEl = document.getElementById('admin-modal-proof-link');
@@ -420,11 +1817,7 @@
         linkEl.href = p.screenshot_url || '#';
 
         const actionsEl = document.getElementById('admin-modal-proof-actions');
-        if (p.status === 'pending_verification') {
-          actionsEl.style.display = 'flex';
-        } else {
-          actionsEl.style.display = 'none';
-        }
+        actionsEl.style.display = p.status === 'pending_verification' ? 'flex' : 'none';
 
         proofModal.classList.add('active');
       }
@@ -438,16 +1831,11 @@
       proofModal.addEventListener('click', (e) => {
         if (e.target === proofModal) closeProofModal();
       });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && proofModal.classList.contains('active')) {
-          closeProofModal();
-        }
-      });
 
       document.getElementById('btn-admin-modal-approve').addEventListener('click', () => {
         if (activeInspectingPaymentId) {
           window.jobApi.verifyPayment(activeInspectingPaymentId, true);
-          showToast(`Payment ${activeInspectingPaymentId} verified and credits activated!`);
+          showToast(`Payment ${activeInspectingPaymentId} approved`);
           closeProofModal();
           renderLedger();
         }
@@ -456,27 +1844,40 @@
       document.getElementById('btn-admin-modal-reject').addEventListener('click', () => {
         if (activeInspectingPaymentId) {
           window.jobApi.verifyPayment(activeInspectingPaymentId, false);
-          showToast(`Payment ${activeInspectingPaymentId} marked rejected.`, 'error');
+          showToast(`Payment ${activeInspectingPaymentId} rejected`, 'error');
           closeProofModal();
           renderLedger();
         }
       });
+
+      // Escape key closes modals
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeEditUserModal();
+          closeCreateUserModal();
+          closeEditJobModal();
+          closeConfirmModal();
+          closeProofModal();
+        }
+      });
+
+      // HTML escape helper
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // Initial loads
+      await loadUsers();
+      await loadJobs();
       renderLedger();
 
-      // Render Jobs Table
-      const jobsTbody = document.getElementById('admin-jobs-tbody');
-      jobsTbody.innerHTML = allJobs.map(j => `
-        <tr>
-          <td><span class="mono-code" style="color: var(--text-primary); font-weight: 600;">${j.id}</span></td>
-          <td><strong style="color: var(--text-primary);">${j.title}</strong></td>
-          <td><span class="category-tag">${j.category}</span></td>
-          <td style="color: var(--text-secondary);">${j.business_name}</td>
-          <td style="color: var(--text-secondary);">${j.location_area}, ${j.location_city}</td>
-          <td><span class="tabular-nums" style="font-weight: 600; color: var(--text-primary);">₹${j.salary_min?.toLocaleString()} - ₹${j.salary_max?.toLocaleString()}</span></td>
-        </tr>
-      `).join('');
-
-      // Scroll reveal animation observer
+      // Scroll observer
       if ('IntersectionObserver' in window) {
         const revealObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
@@ -486,7 +1887,6 @@
             }
           });
         }, { threshold: 0.08 });
-
         document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
       } else {
         document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));

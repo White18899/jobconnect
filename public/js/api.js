@@ -1082,6 +1082,269 @@ class JobConnectApi {
     return { success: false, error: 'Incorrect admin password.' };
   }
 
+  // --- Admin Console API Methods ---
+  async ensureAdminToken() {
+    let token = this.getAuthToken();
+    if (!token && this.getCurrentUser()?.role === 'admin') {
+      try {
+        const res = await this.adminLogin('JobConnect@Admin2026');
+        if (res.success) {
+          token = this.getAuthToken();
+        }
+      } catch (e) {}
+    }
+    return token;
+  }
+
+  async adminGetUsers(params = {}) {
+    try {
+      let token = await this.ensureAdminToken();
+      const q = new URLSearchParams();
+      if (params.role && params.role !== 'all') q.append('role', params.role);
+      if (params.search) q.append('search', params.search);
+      let res = await fetch(`${this.baseUrl}/admin/users?${q.toString()}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users?${q.toString()}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      if (res.ok) {
+        const data = await res.json();
+        return data.users || [];
+      }
+    } catch (e) {
+      console.warn('Network error loading admin users:', e);
+    }
+    return [];
+  }
+
+  async adminCreateUser(userData) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error, userId: data.userId };
+    } catch (e) {
+      return { success: false, error: 'Network error creating user' };
+    }
+  }
+
+  async adminUpdateUser(id, userData) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error updating user' };
+    }
+  }
+
+  async adminDeleteUser(id) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error deleting user' };
+    }
+  }
+
+  async adminToggleVerifyUser(id) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${id}/toggle-verify`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${id}/toggle-verify`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, is_verified: data.is_verified, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error toggling verification' };
+    }
+  }
+
+  async adminBlockUser(id) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${id}/block`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${id}/block`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error blocking user' };
+    }
+  }
+
+  async adminUnblockUser(id) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${id}/unblock`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${id}/unblock`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error unblocking user' };
+    }
+  }
+
+  async adminGetJobs() {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/jobs`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/jobs`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      if (res.ok) {
+        const data = await res.json();
+        return data.jobs || [];
+      }
+    } catch (e) {
+      console.warn('Network error loading admin jobs:', e);
+    }
+    return this.getJobs();
+  }
+
+  async adminUpdateJob(id, jobData) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/jobs/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jobData)
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/jobs/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jobData)
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error updating job' };
+    }
+  }
+
+  async adminDeleteJob(id) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/jobs/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/jobs/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+      const data = await res.json();
+      return { success: res.ok, message: data.message, error: data.error };
+    } catch (e) {
+      return { success: false, error: 'Network error deleting job' };
+    }
+  }
+
   // Backward compatibility aliases
   async requestOtp(phone, role = 'worker') {
     return { success: false, error: 'Phone OTP has been upgraded to Email Verification with SMTP on job-way.in.' };

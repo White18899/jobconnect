@@ -4,6 +4,7 @@ import { Env, UserTokenPayload } from '../config/env';
 import { authMiddleware } from '../middlewares/auth';
 import { roleGuard } from '../middlewares/roles';
 import { logAdminAudit } from '../services/audit';
+import { hashPassword } from '../services/password';
 
 const adminRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
@@ -265,27 +266,296 @@ adminRoutes.post('/admin/payments/:id/refund', async (c) => {
   return c.json({ success: true, message: 'Refund recorded successfully' });
 });
 
-// 7. User Management: List users
+// 7. User Management: List all users with full Worker & Employer profile joins
 adminRoutes.get('/admin/users', async (c) => {
-  const { role, is_blocked } = c.req.query();
-  let query = 'SELECT id, phone, role, is_blocked, is_verified, created_at FROM users WHERE 1=1';
+  const { role, search } = c.req.query();
+  let query = `
+    SELECT 
+      u.id, 
+      u.email, 
+      u.phone, 
+      u.role, 
+      u.is_blocked, 
+      u.is_verified, 
+      u.created_at,
+      wp.id as worker_id,
+      wp.full_name as worker_name,
+      wp.trade_title as worker_title,
+      wp.skills as worker_skills,
+      wp.experience_years as worker_exp,
+      wp.city as worker_city,
+      wp.preferred_area as worker_area,
+      wp.verification_status as worker_verification_status,
+      ep.id as employer_id,
+      ep.business_name as employer_business_name,
+      ep.business_type as employer_business_type,
+      ep.contact_person as employer_contact_person,
+      ep.city as employer_city,
+      ep.area as employer_area,
+      ep.verification_status as employer_verification_status
+    FROM users u
+    LEFT JOIN worker_profiles wp ON u.id = wp.user_id
+    LEFT JOIN employer_profiles ep ON u.id = ep.user_id
+    WHERE 1=1
+  `;
   const params: any[] = [];
-
-  if (role) {
-    query += ' AND role = ?';
+  if (role && role !== 'all') {
+    query += ' AND u.role = ?';
     params.push(role);
   }
-  if (is_blocked !== undefined) {
-    query += ' AND is_blocked = ?';
-    params.push(is_blocked === 'true' || is_blocked === '1' ? 1 : 0);
+  if (search) {
+    query += ' AND (u.email LIKE ? OR u.phone LIKE ? OR wp.full_name LIKE ? OR ep.business_name LIKE ? OR wp.trade_title LIKE ?)';
+    params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
   }
+  query += ' ORDER BY u.created_at DESC';
 
-  query += ' ORDER BY created_at DESC LIMIT 50';
-  const { results } = await c.env.DB.prepare(query).bind(...params).all();
-  return c.json({ users: results || [] });
+  const { results } = await c.env.DB.prepare(query).bind(...params).all<any>();
+  const users = (results || []).map((row: any) => {
+    let parsedSkills: string[] = [];
+    if (row.worker_skills) {
+      try {
+        parsedSkills = typeof row.worker_skills === 'string' ? JSON.parse(row.worker_skills) : row.worker_skills;
+      } catch {
+        parsedSkills = [];
+      }
+    }
+    const displayName = row.worker_name || row.employer_business_name || (row.role === 'admin' ? 'Super Administrator' : (row.email?.split('@')[0] || 'User'));
+    return {
+      id: row.id,
+      email: row.email,
+      phone: row.phone,
+      role: row.role,
+      name: displayName,
+      is_blocked: row.is_blocked === 1,
+      is_verified: row.is_verified === 1,
+      created_at: row.created_at,
+      // Worker info
+      worker_id: row.worker_id,
+      worker_name: row.worker_name,
+      worker_title: row.worker_title,
+      worker_skills: parsedSkills,
+      worker_exp: row.worker_exp,
+      worker_city: row.worker_city,
+      worker_area: row.worker_area,
+      worker_verification_status: row.worker_verification_status,
+      // Employer info
+      employer_id: row.employer_id,
+      employer_business_name: row.employer_business_name,
+      employer_business_type: row.employer_business_type,
+      employer_contact_person: row.employer_contact_person,
+      employer_city: row.employer_city,
+      employer_area: row.employer_area,
+      employer_verification_status: row.employer_verification_status,
+    };
+  });
+
+  return c.json({ users });
 });
 
-// 8. Block / Suspend User
+// 7b. Create User directly from Admin
+adminRoutes.post('/admin/users', async (c) => {
+  const admin = c.get('user');
+  const body = await c.req.json();
+  const email = (body.email || '').trim().toLowerCase();
+  const password = body.password || 'Password@123';
+  const role = body.role === 'employer' ? 'employer' : 'worker';
+  const name = (body.name || 'User').trim();
+  const phone = (body.phone || '').trim();
+  const city = body.city || 'Hyderabad';
+  const tradeTitle = body.trade_title || (role === 'worker' ? 'Technical Specialist' : 'Tech Company');
+
+  if (!email || !email.includes('@')) {
+    return c.json({ error: 'Valid email address is required' }, 400);
+  }
+
+  const existing = await c.env.DB.prepare('SELECT id FROM users WHERE email = ?').bind(email).first();
+  if (existing) {
+    return c.json({ error: 'An account with this email already exists' }, 400);
+  }
+
+  const { hash, salt } = await hashPassword(password);
+  const userId = 'usr_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+
+  await c.env.DB.prepare(`
+    INSERT INTO users (id, email, password_hash, password_salt, phone, role, is_blocked, is_verified, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, 0, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  `).bind(userId, email, hash, salt, phone || null, role).run();
+
+  if (role === 'worker') {
+    const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO worker_profiles (id, user_id, full_name, phone, trade_title, skills, experience_years, city, preferred_area, verification_status, digilocker_verified, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, '["Software Engineering"]', 2, ?, 'City Center', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(wpId, userId, name, phone || null, tradeTitle, city).run();
+  } else {
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, verification_status, created_at, updated_at)
+      VALUES (?, ?, ?, 'Enterprise SaaS', ?, ?, 'Tech Hub', 'Platform Verified Address', 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, userId, name, name, city).run();
+  }
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'create_user', 'user', userId, { email, role }, ip);
+
+  return c.json({ success: true, userId, message: 'Account provisioned successfully' });
+});
+
+// 8. Edit User Account & Profile (Name, Email, Phone, Role, Verified, Password)
+adminRoutes.put('/admin/users/:id', async (c) => {
+  const admin = c.get('user');
+  const targetId = c.req.param('id');
+  const body = await c.req.json();
+
+  const user = await c.env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(targetId).first<any>();
+  if (!user) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+
+  const newEmail = body.email !== undefined ? body.email.trim().toLowerCase() : user.email;
+  const newPhone = body.phone !== undefined ? body.phone.trim() : user.phone;
+  const newBlocked = body.is_blocked !== undefined ? (body.is_blocked ? 1 : 0) : user.is_blocked;
+  const newVerified = body.is_verified !== undefined ? (body.is_verified ? 1 : 0) : user.is_verified;
+  const newRole = body.role || user.role;
+
+  let updateSql = 'UPDATE users SET email = ?, phone = ?, role = ?, is_blocked = ?, is_verified = ?, updated_at = CURRENT_TIMESTAMP';
+  const updateParams: any[] = [newEmail, newPhone, newRole, newBlocked, newVerified];
+
+  if (body.password && body.password.trim().length >= 6) {
+    const { hash, salt } = await hashPassword(body.password.trim());
+    updateSql += ', password_hash = ?, password_salt = ?';
+    updateParams.push(hash, salt);
+  }
+
+  updateSql += ' WHERE id = ?';
+  updateParams.push(targetId);
+
+  await c.env.DB.prepare(updateSql).bind(...updateParams).run();
+
+  // If worker, update worker_profiles
+  if (newRole === 'worker' || user.role === 'worker') {
+    const wp = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(targetId).first<any>();
+    if (wp) {
+      const skillsVal = Array.isArray(body.skills) ? JSON.stringify(body.skills) : body.skills;
+      await c.env.DB.prepare(`
+        UPDATE worker_profiles SET
+          full_name = COALESCE(?, full_name),
+          trade_title = COALESCE(?, trade_title),
+          city = COALESCE(?, city),
+          preferred_area = COALESCE(?, preferred_area),
+          experience_years = COALESCE(?, experience_years),
+          skills = COALESCE(?, skills),
+          phone = COALESCE(?, phone),
+          verification_status = CASE WHEN ? = 1 THEN 'verified' ELSE 'pending' END,
+          digilocker_verified = ?,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = ?
+      `).bind(
+        body.name || null,
+        body.trade_title || null,
+        body.city || null,
+        body.preferred_area || null,
+        body.experience !== undefined ? Number(body.experience) : null,
+        skillsVal || null,
+        newPhone || null,
+        newVerified,
+        newVerified,
+        targetId
+      ).run();
+    }
+  }
+
+  // If employer, update employer_profiles
+  if (newRole === 'employer' || user.role === 'employer') {
+    const ep = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(targetId).first<any>();
+    if (ep) {
+      await c.env.DB.prepare(`
+        UPDATE employer_profiles SET
+          business_name = COALESCE(?, business_name),
+          business_type = COALESCE(?, business_type),
+          contact_person = COALESCE(?, contact_person),
+          city = COALESCE(?, city),
+          area = COALESCE(?, area),
+          verification_status = CASE WHEN ? = 1 THEN 'verified' ELSE 'pending' END,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = ?
+      `).bind(
+        body.business_name || body.name || null,
+        body.business_type || null,
+        body.contact_person || null,
+        body.city || null,
+        body.preferred_area || body.area || null,
+        newVerified,
+        targetId
+      ).run();
+    }
+  }
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'edit_user', 'user', targetId, { email: newEmail }, ip);
+
+  return c.json({ success: true, message: 'User updated successfully' });
+});
+
+// 9. Delete User Permanently (Cascading worker / employer profiles & jobs)
+adminRoutes.delete('/admin/users/:id', async (c) => {
+  const admin = c.get('user');
+  const targetId = c.req.param('id');
+
+  if (targetId === admin.userId || targetId === 'usr_admin_01' || targetId === 'admin_01') {
+    return c.json({ error: 'Cannot delete primary root administrator account' }, 400);
+  }
+
+  const ep = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(targetId).first<any>();
+  if (ep) {
+    await c.env.DB.prepare('DELETE FROM payments WHERE employer_id = ?').bind(ep.id).run();
+    await c.env.DB.prepare('DELETE FROM applications WHERE job_id IN (SELECT id FROM jobs WHERE employer_id = ?)').bind(ep.id).run();
+    await c.env.DB.prepare('DELETE FROM jobs WHERE employer_id = ?').bind(ep.id).run();
+    await c.env.DB.prepare('DELETE FROM employer_profiles WHERE id = ?').bind(ep.id).run();
+  }
+
+  const wp = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(targetId).first<any>();
+  if (wp) {
+    await c.env.DB.prepare('DELETE FROM applications WHERE worker_id = ?').bind(wp.id).run();
+    await c.env.DB.prepare('DELETE FROM worker_profiles WHERE id = ?').bind(wp.id).run();
+  }
+
+  await c.env.DB.prepare('DELETE FROM users WHERE id = ?').bind(targetId).run();
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'delete_user', 'user', targetId, {}, ip);
+
+  return c.json({ success: true, message: 'Account and associated records deleted permanently' });
+});
+
+// 10. Toggle User Verification
+adminRoutes.post('/admin/users/:id/toggle-verify', async (c) => {
+  const admin = c.get('user');
+  const targetId = c.req.param('id');
+
+  const user = await c.env.DB.prepare('SELECT is_verified, role FROM users WHERE id = ?').bind(targetId).first<any>();
+  if (!user) {
+    return c.json({ error: 'User not found' }, 404);
+  }
+
+  const newStatus = user.is_verified === 1 ? 0 : 1;
+  const statusText = newStatus === 1 ? 'verified' : 'pending';
+
+  await c.env.DB.prepare('UPDATE users SET is_verified = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?').bind(newStatus, targetId).run();
+
+  if (user.role === 'worker') {
+    await c.env.DB.prepare('UPDATE worker_profiles SET verification_status = ?, digilocker_verified = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?').bind(statusText, newStatus, targetId).run();
+  } else if (user.role === 'employer') {
+    await c.env.DB.prepare('UPDATE employer_profiles SET verification_status = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?').bind(statusText, targetId).run();
+  }
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'toggle_verify', 'user', targetId, { is_verified: newStatus }, ip);
+
+  return c.json({ success: true, is_verified: newStatus === 1, message: `Verification status set to ${statusText}` });
+});
+
+// 11. Block / Suspend User
 adminRoutes.post('/admin/users/:id/block', async (c) => {
   const admin = c.get('user');
   const targetUserId = c.req.param('id');
@@ -300,7 +570,7 @@ adminRoutes.post('/admin/users/:id/block', async (c) => {
   return c.json({ success: true, message: 'User blocked' });
 });
 
-// 9. Unblock User
+// 12. Unblock User
 adminRoutes.post('/admin/users/:id/unblock', async (c) => {
   const admin = c.get('user');
   const targetUserId = c.req.param('id');
@@ -315,24 +585,59 @@ adminRoutes.post('/admin/users/:id/unblock', async (c) => {
   return c.json({ success: true, message: 'User unblocked' });
 });
 
-// 10. Moderate Jobs (list all jobs including employer business info)
+// 13. List All Platform Jobs
 adminRoutes.get('/admin/jobs', async (c) => {
   const { results } = await c.env.DB.prepare(`
     SELECT j.*, ep.business_name, ep.contact_person, u.phone as employer_phone
     FROM jobs j
-    JOIN employer_profiles ep ON j.employer_id = ep.id
-    JOIN users u ON ep.user_id = u.id
+    LEFT JOIN employer_profiles ep ON j.employer_id = ep.id
+    LEFT JOIN users u ON ep.user_id = u.id
     ORDER BY j.created_at DESC
   `).all();
 
   return c.json({ jobs: results || [] });
 });
 
-// 11. Delete Spam Job
+// 14. Edit Job
+adminRoutes.put('/admin/jobs/:id', async (c) => {
+  const admin = c.get('user');
+  const jobId = c.req.param('id');
+  const body = await c.req.json();
+
+  const job = await c.env.DB.prepare('SELECT * FROM jobs WHERE id = ?').bind(jobId).first<any>();
+  if (!job) {
+    return c.json({ error: 'Job not found' }, 404);
+  }
+
+  const title = body.title || job.title;
+  const category = body.category || job.category;
+  const salaryMin = body.salary_min !== undefined ? Number(body.salary_min) : job.salary_min;
+  const salaryMax = body.salary_max !== undefined ? Number(body.salary_max) : job.salary_max;
+  const city = body.location_city || job.location_city;
+  const area = body.location_area || job.location_area;
+  const vacancies = body.vacancies !== undefined ? Number(body.vacancies) : job.vacancies;
+  const status = body.status || job.status;
+
+  await c.env.DB.prepare(`
+    UPDATE jobs SET
+      title = ?, category = ?, salary_min = ?, salary_max = ?,
+      location_city = ?, location_area = ?, vacancies = ?, status = ?,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `).bind(title, category, salaryMin, salaryMax, city, area, vacancies, status, jobId).run();
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'edit_job', 'job', jobId, { title, status }, ip);
+
+  return c.json({ success: true, message: 'Job updated successfully' });
+});
+
+// 15. Delete Job
 adminRoutes.delete('/admin/jobs/:id', async (c) => {
   const admin = c.get('user');
   const jobId = c.req.param('id');
 
+  await c.env.DB.prepare('DELETE FROM applications WHERE job_id = ?').bind(jobId).run();
   await c.env.DB.prepare('DELETE FROM jobs WHERE id = ?').bind(jobId).run();
 
   const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
