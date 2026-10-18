@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Complete Trade Profile • JobWay (job-way.in)</title>
-  <meta name="description" content="Set up your verified JobWay profile. Education, trade experience, and skills.">
+  <title>Complete Technical Profile • JobWay (job-way.in)</title>
+  <meta name="description" content="Set up your verified JobWay profile. Education, professional experience, and technical skills.">
   <link rel="canonical" href="https://job-way.in/profile-edit">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -197,8 +197,8 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 10px;
-      background: var(--surface-secondary);
+      padding: 4px 11px;
+      background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 999px;
       font-size: 11.5px;
@@ -207,12 +207,14 @@
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     }
     .title-quick-pill:hover {
       border-color: #14281D;
       color: #14281D;
-      background: #ffffff;
+      background: #f8fafc;
       transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(20, 40, 29, 0.12);
     }
     .skill-suggestion-pill.selected {
       background: #14281D !important;
@@ -453,7 +455,7 @@
       <a href="/" class="nav-logo">
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span class="link-line">JobWay</span>
-        <span class="nav-badge-pill neutral">Trade Credentials</span>
+        <span class="nav-badge-pill neutral">Professional Credentials</span>
       </a>
       <div style="display: flex; align-items: center; gap: 14px;">
         <span style="font-size: 12.5px; color: var(--color-text-secondary); font-family: var(--font-mono);" id="user-header-email"></span>
@@ -475,10 +477,10 @@
           <span>Step 2 of 2: Professional Profile Setup</span>
         </div>
         <h1 style="font-size: 22px; font-weight: 700; color: var(--text-primary); margin: 0 0 4px; letter-spacing: -0.025em;">
-          Complete Your Trade Profile
+          Complete Your Professional Profile
         </h1>
         <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
-          Add your education, workshop experience, and trade skills to connect with employers.
+          Add your education, work experience, and core skills to connect with top employers.
         </p>
       </div>
 
@@ -497,7 +499,7 @@
         <span>Profile Photo & Contact Information</span>
       </div>
 
-      <!-- Photo Pickers Grid: (1) Trade Profile Photo + (2) Workshop Cover Thumbnail -->
+      <!-- Photo Pickers Grid: (1) Profile Photo Avatar + (2) Profile Card Banner -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-light);">
         
         <!-- Block A: Square Portrait Avatar -->
@@ -506,7 +508,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px;">
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span class="nav-badge-pill neutral" style="font-size: 10px; padding: 2px 7px; margin-left: 0;">1:1 Square</span>
-                <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Trade Profile Photo</span>
+                <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Profile Photo / Avatar</span>
               </div>
               <span style="font-size: 11px; color: #10b981; font-weight: 600;">Verified Ready</span>
             </div>
@@ -546,21 +548,25 @@
           </div>
         </div>
 
-        <!-- Block B: 16:9 Workshop Cover Thumbnail -->
+        <!-- Block B: 16:9 Profile Card Banner -->
         <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="nav-badge-pill neutral" style="font-size: 10px; padding: 2px 7px; margin-left: 0;">16:9 Cover</span>
-                <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Workshop Cover Thumbnail</span>
+                <span class="nav-badge-pill neutral" style="font-size: 10px; padding: 2px 7px; margin-left: 0;">16:9 Banner</span>
+                <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Profile Card Banner</span>
               </div>
-              <span style="font-size: 11px; color: #10b981; font-weight: 600;">Candidate Card Banner</span>
+              <span style="font-size: 11px; color: #10b981; font-weight: 600;">Optional Cover</span>
             </div>
             <div style="display: flex; align-items: center; gap: 16px;">
               <!-- 16:9 Thumbnail Preview Box -->
               <div class="cover-thumb-preview-wrap" style="position: relative; flex-shrink: 0; display: inline-block;">
-                <div id="cover-thumb-preview" title="Click or drop workshop photo here to upload" style="cursor: pointer; position: relative; width: 140px; height: 80px; border-radius: var(--radius-md); border: 2px solid var(--border-strong); overflow: hidden; background: #121214; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.2s ease, border-color 0.2s ease;">
-                  <img id="cover-thumb-img" src="assets/trades/mechanic.jpg" alt="Workshop Cover Thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                <div id="cover-thumb-preview" title="Click or drop custom banner photo here to upload" style="cursor: pointer; position: relative; width: 140px; height: 80px; border-radius: var(--radius-md); border: 2px solid var(--border-strong); overflow: hidden; background: linear-gradient(135deg, #14281D 0%, #1e3a29 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.18); transition: transform 0.2s ease, border-color 0.2s ease;">
+                  <div id="cover-thumb-empty-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; color: #ffffff; text-align: center; padding: 6px;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.85;"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    <span style="font-size: 10.5px; font-weight: 600; opacity: 0.85; margin-top: 4px; font-family: var(--font-mono);">Default Banner</span>
+                  </div>
+                  <img id="cover-thumb-img" src="" alt="Profile Card Banner" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                   <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0'">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                   </div>
@@ -571,7 +577,7 @@
                   <input type="file" id="file-cover-thumb-input" accept="image/*" style="display: none;">
                   <button type="button" id="btn-trigger-cover-thumb" class="btn-signin-header" style="padding: 7px 14px; font-size: 12px; cursor: pointer;">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <span id="btn-cover-thumb-label">Upload Thumbnail</span>
+                    <span id="btn-cover-thumb-label">Upload Custom Banner</span>
                   </button>
                   <button type="button" id="btn-remove-cover-thumb" style="background: none; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-xs); padding: 5px 10px; font-size: 11.5px; color: var(--danger); font-weight: 600; cursor: pointer; display: none;">
                     Reset
@@ -579,7 +585,7 @@
                 </div>
                 <span id="cover-thumb-filename-display" style="font-size: 11px; color: var(--text-secondary); display: none; margin-top: 4px;"></span>
                 <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 6px; line-height: 1.4;">
-                  Top banner on your candidate pass in the Candidates Directory.
+                  Top banner on your candidate pass in the Candidates Directory. Defaults to a clean modern gradient if unselected.
                 </span>
               </div>
             </div>
@@ -590,6 +596,7 @@
 
       <!-- Form Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+        <!-- Row 1: Full Legal Name + Professional Title (Neat, balanced columns) -->
         <div class="form-group">
           <label class="form-label" for="worker-name">Full Legal Name *</label>
           <input type="text" id="worker-name" class="form-input" placeholder="e.g. Ramesh Kumar" required>
@@ -597,15 +604,17 @@
 
         <div class="form-group">
           <label class="form-label" for="worker-title">Professional / Technical Title *</label>
-          <input type="text" id="worker-title" class="form-input" list="library-job-titles-list" placeholder="e.g. Full-Stack Developer, DevOps Engineer, React & Next.js Developer, QA Automation..." required autocomplete="off">
+          <input type="text" id="worker-title" class="form-input" list="library-job-titles-list" placeholder="e.g. Full-Stack Developer, DevOps Engineer, QA Automation..." required autocomplete="off">
           <datalist id="library-job-titles-list"></datalist>
+        </div>
 
-          <div style="margin-top: 8px;">
-            <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; display: inline-block; margin-bottom: 5px;">
-              Popular specializations (Click to fill):
-            </span>
-            <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="title-quick-pills"></div>
-          </div>
+        <!-- Full-Width Specialization Suggestions Ribbon -->
+        <div style="grid-column: 1 / -1; margin-top: -4px; margin-bottom: 2px; padding: 11px 16px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Popular Roles (Click to fill):
+          </span>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1;" id="title-quick-pills"></div>
         </div>
 
         <div class="form-group">
@@ -661,7 +670,7 @@
       </div>
     </div>
 
-    <!-- 4. TRADE EXPERIENCE & SKILLS -->
+    <!-- 4. TECHNICAL EXPERIENCE & SKILLS -->
     <div class="profile-card-section">
       <div class="profile-section-title">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -1704,19 +1713,32 @@
 
         // Cover Thumbnail resolution
         const existingCover = profile.photo_thumb || profile.cover_image || localStorage.getItem('jc_worker_cover');
-        if (existingCover) {
+        const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
+        if (existingCover && existingCover !== 'assets/trades/mechanic.jpg' && existingCover !== 'assets/trades/automation.jpg') {
           activeCoverThumbData = existingCover;
-          if (coverThumbImg) coverThumbImg.src = existingCover;
+          if (coverThumbImg) {
+            coverThumbImg.src = existingCover;
+            coverThumbImg.style.display = 'block';
+          }
+          if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'none';
           if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'inline-block';
           const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-          if (btnCoverLabel) btnCoverLabel.textContent = 'Change Thumbnail';
+          if (btnCoverLabel) btnCoverLabel.textContent = 'Change Banner';
           const filenameDisplay = document.getElementById('cover-thumb-filename-display');
           if (filenameDisplay && existingCover.startsWith('data:image')) {
-            filenameDisplay.textContent = 'Custom Thumbnail Loaded';
+            filenameDisplay.textContent = 'Custom Banner Loaded';
             filenameDisplay.style.display = 'inline-block';
           }
         } else {
-          if (coverThumbImg) coverThumbImg.src = 'assets/trades/mechanic.jpg';
+          activeCoverThumbData = '';
+          if (coverThumbImg) {
+            coverThumbImg.src = '';
+            coverThumbImg.style.display = 'none';
+          }
+          if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'flex';
+          if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'none';
+          const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
+          if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Custom Banner';
         }
 
         // Skills parse - strip non-tech work-type items
@@ -1839,16 +1861,21 @@
           const reader = new FileReader();
           reader.onload = (event) => {
             activeCoverThumbData = event.target.result;
-            if (coverThumbImg) coverThumbImg.src = activeCoverThumbData;
+            if (coverThumbImg) {
+              coverThumbImg.src = activeCoverThumbData;
+              coverThumbImg.style.display = 'block';
+            }
+            const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
+            if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'none';
             if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'inline-block';
             const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-            if (btnCoverLabel) btnCoverLabel.textContent = 'Change Thumbnail';
+            if (btnCoverLabel) btnCoverLabel.textContent = 'Change Banner';
             const filenameDisplay = document.getElementById('cover-thumb-filename-display');
             if (filenameDisplay) {
               filenameDisplay.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
               filenameDisplay.style.display = 'inline-block';
             }
-            showToast('Workshop cover thumbnail loaded! Click Save Profile to apply.');
+            showToast('Profile banner loaded! Click Save Profile to apply.');
           };
           reader.readAsDataURL(file);
         }
@@ -1856,15 +1883,20 @@
         if (btnRemoveCoverThumb) {
           btnRemoveCoverThumb.addEventListener('click', () => {
             activeCoverThumbData = '';
-            if (coverThumbImg) coverThumbImg.src = 'assets/trades/mechanic.jpg';
+            if (coverThumbImg) {
+              coverThumbImg.src = '';
+              coverThumbImg.style.display = 'none';
+            }
+            const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
+            if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'flex';
             btnRemoveCoverThumb.style.display = 'none';
             const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-            if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Thumbnail';
+            if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Custom Banner';
             fileCoverThumbInput.value = '';
             const filenameDisplay = document.getElementById('cover-thumb-filename-display');
             if (filenameDisplay) filenameDisplay.style.display = 'none';
             localStorage.removeItem('jc_worker_cover');
-            showToast('Reset thumbnail to default.');
+            showToast('Banner reset to clean default.');
           });
         }
       }
@@ -1950,7 +1982,7 @@
           trade_title: tradeTitle,
           phone: phone ? `+91 ${phone}` : undefined,
           photo_key: activeAvatarData || '',
-          photo_thumb: activeCoverThumbData || 'assets/trades/mechanic.jpg',
+          photo_thumb: activeCoverThumbData || '',
           skills: currentSkills,
           experience_years: expYears,
           education_level: primaryEdu.level || 'ITI Certificate',
@@ -2004,7 +2036,7 @@
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span>JobWay</span>
       </span>
-      <span class="footer-copy">India's Verified Technical & Industrial Trades Network • Technical Credentials</span>
+      <span class="footer-copy">India's Verified Technical & Engineering Talent Network • Professional Credentials</span>
     </div>
     <div class="footer-right">
       <div class="footer-box">

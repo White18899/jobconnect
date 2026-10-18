@@ -1346,6 +1346,29 @@
         }
       }
 
+      function resolveCandidateCover(c) {
+        if (c.photo_thumb && !c.photo_thumb.includes('mechanic.jpg') && !c.photo_thumb.includes('automation.jpg')) {
+          return c.photo_thumb;
+        }
+        const text = `${c.trade_title || ''} ${c.category || ''}`.toLowerCase();
+        if (text.includes('devops') || text.includes('cloud') || text.includes('infra') || text.includes('security') || text.includes('sre') || text.includes('cyber')) {
+          return 'assets/trades/devops.jpg';
+        }
+        if (text.includes('qa') || text.includes('test') || text.includes('automation') || text.includes('quality') || text.includes('sdet')) {
+          return 'assets/trades/qa.jpg';
+        }
+        if (text.includes('mobile') || text.includes('android') || text.includes('ios') || text.includes('flutter') || text.includes('react native')) {
+          return 'assets/trades/mobile.jpg';
+        }
+        if (text.includes('hr') || text.includes('recruit') || text.includes('talent') || text.includes('people') || text.includes('operations')) {
+          return 'assets/trades/hr.jpg';
+        }
+        if (text.includes('lead') || text.includes('manager') || text.includes('architect') || text.includes('director') || text.includes('vp')) {
+          return 'assets/trades/teamlead.jpg';
+        }
+        return 'assets/trades/software.jpg';
+      }
+
       function renderCandidatesGrid() {
         allCandidates = window.jobApi.getCandidates();
         const filtered = getFilteredCandidates();
@@ -1377,7 +1400,7 @@
           return `
             <article class="candidate-card" data-cand-id="${c.id}">
               <div class="candidate-card-header-box">
-                <img src="${c.photo_thumb || 'assets/trades/automation.jpg'}" alt="${c.name}" loading="lazy">
+                <img src="${resolveCandidateCover(c)}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
                   <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
                   ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>')}
