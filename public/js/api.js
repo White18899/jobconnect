@@ -498,12 +498,18 @@ class JobConnectApi {
       // Also clean up any legacy user profile stored in localStorage
       try {
         const authUser = JSON.parse(localStorage.getItem('jc_auth_user') || 'null');
-        if (authUser && (authUser.trade_title?.includes('Automation') || authUser.name === 'Arun Varma' || authUser.name === 'Ramesh Kumar')) {
-          authUser.name = 'Rohan Sharma';
-          authUser.trade_title = 'Senior Full-Stack Engineer';
-          authUser.category = 'Software Engineering';
-          authUser.avatar = 'assets/trades/software.jpg';
-          localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
+        if (authUser) {
+          if (authUser.role === 'employer' || authUser.name?.includes('Balaji') || authUser.name?.includes('Auto')) {
+            authUser.name = 'HyperScale Cloud Systems';
+            authUser.company = 'HyperScale Cloud Systems';
+            localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
+          } else if (authUser.trade_title?.includes('Automation') || authUser.name === 'Arun Varma' || authUser.name === 'Ramesh Kumar' || authUser.name?.includes('Mechanic')) {
+            authUser.name = 'Arjun Rao';
+            authUser.trade_title = 'Senior Full-Stack Engineer';
+            authUser.category = 'Software Engineering';
+            authUser.avatar = 'assets/trades/software.jpg';
+            localStorage.setItem('jc_auth_user', JSON.stringify(authUser));
+          }
         }
       } catch (e) {}
       return;
@@ -992,7 +998,29 @@ class JobConnectApi {
   // --- Authentication Methods ---
   getCurrentUser() {
     const raw = localStorage.getItem('jc_auth_user');
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    try {
+      const user = JSON.parse(raw);
+      if (user) {
+        let changed = false;
+        if (user.role === 'employer' && (user.name?.includes('Balaji') || user.name?.includes('Auto') || !user.name)) {
+          user.name = 'HyperScale Cloud Systems';
+          user.company = 'HyperScale Cloud Systems';
+          changed = true;
+        } else if (user.role === 'worker' && (user.name?.includes('Ramesh') || user.name?.includes('Mechanic') || user.name?.includes('Varma') || user.trade?.includes('Mechanic') || !user.name)) {
+          user.name = 'Arjun Rao';
+          user.trade_title = 'Senior Full-Stack Engineer';
+          user.category = 'Software Engineering';
+          changed = true;
+        }
+        if (changed) {
+          localStorage.setItem('jc_auth_user', JSON.stringify(user));
+        }
+      }
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 
   setCurrentUser(user) {
@@ -1395,8 +1423,10 @@ class JobConnectApi {
       const user = {
         id: 'wrk-1',
         email: 'worker@job-way.in',
-        name: 'Ramesh Kumar (Mechanic)',
+        name: 'Arjun Rao (Senior Full-Stack Engineer)',
         role: 'worker',
+        category: 'Software Engineering',
+        trade_title: 'Senior Full-Stack Engineer',
         phone: '+91 98491 23434',
         isVerified: true,
       };
@@ -1406,8 +1436,9 @@ class JobConnectApi {
       const user = {
         id: 'emp-1',
         email: 'employer@job-way.in',
-        name: 'Sri Balaji Auto Care & Service',
+        name: 'HyperScale Cloud Systems',
         role: 'employer',
+        company: 'HyperScale Cloud Systems',
         phone: '+91 98490 11223',
         isVerified: true,
       };

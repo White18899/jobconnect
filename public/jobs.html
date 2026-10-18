@@ -1517,7 +1517,7 @@
         if (authLoggedOut) authLoggedOut.style.display = 'none';
         if (authLoggedIn) authLoggedIn.style.display = 'flex';
         
-        const clean = sanitizeName(user.name) || (user.role === 'employer' ? 'Sri Balaji Auto' : 'Ramesh Kumar');
+        const clean = sanitizeName(user.name) || (user.role === 'employer' ? 'HyperScale Cloud Systems' : 'Arjun Rao');
         if (navDisplayName) navDisplayName.textContent = clean;
         const initials = getInitials(clean);
         const initialPhoto = user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
@@ -2012,7 +2012,7 @@
         // Pre-fill business name if user is logged in
         const bizNameInput = document.getElementById('post-job-biz-name');
         if (bizNameInput && !bizNameInput.value) {
-          bizNameInput.value = user?.name || 'Sri Balaji Auto Care & Service';
+          bizNameInput.value = user?.name || 'HyperScale Cloud Systems';
         }
         postVacancyModal.classList.add('active');
         document.body.style.overflow = 'hidden';

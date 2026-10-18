@@ -565,10 +565,10 @@
 
         if (role === 'worker') {
           labelRegName.textContent = 'Full Name *';
-          inputRegName.placeholder = 'e.g. Ramesh Kumar';
+          inputRegName.placeholder = 'e.g. Arjun Rao';
         } else {
-          labelRegName.textContent = 'Business or Shop Name *';
-          inputRegName.placeholder = 'e.g. Sri Balaji Auto Workshop';
+          labelRegName.textContent = 'Company or Organization Name *';
+          inputRegName.placeholder = 'e.g. HyperScale Cloud Systems';
         }
       }
       cardRoleWorker.addEventListener('click', () => updateRole('worker'));
@@ -876,13 +876,13 @@
         window.jobApi.setCurrentUser({
           id: 'wrk-1',
           email: 'worker@job-way.in',
-          name: 'Ramesh Kumar',
+          name: 'Arjun Rao',
           role: 'worker',
-          trade: 'Mechanic',
-          trade_title: 'Automotive Mechanic',
+          trade: 'Software Engineering',
+          trade_title: 'Senior Full-Stack Engineer',
           isVerified: true,
         });
-        showToast('Signed in as Worker (Ramesh Kumar)!');
+        showToast('Signed in as Candidate (Arjun Rao)!');
         setTimeout(() => {
           window.location.href = '/worker.html';
         }, 400);
@@ -892,11 +892,12 @@
         window.jobApi.setCurrentUser({
           id: 'emp-1',
           email: 'employer@job-way.in',
-          name: 'Sri Balaji Auto Care & Service',
+          name: 'HyperScale Cloud Systems',
           role: 'employer',
+          company: 'HyperScale Cloud Systems',
           isVerified: true,
         });
-        showToast('Signed in as Employer (Sri Balaji Auto)!');
+        showToast('Signed in as Employer (HyperScale Cloud Systems)!');
         setTimeout(() => {
           window.location.href = '/employer.html';
         }, 400);

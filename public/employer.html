@@ -178,9 +178,9 @@
         <a href="/employer.html" class="nav-profile-chip" id="nav-profile-link" title="Employer Workspace">
           <div class="nav-profile-avatar" style="border-radius: 50%; overflow: hidden; background: #14281D; color: #fff;">
             <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
-            <span id="nav-user-avatar-initials">SB</span>
+            <span id="nav-user-avatar-initials">HS</span>
           </div>
-          <span class="nav-profile-name" id="employer-display-name">Sri Balaji Auto</span>
+          <span class="nav-profile-name" id="employer-display-name">HyperScale Cloud Systems</span>
         </a>
         <button id="btn-employer-logout" class="nav-btn-link" title="Sign Out">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -201,10 +201,10 @@
           <span>Verified Hiring Business</span>
         </div>
         <h1 style="font-size: 26px; font-weight: 750; color: #14281D; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
-          Employer Workspace: Sri Balaji Auto Care & Service
+          Employer Workspace: HyperScale Cloud Systems
         </h1>
         <p style="color: #4B5563; font-size: 14px; max-width: 600px; line-height: 1.55;">
-          Review applicant resumes and unlock masked direct contact details of certified tradesmen across India.
+          Review applicant profiles and unlock masked direct contact details of certified software engineers, QA testers, and tech leaders across India.
         </p>
       </div>
 
@@ -492,9 +492,9 @@
       }
 
       // Populate user info
-      const cleanName = (user.name || 'Sri Balaji Auto').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
+      const cleanName = (user.name || 'HyperScale Cloud Systems').replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
       const parts = cleanName.split(/\s+/).filter(Boolean);
-      const initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || 'SB';
+      const initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || 'HS';
       const initialsEl = document.getElementById('nav-user-avatar-initials');
       if (initialsEl) initialsEl.textContent = initials;
       document.getElementById('employer-display-name').textContent = cleanName;
@@ -1058,7 +1058,7 @@
 
         window.jobApi.submitPayment({
           type: "employer_unlock",
-          userName: user.name || "Sri Balaji Auto Care",
+          userName: user.name || "HyperScale Cloud Systems",
           userRole: "employer",
           plan: currentModalPlan.title,
           amount: currentModalPlan.amount,
