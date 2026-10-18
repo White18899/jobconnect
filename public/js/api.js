@@ -27,7 +27,7 @@ class JobConnectApi {
   }
 
   initStorage() {
-    const CLEAN_VERSION = 'v23_d1_multi_domain_live_sync';
+    const CLEAN_VERSION = 'v24_clean_2workers_sync';
     if (typeof localStorage !== 'undefined') {
       const purged = localStorage.getItem('jc_clean_purged');
       if (purged !== CLEAN_VERSION) {
@@ -247,8 +247,8 @@ class JobConnectApi {
             };
           });
 
-          // Retain any pending local candidate not yet in backend
-          const pendingLocals = localCands.filter(lc => !serverIds.has(lc.id) && !serverNames.has((lc.name || '').toLowerCase()));
+          // Live D1 is authoritative: only retain explicit unsynced local drafts if any
+          const pendingLocals = localCands.filter(lc => lc._is_local_draft === true && !serverIds.has(lc.id));
           const unified = [...enrichedServerCands, ...pendingLocals];
 
           try {
