@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-    // =========================================================================
-  // 2. Staggered Editorial Masthead Reveal: J -> O -> B -> Emblem -> W -> A -> Y
+      // =========================================================================
+  // 2. Kinetic Magnetic Collision: Emblem Blooms -> Wings Snap Inward
   // =========================================================================
   function initHeroAnimations() {
     const wrapper = document.querySelector('.home-title-wrapper');
@@ -105,27 +105,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     const box2 = document.querySelector('.home-title-box-2');
     const imageBox = document.querySelector('.home-title-image-box');
 
-    // Stagger letter reveals across JOB [Emblem] WAY
-    // Sequence: J (0.06s) -> O (0.13s) -> B (0.20s) -> Emblem (0.27s) -> W (0.34s) -> A (0.41s) -> Y (0.48s)
-    const letters1 = box1 ? box1.querySelectorAll('.home-title-letter') : [];
-    const letters2 = box2 ? box2.querySelectorAll('.home-title-letter') : [];
+    // Left letters: J (index 0), O (index 1), B (index 2)
+    // Closest to center (B) is pulled in FIRST, then O, then J
+    const letters1 = box1 ? Array.from(box1.querySelectorAll('.home-title-letter')) : [];
+    // Right letters: W (index 0), A (index 1), Y (index 2)
+    // Closest to center (W) is pulled in FIRST, then A, then Y
+    const letters2 = box2 ? Array.from(box2.querySelectorAll('.home-title-letter')) : [];
 
     letters1.forEach((letter, index) => {
-      letter.style.setProperty('--letter-delay', (0.06 + index * 0.07).toFixed(2) + 's');
+      const distanceFromCenter = letters1.length - 1 - index;
+      letter.style.setProperty('--letter-delay', (0.12 + distanceFromCenter * 0.08).toFixed(2) + 's');
+      letter.style.setProperty('--letter-offset', (distanceFromCenter + 1).toString());
     });
-
-    if (imageBox) {
-      imageBox.style.setProperty('--image-delay', '0.27s');
-    }
 
     letters2.forEach((letter, index) => {
-      letter.style.setProperty('--letter-delay', (0.34 + index * 0.07).toFixed(2) + 's');
+      const distanceFromCenter = index;
+      letter.style.setProperty('--letter-delay', (0.12 + distanceFromCenter * 0.08).toFixed(2) + 's');
+      letter.style.setProperty('--letter-offset', (distanceFromCenter + 1).toString());
     });
 
-    // Subtitle lines glide up right after the wordmark finishes
+    // Subtitle lines glide up right after magnetic lockup completes
     const textInElements = document.querySelectorAll('.text-in');
     textInElements.forEach((el, index) => {
-      el.style.setProperty('--stagger-delay', (0.58 + index * 0.12).toFixed(2) + 's');
+      el.style.setProperty('--stagger-delay', (0.50 + index * 0.12).toFixed(2) + 's');
     });
 
     if (wrapper) {
@@ -134,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (box1) box1.classList.add('is-animated');
         if (box2) box2.classList.add('is-animated');
         if (imageBox) imageBox.classList.add('is-animated');
-      }, 50);
+      }, 60);
     }
   }
   initHeroAnimations();

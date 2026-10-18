@@ -515,49 +515,10 @@ button.nav-btn-link:hover,
   gap: 1.8vw;
   margin-top: 1vw;
   position: relative;
+  overflow: visible;
 }
 
-.home-title-box-1,
-.home-title-box-2 {
-  display: flex;
-  align-items: center;
-  gap: 0.25vw;
-  position: relative;
-  z-index: 2;
-}
-
-/* Invisible overflow mask for crisp editorial reveal */
-.letter-mask {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  height: 11vw;
-  line-height: 1;
-  vertical-align: middle;
-}
-
-.home-title-letter {
-  height: 11vw;
-  width: auto;
-  color: var(--color-text);
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
-  transform: translateY(115%);
-  opacity: 0;
-  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
-  transition-delay: var(--letter-delay, 0s);
-  will-change: transform, opacity;
-}
-
-.home-title-wrapper.is-animated .home-title-letter,
-.home-title-letter.is-revealed {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* Pure editorial upward glide - zero 3D distortion or flap flip */
+/* Emblem: Core Magnetic Attractor with Spring Bloom */
 .home-title-image-box {
   position: relative;
   z-index: 5;
@@ -565,7 +526,7 @@ button.nav-btn-link:hover,
   height: 8.8vw;
   margin: 0;
   align-self: center;
-  border-radius: 0;
+  border-radius: 50%;
   background: transparent;
   display: flex;
   align-items: center;
@@ -573,16 +534,50 @@ button.nav-btn-link:hover,
   padding: 0;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(22px) scale(0.92);
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: var(--image-delay, 0.26s);
+  transform: scale(0.18) rotate(-45deg);
+  transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
   will-change: transform, opacity;
 }
 
 .home-title-wrapper.is-animated .home-title-image-box,
 .home-title-image-box.is-animated {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: scale(1) rotate(0deg);
+}
+
+/* Radiant Golden Halo Shockwave expanding from Emblem */
+.emblem-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  background: radial-gradient(circle, rgba(169, 184, 135, 0.45) 0%, rgba(232, 233, 223, 0.1) 60%, transparent 80%);
+}
+
+.home-title-wrapper.is-animated .emblem-halo {
+  animation: halo-shockwave 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+@keyframes halo-shockwave {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0.95;
+    box-shadow: 0 0 0 2px rgba(169, 184, 135, 0.8), 0 0 25px rgba(169, 184, 135, 0.5);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 16px rgba(169, 184, 135, 0.3), 0 0 45px rgba(169, 184, 135, 0.3);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+    box-shadow: 0 0 0 35px transparent, 0 0 60px transparent;
+  }
 }
 
 .home-title-logo {
@@ -595,11 +590,89 @@ button.nav-btn-link:hover,
   filter: none;
   user-select: none;
   -webkit-user-drag: none;
+  position: relative;
+  z-index: 2;
 }
 
 .home-title-image-box:hover .home-title-logo {
   transform: scale(1.08) rotate(-2deg);
   filter: drop-shadow(0 6px 16px rgba(46, 61, 40, 0.15));
+}
+
+/* Metallic Sheen Gleam on Impact */
+@keyframes emblem-gleam {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(169, 184, 135, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(169, 184, 135, 0.7)) brightness(1.12);
+  }
+  100% {
+    filter: drop-shadow(0 2px 8px rgba(46, 61, 40, 0.12));
+  }
+}
+
+.home-title-wrapper.is-animated .home-title-logo {
+  animation: emblem-gleam 1.2s ease 0.35s forwards;
+}
+
+/* Wing Containers: Magnetically drawn toward the center */
+.home-title-box-1,
+.home-title-box-2 {
+  display: flex;
+  align-items: center;
+  gap: 0.25vw;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.75s cubic-bezier(0.2, 0.95, 0.3, 1);
+  will-change: transform;
+}
+
+/* "JOB" starts shifted outwards to the left */
+.home-title-box-1 {
+  transform: translateX(-48px);
+}
+
+/* "WAY" starts shifted outwards to the right */
+.home-title-box-2 {
+  transform: translateX(48px);
+}
+
+.home-title-wrapper.is-animated .home-title-box-1,
+.home-title-wrapper.is-animated .home-title-box-2 {
+  transform: translateX(0);
+}
+
+/* Individual Letters: Horizontal Stagger + Blur-to-Focus Snap */
+.home-title-letter {
+  height: 11vw;
+  width: auto;
+  color: var(--color-text);
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0;
+  filter: blur(10px);
+  transition: transform 0.75s cubic-bezier(0.2, 0.95, 0.3, 1), opacity 0.4s ease, filter 0.55s ease;
+  transition-delay: var(--letter-delay, 0s);
+  will-change: transform, opacity, filter;
+}
+
+/* Left side letters (J, O, B) have extra leftward displacement */
+.home-title-box-1 .home-title-letter {
+  transform: translateX(calc(var(--letter-offset, 1) * -22px)) scale(0.92);
+}
+
+/* Right side letters (W, A, Y) have extra rightward displacement */
+.home-title-box-2 .home-title-letter {
+  transform: translateX(calc(var(--letter-offset, 1) * 22px)) scale(0.92);
+}
+
+/* Snapped State: Razor sharp, locked into place */
+.home-title-wrapper.is-animated .home-title-letter {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateX(0) scale(1);
 }
 
 @keyframes show-image {
@@ -1118,12 +1191,16 @@ button.nav-btn-link:hover,
     gap: 2.2vw;
   }
 
-  .home-title-box-1,
-  .home-title-box-2 {
-    height: 14vw;
+  .home-title-box-1 {
+    transform: translateX(-24px);
   }
 
-  .letter-mask {
+  .home-title-box-2 {
+    transform: translateX(24px);
+  }
+
+  .home-title-box-1,
+  .home-title-box-2 {
     height: 14vw;
   }
 
