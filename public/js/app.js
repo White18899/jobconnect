@@ -258,7 +258,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const coverImg = getJobImage(job.category);
       const minSal = (job.salary_min || 16000).toLocaleString('en-IN');
       const maxSal = (job.salary_max || 25000).toLocaleString('en-IN');
-      const vacanciesCount = job.vacancies || 1;
 
       return `
         <a class="project-card" href="/jobs.html?id=${encodeURIComponent(job.id)}">
@@ -267,7 +266,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="project-card-badges">
               <span class="project-card-badge">₹${minSal} – ₹${maxSal} / mo</span>
               <span class="project-card-badge project-card-badge-verified">Verified Employer</span>
-              <span class="project-card-badge" style="background: rgba(0,0,0,0.8); color: #fff;">${vacanciesCount} Open</span>
             </div>
           </div>
 

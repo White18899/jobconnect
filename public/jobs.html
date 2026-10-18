@@ -1749,7 +1749,6 @@
               <div class="job-card-body" style="padding: 18px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
                 <div class="job-card-serial-row" style="display: flex; justify-content: space-between; align-items: baseline;">
                   <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${job.category}</span>
-                  <span style="font-family: var(--font-mono); font-size: 11px; color: #059669; font-weight: 600; background: #ECFDF5; padding: 2px 7px; border-radius: 4px;">${job.vacancies || 1} Open</span>
                 </div>
 
                 <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${job.title}</h3>
@@ -1942,13 +1941,13 @@
                 <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">SHIFT SCHEDULE</div>
                 <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${job.working_hours || 'Day Shift (8 hrs)'}</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px;">
-                <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--color-text-secondary);">VACANCIES OPEN</div>
-                <div style="font-size: 13px; font-weight: 600; margin-top: 2px;">${job.vacancies || 1} Position</div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
+                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">HIRING STATUS</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #059669; margin-top: 2px;">Actively Hiring</div>
               </div>
-              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px;">
-                <div style="font-size: 10.5px; font-family: var(--font-mono); color: var(--color-text-secondary);">OVERTIME POLICY</div>
-                <div style="font-size: 13px; font-weight: 600; margin-top: 2px;">Standard Statutory (1.5x)</div>
+              <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
+                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">OVERTIME POLICY</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">Standard Statutory (1.5x)</div>
               </div>
             </div>
           </div>
