@@ -554,7 +554,36 @@
       background: #059669;
       border-color: #059669;
       color: #FFFFFF;
-      cursor: default;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .btn-card-apply.applied .btn-applied-hover {
+      display: none !important;
+    }
+
+    .btn-card-apply.applied .btn-applied-default {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-card-apply.applied:hover {
+      background: #DC2626 !important;
+      border-color: #DC2626 !important;
+      color: #FFFFFF !important;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.28) !important;
+    }
+
+    .btn-card-apply.applied:hover .btn-applied-default {
+      display: none !important;
+    }
+
+    .btn-card-apply.applied:hover .btn-applied-hover {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 4px;
     }
 
     .btn-card-specs {
@@ -733,10 +762,37 @@
     }
 
     .btn-drawer-apply.applied {
-      background: #10b981;
-      border-color: #10b981;
+      background: #059669;
+      border-color: #059669;
       color: #ffffff;
       cursor: default;
+    }
+
+    .btn-drawer-unapply {
+      height: 44px;
+      padding: 0 16px;
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+      border-radius: var(--radius-xs);
+      font-size: 12.5px;
+      font-weight: 650;
+      font-family: var(--font-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-drawer-unapply:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
     }
 
     .btn-drawer-whatsapp {
@@ -1460,7 +1516,7 @@
 
   <!-- Scripts -->
   <script src="js/job-library.js?v=24"></script>
-  <script src="js/api.js?v=25"></script>
+  <script src="js/api.js?v=26"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Session State Check
@@ -1832,8 +1888,11 @@
                       <span style="font-size: 13px;">→</span>
                     </button>
                   ` : `
-                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="apply" data-job-id="${job.id}" ${isApplied ? 'disabled' : ''} style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-                      ${isApplied ? '<span>✓ Applied</span>' : '<span>1-Click Apply</span>'}
+                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="${isApplied ? 'unapply' : 'apply'}" data-job-id="${job.id}" title="${isApplied ? 'Click to withdraw application' : '1-Click Apply'}" style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                      ${isApplied ? `
+                        <span class="btn-applied-default">✓ Applied</span>
+                        <span class="btn-applied-hover">✕ Withdraw</span>
+                      ` : '<span>1-Click Apply</span>'}
                     </button>
 
                     <a class="btn-card-view" data-action="view" data-job-id="${job.id}" style="font-size: 12px; font-weight: 600; color: #64748B; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
@@ -1850,8 +1909,15 @@
         // Attach Card Click & Button Listeners
         gridContainer.querySelectorAll('.job-editorial-card').forEach(card => {
           card.addEventListener('click', (e) => {
+            const unapplyBtn = e.target.closest('[data-action="unapply"]');
             const applyBtn = e.target.closest('[data-action="apply"]');
             const jobId = card.dataset.jobId;
+
+            if (unapplyBtn) {
+              e.stopPropagation();
+              handleUnapplyClick(jobId);
+              return;
+            }
 
             if (applyBtn) {
               e.stopPropagation();
@@ -1863,6 +1929,35 @@
             openJobDrawer(jobId);
           });
         });
+      }
+
+      // Withdraw / Unapply Handler
+      async function handleUnapplyClick(jobId) {
+        const job = allJobs.find(j => j.id === jobId);
+        if (!job) return;
+
+        if (!user) return;
+
+        if (!confirm(`Are you sure you want to withdraw your application for "${job.title}"?`)) {
+          return;
+        }
+
+        try {
+          await window.jobApi.unapplyJob(job.id);
+          appliedJobIds.delete(job.id);
+
+          showToast(`Application withdrawn for "${job.title}".`, 'info');
+          render3CardGrid();
+
+          // If drawer is currently showing this job, refresh drawer content
+          if (drawerOverlay && drawerOverlay.classList.contains('active')) {
+            openJobDrawer(job.id);
+          }
+        } catch (err) {
+          console.error("Unapply error:", err);
+          appliedJobIds.delete(job.id);
+          render3CardGrid();
+        }
       }
 
       // 1-Click Apply Handler
@@ -1958,9 +2053,20 @@
                 </a>
               `}
             ` : `
-              <button type="button" class="btn-drawer-apply ${isApplied ? 'applied' : ''}" id="btn-drawer-apply-action" ${isApplied ? 'disabled' : ''}>
-                ${isApplied ? '✓ Application Submitted' : '1-Click Apply with Trade Pass'}
-              </button>
+              ${isApplied ? `
+                <div style="display: flex; gap: 8px; flex: 1; align-items: center;">
+                  <button type="button" class="btn-drawer-apply applied" id="btn-drawer-apply-action" disabled style="flex: 1; opacity: 0.95;">
+                    ✓ Application Submitted
+                  </button>
+                  <button type="button" class="btn-drawer-unapply" id="btn-drawer-unapply-action" title="Withdraw your application for this vacancy">
+                    <span>✕ Withdraw</span>
+                  </button>
+                </div>
+              ` : `
+                <button type="button" class="btn-drawer-apply" id="btn-drawer-apply-action">
+                  1-Click Apply with Trade Pass
+                </button>
+              `}
             `}
 
             <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-drawer-whatsapp">
@@ -2021,9 +2127,13 @@
           </div>
         `;
 
-        // Drawer Apply Button Listener
+        // Drawer Apply / Unapply Button Listeners
         document.getElementById('btn-drawer-apply-action')?.addEventListener('click', () => {
           handleApplyClick(job.id);
+        });
+
+        document.getElementById('btn-drawer-unapply-action')?.addEventListener('click', () => {
+          handleUnapplyClick(job.id);
         });
 
         drawerOverlay.classList.add('active');

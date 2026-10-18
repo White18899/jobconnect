@@ -593,6 +593,43 @@ workerRoutes.post('/jobs/:id/apply', authMiddleware, roleGuard(['worker']), asyn
   });
 });
 
+// 5b. Unapply / Withdraw Job Application
+workerRoutes.delete('/jobs/:id/apply', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  const jobId = c.req.param('id');
+
+  const worker = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  if (worker) {
+    await c.env.DB.prepare('DELETE FROM applications WHERE (job_id = ? OR id = ?) AND worker_id = ?').bind(jobId, jobId, worker.id).run();
+  }
+
+  return c.json({ success: true, message: 'Application withdrawn successfully' });
+});
+
+workerRoutes.post('/jobs/:id/unapply', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  const jobId = c.req.param('id');
+
+  const worker = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  if (worker) {
+    await c.env.DB.prepare('DELETE FROM applications WHERE (job_id = ? OR id = ?) AND worker_id = ?').bind(jobId, jobId, worker.id).run();
+  }
+
+  return c.json({ success: true, message: 'Application withdrawn successfully' });
+});
+
+workerRoutes.delete('/worker/applications/:appId', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  const appId = c.req.param('appId');
+
+  const worker = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  if (worker) {
+    await c.env.DB.prepare('DELETE FROM applications WHERE (id = ? OR job_id = ?) AND worker_id = ?').bind(appId, appId, worker.id).run();
+  }
+
+  return c.json({ success: true, message: 'Application withdrawn successfully' });
+});
+
 // 6. Worker Applications List
 workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), async (c) => {
   const user = c.get('user');

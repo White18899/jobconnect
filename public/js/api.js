@@ -211,6 +211,30 @@ class JobConnectApi {
     return newApp;
   }
 
+  async unapplyJob(jobId) {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const endpoint = (typeof jobId === 'string' && jobId.startsWith('app_'))
+          ? `${this.baseUrl}/worker/applications/${jobId}`
+          : `${this.baseUrl}/jobs/${jobId}/apply`;
+
+        await fetch(endpoint, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+    } catch (e) {
+      console.warn('Network error while withdrawing application, updating local cache:', e);
+    }
+
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const filtered = apps.filter(a => a.job_id !== jobId && a.id !== jobId);
+    localStorage.setItem('jc_apps', JSON.stringify(filtered));
+
+    return { success: true, message: 'Application withdrawn successfully' };
+  }
+
   getApplications() {
     return JSON.parse(localStorage.getItem('jc_apps') || '[]');
   }
@@ -249,6 +273,9 @@ class JobConnectApi {
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data.applications)) {
+            try {
+              localStorage.setItem('jc_apps', JSON.stringify(data.applications));
+            } catch(e) {}
             return data.applications;
           }
         }

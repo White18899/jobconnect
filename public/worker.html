@@ -25,6 +25,15 @@
       }
     } catch(e) {}
   </script>
+  <style>
+    .btn-withdraw-action:hover {
+      background: #FEF2F2 !important;
+      color: #DC2626 !important;
+      border-color: #FECACA !important;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.12);
+    }
+  </style>
 </head>
 <body class="editorial-page">
 
@@ -399,7 +408,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=25"></script>
+  <script src="js/api.js?v=26"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Check auth
@@ -620,7 +629,7 @@
               </div>
             </div>
 
-            <div class="action-rail" style="display: flex; align-items: center; gap: 12px;">
+            <div class="action-rail" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
               ${app.status === 'shortlisted' ? `
                 <span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
                   SHORTLISTED
@@ -642,6 +651,11 @@
                   <span>Top Placement Active</span>
                 </span>
               `}
+
+              <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${app.job_title || 'Position'}" title="Withdraw this application" style="display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; font-size: 12px; font-weight: 650; border-radius: 8px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #64748B; cursor: pointer; transition: all 0.18s ease;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <span>Withdraw</span>
+              </button>
             </div>
           </div>
         `).join('');
@@ -650,6 +664,29 @@
           b.addEventListener('click', (e) => {
             selectedAppId = e.currentTarget.dataset.id;
             boostModal.classList.add('active');
+          });
+        });
+
+        document.querySelectorAll('.trigger-withdraw-btn').forEach(b => {
+          b.addEventListener('click', async (e) => {
+            const btn = e.currentTarget;
+            const appId = btn.dataset.id;
+            const jobId = btn.dataset.jobId;
+            const title = btn.dataset.title;
+            if (!confirm(`Are you sure you want to withdraw your application for "${title}"?`)) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>Withdrawing...</span>';
+            try {
+              await window.jobApi.unapplyJob(jobId || appId);
+              showToast('Application withdrawn successfully', 'info');
+              await renderApplications();
+            } catch (err) {
+              console.error('Withdraw error:', err);
+              showToast('Error withdrawing application', 'error');
+              btn.disabled = false;
+              btn.innerHTML = '<span>Withdraw</span>';
+            }
           });
         });
       }
