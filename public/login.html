@@ -828,6 +828,13 @@
         }
       });
 
+      inputAdminPass.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          btnSubmitAdmin.click();
+        }
+      });
+
     });
   </script>
 
@@ -860,6 +867,7 @@
           <a class="footer-link" href="/">Public Landing</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
           <a class="footer-link" href="/candidates.html">Candidates</a>
+          <a class="footer-link" href="/login.html?mode=admin" style="font-weight: 600; color: #059669;">Admin Console</a>
           <a class="footer-link" href="mailto:support@job-way.in">Support Desk</a>
         </div>
       </div>
