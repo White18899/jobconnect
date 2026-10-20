@@ -362,3 +362,53 @@ export function getPasswordResetEmailHtml(code: string, recipientEmail: string):
 </body>
 </html>`;
 }
+
+/**
+ * HTML Email Template for New User Welcome (Google Sign-In / Direct Registration)
+ */
+export function getWelcomeEmailHtml(name: string, role: 'worker' | 'employer'): string {
+  const roleTitle = role === 'employer' ? 'Employer / Hiring Partner' : 'Verified Trade Professional';
+  const roleDescription = role === 'employer' 
+    ? 'You can now publish trade openings, browse verified candidates, and hire technical workers directly with zero platform commissions.'
+    : 'You can now complete your technical profile, showcase your skills, and get discovered by local employers for high-paying trade jobs.';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to JobWay</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
+  <div style="max-width: 560px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 32px 24px; text-align: center;">
+      <h1 style="margin: 0; color: #f59e0b; font-size: 26px; font-weight: 800; letter-spacing: -0.02em;">JobWay</h1>
+      <p style="margin: 6px 0 0; color: #94a3b8; font-size: 13px; font-weight: 600;">job-way.in • Direct Employment Network</p>
+    </div>
+    <div style="padding: 34px 28px;">
+      <h2 style="margin: 0 0 12px; font-size: 20px; font-weight: 800; color: #0f172a;">Welcome to JobWay, ${name}!</h2>
+      <p style="margin: 0 0 16px; font-size: 14px; line-height: 1.6; color: #475569;">
+        Your account has been successfully created and verified on <strong>JobWay</strong> as a <strong>${roleTitle}</strong>.
+      </p>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin: 20px 0;">
+        <div style="font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Your Next Step:</div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #64748b;">
+          ${roleDescription}
+        </p>
+      </div>
+
+      <div style="text-align: center; margin: 28px 0 16px;">
+        <a href="https://job-way.in/login.html" style="display: inline-block; background-color: #059669; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700; letter-spacing: -0.01em;">
+          Go to Your Dashboard →
+        </a>
+      </div>
+    </div>
+    <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 24px; text-align: center; font-size: 11px; color: #94a3b8;">
+      JobWay (job-way.in) • Official transactional email from noreply@job-way.in
+    </div>
+  </div>
+</body>
+</html>`;
+}
+

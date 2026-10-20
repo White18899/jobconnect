@@ -17,6 +17,7 @@ SMTP_PORT = "587"
 SMTP_USER = "b2ab18001@smtp-brevo.com"
 SMTP_FROM = "JobWay <noreply@job-way.in>"
 SMTP_SECURE = "false"
+GOOGLE_CLIENT_ID = "327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleusercontent.com"
 
 
 

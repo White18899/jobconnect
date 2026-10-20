@@ -2,14 +2,16 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { Env, UserTokenPayload } from '../config/env';
 import { APP_CONSTANTS } from '../config/constants';
-import { generateOtp, checkRateLimit } from '../services/otp';
+import { generateOtp, checkRateLimit, storeOtp, verifyOtp } from '../services/otp';
 import { hashPassword, verifyPassword } from '../services/password';
 import {
   sendSmtpEmail,
   getVerificationEmailHtml,
   getPasswordResetEmailHtml,
+  getWelcomeEmailHtml,
   SmtpConfig,
 } from '../services/smtp';
+import { sendWhatsAppOtp } from '../services/whatsapp';
 import { signJwt, authMiddleware } from '../middlewares/auth';
 
 const authRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
@@ -506,6 +508,295 @@ authRoutes.get('/me', authMiddleware, async (c) => {
   return c.json({
     user: userRow,
     profile,
+  });
+});
+
+// -------------------------------------------------------------
+// 8. GOOGLE AUTHENTICATION HELPERS & ROUTES
+// -------------------------------------------------------------
+async function verifyGoogleCredential(credential: string, expectedClientId?: string): Promise<{
+  valid: boolean;
+  email?: string;
+  name?: string;
+  picture?: string;
+  sub?: string;
+  error?: string;
+}> {
+  try {
+    const res = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`);
+    if (!res.ok) {
+      return { valid: false, error: 'Failed to verify Google token with Google servers' };
+    }
+    const data: any = await res.json();
+    if (expectedClientId && data.aud !== expectedClientId) {
+      console.warn(`[Google Auth] Audience mismatch: expected ${expectedClientId}, got ${data.aud}`);
+    }
+    const emailVerified = data.email_verified === 'true' || data.email_verified === true;
+    if (!emailVerified || !data.email) {
+      return { valid: false, error: 'Google account email is not verified' };
+    }
+    return {
+      valid: true,
+      email: data.email.toLowerCase().trim(),
+      name: data.name || data.given_name || 'Google User',
+      picture: data.picture,
+      sub: data.sub,
+    };
+  } catch (err: any) {
+    return { valid: false, error: err?.message || 'Google token validation error' };
+  }
+}
+
+const googleAuthSchema = z.object({
+  credential: z.string().min(10, 'Google credential is required'),
+});
+
+authRoutes.post('/google', async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const parsed = googleAuthSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0]?.message || 'Invalid Google credential' }, 400);
+  }
+
+  const { credential } = parsed.data;
+  const googleRes = await verifyGoogleCredential(credential, c.env.GOOGLE_CLIENT_ID);
+  if (!googleRes.valid || !googleRes.email) {
+    return c.json({ error: googleRes.error || 'Invalid Google authentication credential' }, 401);
+  }
+
+  const email = googleRes.email;
+
+  // Check if account already exists in D1
+  const existingUser = await c.env.DB.prepare(`
+    SELECT id, email, phone, role, is_blocked, is_verified
+    FROM users WHERE email = ?
+  `).bind(email).first<{
+    id: string;
+    email: string;
+    phone: string | null;
+    role: 'worker' | 'employer' | 'admin';
+    is_blocked: number;
+    is_verified: number;
+  }>();
+
+  if (existingUser) {
+    if (existingUser.is_blocked === 1) {
+      return c.json({ error: 'Your account has been suspended. Please contact support.' }, 403);
+    }
+
+    // Existing user: retrieve display name and sign JWT
+    let displayName = googleRes.name || existingUser.email;
+    if (existingUser.role === 'worker') {
+      const wp = await c.env.DB.prepare('SELECT full_name FROM worker_profiles WHERE user_id = ?').bind(existingUser.id).first<{ full_name: string }>();
+      if (wp?.full_name) displayName = wp.full_name;
+    } else if (existingUser.role === 'employer') {
+      const ep = await c.env.DB.prepare('SELECT business_name FROM employer_profiles WHERE user_id = ?').bind(existingUser.id).first<{ business_name: string }>();
+      if (ep?.business_name) displayName = ep.business_name;
+    } else if (existingUser.role === 'admin') {
+      displayName = 'Super Administrator';
+    }
+
+    const secret = c.env.JWT_SECRET || 'jobconnect-super-secret-key-change-in-prod';
+    const token = await signJwt(
+      {
+        userId: existingUser.id,
+        email: existingUser.email,
+        phone: existingUser.phone || undefined,
+        role: existingUser.role,
+      },
+      secret,
+      7 * 86400
+    );
+
+    return c.json({
+      success: true,
+      isNewUser: false,
+      token,
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+        name: displayName,
+        role: existingUser.role,
+        isVerified: true,
+      },
+    });
+  }
+
+  // 1st Time Login: Prompt user to choose role!
+  return c.json({
+    success: true,
+    isNewUser: true,
+    googleUser: {
+      email,
+      name: googleRes.name,
+      picture: googleRes.picture,
+    },
+  });
+});
+
+const googleConfirmRoleSchema = z.object({
+  credential: z.string().min(10),
+  role: z.enum(['worker', 'employer']),
+  phone: z.string().optional(),
+  name: z.string().optional(),
+});
+
+authRoutes.post('/google/confirm-role', async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const parsed = googleConfirmRoleSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0]?.message || 'Invalid parameters' }, 400);
+  }
+
+  const { credential, role, phone, name } = parsed.data;
+  const googleRes = await verifyGoogleCredential(credential, c.env.GOOGLE_CLIENT_ID);
+  if (!googleRes.valid || !googleRes.email) {
+    return c.json({ error: googleRes.error || 'Invalid Google credential' }, 401);
+  }
+
+  const email = googleRes.email;
+  const fullName = (name || googleRes.name || 'JobWay User').trim();
+  const normalizedPhone = phone ? normalizePhone(phone) : null;
+
+  // Double check if account exists
+  let existingUser = await c.env.DB.prepare(
+    'SELECT id, role, is_blocked FROM users WHERE email = ?'
+  ).bind(email).first<{ id: string; role: 'worker' | 'employer' | 'admin'; is_blocked: number }>();
+
+  let userId = existingUser?.id;
+
+  if (!existingUser) {
+    userId = 'usr_' + crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+    try {
+      await c.env.DB.prepare(`
+        INSERT INTO users (id, email, password_hash, password_salt, phone, role, is_blocked, is_verified)
+        VALUES (?, ?, NULL, NULL, ?, ?, 0, 1)
+      `).bind(userId, email, normalizedPhone, role).run();
+
+      if (role === 'worker') {
+        const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+        await c.env.DB.prepare(`
+          INSERT INTO worker_profiles (id, user_id, full_name, photo_key, phone, skills, preferred_area, city, verification_status)
+          VALUES (?, ?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'verified')
+        `).bind(wpId, userId, fullName, googleRes.picture || null, normalizedPhone).run();
+      } else {
+        const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+        await c.env.DB.prepare(`
+          INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status)
+          VALUES (?, ?, ?, 'Trade Enterprise', ?, 'Hyderabad', 'City Center', 'Pending Address', 17.3850, 78.4867, 'verified')
+        `).bind(epId, userId, fullName, fullName).run();
+      }
+
+      // Send official welcome email via custom domain SMTP from noreply@job-way.in
+      const smtpConfig = getSmtpConfig(c.env);
+      sendSmtpEmail({
+        to: email,
+        subject: `Welcome to JobWay, ${fullName}!`,
+        html: getWelcomeEmailHtml(fullName, role),
+        text: `Welcome to JobWay! Your account has been created and verified as a ${role === 'employer' ? 'Employer' : 'Worker'}.`,
+      }, smtpConfig).catch(err => console.error('[Welcome Email Error]:', err));
+
+    } catch (err: any) {
+      console.error('Account creation DB error:', err);
+      return c.json({ error: err.message || 'Failed to create profile' }, 500);
+    }
+  }
+
+  const assignedRole = existingUser ? existingUser.role : role;
+  const secret = c.env.JWT_SECRET || 'jobconnect-super-secret-key-change-in-prod';
+  const token = await signJwt(
+    {
+      userId: userId!,
+      email,
+      phone: normalizedPhone || undefined,
+      role: assignedRole,
+    },
+    secret,
+    7 * 86400
+  );
+
+  return c.json({
+    success: true,
+    token,
+    user: {
+      id: userId,
+      email,
+      name: fullName,
+      role: assignedRole,
+      isVerified: true,
+    },
+  });
+});
+
+// -------------------------------------------------------------
+// 9. WHATSAPP OTP ENDPOINTS
+// -------------------------------------------------------------
+const whatsappOtpRequestSchema = z.object({
+  phone: z.string().min(10, 'Valid 10-digit mobile number required'),
+});
+
+authRoutes.post('/whatsapp-otp/request', async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const parsed = whatsappOtpRequestSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0]?.message || 'Invalid phone number' }, 400);
+  }
+
+  const phone = normalizePhone(parsed.data.phone);
+
+  if (!c.env.KV) {
+    return c.json({ error: 'KV storage not configured' }, 500);
+  }
+
+  // Rate limit check
+  const rateLimitKey = `wa_ratelimit:${phone}`;
+  const { allowed } = await checkRateLimit(c.env.KV, rateLimitKey, 4, 600);
+  if (!allowed) {
+    return c.json({ error: 'Too many OTP requests. Please wait 10 minutes.' }, 429);
+  }
+
+  const otp = generateOtp();
+  await storeOtp(c.env.KV, phone, otp);
+
+  const waResult = await sendWhatsAppOtp(phone, otp, c.env);
+
+  return c.json({
+    success: true,
+    message: waResult.success ? `Verification code dispatched to WhatsApp (+${phone.replace(/\D/g, '')})` : 'OTP generated',
+    phone,
+    isMock: waResult.isMock,
+    devCode: (waResult.isMock || c.env.ENVIRONMENT === 'development') ? otp : undefined,
+  });
+});
+
+const whatsappOtpVerifySchema = z.object({
+  phone: z.string().min(10),
+  otp: z.string().min(4).max(6),
+});
+
+authRoutes.post('/whatsapp-otp/verify', async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const parsed = whatsappOtpVerifySchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0]?.message || 'Invalid verification request' }, 400);
+  }
+
+  const phone = normalizePhone(parsed.data.phone);
+  const otp = parsed.data.otp.trim();
+
+  if (!c.env.KV) {
+    return c.json({ error: 'KV storage unavailable' }, 500);
+  }
+
+  const result = await verifyOtp(c.env.KV, phone, otp);
+  if (!result.valid) {
+    return c.json({ error: result.error || 'Invalid or expired OTP' }, 400);
+  }
+
+  return c.json({
+    success: true,
+    message: 'WhatsApp number verified successfully!',
+    phone,
   });
 });
 

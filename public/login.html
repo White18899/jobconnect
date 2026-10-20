@@ -156,7 +156,69 @@
       color: #FFFFFF !important;
       stroke: #FFFFFF !important;
     }
+    .btn-google-auth {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #DADCE0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #3C4043;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    .btn-google-auth:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      margin: 18px 0;
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #E2E8F0;
+    }
+    .auth-divider span {
+      padding: 0 12px;
+    }
+    .btn-wa-otp {
+      background: #DCFCE7;
+      border: 1px solid #86EFAC;
+      color: #166534;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-wa-otp:hover {
+      background: #BBF7D0;
+      border-color: #4ADE80;
+    }
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="editorial-page" style="min-height: 100vh; display: flex; flex-direction: column;">
 
@@ -205,6 +267,19 @@
           </p>
         </div>
 
+        <!-- Google One-Tap & Sign In Button -->
+        <div style="margin-bottom: 16px;">
+          <button type="button" class="btn-google-auth" id="btn-google-login-action">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+          <div id="google-hidden-login-btn" style="display: none;"></div>
+        </div>
+
+        <div class="auth-divider">
+          <span>or sign in with email</span>
+        </div>
+
         <form id="form-login" onsubmit="return false;">
           <div class="form-group">
             <label class="form-label" for="login-email">Email Address *</label>
@@ -239,13 +314,26 @@
       <!-- VIEW 2: CREATE ACCOUNT (STEP 1 - DETAILS)                 -->
       <!-- ========================================================= -->
       <div id="view-register" style="display: none;">
-        <div style="text-align: center; margin-bottom: 22px;">
+        <div style="text-align: center; margin-bottom: 18px;">
           <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
             Create Your Account
           </h1>
           <p style="font-size: 12.5px; color: var(--text-secondary);">
             Instant email verification • Powered by JobWay SMTP
           </p>
+        </div>
+
+        <!-- Google Register Button -->
+        <div style="margin-bottom: 16px;">
+          <button type="button" class="btn-google-auth" id="btn-google-reg-action">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span>Sign up with Google</span>
+          </button>
+          <div id="google-hidden-reg-btn" style="display: none;"></div>
+        </div>
+
+        <div class="auth-divider">
+          <span>or register with email</span>
         </div>
 
         <!-- Role Selector -->
@@ -281,10 +369,27 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="reg-phone">Mobile Phone (Optional)</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="reg-phone" style="margin-bottom: 0;">Mobile Phone (Optional)</label>
+              <button type="button" class="btn-wa-otp" id="btn-request-wa-otp" title="Verify your number via WhatsApp OTP">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
+                <span>WhatsApp OTP</span>
+              </button>
+            </div>
             <div style="display: flex; gap: 8px;">
               <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
               <input type="tel" id="reg-phone" class="form-input" placeholder="98491 23434" maxlength="10">
+            </div>
+            <!-- Inline WhatsApp OTP verification box -->
+            <div id="wa-otp-inline-box" style="display: none; margin-top: 8px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-size: 11.5px; font-weight: 600; color: #166534;" id="wa-otp-status-text">Enter WhatsApp OTP:</span>
+                <span id="wa-otp-dev-badge" style="display: none; font-size: 11px; background: #DCFCE7; color: #15803D; padding: 2px 6px; border-radius: 4px; font-family: monospace;">Demo: 123456</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <input type="text" id="reg-wa-otp-input" class="form-input" placeholder="••••••" maxlength="6" style="padding: 7px 10px; font-size: 13px; letter-spacing: 2px; text-align: center; font-family: monospace;">
+                <button type="button" id="btn-verify-wa-otp" style="background: #166534; color: white; border: none; border-radius: 6px; padding: 0 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap;">Verify</button>
+              </div>
             </div>
           </div>
 
@@ -437,6 +542,66 @@
         </form>
       </div>
 
+      <!-- ========================================================= -->
+      <!-- VIEW 6: GOOGLE 1ST-TIME ONBOARDING (SELECT ROLE)          -->
+      <!-- ========================================================= -->
+      <div id="view-google-role" style="display: none;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <div style="position: relative; width: 68px; height: 68px; margin: 0 auto 12px;">
+            <img id="google-avatar-img" src="assets/logo.png" alt="Profile" style="width: 68px; height: 68px; border-radius: 50%; object-fit: cover; border: 2.5px solid #059669; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);">
+            <span style="position: absolute; bottom: 0; right: 0; background: #059669; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid #FFFFFF;">✓</span>
+          </div>
+          <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
+            Welcome, <span id="google-user-name">User</span>!
+          </h1>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
+            Google Account: <strong id="google-user-email" style="color: #059669;">user@gmail.com</strong>
+          </p>
+          <p style="font-size: 12px; color: var(--text-muted);">
+            Please select how you want to use JobWay to complete your profile:
+          </p>
+        </div>
+
+        <!-- Role Selection Cards -->
+        <div class="role-toggle-grid" style="margin-bottom: 18px;">
+          <div class="role-toggle-card selected" id="google-card-role-worker" style="padding: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
+              <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">Trade Worker</div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--success); font-weight: 700; margin-bottom: 4px;">100% Free Forever</div>
+            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Find trade jobs, get skill verified, connect directly with employers.</div>
+          </div>
+
+          <div class="role-toggle-card" id="google-card-role-employer" style="padding: 14px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+              <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">Employer / Shop</div>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">Direct Hiring Desk</div>
+            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Publish trade vacancies, browse candidates, direct contact.</div>
+          </div>
+        </div>
+
+        <form id="form-google-role" onsubmit="return false;">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label class="form-label" for="google-phone">Mobile Phone (Optional)</label>
+            <div style="display: flex; gap: 8px;">
+              <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
+              <input type="tel" id="google-phone" class="form-input" placeholder="98491 23434" maxlength="10">
+            </div>
+            <span style="font-size: 11.5px; color: #059669; display: flex; align-items: center; gap: 5px; margin-top: 6px;">
+              💬 Instant trade updates & WhatsApp job notifications
+            </span>
+          </div>
+
+          <button type="button" class="search-btn" id="btn-submit-google-role" style="width: 100%; justify-content: center; padding: 12px; font-size: 13.5px; margin-bottom: 10px;">
+            <span>Complete Registration & Go to Dashboard</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </form>
+      </div>
+
     </div>
   </main>
 
@@ -453,6 +618,8 @@
       const viewVerifyCode = document.getElementById('view-verify-code');
       const viewForgotPassword = document.getElementById('view-forgot-password');
       const viewAdmin = document.getElementById('view-admin');
+      const viewGoogleRole = document.getElementById('view-google-role');
+      const authModeSwitch = document.querySelector('.auth-mode-switch');
 
       // Top Mode Tabs
       const tabModeLogin = document.getElementById('tab-mode-login');
@@ -465,6 +632,23 @@
       const cardRoleEmployer = document.getElementById('card-role-employer');
       const labelRegName = document.getElementById('label-reg-name');
       const inputRegName = document.getElementById('reg-name');
+
+      // Google 1st-Time Role State
+      const GOOGLE_CLIENT_ID = '327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleusercontent.com';
+      let pendingGoogleCredential = null;
+      let selectedGoogleRole = 'worker';
+      const googleCardWorker = document.getElementById('google-card-role-worker');
+      const googleCardEmployer = document.getElementById('google-card-role-employer');
+      const btnSubmitGoogleRole = document.getElementById('btn-submit-google-role');
+
+      // WhatsApp OTP Elements
+      const btnRequestWaOtp = document.getElementById('btn-request-wa-otp');
+      const waOtpInlineBox = document.getElementById('wa-otp-inline-box');
+      const regWaOtpInput = document.getElementById('reg-wa-otp-input');
+      const btnVerifyWaOtp = document.getElementById('btn-verify-wa-otp');
+      const waOtpStatusText = document.getElementById('wa-otp-status-text');
+      const waOtpDevBadge = document.getElementById('wa-otp-dev-badge');
+      let isPhoneWaVerified = false;
 
       // Registration Inputs
       const inputRegEmail = document.getElementById('reg-email');
@@ -522,11 +706,18 @@
         // Only display the Admin tab when in admin mode (direct URL access)
         tabModeAdmin.style.display = mode === 'admin' ? 'block' : 'none';
 
+        if (authModeSwitch) {
+          authModeSwitch.style.display = (mode === 'google-role' || mode === 'verify' || mode === 'forgot') ? 'none' : 'flex';
+        }
+
         viewLogin.style.display = mode === 'login' ? 'block' : 'none';
         viewRegister.style.display = mode === 'register' ? 'block' : 'none';
         viewVerifyCode.style.display = mode === 'verify' ? 'block' : 'none';
         viewForgotPassword.style.display = mode === 'forgot' ? 'block' : 'none';
         viewAdmin.style.display = mode === 'admin' ? 'block' : 'none';
+        if (viewGoogleRole) {
+          viewGoogleRole.style.display = mode === 'google-role' ? 'block' : 'none';
+        }
       }
 
       // Mode Switch Handlers
@@ -537,7 +728,7 @@
       document.getElementById('link-goto-register')?.addEventListener('click', () => setMode('register'));
       document.getElementById('link-goto-login')?.addEventListener('click', () => setMode('login'));
 
-      // Role Selection in Registration
+      // Role Selection in Standard Registration
       function updateRole(role) {
         selectedRole = role;
         cardRoleWorker.classList.toggle('selected', role === 'worker');
@@ -553,6 +744,224 @@
       }
       cardRoleWorker.addEventListener('click', () => updateRole('worker'));
       cardRoleEmployer.addEventListener('click', () => updateRole('employer'));
+
+      // Role Selection in Google 1st-Time Onboarding
+      function updateGoogleRole(role) {
+        selectedGoogleRole = role;
+        googleCardWorker?.classList.toggle('selected', role === 'worker');
+        googleCardEmployer?.classList.toggle('selected', role === 'employer');
+      }
+      googleCardWorker?.addEventListener('click', () => updateGoogleRole('worker'));
+      googleCardEmployer?.addEventListener('click', () => updateGoogleRole('employer'));
+
+      // =========================================================
+      // GOOGLE AUTHENTICATION INTEGRATION
+      // =========================================================
+      async function handleGoogleCredentialResponse(response) {
+        if (!response || !response.credential) {
+          showToast('Google sign-in did not complete.', 'error');
+          return;
+        }
+
+        showToast('Verifying Google credentials...', 'success');
+        const res = await window.jobApi.loginWithGoogle(response.credential);
+
+        if (!res.success) {
+          alert(res.error || 'Failed to authenticate with Google');
+          return;
+        }
+
+        if (res.isNewUser) {
+          // FIRST TIME LOGIN -> Prompt to select worker or employer!
+          pendingGoogleCredential = response.credential;
+          const gName = res.googleUser?.name || 'User';
+          const gEmail = res.googleUser?.email || '';
+          const gPic = res.googleUser?.picture;
+
+          const gNameElem = document.getElementById('google-user-name');
+          const gEmailElem = document.getElementById('google-user-email');
+          const gAvatarElem = document.getElementById('google-avatar-img');
+
+          if (gNameElem) gNameElem.textContent = gName;
+          if (gEmailElem) gEmailElem.textContent = gEmail;
+          if (gAvatarElem && gPic) gAvatarElem.src = gPic;
+
+          setMode('google-role');
+          showToast(`Welcome! Please select your account type.`);
+        } else {
+          // EXISTING USER -> Direct Login & Routing!
+          showToast(`Welcome back, ${res.user?.name || 'User'}! Redirecting...`, 'success');
+          setTimeout(() => {
+            if (res.user?.role === 'admin') {
+              window.location.href = '/admin.html';
+            } else if (res.user?.role === 'employer') {
+              window.location.href = '/employer.html';
+            } else {
+              window.location.href = '/worker.html';
+            }
+          }, 500);
+        }
+      }
+
+      function initGoogleClient() {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          try {
+            google.accounts.id.initialize({
+              client_id: GOOGLE_CLIENT_ID,
+              callback: handleGoogleCredentialResponse,
+              auto_select: false,
+              cancel_on_tap_outside: true,
+            });
+
+            const hiddenLoginBtn = document.getElementById('google-hidden-login-btn');
+            if (hiddenLoginBtn) {
+              google.accounts.id.renderButton(hiddenLoginBtn, {
+                theme: 'outline',
+                size: 'large',
+                type: 'standard',
+              });
+            }
+
+            const hiddenRegBtn = document.getElementById('google-hidden-reg-btn');
+            if (hiddenRegBtn) {
+              google.accounts.id.renderButton(hiddenRegBtn, {
+                theme: 'outline',
+                size: 'large',
+                type: 'standard',
+              });
+            }
+          } catch (gErr) {
+            console.warn('[Google Identity Notice]:', gErr);
+          }
+        } else {
+          // Retry briefly if script is still loading
+          setTimeout(initGoogleClient, 300);
+        }
+      }
+      initGoogleClient();
+
+      // Connect custom Google buttons to Google prompt
+      document.getElementById('btn-google-login-action')?.addEventListener('click', () => {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          const btn = document.querySelector('#google-hidden-login-btn div[role=button]');
+          if (btn) {
+            btn.click();
+          } else {
+            google.accounts.id.prompt();
+          }
+        } else {
+          alert('Google Sign-In is initializing. Please try again in a moment.');
+        }
+      });
+
+      document.getElementById('btn-google-reg-action')?.addEventListener('click', () => {
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          const btn = document.querySelector('#google-hidden-reg-btn div[role=button]');
+          if (btn) {
+            btn.click();
+          } else {
+            google.accounts.id.prompt();
+          }
+        } else {
+          alert('Google Sign-In is initializing. Please try again in a moment.');
+        }
+      });
+
+      // Submit Google 1st-Time Role Confirmation
+      btnSubmitGoogleRole?.addEventListener('click', async () => {
+        if (!pendingGoogleCredential) {
+          alert('Google authentication session expired. Please sign in with Google again.');
+          setMode('login');
+          return;
+        }
+
+        btnSubmitGoogleRole.disabled = true;
+        btnSubmitGoogleRole.textContent = 'Activating your profile...';
+
+        const phone = document.getElementById('google-phone')?.value.trim();
+        const name = document.getElementById('google-user-name')?.textContent.trim();
+
+        const res = await window.jobApi.confirmGoogleRole({
+          credential: pendingGoogleCredential,
+          role: selectedGoogleRole,
+          phone,
+          name,
+        });
+
+        btnSubmitGoogleRole.disabled = false;
+        btnSubmitGoogleRole.textContent = 'Complete Registration & Go to Dashboard →';
+
+        if (res.success) {
+          showToast('Account activated! Redirecting to your dashboard...');
+          setTimeout(() => {
+            if (selectedGoogleRole === 'employer') {
+              window.location.href = '/employer.html';
+            } else {
+              window.location.href = '/profile-edit.html';
+            }
+          }, 500);
+        } else {
+          alert(res.error || 'Failed to complete registration.');
+        }
+      });
+
+      // =========================================================
+      // WHATSAPP OTP INTEGRATION
+      // =========================================================
+      btnRequestWaOtp?.addEventListener('click', async () => {
+        const phone = inputRegPhone.value.trim();
+        if (!phone || phone.replace(/\D/g, '').length < 10) {
+          alert('Please enter a valid 10-digit mobile number first.');
+          inputRegPhone.focus();
+          return;
+        }
+
+        btnRequestWaOtp.disabled = true;
+        btnRequestWaOtp.innerHTML = '<span>Sending...</span>';
+
+        const res = await window.jobApi.requestWhatsAppOtp(phone);
+        btnRequestWaOtp.disabled = false;
+        btnRequestWaOtp.innerHTML = `<span>WhatsApp OTP</span>`;
+
+        if (res.success) {
+          waOtpInlineBox.style.display = 'block';
+          waOtpStatusText.textContent = `OTP code sent to WhatsApp (+91 ${phone.slice(-10)})`;
+          if (res.devCode) {
+            waOtpDevBadge.style.display = 'inline-block';
+            waOtpDevBadge.textContent = `Code: ${res.devCode}`;
+            regWaOtpInput.value = res.devCode;
+          }
+          showToast(`Verification code sent to WhatsApp!`);
+        } else {
+          alert(res.error || 'Failed to send WhatsApp OTP.');
+        }
+      });
+
+      btnVerifyWaOtp?.addEventListener('click', async () => {
+        const phone = inputRegPhone.value.trim();
+        const otp = regWaOtpInput.value.trim();
+        if (!otp || otp.length < 4) {
+          alert('Please enter the OTP received on your WhatsApp.');
+          regWaOtpInput.focus();
+          return;
+        }
+
+        btnVerifyWaOtp.disabled = true;
+        btnVerifyWaOtp.textContent = 'Checking...';
+
+        const res = await window.jobApi.verifyWhatsAppOtp(phone, otp);
+        btnVerifyWaOtp.disabled = false;
+        btnVerifyWaOtp.textContent = 'Verify';
+
+        if (res.success) {
+          isPhoneWaVerified = true;
+          waOtpInlineBox.innerHTML = '<span style="font-size: 12px; font-weight: 700; color: #166534;">✓ Mobile number verified via WhatsApp!</span>';
+          btnRequestWaOtp.style.display = 'none';
+          showToast('Mobile number verified via WhatsApp!');
+        } else {
+          alert(res.error || 'Incorrect OTP code.');
+        }
+      });
 
       // Check URL parameters (e.g. ?mode=signup or ?mode=admin or ?role=admin or ?role=employer)
       const urlParams = new URLSearchParams(window.location.search);
