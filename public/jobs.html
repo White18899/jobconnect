@@ -1414,7 +1414,7 @@
           </div>
         </div>
 
-        <!-- SECTION 5: Openings & Shift -->
+        <!-- SECTION 5: Openings & Worker Application Limits -->
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-vacancies">Number of Vacancies *</label>
@@ -1422,22 +1422,31 @@
           </div>
 
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-hours">Working Hours & Shift *</label>
-            <input type="text" id="post-job-hours" class="vacancy-input" placeholder="e.g. 10:00 AM - 7:00 PM (Hybrid)" value="10:00 AM - 7:00 PM (Hybrid)" required>
+            <label class="vacancy-label" for="post-job-max-applicants">
+              Worker Application Limit *
+              <span style="font-size: 10px; font-weight: 500; text-transform: none; color: #64748B;">(0 = Unlimited)</span>
+            </label>
+            <input type="number" id="post-job-max-applicants" class="vacancy-input" value="10" min="0" max="500" placeholder="e.g. 10 (Max workers that can apply)" required>
           </div>
         </div>
 
-        <!-- SECTION 6: Business Details -->
+        <!-- SECTION 6: Shift & Sector -->
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-biz-name">Company / Organization Name *</label>
-            <input type="text" id="post-job-biz-name" class="vacancy-input" placeholder="e.g. HyperScale Cloud Systems" required>
+            <label class="vacancy-label" for="post-job-hours">Working Hours & Shift *</label>
+            <input type="text" id="post-job-hours" class="vacancy-input" placeholder="e.g. 10:00 AM - 7:00 PM (Hybrid)" value="10:00 AM - 7:00 PM (Hybrid)" required>
           </div>
 
           <div class="vacancy-form-group">
             <label class="vacancy-label" for="post-job-biz-type">Industry Sector / Business Type</label>
             <input type="text" id="post-job-biz-type" class="vacancy-input" placeholder="e.g. Enterprise SaaS & Cloud Platforms" value="Enterprise SaaS & Cloud Platforms">
           </div>
+        </div>
+
+        <!-- SECTION 7: Business Name -->
+        <div class="vacancy-form-group full-width">
+          <label class="vacancy-label" for="post-job-biz-name">Company / Organization Name *</label>
+          <input type="text" id="post-job-biz-name" class="vacancy-input" placeholder="e.g. HyperScale Cloud Systems" required>
         </div>
 
         <!-- SECTION 7: Scope & Machinery -->
@@ -1854,6 +1863,9 @@
           const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
           const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
           const serial = String(idx + 1).padStart(2, '0');
+          const maxApps = Number(job.max_applications) || 0;
+          const currentApps = Number(job.applications_count) || (JSON.parse(localStorage.getItem('jc_apps') || '[]').filter(a => a.job_id === job.id).length);
+          const isLimitReached = Boolean(maxApps > 0 && currentApps >= maxApps);
           const isOwnJob = isEmployer && (
             (user.name && job.business_name && job.business_name.toLowerCase().includes(user.name.toLowerCase())) ||
             (user.id && job.employer_id === user.id)
@@ -1867,12 +1879,18 @@
                   <span class="card-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">₹${minSal} – ₹${maxSal} / mo</span>
                   ${isOwnJob ? '<span class="card-badge" style="background: #14281D; color: #fff; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <span>Your Vacancy</span></span>' : '<span class="card-badge card-badge-verified" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified</span></span>'}
                   ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied" style="background: #059669; color: #ffffff; border-radius: 6px; padding: 4.5px 10px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Applied</span></span>' : ''}
+                  ${maxApps > 0 ? (
+                    isLimitReached
+                      ? `<span class="card-badge" style="background: #DC2626; color: #ffffff; font-weight: 700; font-size: 10.5px; padding: 4.5px 9px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.25);">Applications Full (${currentApps}/${maxApps})</span>`
+                      : `<span class="card-badge" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(10px); color: #ffffff; font-size: 10.5px; font-weight: 600; padding: 4.5px 9px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);">Cap: ${currentApps}/${maxApps} applied</span>`
+                  ) : ''}
                 </div>
               </div>
 
               <div class="job-card-body" style="padding: 18px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
                 <div class="job-card-serial-row" style="display: flex; justify-content: space-between; align-items: baseline;">
                   <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${job.category}</span>
+                  ${maxApps > 0 ? `<span style="font-size: 11px; font-weight: 650; color: ${isLimitReached ? '#DC2626' : '#64748B'};">${currentApps}/${maxApps} applicants</span>` : ''}
                 </div>
 
                 <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${job.title}</h3>
@@ -1888,12 +1906,18 @@
                       <span style="font-size: 13px;">→</span>
                     </button>
                   ` : `
-                    <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="${isApplied ? 'unapply' : 'apply'}" data-job-id="${job.id}" title="${isApplied ? 'Click to withdraw application' : '1-Click Apply'}" style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-                      ${isApplied ? `
-                        <span class="btn-applied-default">✓ Applied</span>
-                        <span class="btn-applied-hover">✕ Withdraw</span>
-                      ` : '<span>1-Click Apply</span>'}
-                    </button>
+                    ${isLimitReached && !isApplied ? `
+                      <button type="button" class="btn-card-apply" disabled style="opacity: 0.65; cursor: not-allowed; background: #94A3B8; color: #FFFFFF; border-color: #94A3B8; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 600;" title="This opening has reached its application limit (${maxApps} workers)">
+                        <span>Full (${maxApps}/${maxApps})</span>
+                      </button>
+                    ` : `
+                      <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="${isApplied ? 'unapply' : 'apply'}" data-job-id="${job.id}" title="${isApplied ? 'Click to withdraw application' : '1-Click Apply'}" style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                        ${isApplied ? `
+                          <span class="btn-applied-default">✓ Applied</span>
+                          <span class="btn-applied-hover">✕ Withdraw</span>
+                        ` : '<span>1-Click Apply</span>'}
+                      </button>
+                    `}
 
                     <a class="btn-card-view" data-action="view" data-job-id="${job.id}" style="font-size: 12px; font-weight: 600; color: #64748B; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
                       <span>Details</span>
@@ -1972,6 +1996,13 @@
 
         if (appliedJobIds.has(job.id)) return;
 
+        const maxApps = Number(job.max_applications) || 0;
+        const currentApps = Number(job.applications_count) || (JSON.parse(localStorage.getItem('jc_apps') || '[]').filter(a => a.job_id === job.id).length);
+        if (maxApps > 0 && currentApps >= maxApps) {
+          showToast(`Application limit reached (${maxApps} applicants max). This opening cannot accept more applications.`, 'error');
+          return;
+        }
+
         try {
           const workerData = {
             id: user.id || user.userId || 'wrk-1',
@@ -1984,6 +2015,7 @@
 
           await window.jobApi.applyJob(job.id, workerData, false);
           appliedJobIds.add(job.id);
+          job.applications_count = currentApps + 1;
 
           showToast(`Application submitted for "${job.title}"! Tracked on Worker Desk.`, 'success');
           render3CardGrid();
@@ -1994,8 +2026,7 @@
           }
         } catch (err) {
           console.error("Apply error:", err);
-          appliedJobIds.add(job.id);
-          render3CardGrid();
+          showToast(err.message || 'Failed to submit application', 'error');
         }
       }
 
@@ -2013,6 +2044,9 @@
         const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
         const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
         const coverImg = job.cover_image || getJobImage(job.category);
+        const maxApps = Number(job.max_applications) || 0;
+        const currentApps = Number(job.applications_count) || (JSON.parse(localStorage.getItem('jc_apps') || '[]').filter(a => a.job_id === job.id).length);
+        const isLimitReached = Boolean(maxApps > 0 && currentApps >= maxApps);
 
         const waText = encodeURIComponent(`Hello, I saw your verified opening for "${job.title}" on JobWay. I hold an authenticated trade pass and would like to connect.`);
         const waLink = `https://wa.me/919849123434?text=${waText}`;
@@ -2020,10 +2054,11 @@
         drawerBody.innerHTML = `
           <!-- Top Role & Verification -->
           <div>
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;">
               ${isOwnJob ? '<span class="card-badge" style="background: #000; color: #fff; font-weight: 700;">★ Your Vacancy</span>' : '<span class="card-badge card-badge-verified">Verified Company</span>'}
               <span class="card-badge">${job.category}</span>
               ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied">✓ Application Active</span>' : ''}
+              ${maxApps > 0 && isLimitReached && !isApplied ? '<span class="card-badge" style="background: #DC2626; color: #fff; font-weight: 700;">Full (Cap Reached)</span>' : ''}
             </div>
             <h2 class="drawer-role-title">${job.title}</h2>
             <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 6px;">
@@ -2038,6 +2073,18 @@
               <div class="drawer-salary-val">₹${minSal} – ₹${maxSal} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ month</span></div>
             </div>
             <span class="nav-badge-pill" style="margin-left: 0;">0% Commission</span>
+          </div>
+
+          <!-- Application Cap & Vacancy Counter Box -->
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 12px 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;">
+            <div style="font-size: 12.5px; color: #334155;">
+              <strong>Positions Open:</strong> ${job.vacancies || 1} Vacancies
+            </div>
+            <div style="font-size: 12.5px; color: ${isLimitReached ? '#DC2626' : '#059669'}; font-weight: 650; display: inline-flex; align-items: center; gap: 6px;">
+              <span>●</span>
+              <span>Worker Applications: <strong>${currentApps}</strong> ${maxApps > 0 ? `/ ${maxApps} max allowed` : '(Unlimited)'}</span>
+              ${isLimitReached ? '<span style="background: #FEF2F2; color: #DC2626; border: 1px solid #FEE2E2; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px;">CAP REACHED</span>' : ''}
+            </div>
           </div>
 
           <!-- Action Buttons -->
@@ -2063,9 +2110,20 @@
                   </button>
                 </div>
               ` : `
-                <button type="button" class="btn-drawer-apply" id="btn-drawer-apply-action">
-                  1-Click Apply with Trade Pass
-                </button>
+                ${isLimitReached ? `
+                  <div style="flex: 1;">
+                    <button type="button" class="btn-drawer-apply" id="btn-drawer-apply-action" disabled style="opacity: 0.65; cursor: not-allowed; background: #94A3B8; border-color: #94A3B8; color: #FFFFFF; width: 100%;">
+                      Application Limit Reached (${maxApps}/${maxApps})
+                    </button>
+                    <div style="font-size: 11.5px; color: #DC2626; margin-top: 6px; font-weight: 600;">
+                      ⚠️ This vacancy has capped applicant responses at ${maxApps} candidates.
+                    </div>
+                  </div>
+                ` : `
+                  <button type="button" class="btn-drawer-apply" id="btn-drawer-apply-action">
+                    1-Click Apply with Trade Pass
+                  </button>
+                `}
               `}
             `}
 
@@ -2314,6 +2372,7 @@
         const city = document.getElementById('post-job-city').value;
         const area = document.getElementById('post-job-area').value.trim();
         const vacancies = Number(document.getElementById('post-job-vacancies').value) || 1;
+        const maxApplicants = Number(document.getElementById('post-job-max-applicants').value) || 0;
         const hours = document.getElementById('post-job-hours').value.trim();
         const bizName = document.getElementById('post-job-biz-name').value.trim();
         const bizType = document.getElementById('post-job-biz-type').value.trim();
@@ -2330,6 +2389,7 @@
           location_city: city,
           location_area: area,
           vacancies,
+          max_applications: maxApplicants,
           working_hours: hours,
           business_name: bizName,
           business_type: bizType,

@@ -93,8 +93,9 @@ const postJobSchema = z.object({
   location_area: z.string().min(2),
   location_city: z.string().min(2),
   working_hours: z.string().min(3),
-  requirements: z.array(z.string()).optional(),
+  requirements: z.union([z.array(z.string()), z.string()]).optional(),
   vacancies: z.number().min(1).default(1),
+  max_applications: z.number().min(0).default(0),
 });
 
 employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), async (c) => {
@@ -112,13 +113,13 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
 
   const d = parsed.data;
   const jobId = 'job_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
-  const reqJson = d.requirements ? JSON.stringify(d.requirements) : '[]';
+  const reqJson = typeof d.requirements === 'string' ? d.requirements : (d.requirements ? JSON.stringify(d.requirements) : '[]');
 
   await c.env.DB.prepare(`
     INSERT INTO jobs (
       id, employer_id, title, description, category, salary_min, salary_max, salary_period,
-      location_area, location_city, working_hours, requirements, vacancies, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')
+      location_area, location_city, working_hours, requirements, vacancies, max_applications, status
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')
   `).bind(
     jobId,
     employer.id,
@@ -132,7 +133,8 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
     d.location_city,
     d.working_hours,
     reqJson,
-    d.vacancies
+    d.vacancies,
+    d.max_applications || 0
   ).run();
 
   return c.json({ success: true, jobId, message: 'Job posted successfully' });

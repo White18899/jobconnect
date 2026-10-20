@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS jobs (
     working_hours TEXT NOT NULL,
     requirements TEXT,
     vacancies INTEGER DEFAULT 1,
+    max_applications INTEGER DEFAULT 0,
     status TEXT DEFAULT 'open' CHECK(status IN ('open', 'closed')),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP

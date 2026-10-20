@@ -82,6 +82,15 @@ class JobConnectApi {
     return { status: "local_cache", service: "JobConnect Client Engine", environment: "edge-hybrid" };
   }
 
+  _augmentJob(job) {
+    if (!job) return job;
+    const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const localCount = localApps.filter(a => a.job_id === job.id).length;
+    job.max_applications = Number(job.max_applications) || 0;
+    job.applications_count = Math.max(Number(job.applications_count) || 0, localCount);
+    return job;
+  }
+
   async getJobs(filters = {}) {
     try {
       const params = new URLSearchParams();
@@ -94,11 +103,12 @@ class JobConnectApi {
       if (res.ok) {
         const data = await res.json();
         if (data && Array.isArray(data.jobs)) {
+          const augmented = data.jobs.map(j => this._augmentJob(j));
           // Live D1 is authoritative: cache to localStorage and return
           try {
-            localStorage.setItem('jc_jobs', JSON.stringify(data.jobs));
+            localStorage.setItem('jc_jobs', JSON.stringify(augmented));
           } catch(e) {}
-          return data.jobs;
+          return augmented;
         }
       }
     } catch (err) {
@@ -116,7 +126,7 @@ class JobConnectApi {
     if (filters.minSalary) {
       local = local.filter(j => (j.salary_max || j.salary_min) >= Number(filters.minSalary));
     }
-    return local;
+    return local.map(j => this._augmentJob(j));
   }
 
   async getJobById(id) {
@@ -124,18 +134,22 @@ class JobConnectApi {
       const res = await fetch(`${this.baseUrl}/jobs/${id}`, { signal: AbortSignal.timeout(3500) });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.job) return data.job;
+        if (data && data.job) return this._augmentJob(data.job);
       }
     } catch (err) {
       console.warn("Fallback to local job lookup", err);
     }
     const local = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
-    return local.find(j => j.id === id) || local[0];
+    const found = local.find(j => j.id === id) || local[0];
+    return this._augmentJob(found);
   }
 
   async createJob(jobData) {
+    const maxApplications = Number(jobData.max_applications) || 0;
     const newJob = {
       ...jobData,
+      max_applications: maxApplications,
+      applications_count: 0,
       id: `job_${Date.now().toString().slice(-6)}`,
       created_at: new Date().toISOString().split('T')[0],
       status: 'open',
@@ -153,7 +167,10 @@ class JobConnectApi {
         await fetch(`${this.baseUrl}/employer/jobs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(jobData)
+          body: JSON.stringify({
+            ...jobData,
+            max_applications: maxApplications
+          })
         });
       }
     } catch (e) {
@@ -165,7 +182,15 @@ class JobConnectApi {
 
   async applyJob(jobId, workerData, isPriority = false) {
     const job = await this.getJobById(jobId);
+    const maxApps = Number(job?.max_applications) || 0;
+    const currentApps = this.getApplications().filter(a => a.job_id === jobId).length;
+    if (maxApps > 0 && currentApps >= maxApps) {
+      throw new Error(`Application limit reached (${maxApps} applicants max). This opening is no longer accepting new applications.`);
+    }
+
     let serverAppId = null;
+    let serverFailed = false;
+    let serverErrorMessage = '';
     try {
       const token = this.getAuthToken();
       if (token) {
@@ -180,10 +205,18 @@ class JobConnectApi {
         if (res.ok) {
           const data = await res.json();
           serverAppId = data.applicationId;
+        } else {
+          serverFailed = true;
+          const errData = await res.json().catch(() => ({}));
+          serverErrorMessage = errData.error || 'Failed to submit application';
         }
       }
     } catch (e) {
       console.warn('Network error while applying for job, falling back to local storage:', e);
+    }
+
+    if (serverFailed) {
+      throw new Error(serverErrorMessage);
     }
 
     const newApp = {

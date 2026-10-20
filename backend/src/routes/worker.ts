@@ -419,7 +419,10 @@ workerRoutes.get('/jobs', async (c) => {
   let query = `
     SELECT
       j.id, j.title, j.description, j.category, j.salary_min, j.salary_max, j.salary_period,
-      j.location_area, j.location_city, j.working_hours, j.requirements, j.vacancies, j.status, j.created_at,
+      j.location_area, j.location_city, j.working_hours, j.requirements, j.vacancies,
+      COALESCE(j.max_applications, 0) as max_applications,
+      (SELECT COUNT(*) FROM applications WHERE job_id = j.id) as applications_count,
+      j.status, j.created_at,
       ep.business_name, ep.business_type, ep.verification_status as employer_verified
     FROM jobs j
     JOIN employer_profiles ep ON j.employer_id = ep.id
@@ -527,6 +530,8 @@ workerRoutes.get('/jobs/:id', async (c) => {
   const job = await c.env.DB.prepare(`
     SELECT
       j.*,
+      COALESCE(j.max_applications, 0) as max_applications,
+      (SELECT COUNT(*) FROM applications WHERE job_id = j.id) as applications_count,
       ep.business_name, ep.business_type, ep.area as employer_area, ep.city as employer_city,
       ep.verification_status as employer_verification_status
     FROM jobs j
@@ -560,9 +565,21 @@ workerRoutes.post('/jobs/:id/apply', authMiddleware, roleGuard(['worker']), asyn
   }
 
   // Find job & employer
-  const job = await c.env.DB.prepare('SELECT id, employer_id, status FROM jobs WHERE id = ?').bind(jobId).first<{ id: string; employer_id: string; status: string }>();
+  const job = await c.env.DB.prepare('SELECT id, employer_id, status, COALESCE(max_applications, 0) as max_applications FROM jobs WHERE id = ?').bind(jobId).first<{ id: string; employer_id: string; status: string; max_applications: number }>();
   if (!job || job.status !== 'open') {
     return c.json({ error: 'Job is no longer open for applications' }, 400);
+  }
+
+  // Check if job application limit reached
+  if (job.max_applications && job.max_applications > 0) {
+    const appCount = await c.env.DB.prepare(
+      'SELECT COUNT(*) as count FROM applications WHERE job_id = ?'
+    ).bind(jobId).first<{ count: number }>();
+    if (appCount && appCount.count >= job.max_applications) {
+      return c.json({
+        error: `Application limit reached (${job.max_applications} applicants max). This opening is no longer accepting new applications.`
+      }, 400);
+    }
   }
 
   // Check if already applied
