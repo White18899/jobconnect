@@ -1354,13 +1354,6 @@
             <label class="vacancy-label" for="post-job-title">Job Title / Technical Headline *</label>
             <input type="text" id="post-job-title" class="vacancy-input" list="library-post-job-titles" placeholder="e.g. Full-Stack Developer, DevOps Engineer, QA Automation Lead..." required autocomplete="off">
             <datalist id="library-post-job-titles"></datalist>
-
-            <div style="margin-top: 8px;">
-              <span style="font-size: 11px; color: var(--color-text-secondary); font-weight: 600; display: inline-block; margin-bottom: 5px;">
-                Popular roles (Click to fill):
-              </span>
-              <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="post-title-quick-pills"></div>
-            </div>
           </div>
 
           <div class="vacancy-form-group">
@@ -1379,6 +1372,14 @@
               <option value="Talent & Operations">Human Resources, Talent Acquisition & Operations</option>
             </select>
           </div>
+        </div>
+
+        <!-- Quick Pick Popular Roles (Full Width) -->
+        <div class="vacancy-form-group full-width" style="margin-top: -8px;">
+          <span style="font-size: 11px; color: var(--color-text-secondary); font-weight: 600; display: inline-block; margin-bottom: 2px;">
+            Popular roles (Click to fill):
+          </span>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="post-title-quick-pills"></div>
         </div>
 
         <!-- SECTION 3: Payroll Range & Period -->
