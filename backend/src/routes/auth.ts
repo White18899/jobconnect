@@ -760,9 +760,17 @@ authRoutes.post('/whatsapp-otp/request', async (c) => {
 
   const waResult = await sendWhatsAppOtp(phone, otp, c.env);
 
+  if (!waResult.success) {
+    return c.json({
+      success: false,
+      error: waResult.error || 'Failed to dispatch WhatsApp message',
+      phone,
+    }, 400);
+  }
+
   return c.json({
     success: true,
-    message: waResult.success ? `Verification code dispatched to WhatsApp (+${phone.replace(/\D/g, '')})` : 'OTP generated',
+    message: `Verification code dispatched to WhatsApp (+${phone.replace(/\D/g, '')})`,
     phone,
     isMock: waResult.isMock,
     devCode: (waResult.isMock || c.env.ENVIRONMENT === 'development') ? otp : undefined,
