@@ -4,8 +4,8 @@ compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-ENVIRONMENT = "production"
-FRONTEND_URL = "https://job-way.in"
+ENVIRONMENT = "development"
+FRONTEND_URL = "http://localhost:3000"
 UPI_ID = "jobconnect@icici"
 APP_NAME = "JobWay"
 JWT_SECRET = "jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key"
