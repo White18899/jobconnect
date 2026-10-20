@@ -39,6 +39,37 @@ export async function sendWhatsAppOtp(
 
   try {
     const url = `https://graph.facebook.com/v21.0/${phoneNumberId}/messages`;
+    
+    const templatePayload: any = {
+      name: templateName,
+      language: { code: 'en_US' },
+    };
+
+    if (templateName !== 'hello_world') {
+      templatePayload.components = [
+        {
+          type: 'body',
+          parameters: [
+            {
+              type: 'text',
+              text: otp,
+            },
+          ],
+        },
+        {
+          type: 'button',
+          sub_type: 'url',
+          index: '0',
+          parameters: [
+            {
+              type: 'text',
+              text: otp,
+            },
+          ],
+        },
+      ];
+    }
+
     const res = await fetch(url, {
       method: 'POST',
       headers: {
@@ -50,39 +81,17 @@ export async function sendWhatsAppOtp(
         recipient_type: 'individual',
         to: cleanPhone,
         type: 'template',
-        template: {
-          name: templateName,
-          language: { code: 'en_US' },
-          components: [
-            {
-              type: 'body',
-              parameters: [
-                {
-                  type: 'text',
-                  text: otp,
-                },
-              ],
-            },
-            {
-              type: 'button',
-              sub_type: 'url',
-              index: '0',
-              parameters: [
-                {
-                  type: 'text',
-                  text: otp,
-                },
-              ],
-            },
-          ],
-        },
+        template: templatePayload,
       }),
     });
 
     const data: any = await res.json();
 
     if (!res.ok) {
-      const errorMsg = data?.error?.message || `Meta WhatsApp API error (${res.status})`;
+      let errorMsg = data?.error?.message || `Meta WhatsApp API error (${res.status})`;
+      if (data?.error?.code === 131030) {
+        errorMsg = `Recipient (+${cleanPhone}) is not in Meta WhatsApp allowed test numbers list. Please add it under "To" -> "Manage phone number list" in your Meta Developer portal.`;
+      }
       console.error('[WhatsApp Error]', JSON.stringify(data));
       return {
         success: false,

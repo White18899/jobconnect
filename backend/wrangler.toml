@@ -19,6 +19,11 @@ SMTP_FROM = "JobWay <noreply@job-way.in>"
 SMTP_SECURE = "false"
 GOOGLE_CLIENT_ID = "327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleusercontent.com"
 
+# Meta WhatsApp Business Cloud API
+WHATSAPP_PHONE_NUMBER_ID = "1378441025360192"
+WHATSAPP_CLOUD_API_TOKEN = "EAAYZC2ZBnuT6QBS4LvQ0NIYhTt8CTiTvLU43WrSrUDrDFhc8tlIAGqqp0wxAdo1uCA1qnjNyZCixkXZCqAudZCPsG6fZBo4ETzv997SpsE0O9pZCdRRVLMBPSfZCSUgt31hr8Vp7SSbXDP75pJyvD1BdAlyiBuflOyRpFNtfBc45JXqVId4rtroEFWlTxZAbVknv3buc4bI534Cdn8XsvwgvDYQZC5OvtDfms4yCOtAq2Qhla8vjYwXOtDoGk2LMkdLrsSDamGWg203ibcD9zsYYDA6izUDdWuDFMt4TJQ4gZDZD"
+WHATSAPP_TEMPLATE_NAME = "hello_world"
+
 
 
 # Custom Domain (Cloudflare Workers)
