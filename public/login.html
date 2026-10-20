@@ -554,49 +554,41 @@
           <h1 style="font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.025em;">
             Welcome, <span id="google-user-name">User</span>!
           </h1>
-          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">
-            Google Account: <strong id="google-user-email" style="color: #059669;">user@gmail.com</strong>
-          </p>
-          <p style="font-size: 12px; color: var(--text-muted);">
-            Please select how you want to use JobWay to complete your profile:
+          <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
+            Select your account type to continue
           </p>
         </div>
 
         <!-- Role Selection Cards -->
         <div class="role-toggle-grid" style="margin-bottom: 18px;">
-          <div class="role-toggle-card selected" id="google-card-role-worker" style="padding: 14px;">
+          <div class="role-toggle-card selected" id="google-card-role-worker">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
-              <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">Trade Worker</div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 10V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v5"/><path d="M4 15v-3a8 8 0 0 1 16 0v3"/></svg>
+              <div style="font-weight: 700; font-size: 13px; color: var(--text-primary);">Trade Worker</div>
             </div>
-            <div style="font-size: 11.5px; color: var(--success); font-weight: 700; margin-bottom: 4px;">100% Free Forever</div>
-            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Find trade jobs, get skill verified, connect directly with employers.</div>
+            <div style="font-size: 11.5px; color: var(--success); font-weight: 600;">100% Free Forever</div>
           </div>
 
-          <div class="role-toggle-card" id="google-card-role-employer" style="padding: 14px;">
+          <div class="role-toggle-card" id="google-card-role-employer">
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
-              <div style="font-weight: 700; font-size: 13.5px; color: var(--text-primary);">Employer / Shop</div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/></svg>
+              <div style="font-weight: 700; font-size: 13px; color: var(--text-primary);">Employer / Shop</div>
             </div>
-            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">Direct Hiring Desk</div>
-            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">Publish trade vacancies, browse candidates, direct contact.</div>
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">Direct Hiring Desk</div>
           </div>
         </div>
 
         <form id="form-google-role" onsubmit="return false;">
-          <div class="form-group" style="margin-bottom: 16px;">
+          <div class="form-group" style="margin-bottom: 18px;">
             <label class="form-label" for="google-phone">Mobile Phone (Optional)</label>
             <div style="display: flex; gap: 8px;">
               <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
               <input type="tel" id="google-phone" class="form-input" placeholder="98491 23434" maxlength="10">
             </div>
-            <span style="font-size: 11.5px; color: #059669; display: flex; align-items: center; gap: 5px; margin-top: 6px;">
-              💬 Instant trade updates & WhatsApp job notifications
-            </span>
           </div>
 
-          <button type="button" class="search-btn" id="btn-submit-google-role" style="width: 100%; justify-content: center; padding: 12px; font-size: 13.5px; margin-bottom: 10px;">
-            <span>Complete Registration & Go to Dashboard</span>
+          <button type="button" class="search-btn" id="btn-submit-google-role" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 6px;">
+            <span>Continue to Dashboard</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
