@@ -748,11 +748,13 @@ authRoutes.post('/whatsapp-otp/request', async (c) => {
     return c.json({ error: 'KV storage not configured' }, 500);
   }
 
-  // Rate limit check
-  const rateLimitKey = `wa_ratelimit:${phone}`;
-  const { allowed } = await checkRateLimit(c.env.KV, rateLimitKey, 4, 600);
-  if (!allowed) {
-    return c.json({ error: 'Too many OTP requests. Please wait 10 minutes.' }, 429);
+  // Rate limit check (skipped in development mode)
+  if (c.env.ENVIRONMENT !== 'development') {
+    const rateLimitKey = `wa_ratelimit:${phone}`;
+    const { allowed } = await checkRateLimit(c.env.KV, rateLimitKey, 4, 600);
+    if (!allowed) {
+      return c.json({ error: 'Too many OTP requests. Please wait 10 minutes.' }, 429);
+    }
   }
 
   const otp = generateOtp();
