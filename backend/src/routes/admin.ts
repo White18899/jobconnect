@@ -9,7 +9,7 @@ import { hashPassword } from '../services/password';
 const adminRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
 // All admin routes require admin role
-adminRoutes.use('*', authMiddleware, roleGuard(['admin']));
+adminRoutes.use('/admin/*', authMiddleware, roleGuard(['admin']));
 
 // 1. Admin Dashboard Metrics
 adminRoutes.get('/admin/dashboard', async (c) => {
