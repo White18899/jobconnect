@@ -171,8 +171,8 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
   if (!employer) {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
-      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, verification_status, created_at, updated_at)
-      VALUES (?, ?, ?, 'Tech Company', ?, 'Hyderabad', 'Tech Hub', 'Platform Verified Address', 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, created_at, updated_at)
+      VALUES (?, ?, ?, 'Tech Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
     employer = { id: epId };
   }
@@ -220,7 +220,7 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
       worker_category: row.trade_title || row.job_category || 'Software Engineering',
       worker_skills: parsedSkills,
       worker_experience: row.worker_experience || 0,
-      worker_city: row.worker_city || 'Hyderabad',
+      worker_city: row.worker_city || 'Visakhapatnam',
       worker_area: row.worker_area || 'Central Area',
       applied_date: row.applied_at ? row.applied_at.split('T')[0] : new Date().toISOString().split('T')[0],
       status: row.application_status || row.status || 'applied',
@@ -231,7 +231,7 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
       worker_phone: isUnlocked ? rawPhone : maskedPhone,
       worker_email: isUnlocked ? row.worker_email : 'Locked (Unlock to view)',
       address_masked: 'Address Protected (Unlock to view)',
-      address_unlocked: `${row.worker_area || ''}, ${row.worker_city || 'Hyderabad'}`,
+      address_unlocked: `${row.worker_area || ''}, ${row.worker_city || 'Visakhapatnam'}`,
       experience_notes: `${row.worker_experience || 0}+ years experienced ${row.trade_title || row.job_category || 'specialist'}`,
       verification_status: row.worker_verification_status || 'verified',
       digilocker_verified: !!row.digilocker_verified,

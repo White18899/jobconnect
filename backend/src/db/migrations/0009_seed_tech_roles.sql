@@ -21,10 +21,10 @@ INSERT OR REPLACE INTO employer_profiles (
   id, user_id, business_name, business_type, contact_person, city, area,
   exact_address, latitude, longitude, business_proof_type, verification_status
 ) VALUES
-  ('ep_01', 'usr_emp_01', 'HyperScale Cloud Systems', 'SaaS & Cloud Platforms', 'Vikram Malhotra', 'Hyderabad', 'Hitec City Cyber Towers', 'Floor 8, Tower B, Cyber Pearl, Hitec City, Hyderabad 500081', 17.4474, 78.3762, 'gst', 'verified'),
-  ('ep_02', 'usr_emp_02', 'FinEdge Fintech Solutions', 'Banking & Payments Tech', 'Ananya Sen', 'Bangalore', 'Outer Ring Road Tech Corridor', 'Embassy TechVillage, Outer Ring Road, Devarabisanahalli, Bangalore 560103', 12.9279, 77.6841, 'gst', 'verified'),
-  ('ep_03', 'usr_emp_03', 'NextWave AI & Automation Labs', 'Enterprise AI Systems', 'Rohan Kapoor', 'Hyderabad', 'Financial District Gachibowli', 'Level 14, Waverock Building, Financial District, Gachibowli, Hyderabad 500032', 17.4165, 78.3442, 'gst', 'verified'),
-  ('ep_04', 'usr_emp_04', 'TalentSphere Global Technologies', 'People Ops & HR Tech', 'Meera Nair', 'Pune', 'Hinjewadi Tech Zone', 'Phase 1, Rajiv Gandhi Infotech Park, Hinjewadi, Pune 411057', 18.5913, 73.7389, 'gst', 'verified');
+  ('ep_01', 'usr_emp_01', 'HyperScale Cloud Systems', 'SaaS & Cloud Platforms', 'Vikram Malhotra', 'Visakhapatnam', 'Madhurawada IT SEZ Hill 2', 'Floor 8, Tower B, Cyber Gateway, IT SEZ Hill 2, Madhurawada, Visakhapatnam 530048', 17.8252, 83.3533, 'gst', 'verified'),
+  ('ep_02', 'usr_emp_02', 'FinEdge Fintech Solutions', 'Banking & Payments Tech', 'Ananya Sen', 'Visakhapatnam', 'Rushikonda Millennium Tech Park', 'Millennium Tower B, Rushikonda IT Park, Visakhapatnam 530045', 17.7816, 83.3779, 'gst', 'verified'),
+  ('ep_03', 'usr_emp_03', 'NextWave AI & Automation Labs', 'Enterprise AI Systems', 'Rohan Kapoor', 'Visakhapatnam', 'Duvvada VSEZ Tech Zone', 'Level 14, VSEZ Tower, Special Economic Zone, Duvvada, Visakhapatnam 530046', 17.7042, 83.1518, 'gst', 'verified'),
+  ('ep_04', 'usr_emp_04', 'TalentSphere Global Technologies', 'People Ops & HR Tech', 'Meera Nair', 'Visakhapatnam', 'Auto Nagar Technology Park', 'Phase 1, Auto Nagar Industrial Hub, Visakhapatnam 530012', 17.7011, 83.2144, 'gst', 'verified');
 
 -- 2. Tech Workers & Profiles
 INSERT OR REPLACE INTO users (id, phone, email, role, is_blocked, is_verified)
@@ -44,44 +44,44 @@ INSERT OR REPLACE INTO worker_profiles (
 ) VALUES
   ('wp_01', 'usr_wrk_01', 'Rohan Sharma', 'Senior Full-Stack Engineer', '+91 98491 23434',
    '["React 19", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Next.js"]', 4.5,
-   'B.Tech', 'JNTU College of Engineering', 'Computer Science & Engineering',
-   '[{"level":"B.Tech","institute":"JNTU College of Engineering","specialization":"Computer Science","year":2022}]',
-   'HyperScale Cloud Systems', 'Hitec City / Madhapur', 'Hyderabad', 85000, 130000,
+   'B.Tech', 'Andhra University College of Engineering', 'Computer Science & Engineering',
+   '[{"level":"B.Tech","institute":"Andhra University College of Engineering","specialization":"Computer Science","year":2022}]',
+   'HyperScale Cloud Systems', 'Madhurawada IT SEZ', 'Visakhapatnam', 85000, 130000,
    'monthly', 'assets/trades/software.jpg', 'verified'),
 
   ('wp_02', 'usr_wrk_02', 'Pooja Nair', 'SDET & QA Automation Lead', '+91 94402 91889',
    '["Playwright", "Cypress", "Selenium", "Postman / RestAssured", "Jest", "CI/CD Actions"]', 4.0,
-   'B.Tech', 'VTU Bangalore', 'Information Technology',
-   '[{"level":"B.Tech","institute":"VTU Bangalore","specialization":"Information Technology","year":2022}]',
-   'FinEdge Fintech Solutions', 'Outer Ring Road / Bellandur', 'Bangalore', 65000, 95000,
+   'B.Tech', 'GITAM University Visakhapatnam', 'Information Technology',
+   '[{"level":"B.Tech","institute":"GITAM University Visakhapatnam","specialization":"Information Technology","year":2022}]',
+   'FinEdge Fintech Solutions', 'Rushikonda Millennium Tech Park', 'Visakhapatnam', 65000, 95000,
    'monthly', 'assets/trades/qa.jpg', 'verified'),
 
   ('wp_03', 'usr_wrk_03', 'Ankit Verma', 'Technical Team Leader & System Architect', '+91 99592 34178',
    '["System Design", "Microservices", "Agile / Scrum", "Spring Boot", "React", "Kafka"]', 6.5,
-   'M.Tech', 'IIIT Hyderabad', 'Software Systems Architecture',
-   '[{"level":"M.Tech","institute":"IIIT Hyderabad","specialization":"Software Systems","year":2020}]',
-   'NextWave AI Labs', 'Financial District / Gachibowli', 'Hyderabad', 120000, 180000,
+   'M.Tech', 'Andhra University', 'Software Systems Architecture',
+   '[{"level":"M.Tech","institute":"Andhra University","specialization":"Software Systems","year":2020}]',
+   'NextWave AI Labs', 'Duvvada VSEZ Corridor', 'Visakhapatnam', 120000, 180000,
    'monthly', 'assets/trades/teamlead.jpg', 'verified'),
 
   ('wp_04', 'usr_wrk_04', 'Sneha Kulkarni', 'Senior Technical Recruiter & HR Operations Partner', '+91 97011 88955',
    '["Tech Talent Sourcing", "ATS / Greenhouse", "Salary Benchmarking", "Employee Relations", "SHRM Standards"]', 5.0,
-   'MBA', 'Symbiosis Institute of Business Management', 'Human Resource Management',
-   '[{"level":"MBA","institute":"SIBM Pune","specialization":"Human Resource Management","year":2021}]',
-   'TalentSphere Global Technologies', 'Hinjewadi Tech Hub', 'Pune', 55000, 80000,
+   'MBA', 'GITAM Institute of Management', 'Human Resource Management',
+   '[{"level":"MBA","institute":"GITAM Institute of Management","specialization":"Human Resource Management","year":2021}]',
+   'TalentSphere Global Technologies', 'Auto Nagar Industrial Hub', 'Visakhapatnam', 55000, 80000,
    'monthly', 'assets/trades/hr.jpg', 'verified'),
 
   ('wp_05', 'usr_wrk_05', 'Karthik Iyer', 'Cloud & DevOps Infrastructure Engineer', '+91 91218 45612',
    '["Kubernetes (EKS)", "Terraform", "Docker", "AWS / GCP", "Prometheus & Grafana", "GitOps"]', 5.0,
-   'B.Tech', 'Anna University Chennai', 'Electronics & Communication',
-   '[{"level":"B.Tech","institute":"Anna University","specialization":"Electronics & Communication","year":2021}]',
-   'HyperScale Cloud Systems', 'Madhapur / Hitec City', 'Hyderabad', 90000, 140000,
+   'B.Tech', 'Andhra University College of Engineering', 'Electronics & Communication',
+   '[{"level":"B.Tech","institute":"Andhra University","specialization":"Electronics & Communication","year":2021}]',
+   'HyperScale Cloud Systems', 'Madhurawada IT SEZ', 'Visakhapatnam', 90000, 140000,
    'monthly', 'assets/trades/devops.jpg', 'verified'),
 
   ('wp_06', 'usr_wrk_06', 'Divya Menon', 'Lead Mobile App Developer (iOS & Android)', '+91 93910 88240',
    '["React Native", "Flutter / Dart", "Swift (iOS)", "Kotlin (Android)", "Offline-First Sync"]', 4.5,
-   'B.Tech', 'NIT Calicut', 'Computer Science',
-   '[{"level":"B.Tech","institute":"NIT Calicut","specialization":"Computer Science","year":2022}]',
-   'FinEdge Mobility Team', 'Koramangala Tech Zone', 'Bangalore', 75000, 115000,
+   'B.Tech', 'GITAM University Visakhapatnam', 'Computer Science',
+   '[{"level":"B.Tech","institute":"GITAM University","specialization":"Computer Science","year":2022}]',
+   'FinEdge Mobility Team', 'Gajuwaka Industrial Hub', 'Visakhapatnam', 75000, 115000,
    'monthly', 'assets/trades/mobile.jpg', 'verified');
 
 -- 3. Tech Jobs
@@ -91,32 +91,32 @@ INSERT OR REPLACE INTO jobs (
 ) VALUES
   ('job_01', 'ep_01', 'Senior Full-Stack Software Engineer (TypeScript & Cloudflare)',
    'Architect and build scalable microservices, edge-native Cloudflare Workers, and high-performance React web applications. Responsible for distributed databases, caching, and CI/CD pipelines.',
-   'Software Engineering', 85000, 130000, 'monthly', 'Hitec City Cyber Towers', 'Hyderabad',
+   'Software Engineering', 85000, 130000, 'monthly', 'Madhurawada IT SEZ Hill 2', 'Visakhapatnam',
    '10:00 AM - 7:00 PM (Hybrid)', 'B.Tech/BE in Computer Science, 4+ years building full-stack web platforms with TypeScript, React, Node.js, and SQL.', 2, 'open', '2026-10-02'),
 
   ('job_02', 'ep_02', 'SDET & QA Automation Engineer (Playwright & Cypress)',
    'Design and execute end-to-end automated test suites for fintech payment gateways. Lead regression cycles, performance benchmarks, and automated security sanity checks.',
-   'QA & Testing', 65000, 95000, 'monthly', 'Outer Ring Road Tech Corridor', 'Bangalore',
+   'QA & Testing', 65000, 95000, 'monthly', 'Rushikonda Millennium Tech Park', 'Visakhapatnam',
    '9:30 AM - 6:30 PM (Flexible)', '3+ years QA automation with Playwright, Cypress, or Selenium. Strong API testing skills (REST / GraphQL / Postman).', 2, 'open', '2026-10-04'),
 
   ('job_03', 'ep_03', 'Technical Team Leader & Engineering Manager',
    'Lead a high-performing squad of 8 engineers across frontend, backend, and infrastructure. Drive architecture reviews, sprint grooming, code quality standards, and technical roadmaps.',
-   'Team Leadership', 120000, 180000, 'monthly', 'Financial District Gachibowli', 'Hyderabad',
+   'Team Leadership', 120000, 180000, 'monthly', 'Duvvada VSEZ Tech Zone', 'Visakhapatnam',
    '9:30 AM - 6:30 PM', '6+ years software development experience with at least 2+ years leading engineering teams or tech-leading complex distributed systems.', 1, 'open', '2026-10-06'),
 
   ('job_04', 'ep_04', 'Senior Technical Recruiter & HR Operations Partner',
    'Manage 360-degree technical hiring lifecycle for software, QA, and cloud engineering squads. Partner with hiring managers, run tech sourcing campaigns, offer management, and onboarding.',
-   'Human Resources', 55000, 80000, 'monthly', 'Hinjewadi Tech Hub', 'Pune',
+   'Human Resources', 55000, 80000, 'monthly', 'Auto Nagar Technology Park', 'Visakhapatnam',
    '9:00 AM - 6:00 PM', 'MBA / Degree in HR, 4+ years technical recruiting in fast-growth tech startups. Proven proficiency in LinkedIn Recruiter and modern ATS.', 1, 'open', '2026-10-08'),
 
   ('job_05', 'ep_01', 'Cloud & DevOps Infrastructure Engineer',
    'Manage enterprise Kubernetes clusters, Infrastructure as Code using Terraform, automated GitOps CI/CD pipelines, and 99.99% uptime observability with Prometheus and Datadog.',
-   'DevOps & Cloud', 90000, 140000, 'monthly', 'Madhapur Tech Corridor', 'Hyderabad',
+   'DevOps & Cloud', 90000, 140000, 'monthly', 'Siripuram / MVP Colony', 'Visakhapatnam',
    '10:00 AM - 7:00 PM (Rotational On-Call)', '4+ years hands-on DevOps / SRE experience, CKA certified preferred, production Docker/Kubernetes and AWS/GCP architecture.', 1, 'open', '2026-10-09'),
 
   ('job_06', 'ep_02', 'Lead Mobile Application Developer (React Native & Flutter)',
    'Lead mobile development for flagship consumer fintech and worker apps. Implement native modules, smooth 60fps animations, biometric authentication, and offline caching.',
-   'Mobile Development', 75000, 115000, 'monthly', 'Koramangala Tech Corridor', 'Bangalore',
+   'Mobile Development', 75000, 115000, 'monthly', 'Gajuwaka Industrial & Tech Zone', 'Visakhapatnam',
    '9:30 AM - 6:30 PM', '4+ years mobile app development with React Native, Flutter, Swift, or Kotlin. Shipped production apps to App Store & Google Play.', 1, 'open', '2026-10-10');
 
 -- 4. Tech Applications (Showing dynamic demand distribution)

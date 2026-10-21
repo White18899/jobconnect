@@ -23,7 +23,7 @@ workerRoutes.get('/worker/profile', authMiddleware, roleGuard(['worker']), async
     const fallbackName = (user.email || userRow?.email || 'Worker').split('@')[0];
     await c.env.DB.prepare(`
       INSERT INTO worker_profiles (id, user_id, full_name, phone, skills, preferred_area, city, verification_status)
-      VALUES (?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'pending')
+      VALUES (?, ?, ?, ?, '[]', 'Visakhapatnam', 'Visakhapatnam', 'pending')
     `).bind(wpId, user.userId, fallbackName, userRow?.phone || null).run();
 
     profile = await c.env.DB.prepare(
@@ -510,7 +510,7 @@ workerRoutes.get('/candidates', async (c) => {
       category: row.trade_title || 'Software Engineering',
       skills: parsedSkills,
       experience: row.experience || 0,
-      city: row.city || 'Hyderabad',
+      city: row.city || 'Visakhapatnam',
       preferred_area: row.preferred_area || '',
       photo_key: row.photo_key || '',
       photo_thumb: row.photo_thumb || '',
@@ -560,7 +560,7 @@ workerRoutes.post('/jobs/:id/apply', authMiddleware, roleGuard(['worker']), asyn
     await c.env.DB.prepare(`
       INSERT INTO worker_profiles (id, user_id, full_name, phone, trade_title, skills, experience_years, city, preferred_area, verification_status, created_at, updated_at)
       VALUES (?, ?, ?, ?, ?, '["Software Engineering"]', 2, ?, 'Central Area', 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    `).bind(wpId, user.userId, workerName, body.phone || user.phone || null, body.category || 'Software Engineer', body.city || 'Hyderabad').run();
+    `).bind(wpId, user.userId, workerName, body.phone || user.phone || null, body.category || 'Software Engineer', body.city || 'Visakhapatnam').run();
     worker = { id: wpId };
   }
 

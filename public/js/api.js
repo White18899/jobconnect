@@ -35,7 +35,7 @@ class JobConnectApi {
   }
 
   initStorage() {
-    const CLEAN_VERSION = 'v24_clean_2workers_sync';
+    const CLEAN_VERSION = 'v27_visakhapatnam_only';
     if (typeof localStorage !== 'undefined') {
       const purged = localStorage.getItem('jc_clean_purged');
       if (purged !== CLEAN_VERSION) {
@@ -228,7 +228,7 @@ class JobConnectApi {
       worker_name: workerData.name || "Worker Applicant",
       worker_category: workerData.category || (job ? job.category : "General"),
       worker_experience: workerData.experience || 3,
-      worker_city: workerData.city || "Hyderabad",
+      worker_city: workerData.city || "Visakhapatnam",
       applied_date: new Date().toISOString().split('T')[0],
       status: "applied",
       priority: isPriority ? "PRIORITY_ACTIVE" : "STANDARD",
@@ -236,7 +236,7 @@ class JobConnectApi {
       phone_masked: "+91 98••••••" + Math.floor(10 + Math.random() * 89),
       phone_unlocked: workerData.phone || "+91 98491 55678",
       address_masked: "Address Protected (Unlock to view)",
-      address_unlocked: workerData.address || "Plot 89, Trade Nagar, Industrial Area, Hyderabad",
+      address_unlocked: workerData.address || "Plot 89, Auto Nagar, Industrial Corridor, Visakhapatnam",
       experience_notes: workerData.notes || `${workerData.experience || 3}+ years experienced specialist`
     };
 
@@ -390,8 +390,8 @@ class JobConnectApi {
               ...sc,
               bio: sc.bio || existingLocal?.bio || `${sc.trade_title} with ${sc.experience}+ years experience in technical development and engineering architecture.`,
               education: sc.education || existingLocal?.education || 'B.Tech / Professional Degree in Technical Discipline',
-              address_masked: sc.address_masked || existingLocal?.address_masked || `${sc.preferred_area || sc.city || 'Hyderabad'} Tech Corridor`,
-              address_unlocked: sc.address_unlocked || existingLocal?.address_unlocked || `${sc.preferred_area || 'Tech Zone'}, ${sc.city || 'Hyderabad'}`,
+              address_masked: sc.address_masked || existingLocal?.address_masked || `${sc.preferred_area || sc.city || 'Visakhapatnam'} Tech Corridor`,
+              address_unlocked: sc.address_unlocked || existingLocal?.address_unlocked || `${sc.preferred_area || 'Tech Zone'}, ${sc.city || 'Visakhapatnam'}`,
               phone_masked: sc.phone_masked || sc.phone || '+91 ••••••9999',
               phone_unlocked: sc.phone_unlocked || existingLocal?.phone_unlocked || sc.phone || '+91 98765 43210',
               salary_expected: sc.salary_expected || existingLocal?.salary_expected || 45000,
@@ -843,13 +843,13 @@ class JobConnectApi {
           name: profileData.full_name || user?.name || 'Verified Professional',
           trade_title: profileData.trade_title || 'Technical Specialist',
           category: profileData.trade_title || 'Specialist',
-          city: profileData.city || 'Hyderabad',
+          city: profileData.city || 'Visakhapatnam',
           experience: profileData.experience_years || 1,
           salary_expected: profileData.expected_salary_min || 35000,
           phone_masked: `•••• ••• ${last3}`,
           phone_unlocked: profileData.phone || '+91 98765 43210',
-          address_masked: `${profileData.city || 'Hyderabad'} Tech Corridor`,
-          address_unlocked: `${profileData.preferred_area || 'Tech Zone'}, ${profileData.city || 'Hyderabad'}`,
+          address_masked: `${profileData.city || 'Visakhapatnam'} Tech Corridor`,
+          address_unlocked: `${profileData.preferred_area || 'Tech Zone'}, ${profileData.city || 'Visakhapatnam'}`,
           skills: profileData.skills && profileData.skills.length ? profileData.skills : ['Software Engineering', 'Technical Scope'],
           bio: profileData.experience_description || 'Technical professional with verified credentials.',
           education: profileData.education_level || 'B.Tech / Professional Degree',

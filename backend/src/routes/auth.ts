@@ -211,13 +211,13 @@ authRoutes.post('/register/verify', async (c) => {
       const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
       await c.env.DB.prepare(`
         INSERT INTO worker_profiles (id, user_id, full_name, phone, skills, preferred_area, city, verification_status)
-        VALUES (?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'pending')
+        VALUES (?, ?, ?, ?, '[]', 'Visakhapatnam', 'Visakhapatnam', 'pending')
       `).bind(wpId, userId, pendingData.name || 'New Worker', pendingData.phone || null).run();
     } else {
       const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
       await c.env.DB.prepare(`
         INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status)
-        VALUES (?, ?, ?, 'Trade Workshop', ?, 'Hyderabad', 'City Center', 'Pending Address', 17.3850, 78.4867, 'pending')
+        VALUES (?, ?, ?, 'Trade Workshop', ?, 'Visakhapatnam', 'City Center', 'Pending Address', 17.6868, 83.2185, 'pending')
       `).bind(epId, userId, pendingData.name || 'My Business', pendingData.name || 'Owner').run();
     }
   } catch (dbErr: any) {
@@ -691,13 +691,13 @@ authRoutes.post('/google/confirm-role', async (c) => {
         const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
         await c.env.DB.prepare(`
           INSERT INTO worker_profiles (id, user_id, full_name, photo_key, phone, skills, preferred_area, city, verification_status)
-          VALUES (?, ?, ?, ?, ?, '[]', 'Hyderabad', 'Hyderabad', 'verified')
+          VALUES (?, ?, ?, ?, ?, '[]', 'Visakhapatnam', 'Visakhapatnam', 'verified')
         `).bind(wpId, userId, fullName, googleRes.picture || null, normalizedPhone).run();
       } else {
         const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
         await c.env.DB.prepare(`
           INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status)
-          VALUES (?, ?, ?, 'Trade Enterprise', ?, 'Hyderabad', 'City Center', 'Pending Address', 17.3850, 78.4867, 'verified')
+          VALUES (?, ?, ?, 'Trade Enterprise', ?, 'Visakhapatnam', 'City Center', 'Pending Address', 17.6868, 83.2185, 'verified')
         `).bind(epId, userId, fullName, fullName).run();
       }
 

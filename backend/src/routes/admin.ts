@@ -361,7 +361,7 @@ adminRoutes.post('/admin/users', async (c) => {
   const role = body.role === 'employer' ? 'employer' : 'worker';
   const name = (body.name || 'User').trim();
   const phone = (body.phone || '').trim();
-  const city = body.city || 'Hyderabad';
+  const city = body.city || 'Visakhapatnam';
   const tradeTitle = body.trade_title || (role === 'worker' ? 'Technical Specialist' : 'Tech Company');
 
   if (!email || !email.includes('@')) {
@@ -385,13 +385,13 @@ adminRoutes.post('/admin/users', async (c) => {
     const wpId = 'wp_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
       INSERT INTO worker_profiles (id, user_id, full_name, phone, trade_title, skills, experience_years, city, preferred_area, verification_status, digilocker_verified, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, '["Software Engineering"]', 2, ?, 'City Center', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      VALUES (?, ?, ?, ?, ?, '["Software Engineering"]', 2, ?, 'Madhurawada IT SEZ', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(wpId, userId, name, phone || null, tradeTitle, city).run();
   } else {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
-      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, verification_status, created_at, updated_at)
-      VALUES (?, ?, ?, 'Enterprise SaaS', ?, ?, 'Tech Hub', 'Platform Verified Address', 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, created_at, updated_at)
+      VALUES (?, ?, ?, 'Enterprise SaaS', ?, ?, 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, userId, name, name, city).run();
   }
 

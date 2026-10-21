@@ -616,7 +616,7 @@
             Active Platform Vacancies
           </h2>
           <p class="panel-subtitle">
-            Live job postings published across Hyderabad, Bangalore, and Visakhapatnam corridors. Full edit and delete permissions.
+            Live job postings published across Visakhapatnam corridors. Full edit and delete permissions.
           </p>
         </div>
         <div>
@@ -752,7 +752,7 @@
           <!-- City -->
           <div class="admin-form-group">
             <label class="admin-form-label" for="edit-user-city">City</label>
-            <input type="text" id="edit-user-city" class="admin-form-input" placeholder="e.g. Hyderabad">
+            <input type="text" id="edit-user-city" class="admin-form-input" placeholder="e.g. Visakhapatnam">
           </div>
 
           <!-- Area -->
@@ -872,7 +872,7 @@
           <!-- City -->
           <div class="admin-form-group">
             <label class="admin-form-label" for="create-city">City</label>
-            <input type="text" id="create-city" class="admin-form-input" value="Hyderabad">
+            <input type="text" id="create-city" class="admin-form-input" value="Visakhapatnam">
           </div>
         </div>
 
@@ -1384,7 +1384,7 @@
         document.getElementById('edit-user-role').value = u.role;
         document.getElementById('edit-user-trade').value = u.worker_title || u.employer_business_name || '';
         document.getElementById('edit-user-exp').value = u.worker_exp !== null && u.worker_exp !== undefined ? u.worker_exp : '';
-        document.getElementById('edit-user-city').value = u.worker_city || u.employer_city || 'Hyderabad';
+        document.getElementById('edit-user-city').value = u.worker_city || u.employer_city || 'Visakhapatnam';
         document.getElementById('edit-user-area').value = u.worker_area || u.employer_area || '';
         document.getElementById('edit-user-verified').checked = !!u.is_verified;
         document.getElementById('edit-user-blocked').checked = !!u.is_blocked;
@@ -1447,7 +1447,7 @@
       document.getElementById('btn-open-create-user').addEventListener('click', () => {
         document.getElementById('form-create-user').reset();
         document.getElementById('create-password').value = 'Password@123';
-        document.getElementById('create-city').value = 'Hyderabad';
+        document.getElementById('create-city').value = 'Visakhapatnam';
         createUserModal.classList.add('active');
       });
 
@@ -1918,10 +1918,9 @@
         </p>
       </div>
       <div class="footer-box">
-        <h4 class="footer-col-title">Industrial Hubs</h4>
+        <h4 class="footer-col-title">Industrial Hub</h4>
         <p class="footer-text">
-          Hyderabad • Visakhapatnam<br>
-          Pune • Bengaluru • Chennai
+          Visakhapatnam
         </p>
       </div>
       <div class="footer-box">

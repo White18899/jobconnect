@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
 
           <div class="project-card-meta">
-            🏢 ${escapeHtml(job.business_name || 'Verified Tech Enterprise')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Hyderabad')}
+            🏢 ${escapeHtml(job.business_name || 'Verified Tech Enterprise')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Visakhapatnam')}
           </div>
         </a>
       `;

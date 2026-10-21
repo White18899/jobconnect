@@ -29,7 +29,7 @@ INSERT OR IGNORE INTO worker_profiles (
 ) VALUES (
     'wp_01', 'usr_wrk_01', 'Ramesh Kumar Goud', 'workers/selfie_ramesh.jpg',
     '["Two-Wheeler Mechanic", "Welder", "Electrical Helper"]', 4.5,
-    'Kukatpally', 'Hyderabad', 16000, 22000, 'monthly',
+    'Gajuwaka Industrial Hub', 'Visakhapatnam', 16000, 22000, 'monthly',
     'aadhaar_masked', 'XXXX-XXXX-4912', 'docs/aadhaar_ramesh.pdf', 'workers/selfie_ramesh.jpg', 'verified'
 );
 
@@ -40,7 +40,7 @@ INSERT OR IGNORE INTO worker_profiles (
 ) VALUES (
     'wp_02', 'usr_wrk_02', 'Suresh Babu', 'workers/selfie_suresh.jpg',
     '["Cook", "Kitchen Helper", "Packing Worker"]', 3.0,
-    'Ameerpet', 'Hyderabad', 14000, 18000, 'monthly',
+    'MVP Colony', 'Visakhapatnam', 14000, 18000, 'monthly',
     'voter_id', 'VTR-XXX892', 'docs/voter_suresh.pdf', 'workers/selfie_suresh.jpg', 'verified'
 );
 
@@ -52,9 +52,9 @@ INSERT OR IGNORE INTO employer_profiles (
     shop_photo_key, verification_status
 ) VALUES (
     'ep_01', 'usr_emp_01', 'Sri Balaji Auto Care & Service', 'Automobile Workshop',
-    'Venkat Rao', 'Hyderabad', 'Kukatpally Housing Board',
-    'Plot 42, Phase 3, Near Ganesh Temple, KPHB Colony, Hyderabad 500072',
-    17.4938, 78.3995, 'udyam', 'docs/udyam_balaji.pdf',
+    'Venkat Rao', 'Visakhapatnam', 'Gajuwaka Industrial Hub',
+    'Plot 42, Main Road, Near Auto Nagar Junction, Gajuwaka, Visakhapatnam 530026',
+    17.6908, 83.2093, 'udyam', 'docs/udyam_balaji.pdf',
     'shops/balaji_storefront.jpg', 'verified'
 );
 
@@ -64,9 +64,9 @@ INSERT OR IGNORE INTO employer_profiles (
     shop_photo_key, verification_status
 ) VALUES (
     'ep_02', 'usr_emp_02', 'Annapurna Traditional Sweets & Bakery', 'Food & Confectionery',
-    'Satyanarayana', 'Hyderabad', 'SR Nagar',
-    'Shop No 14/B, Main Road, Beside Metro Pillar 1042, SR Nagar, Hyderabad 500038',
-    17.4435, 78.4482, 'shop_licence', 'docs/shop_licence_annapurna.pdf',
+    'Satyanarayana', 'Visakhapatnam', 'MVP Colony',
+    'Shop No 14/B, Sector 3, Near Double Road, MVP Colony, Visakhapatnam 530017',
+    17.7431, 83.3344, 'shop_licence', 'docs/shop_licence_annapurna.pdf',
     'shops/annapurna_storefront.jpg', 'verified'
 );
 
@@ -78,7 +78,7 @@ INSERT OR IGNORE INTO jobs (
 ) VALUES (
     'job_01', 'ep_01', 'Experienced Two-Wheeler Mechanic Wanted',
     'Looking for a reliable mechanic for servicing Honda, Hero, and Bajaj motorcycles. General service, engine tuning, and brake repairs required.',
-    'Mechanic', 18000, 24000, 'monthly', 'KPHB Colony', 'Hyderabad',
+    'Mechanic', 18000, 24000, 'monthly', 'Gajuwaka Industrial Hub', 'Visakhapatnam',
     '9:30 AM - 7:30 PM (Weekly Off on Tuesday)',
     '["Must have 2+ years experience in two-wheeler servicing", "Basic electrical troubleshooting knowledge", "Punctual and honest"]',
     2, 'open'
@@ -90,7 +90,7 @@ INSERT OR IGNORE INTO jobs (
 ) VALUES (
     'job_02', 'ep_02', 'Sweet Maker & Counter Assistant',
     'Need sweet maker and packing helper for busy festival season. Fast preparation of laddu, mysore pak, and mixture snacks.',
-    'Cook', 15000, 20000, 'monthly', 'SR Nagar', 'Hyderabad',
+    'Cook', 15000, 20000, 'monthly', 'MVP Colony', 'Visakhapatnam',
     '8:00 AM - 5:00 PM',
     '["Hygiene oriented", "Prior sweet stall experience preferred", "Food provided on site"]',
     1, 'open'
@@ -102,7 +102,7 @@ INSERT OR IGNORE INTO jobs (
 ) VALUES (
     'job_03', 'ep_01', 'Workshop Helper & Washing Boy',
     'Water wash, bike cleaning, and workshop assistance. Freshers welcome.',
-    'Helper', 10000, 13000, 'monthly', 'KPHB Colony', 'Hyderabad',
+    'Helper', 10000, 13000, 'monthly', 'Gajuwaka Industrial Hub', 'Visakhapatnam',
     '9:00 AM - 7:00 PM',
     '["Hard working", "Willing to learn bike mechanics"]',
     1, 'open'

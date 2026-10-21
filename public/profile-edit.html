@@ -635,19 +635,13 @@
         <div class="form-group">
           <label class="form-label" for="worker-city">City *</label>
           <select id="worker-city" class="form-input">
-            <option value="Hyderabad">Hyderabad</option>
-            <option value="Visakhapatnam">Visakhapatnam</option>
-            <option value="Vijayawada">Vijayawada</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Mumbai">Mumbai</option>
-            <option value="Delhi">Delhi NCR</option>
+            <option value="Visakhapatnam" selected>Visakhapatnam</option>
           </select>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="worker-area">Preferred Work Area / Locality *</label>
-          <input type="text" id="worker-area" class="form-input" placeholder="e.g. KPHB Colony, Kukatpally" required>
+          <input type="text" id="worker-area" class="form-input" placeholder="e.g. Madhurawada, Rushikonda, Gajuwaka, MVP Colony" required>
         </div>
 
         <div class="form-group" style="grid-column: 1 / -1;">
@@ -1429,7 +1423,7 @@
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                 <div class="form-group">
                   <label class="form-label" for="worker-student-college">College / University / Institute Name *</label>
-                  <input type="text" id="worker-student-college" class="form-input" placeholder="e.g. IIT Hyderabad, BITS Pilani, Anna University" value="${escapeHtml(s.college)}">
+                  <input type="text" id="worker-student-college" class="form-input" placeholder="e.g. Andhra University, GITAM Visakhapatnam, GVP Engineering" value="${escapeHtml(s.college)}">
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="worker-student-degree">Current Degree & Major / Branch *</label>
@@ -1567,7 +1561,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">School / College / University Institute Name</label>
-              <input type="text" class="form-input edu-input-institute" placeholder="e.g. JNTU Hyderabad, VTU Bangalore" value="${data.institute || ''}">
+              <input type="text" class="form-input edu-input-institute" placeholder="e.g. Andhra University, GITAM Visakhapatnam" value="${data.institute || ''}">
             </div>
             <div class="form-group">
               <label class="form-label">Degree / Course Specialization</label>
@@ -2062,10 +2056,9 @@
         </p>
       </div>
       <div class="footer-box">
-        <h4 class="footer-col-title">Industrial Hubs</h4>
+        <h4 class="footer-col-title">Industrial Hub</h4>
         <p class="footer-text">
-          Hyderabad • Visakhapatnam<br>
-          Pune • Bengaluru • Chennai
+          Visakhapatnam
         </p>
       </div>
       <div class="footer-box">
