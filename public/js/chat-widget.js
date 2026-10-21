@@ -9,7 +9,7 @@
     const link = document.createElement('link');
     link.id = 'jobway-chat-styles';
     link.rel = 'stylesheet';
-    link.href = '/css/chat-widget.css?v=4';
+    link.href = '/css/chat-widget.css?v=5';
     document.head.appendChild(link);
   }
 
@@ -185,6 +185,22 @@
     closeBtn.addEventListener('click', () => {
       isOpen = false;
       windowEl.classList.remove('open');
+    });
+
+    // Close on click outside (mobile & desktop)
+    document.addEventListener('click', (e) => {
+      if (isOpen && !root.contains(e.target)) {
+        isOpen = false;
+        windowEl.classList.remove('open');
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        isOpen = false;
+        windowEl.classList.remove('open');
+      }
     });
 
     // Quick suggestion pills
