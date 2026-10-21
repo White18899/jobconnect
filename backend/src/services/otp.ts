@@ -57,14 +57,9 @@ export async function verifyOtp(
   phone: string,
   inputOtp: string
 ): Promise<{ valid: boolean; error?: string }> {
-  // For development/demo convenience, allow standard 123456 in dev mode
   const rawData = await kv.get(`otp:${phone}`);
 
   if (!rawData) {
-    // If not found in KV, check if dev fallback OTP was provided
-    if (inputOtp === '123456') {
-      return { valid: true };
-    }
     return { valid: false, error: 'OTP expired or not found. Please request a new OTP.' };
   }
 
@@ -76,11 +71,12 @@ export async function verifyOtp(
   }
 
   const inputHash = await sha256(`${phone}:${inputOtp}`);
-  if (inputHash === record.hash || inputOtp === '123456') {
+  if (inputHash === record.hash) {
     // Verified, consume the OTP
     await kv.delete(`otp:${phone}`);
     return { valid: true };
   }
+
 
   // Increment failure count
   record.attempts += 1;

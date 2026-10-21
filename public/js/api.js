@@ -1226,8 +1226,8 @@ class JobConnectApi {
       });
       return await res.json();
     } catch (e) {
-      console.warn('Network error during SMS OTP request, fallback:', e);
-      return { success: true, message: 'SMS OTP code sent (Demo: 123456)', devCode: '123456', isMock: true };
+      console.error('Network error during SMS OTP request:', e);
+      return { success: false, error: 'Could not reach server to send SMS. Please check your network.' };
     }
   }
 
@@ -1240,11 +1240,8 @@ class JobConnectApi {
       });
       return await res.json();
     } catch (e) {
-      console.warn('Network error during SMS OTP verify:', e);
-      if (otp === '123456' || otp.length >= 4) {
-        return { success: true, message: 'Mobile number verified successfully via SMS.' };
-      }
-      return { success: false, error: 'Incorrect verification code.' };
+      console.error('Network error during SMS OTP verify:', e);
+      return { success: false, error: 'Could not connect to server to verify OTP.' };
     }
   }
 

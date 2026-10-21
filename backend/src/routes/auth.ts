@@ -775,7 +775,7 @@ const handleSmsOtpRequest = async (c: any) => {
     message: `Verification code dispatched via SMS (+${phone.replace(/\D/g, '')})`,
     phone,
     isMock: smsResult.isMock,
-    devCode: (smsResult.isMock || c.env.ENVIRONMENT === 'development') ? otp : undefined,
+    devCode: smsResult.isMock ? otp : undefined,
   });
 };
 
