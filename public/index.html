@@ -43,6 +43,11 @@
     html.is-logged-out #auth-logged-in { display: none !important; }
 
     /* Role-based navigation on home page */
+    #btn-header-post-vacancy-user { display: none !important; }
+    html.role-worker #btn-header-post-vacancy-user,
+    html.role-guest #btn-header-post-vacancy-user { display: none !important; }
+    html.role-employer #btn-header-post-vacancy-user { display: inline-flex !important; }
+
     html.role-worker .nav-link-guest { display: none !important; }
     html.role-worker .nav-link-employer { display: none !important; }
     html.role-worker .nav-link-worker { display: inline-flex !important; }
@@ -50,7 +55,6 @@
     html.role-employer .nav-link-guest { display: none !important; }
     html.role-employer .nav-link-worker { display: none !important; }
     html.role-employer .nav-link-employer { display: inline-flex !important; }
-    html.role-employer #btn-header-post-vacancy-user { display: inline-flex !important; }
 
     html.role-guest .nav-link-worker { display: none !important; }
     html.role-guest .nav-link-employer { display: none !important; }
@@ -90,9 +94,6 @@
         </a>
         <a class="nav-link nav-link-worker" href="/worker.html" style="display: none;">
           <span class="link-line">Worker Desk</span>
-        </a>
-        <a class="nav-link nav-link-worker" href="/candidates.html" style="display: none;">
-          <span class="link-line">Candidates</span>
         </a>
 
         <!-- Employer Logged In Links -->
@@ -433,6 +434,6 @@
 
   <!-- Scripts -->
   <script src="js/api.js?v=26"></script>
-  <script src="js/app.js?v=20"></script>
+  <script src="js/app.js?v=21"></script>
 </body>
 </html>

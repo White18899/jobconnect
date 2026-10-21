@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (btnHeaderPostVacancyUser) {
         if (user.role === 'employer') {
-          btnHeaderPostVacancyUser.style.display = 'inline-flex';
+          btnHeaderPostVacancyUser.style.setProperty('display', 'inline-flex', 'important');
           btnHeaderPostVacancyUser.onclick = () => { window.location.href = '/employer.html#applicants-section'; };
         } else {
-          btnHeaderPostVacancyUser.style.display = 'none';
+          btnHeaderPostVacancyUser.style.setProperty('display', 'none', 'important');
         }
       }
     } else {
@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (authLoggedOut) authLoggedOut.style.display = 'flex';
       if (authLoggedIn) authLoggedIn.style.display = 'none';
+      if (btnHeaderPostVacancyUser) {
+        btnHeaderPostVacancyUser.style.setProperty('display', 'none', 'important');
+      }
     }
   }
   checkSession();
