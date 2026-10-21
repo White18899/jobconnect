@@ -19,10 +19,9 @@ SMTP_FROM = "JobWay <noreply@job-way.in>"
 SMTP_SECURE = "false"
 GOOGLE_CLIENT_ID = "327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleusercontent.com"
 
-# Meta WhatsApp Business Cloud API
-WHATSAPP_PHONE_NUMBER_ID = "1378441025360192"
-WHATSAPP_CLOUD_API_TOKEN = "EAAYZC2ZBnuT6QBS8gXfUnt6HBESrMV3iLAneAgl2axxsp6jm28uFe3n6HMIUN6hQbqml9yHtuvausnFF8arOirZAH18hqis6VhpcdouWoAHZAfWOUoQNcUW7efw9lmiwgXJSHsBZAbrXZCnzQ8GqZAWYydRwtJOAe2EENm3lhYh0hZAfL0JZCPCAUJy4BqPZAL4YFTbFzVm0KxpVZBsviexqJgz9ScTJSKwZCZCyXzZBlTc4hR84eZBhoQP0SWrc4rLA0fZAa8bEDuPDb71PsZB5ZCb8YsVwUQ79Le2VMyT82DOaMZBZBZAYZD"
-WHATSAPP_TEMPLATE_NAME = "hello_world"
+# Brevo Transactional SMS API Configuration
+BREVO_SMS_SENDER = "JobWay"
+# Note: BREVO_API_KEY can be set here or securely via `npx wrangler secret put BREVO_API_KEY`
 
 
 

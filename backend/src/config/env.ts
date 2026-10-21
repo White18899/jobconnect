@@ -15,10 +15,13 @@ export interface Env {
   SMTP_FROM?: string;
   SMTP_SECURE?: string;
   GOOGLE_CLIENT_ID?: string;
+  BREVO_API_KEY?: string;
+  BREVO_SMS_SENDER?: string;
   WHATSAPP_PHONE_NUMBER_ID?: string;
   WHATSAPP_CLOUD_API_TOKEN?: string;
   WHATSAPP_TEMPLATE_NAME?: string;
 }
+
 
 export interface UserTokenPayload {
   userId: string;

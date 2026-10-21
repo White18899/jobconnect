@@ -1215,38 +1215,48 @@ class JobConnectApi {
     }
   }
 
-  // --- WHATSAPP OTP AUTHENTICATION ---
+  // --- BREVO SMS OTP AUTHENTICATION ---
 
-  async requestWhatsAppOtp(phone) {
+  async requestSmsOtp(phone) {
     try {
-      const res = await fetch(`${this.baseUrl}/auth/whatsapp-otp/request`, {
+      const res = await fetch(`${this.baseUrl}/auth/sms-otp/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone }),
       });
       return await res.json();
     } catch (e) {
-      console.warn('Network error during WhatsApp OTP request, fallback:', e);
-      return { success: true, message: 'WhatsApp OTP code sent (Demo: 123456)', devCode: '123456', isMock: true };
+      console.warn('Network error during SMS OTP request, fallback:', e);
+      return { success: true, message: 'SMS OTP code sent (Demo: 123456)', devCode: '123456', isMock: true };
     }
   }
 
-  async verifyWhatsAppOtp(phone, otp) {
+  async verifySmsOtp(phone, otp) {
     try {
-      const res = await fetch(`${this.baseUrl}/auth/whatsapp-otp/verify`, {
+      const res = await fetch(`${this.baseUrl}/auth/sms-otp/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, otp }),
       });
       return await res.json();
     } catch (e) {
-      console.warn('Network error during WhatsApp OTP verify:', e);
+      console.warn('Network error during SMS OTP verify:', e);
       if (otp === '123456' || otp.length >= 4) {
-        return { success: true, message: 'WhatsApp verified successfully.' };
+        return { success: true, message: 'Mobile number verified successfully via SMS.' };
       }
       return { success: false, error: 'Incorrect verification code.' };
     }
   }
+
+  // Backward compatibility aliases
+  async requestWhatsAppOtp(phone) {
+    return this.requestSmsOtp(phone);
+  }
+
+  async verifyWhatsAppOtp(phone, otp) {
+    return this.verifySmsOtp(phone, otp);
+  }
+
 
   async forgotPasswordRequest(email) {
     try {

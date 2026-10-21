@@ -1,9 +1,11 @@
 /**
- * JobConnect / JobWay WhatsApp Cloud API Service
- * Dispatches Authentication OTP templates via Meta WhatsApp Business Cloud API.
+ * JobConnect / JobWay WhatsApp Service (Migrated to Brevo SMS)
+ * Dispatches Authentication OTPs using Brevo Transactional SMS.
+ * Kept for backward compatibility.
  */
 
 import { Env } from '../config/env';
+import { sendBrevoSmsOtp, BrevoSmsSendResult } from './brevo-sms';
 
 export interface WhatsAppSendResult {
   success: boolean;
@@ -17,98 +19,13 @@ export async function sendWhatsAppOtp(
   otp: string,
   env: Env
 ): Promise<WhatsAppSendResult> {
-  // Normalize phone for WhatsApp international format (e.g., 919849123434)
-  const digitsOnly = phone.replace(/\D/g, '');
-  const cleanPhone = digitsOnly.length === 10 ? `91${digitsOnly}` : digitsOnly;
-
-  console.log(`[WhatsApp Gateway] Dispatching OTP to: +${cleanPhone}`);
-
-  const token = env.WHATSAPP_CLOUD_API_TOKEN;
-  const phoneNumberId = env.WHATSAPP_PHONE_NUMBER_ID;
-  const templateName = env.WHATSAPP_TEMPLATE_NAME || 'jobway_otp_code';
-
-  // If Meta credentials are not configured yet, fallback gracefully with developer log
-  if (!token || !phoneNumberId || token.includes('mock') || token === '') {
-    console.log(`[WhatsApp MOCK Gateway] OTP for +${cleanPhone} is: ${otp}`);
-    return {
-      success: true,
-      isMock: true,
-      messageId: `mock_wa_${Date.now()}`,
-    };
-  }
-
-  try {
-    const url = `https://graph.facebook.com/v21.0/${phoneNumberId}/messages`;
-    
-    const templatePayload: any = {
-      name: templateName,
-      language: { code: 'en_US' },
-    };
-
-    if (templateName !== 'hello_world') {
-      templatePayload.components = [
-        {
-          type: 'body',
-          parameters: [
-            {
-              type: 'text',
-              text: otp,
-            },
-          ],
-        },
-        {
-          type: 'button',
-          sub_type: 'url',
-          index: '0',
-          parameters: [
-            {
-              type: 'text',
-              text: otp,
-            },
-          ],
-        },
-      ];
-    }
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token.trim()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messaging_product: 'whatsapp',
-        recipient_type: 'individual',
-        to: cleanPhone,
-        type: 'template',
-        template: templatePayload,
-      }),
-    });
-
-    const data: any = await res.json();
-
-    if (!res.ok) {
-      let errorMsg = data?.error?.message || `Meta WhatsApp API error (${res.status})`;
-      if (data?.error?.code === 131030) {
-        errorMsg = `Recipient (+${cleanPhone}) is not in Meta WhatsApp allowed test numbers list. Please add it under "To" -> "Manage phone number list" in your Meta Developer portal.`;
-      }
-      console.error('[WhatsApp Error]', JSON.stringify(data));
-      return {
-        success: false,
-        error: errorMsg,
-      };
-    }
-
-    const messageId = data?.messages?.[0]?.id;
-    return {
-      success: true,
-      messageId,
-    };
-  } catch (err: any) {
-    console.error('[WhatsApp Exception]', err.message);
-    return {
-      success: false,
-      error: err.message || 'Network exception dispatching WhatsApp message',
-    };
-  }
+  console.log(`[WhatsApp -> Brevo SMS Migration] Routing OTP request to Brevo SMS for: ${phone}`);
+  const result: BrevoSmsSendResult = await sendBrevoSmsOtp(phone, otp, env);
+  return {
+    success: result.success,
+    messageId: result.messageId ? String(result.messageId) : undefined,
+    error: result.error,
+    isMock: result.isMock,
+  };
 }
+

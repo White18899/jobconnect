@@ -11,7 +11,7 @@ India's Verified Technical & Industrial Trades Network — connecting certified 
 - **Database:** **Cloudflare D1** (Serverless SQL with relational migrations).
 - **Session & KV:** **Cloudflare Workers KV** (OTPs, rate limits, session store).
 - **Object Storage:** **Cloudflare R2** (worker resumes, KYC docs, and certifications).
-- **Mailing:** SMTP relay (Brevo SMTP) for OTPs and notifications.
+- **Messaging & Mailing:** Brevo Transactional SMS API for mobile phone OTP verification and Brevo SMTP relay for email verification & notifications.
 
 ---
 

@@ -11,7 +11,7 @@ import {
   getWelcomeEmailHtml,
   SmtpConfig,
 } from '../services/smtp';
-import { sendWhatsAppOtp } from '../services/whatsapp';
+import { sendBrevoSmsOtp } from '../services/brevo-sms';
 import { signJwt, authMiddleware } from '../middlewares/auth';
 
 const authRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
@@ -729,15 +729,15 @@ authRoutes.post('/google/confirm-role', async (c) => {
 });
 
 // -------------------------------------------------------------
-// 9. WHATSAPP OTP ENDPOINTS
+// 9. BREVO SMS OTP ENDPOINTS
 // -------------------------------------------------------------
-const whatsappOtpRequestSchema = z.object({
+const smsOtpRequestSchema = z.object({
   phone: z.string().min(10, 'Valid 10-digit mobile number required'),
 });
 
-authRoutes.post('/whatsapp-otp/request', async (c) => {
+const handleSmsOtpRequest = async (c: any) => {
   const body = await c.req.json().catch(() => ({}));
-  const parsed = whatsappOtpRequestSchema.safeParse(body);
+  const parsed = smsOtpRequestSchema.safeParse(body);
   if (!parsed.success) {
     return c.json({ error: parsed.error.issues[0]?.message || 'Invalid phone number' }, 400);
   }
@@ -750,7 +750,7 @@ authRoutes.post('/whatsapp-otp/request', async (c) => {
 
   // Rate limit check (skipped in development mode)
   if (c.env.ENVIRONMENT !== 'development') {
-    const rateLimitKey = `wa_ratelimit:${phone}`;
+    const rateLimitKey = `sms_ratelimit:${phone}`;
     const { allowed } = await checkRateLimit(c.env.KV, rateLimitKey, 4, 600);
     if (!allowed) {
       return c.json({ error: 'Too many OTP requests. Please wait 10 minutes.' }, 429);
@@ -760,33 +760,33 @@ authRoutes.post('/whatsapp-otp/request', async (c) => {
   const otp = generateOtp();
   await storeOtp(c.env.KV, phone, otp);
 
-  const waResult = await sendWhatsAppOtp(phone, otp, c.env);
+  const smsResult = await sendBrevoSmsOtp(phone, otp, c.env);
 
-  if (!waResult.success) {
+  if (!smsResult.success) {
     return c.json({
       success: false,
-      error: waResult.error || 'Failed to dispatch WhatsApp message',
+      error: smsResult.error || 'Failed to dispatch SMS OTP',
       phone,
     }, 400);
   }
 
   return c.json({
     success: true,
-    message: `Verification code dispatched to WhatsApp (+${phone.replace(/\D/g, '')})`,
+    message: `Verification code dispatched via SMS (+${phone.replace(/\D/g, '')})`,
     phone,
-    isMock: waResult.isMock,
-    devCode: (waResult.isMock || c.env.ENVIRONMENT === 'development') ? otp : undefined,
+    isMock: smsResult.isMock,
+    devCode: (smsResult.isMock || c.env.ENVIRONMENT === 'development') ? otp : undefined,
   });
-});
+};
 
-const whatsappOtpVerifySchema = z.object({
+const smsOtpVerifySchema = z.object({
   phone: z.string().min(10),
   otp: z.string().min(4).max(6),
 });
 
-authRoutes.post('/whatsapp-otp/verify', async (c) => {
+const handleSmsOtpVerify = async (c: any) => {
   const body = await c.req.json().catch(() => ({}));
-  const parsed = whatsappOtpVerifySchema.safeParse(body);
+  const parsed = smsOtpVerifySchema.safeParse(body);
   if (!parsed.success) {
     return c.json({ error: parsed.error.issues[0]?.message || 'Invalid verification request' }, 400);
   }
@@ -805,9 +805,18 @@ authRoutes.post('/whatsapp-otp/verify', async (c) => {
 
   return c.json({
     success: true,
-    message: 'WhatsApp number verified successfully!',
+    message: 'Mobile number verified successfully via SMS!',
     phone,
   });
-});
+};
+
+// Primary Brevo SMS endpoints
+authRoutes.post('/sms-otp/request', handleSmsOtpRequest);
+authRoutes.post('/sms-otp/verify', handleSmsOtpVerify);
+
+// Backward-compatibility aliases for legacy WhatsApp OTP clients
+authRoutes.post('/whatsapp-otp/request', handleSmsOtpRequest);
+authRoutes.post('/whatsapp-otp/verify', handleSmsOtpVerify);
 
 export default authRoutes;
+

@@ -94,48 +94,51 @@ export async function verifyOtp(
   };
 }
 
-export async function sendSms(phone: string, otp: string, apiKey?: string): Promise<{ success: boolean; error?: string }> {
-  console.log(`[SMS GATEWAY] Preparing 6-digit OTP for phone: ${phone}`);
+export async function sendSms(
+  phone: string,
+  otp: string,
+  apiKey?: string,
+  sender = 'JobWay'
+): Promise<{ success: boolean; error?: string; messageId?: string | number }> {
+  console.log(`[Brevo SMS GATEWAY] Preparing 6-digit OTP for phone: ${phone}`);
 
-  if (!apiKey || apiKey === 'mock_sms_key') {
-    console.log(`[SMS GATEWAY (MOCK)] OTP ${otp} for phone ${phone}`);
-    return { success: true };
+  const digits = phone.replace(/\D/g, '');
+  const cleanNumber = digits.length === 10 ? `91${digits}` : digits;
+
+  if (!apiKey || apiKey === 'mock_sms_key' || apiKey.includes('mock')) {
+    console.log(`[Brevo SMS (MOCK)] OTP ${otp} for phone +${cleanNumber}`);
+    return { success: true, messageId: `mock_sms_${Date.now()}` };
   }
 
   try {
-    // Extract 10-digit Indian mobile number
-    const cleanNumber = phone.replace(/\D/g, '').slice(-10);
-    if (cleanNumber.length !== 10) {
-      console.error(`Invalid mobile number format: ${phone}`);
-      return { success: false, error: 'Please enter a valid 10-digit mobile number' };
-    }
-
-    console.log(`[Fast2SMS] Dispatching OTP via Fast2SMS to: ${cleanNumber}`);
-    const response = await fetch('https://www.fast2sms.com/dev/bulkV2', {
+    const response = await fetch('https://api.brevo.com/v3/transactionalSMS/send', {
       method: 'POST',
       headers: {
-        'authorization': apiKey.trim(),
-        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'api-key': apiKey.trim(),
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
-        route: 'otp',
-        variables_values: otp,
-        numbers: cleanNumber,
+        sender: sender.slice(0, 11),
+        recipient: cleanNumber,
+        content: `Your JobWay verification code is: ${otp}. Valid for 10 minutes.`,
+        type: 'transactional',
+        tag: 'otpVerification',
       }),
     });
 
-    const data: any = await response.json();
-    console.log(`[Fast2SMS Response]`, JSON.stringify(data));
+    const data: any = await response.json().catch(() => ({}));
 
-    if (data.return === true) {
-      return { success: true };
-    } else {
-      const errMsg = Array.isArray(data.message) ? data.message.join(', ') : (data.message || 'SMS delivery failed');
-      console.error(`[Fast2SMS Failure]`, errMsg);
+    if (!response.ok) {
+      const errMsg = data?.message || `Brevo SMS delivery failed (${response.status})`;
+      console.error(`[Brevo SMS Failure]`, errMsg);
       return { success: false, error: errMsg };
     }
+
+    return { success: true, messageId: data?.messageId || data?.reference };
   } catch (err: any) {
-    console.error('Failed to send SMS via Fast2SMS:', err.message);
+    console.error('Failed to send SMS via Brevo:', err.message);
     return { success: false, error: err.message };
   }
 }
+

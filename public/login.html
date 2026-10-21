@@ -199,10 +199,10 @@
     .auth-divider span {
       padding: 0 12px;
     }
-    .btn-wa-otp {
-      background: #DCFCE7;
-      border: 1px solid #86EFAC;
-      color: #166534;
+    .btn-sms-otp, .btn-wa-otp {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1D4ED8;
       border-radius: 6px;
       padding: 5px 10px;
       font-size: 11px;
@@ -213,9 +213,10 @@
       gap: 5px;
       transition: all 0.15s ease;
     }
-    .btn-wa-otp:hover {
-      background: #BBF7D0;
-      border-color: #4ADE80;
+    .btn-sms-otp:hover, .btn-wa-otp:hover {
+      background: #DBEAFE;
+      border-color: #93C5FD;
+      color: #1E40AF;
     }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -371,24 +372,24 @@
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <label class="form-label" for="reg-phone" style="margin-bottom: 0;">Mobile Phone (Optional)</label>
-              <button type="button" class="btn-wa-otp" id="btn-request-wa-otp" title="Verify your number via WhatsApp OTP">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2z"/></svg>
-                <span>WhatsApp OTP</span>
+              <button type="button" class="btn-sms-otp" id="btn-request-sms-otp" title="Verify your number via Brevo SMS OTP">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <span>SMS OTP</span>
               </button>
             </div>
             <div style="display: flex; gap: 8px;">
               <span style="background: var(--surface-secondary); border: 1px solid var(--border); padding: 9px 12px; border-radius: var(--radius-md); font-weight: 600; font-size: 12.5px; color: var(--text-secondary); display: flex; align-items: center;">+91</span>
               <input type="tel" id="reg-phone" class="form-input" placeholder="98491 23434" maxlength="10">
             </div>
-            <!-- Inline WhatsApp OTP verification box -->
-            <div id="wa-otp-inline-box" style="display: none; margin-top: 8px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 10px 12px;">
+            <!-- Inline Brevo SMS OTP verification box -->
+            <div id="sms-otp-inline-box" style="display: none; margin-top: 8px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px; padding: 10px 12px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <span style="font-size: 11.5px; font-weight: 600; color: #166534;" id="wa-otp-status-text">Enter WhatsApp OTP:</span>
-                <span id="wa-otp-dev-badge" style="display: none; font-size: 11px; background: #DCFCE7; color: #15803D; padding: 2px 6px; border-radius: 4px; font-family: monospace;">Demo: 123456</span>
+                <span style="font-size: 11.5px; font-weight: 600; color: #1E40AF;" id="sms-otp-status-text">Enter SMS OTP:</span>
+                <span id="sms-otp-dev-badge" style="display: none; font-size: 11px; background: #DBEAFE; color: #1D4ED8; padding: 2px 6px; border-radius: 4px; font-family: monospace;">Demo: 123456</span>
               </div>
               <div style="display: flex; gap: 6px;">
-                <input type="text" id="reg-wa-otp-input" class="form-input" placeholder="••••••" maxlength="6" style="padding: 7px 10px; font-size: 13px; letter-spacing: 2px; text-align: center; font-family: monospace;">
-                <button type="button" id="btn-verify-wa-otp" style="background: #166534; color: white; border: none; border-radius: 6px; padding: 0 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap;">Verify</button>
+                <input type="text" id="reg-sms-otp-input" class="form-input" placeholder="••••••" maxlength="6" style="padding: 7px 10px; font-size: 13px; letter-spacing: 2px; text-align: center; font-family: monospace;">
+                <button type="button" id="btn-verify-sms-otp" style="background: #1D4ED8; color: white; border: none; border-radius: 6px; padding: 0 14px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap;">Verify</button>
               </div>
             </div>
           </div>
@@ -633,14 +634,14 @@
       const googleCardEmployer = document.getElementById('google-card-role-employer');
       const btnSubmitGoogleRole = document.getElementById('btn-submit-google-role');
 
-      // WhatsApp OTP Elements
-      const btnRequestWaOtp = document.getElementById('btn-request-wa-otp');
-      const waOtpInlineBox = document.getElementById('wa-otp-inline-box');
-      const regWaOtpInput = document.getElementById('reg-wa-otp-input');
-      const btnVerifyWaOtp = document.getElementById('btn-verify-wa-otp');
-      const waOtpStatusText = document.getElementById('wa-otp-status-text');
-      const waOtpDevBadge = document.getElementById('wa-otp-dev-badge');
-      let isPhoneWaVerified = false;
+      // Brevo SMS OTP Elements
+      const btnRequestSmsOtp = document.getElementById('btn-request-sms-otp') || document.getElementById('btn-request-wa-otp');
+      const smsOtpInlineBox = document.getElementById('sms-otp-inline-box') || document.getElementById('wa-otp-inline-box');
+      const regSmsOtpInput = document.getElementById('reg-sms-otp-input') || document.getElementById('reg-wa-otp-input');
+      const btnVerifySmsOtp = document.getElementById('btn-verify-sms-otp') || document.getElementById('btn-verify-wa-otp');
+      const smsOtpStatusText = document.getElementById('sms-otp-status-text') || document.getElementById('wa-otp-status-text');
+      const smsOtpDevBadge = document.getElementById('sms-otp-dev-badge') || document.getElementById('wa-otp-dev-badge');
+      let isPhoneSmsVerified = false;
 
       // Registration Inputs
       const inputRegEmail = document.getElementById('reg-email');
@@ -898,9 +899,9 @@
       });
 
       // =========================================================
-      // WHATSAPP OTP INTEGRATION
+      // BREVO SMS OTP INTEGRATION
       // =========================================================
-      btnRequestWaOtp?.addEventListener('click', async () => {
+      btnRequestSmsOtp?.addEventListener('click', async () => {
         const phone = inputRegPhone.value.trim();
         if (!phone || phone.replace(/\D/g, '').length < 10) {
           alert('Please enter a valid 10-digit mobile number first.');
@@ -908,48 +909,48 @@
           return;
         }
 
-        btnRequestWaOtp.disabled = true;
-        btnRequestWaOtp.innerHTML = '<span>Sending...</span>';
+        btnRequestSmsOtp.disabled = true;
+        btnRequestSmsOtp.innerHTML = '<span>Sending SMS...</span>';
 
-        const res = await window.jobApi.requestWhatsAppOtp(phone);
-        btnRequestWaOtp.disabled = false;
-        btnRequestWaOtp.innerHTML = `<span>WhatsApp OTP</span>`;
+        const res = await window.jobApi.requestSmsOtp(phone);
+        btnRequestSmsOtp.disabled = false;
+        btnRequestSmsOtp.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>SMS OTP</span>`;
 
         if (res.success) {
-          waOtpInlineBox.style.display = 'block';
-          waOtpStatusText.textContent = `OTP code sent to WhatsApp (+91 ${phone.slice(-10)})`;
+          smsOtpInlineBox.style.display = 'block';
+          smsOtpStatusText.textContent = `OTP code sent via SMS (+91 ${phone.slice(-10)})`;
           if (res.devCode) {
-            waOtpDevBadge.style.display = 'inline-block';
-            waOtpDevBadge.textContent = `Code: ${res.devCode}`;
-            regWaOtpInput.value = res.devCode;
+            smsOtpDevBadge.style.display = 'inline-block';
+            smsOtpDevBadge.textContent = `Code: ${res.devCode}`;
+            regSmsOtpInput.value = res.devCode;
           }
-          showToast(`Verification code sent to WhatsApp!`);
+          showToast(`Verification code sent via SMS!`);
         } else {
-          alert(res.error || 'Failed to send WhatsApp OTP.');
+          alert(res.error || 'Failed to send SMS OTP.');
         }
       });
 
-      btnVerifyWaOtp?.addEventListener('click', async () => {
+      btnVerifySmsOtp?.addEventListener('click', async () => {
         const phone = inputRegPhone.value.trim();
-        const otp = regWaOtpInput.value.trim();
+        const otp = regSmsOtpInput.value.trim();
         if (!otp || otp.length < 4) {
-          alert('Please enter the OTP received on your WhatsApp.');
-          regWaOtpInput.focus();
+          alert('Please enter the OTP received on your mobile via SMS.');
+          regSmsOtpInput.focus();
           return;
         }
 
-        btnVerifyWaOtp.disabled = true;
-        btnVerifyWaOtp.textContent = 'Checking...';
+        btnVerifySmsOtp.disabled = true;
+        btnVerifySmsOtp.textContent = 'Checking...';
 
-        const res = await window.jobApi.verifyWhatsAppOtp(phone, otp);
-        btnVerifyWaOtp.disabled = false;
-        btnVerifyWaOtp.textContent = 'Verify';
+        const res = await window.jobApi.verifySmsOtp(phone, otp);
+        btnVerifySmsOtp.disabled = false;
+        btnVerifySmsOtp.textContent = 'Verify';
 
         if (res.success) {
-          isPhoneWaVerified = true;
-          waOtpInlineBox.innerHTML = '<span style="font-size: 12px; font-weight: 700; color: #166534;">✓ Mobile number verified via WhatsApp!</span>';
-          btnRequestWaOtp.style.display = 'none';
-          showToast('Mobile number verified via WhatsApp!');
+          isPhoneSmsVerified = true;
+          smsOtpInlineBox.innerHTML = '<span style="font-size: 12px; font-weight: 700; color: #166534;">✓ Mobile number verified via SMS!</span>';
+          btnRequestSmsOtp.style.display = 'none';
+          showToast('Mobile number verified via SMS!');
         } else {
           alert(res.error || 'Incorrect OTP code.');
         }
