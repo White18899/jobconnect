@@ -68,7 +68,9 @@
     html.role-worker #nav-workspace-link,
     html.role-worker #btn-header-post-vacancy-user,
     html.role-worker #banner-employer-actions,
-    html.role-worker #banner-guest-actions {
+    html.role-worker #banner-guest-actions,
+    html.role-worker #footer-candidates-link,
+    html.role-worker #footer-employer-link {
       display: none !important;
     }
 
@@ -90,7 +92,8 @@
     html.role-employer #nav-worker-link,
     html.role-employer #nav-trade-pass-link,
     html.role-employer #banner-worker-actions,
-    html.role-employer #banner-guest-actions {
+    html.role-employer #banner-guest-actions,
+    html.role-employer #footer-worker-link {
       display: none !important;
     }
 
@@ -1515,9 +1518,9 @@
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
-          <a class="footer-link" href="/candidates.html">Candidates</a>
-          <a class="footer-link" href="/worker.html">Worker Desk</a>
-          <a class="footer-link" href="/employer.html">Employer Workspace</a>
+          <a class="footer-link" id="footer-candidates-link" href="/candidates.html">Candidates</a>
+          <a class="footer-link" id="footer-worker-link" href="/worker.html">Worker Desk</a>
+          <a class="footer-link" id="footer-employer-link" href="/employer.html">Employer Workspace</a>
           <a class="footer-link" href="/login.html?mode=admin" style="font-weight: 600; color: #059669;">Admin Console</a>
         </div>
       </div>
