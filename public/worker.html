@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=26">
-  <link rel="stylesheet" href="css/editorial.css?v=30">
+  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/editorial.css?v=31">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -615,7 +615,7 @@
         }
 
         container.innerHTML = currentApps.map(app => `
-          <div class="divided-row" style="padding: 20px 26px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div class="divided-row">
             <div>
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
                 <h3 style="font-size: 15.5px; font-weight: 700; color: #0F172A; margin: 0;">${app.job_title}</h3>
@@ -630,33 +630,37 @@
               </div>
             </div>
 
-            <div class="action-rail" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-              ${app.status === 'shortlisted' ? `
-                <span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
-                  SHORTLISTED
-                </span>
-              ` : `
-                <span class="status-badge pending" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-weight: 600; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
-                  APPLIED
-                </span>
-              `}
+            <div class="action-rail">
+              <div class="action-rail-meta">
+                ${app.status === 'shortlisted' ? `
+                  <span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
+                    SHORTLISTED
+                  </span>
+                ` : `
+                  <span class="status-badge pending" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-weight: 600; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
+                    APPLIED
+                  </span>
+                `}
+              </div>
 
-              ${app.priority !== 'PRIORITY_ACTIVE' ? `
-                <button class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  <span>Boost App (₹149)</span>
+              <div class="action-rail-actions">
+                ${app.priority !== 'PRIORITY_ACTIVE' ? `
+                  <button type="button" class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" title="Boost application visibility to verified employers">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span>Boost App (₹149)</span>
+                  </button>
+                ` : `
+                  <span class="action-rail-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Top Placement Active</span>
+                  </span>
+                `}
+
+                <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${app.job_title || 'Position'}" title="Withdraw this application" style="display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; font-size: 12px; font-weight: 650; border-radius: 8px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #64748B; cursor: pointer; transition: all 0.18s ease;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Withdraw</span>
                 </button>
-              ` : `
-                <span class="action-rail-pill" style="display: inline-flex; align-items: center; gap: 6px; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.35); color: #065F46; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span>Top Placement Active</span>
-                </span>
-              `}
-
-              <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${app.job_title || 'Position'}" title="Withdraw this application" style="display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; font-size: 12px; font-weight: 650; border-radius: 8px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #64748B; cursor: pointer; transition: all 0.18s ease;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                <span>Withdraw</span>
-              </button>
+              </div>
             </div>
           </div>
         `).join('');

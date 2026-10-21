@@ -1130,8 +1130,6 @@ button, input, select, textarea {
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  flex-shrink: 0;
-  min-width: max-content;
 }
 
 /* Metadata Stack inside Right-Rail (Status Badge + Timestamp) */
@@ -1184,27 +1182,32 @@ button, input, select, textarea {
   letter-spacing: -0.01em;
   line-height: 1;
   white-space: nowrap;
-  flex-shrink: 0;
-  background: #ffffff !important;
-  color: #09090b !important;
-  border: 1px solid #ffffff !important;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+  background: #14281D !important;
+  color: #FFFFFF !important;
+  border: 1px solid #14281D !important;
+  box-shadow: 0 2px 6px rgba(20, 40, 29, 0.18);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
 }
 
 .action-rail .btn-apply-priority:hover,
 .btn-apply-priority:hover {
-  background: #e4e4e7 !important;
-  color: #000000 !important;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.4);
+  background: #1C3829 !important;
+  border-color: #1C3829 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(20, 40, 29, 0.28);
   transform: translateY(-1px);
 }
 
 .action-rail .btn-apply-priority svg,
 .btn-apply-priority svg {
-  stroke: #09090b !important;
+  stroke: #34D399 !important;
+}
+
+.action-rail .btn-apply-priority span,
+.btn-apply-priority span {
+  color: #FFFFFF !important;
 }
 
 .action-rail .btn-apply-free,

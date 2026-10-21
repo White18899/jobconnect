@@ -2235,20 +2235,54 @@ tr:hover,
   box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08) !important;
 }
 
+.action-rail {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+}
+
+.action-rail-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.action-rail-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.action-rail .btn-apply-priority,
 .btn-apply-priority {
   background: #14281D !important;
   border: 1px solid #14281D !important;
   color: #FFFFFF !important;
   font-weight: 700 !important;
+  border-radius: 8px !important;
   box-shadow: 0 2px 6px rgba(20, 40, 29, 0.15) !important;
+  text-decoration: none !important;
 }
 
+.action-rail .btn-apply-priority:hover,
 .btn-apply-priority:hover {
   background: #234331 !important;
   border-color: #234331 !important;
   color: #FFFFFF !important;
   transform: translateY(-1.5px) !important;
   box-shadow: 0 4px 12px rgba(20, 40, 29, 0.25) !important;
+}
+
+.action-rail .btn-apply-priority span,
+.btn-apply-priority span {
+  color: #FFFFFF !important;
+}
+
+.action-rail .btn-apply-priority svg,
+.btn-apply-priority svg {
+  stroke: #34D399 !important;
 }
 
 .status-badge.pending,
@@ -3178,6 +3212,42 @@ img {
     padding: 7px 14px !important;
   }
 
+  /* Application Cards & Action Rails on Mobile (worker.html & employer.html) */
+  .divided-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 16px 14px !important;
+    gap: 12px !important;
+  }
+
+  .action-rail {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex-shrink: 1 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    border-top: 1px solid #F1F5F9 !important;
+    padding-top: 12px !important;
+    margin-top: 4px !important;
+  }
+
+  .action-rail-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .action-rail-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+
   /* Modals & Dialogs on Mobile */
   .modal-overlay,
   .vacancy-modal-overlay {
@@ -3211,6 +3281,54 @@ img {
     width: 100% !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+/* Mobile Viewports (<= 520px, e.g. standard phones 360px - 414px) */
+@media (max-width: 520px) {
+  .divided-row {
+    padding: 14px 12px !important;
+  }
+
+  .action-rail {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .action-rail-meta {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .action-rail-actions {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .action-rail-actions .btn-apply-priority,
+  .action-rail-actions .action-rail-pill {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .action-rail-actions .btn-withdraw-action {
+    flex: 0 0 auto !important;
+    justify-content: center !important;
+    height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    box-sizing: border-box !important;
   }
 }
 
