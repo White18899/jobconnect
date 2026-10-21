@@ -21,7 +21,7 @@ GOOGLE_CLIENT_ID = "327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleuse
 
 # Brevo Transactional SMS API Configuration
 BREVO_SMS_SENDER = "JobWay"
-# Note: BREVO_API_KEY can be set here or securely via `npx wrangler secret put BREVO_API_KEY`
+BREVO_API_KEY = "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"
 
 
 
