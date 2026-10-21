@@ -47,39 +47,72 @@ GUIDELINES:
 - Include markdown links like [Find Jobs](/jobs.html), [Candidates](/candidates.html), [Worker Desk](/worker.html), [Employer Workspace](/employer.html), [Sign In](/login.html).
 - Remind users that JobWay is focused exclusively on Visakhapatnam technical & engineering talent.`;
 
-// Intelligent local pattern matcher if Gemini key is missing or network call fails
-function getLocalKnowledgeReply(message: string): string {
-  const q = message.toLowerCase();
+// Intelligent local knowledge assistant engine if Gemini key is denied or network fails
+function getLocalKnowledgeReply(message: string, history: Array<{ role: string; text: string }> = []): string {
+  const q = message.toLowerCase().trim();
 
-  if (q.includes('job') || q.includes('apply') || q.includes('vacancy') || q.includes('work')) {
+  // Greetings
+  if (/^(hi|hello|hey|hola|greetings|good\s*(morning|afternoon|evening)|yo)\b/i.test(q)) {
+    return `Hello! 👋 I'm your **JobWay AI Assistant** for Visakhapatnam.\n\nHow can I help you today?\n• Looking for technical jobs? Check **[Find Jobs](/jobs.html)**\n• Looking to hire engineers? Browse **[Candidates](/candidates.html)**\n• Need a walkthrough? Ask me *"how to use it"*!`;
+  }
+
+  // How to use / Getting started / Walkthrough
+  if (q.includes('how to use') || q.includes('how it work') || q.includes('how does it work') || q.includes('how do i use') || q.includes('guide') || q.includes('tutorial') || q.includes('steps') || q.includes('start') || q.includes('getting started')) {
+    return `Here is a quick walkthrough on how to use **JobWay**: 🚀\n\n**1. For Job Seekers (Software Engineers & Tech Talent):**\n• **Search**: Head to **[Find Jobs](/jobs.html)** to explore verified engineering positions in Visakhapatnam.\n• **Apply**: Click **"Apply Now"** directly on any listing with your details.\n• **Track**: Check your active applications anytime on your **[Worker Desk](/worker.html)**.\n• **Get Verified**: Connect your DigiLocker or upload ID in **[Edit Profile](/profile-edit.html)** for higher employer trust.\n\n**2. For Employers (Hiring Companies & Recruiters):**\n• **Find Talent**: Search pre-vetted engineers on **[Candidates](/candidates.html)** by tech stack and Vizag location.\n• **Unlock Direct Contact**: Add candidates to your selection cart and unlock direct WhatsApp & phone numbers using credits.\n• **Post Vacancies**: Post engineering roles directly in the **[Employer Workspace](/employer.html)**.\n\nWhat would you like to explore first?`;
+  }
+
+  // Who are you / About
+  if (q.includes('who are you') || q.includes('what are you') || q.includes('what is jobway') || q.includes('tell me about') || q.includes('about you') || q.includes('about jobway')) {
+    return `I am the **JobWay AI Guide**! 🤖\n\n**JobWay** is Visakhapatnam's premier verified technical and software engineering hiring network.\n\nKey highlights:\n• **100% Focused on Visakhapatnam**: Centered on Madhurawada IT SEZ, Rushikonda Millennium Park, and Duvvada VSEZ.\n• **Verified Talent**: Profiles backed by DigiLocker and credential checks.\n• **Zero Recruiter Cuts**: Direct connection between verified tech talent and employers without agency commissions!\n\nFeel free to ask me anything about finding jobs or hiring talent in Vizag!`;
+  }
+
+  // Features / Capabilities
+  if (q.includes('feature') || q.includes('what can you do') || q.includes('capabilities') || q.includes('what do you do')) {
+    return `Here are the core features available on **JobWay**: ✨\n\n• **[Find Jobs](/jobs.html)**: Search software, DevOps, QA, and tech lead positions with salary transparency.\n• **[Candidate Directory](/candidates.html)**: Filter pre-vetted engineers by tech stack, experience, and Vizag locality.\n• **[Worker Desk](/worker.html)**: Track job application statuses and activate Priority Application Boost.\n• **[Employer Workspace](/employer.html)**: Post openings and manage incoming applicant pipelines.\n• **[DigiLocker Verification](/profile-edit.html)**: Government-backed trust badges for engineers.\n• **[Instant UPI Unlock Credits](/candidates.html)**: Transparent ₹50/unlock credit pricing via ICICI UPI without recruiter markups.`;
+  }
+
+  // Job Search / Applying
+  if (q.includes('job') || q.includes('apply') || q.includes('vacancy') || q.includes('work') || q.includes('opening') || q.includes('role')) {
     return `Looking for technical opportunities in Visakhapatnam? 🚀\n\n• Browse open roles on our **[Find Jobs](/jobs.html)** page.\n• We feature verified software engineering, DevOps, QA automation, and tech lead positions across Visakhapatnam corridors (Madhurawada IT SEZ, Rushikonda, and Duvvada VSEZ).\n• To apply directly, simply click **"Apply Now"** on any job listing. You can track all your submissions anytime in the **[Worker Desk](/worker.html)**.`;
   }
 
-  if (q.includes('candidate') || q.includes('hire') || q.includes('developer') || q.includes('engineer') || q.includes('resume')) {
+  // Candidates / Hiring
+  if (q.includes('candidate') || q.includes('hire') || q.includes('developer') || q.includes('engineer') || q.includes('talent') || q.includes('resume') || q.includes('cv')) {
     return `Looking to hire verified tech talent? 👥\n\n• Explore pre-vetted engineers on our **[Candidates Directory](/candidates.html)**.\n• Filter by technical specialization, experience level, and Visakhapatnam tech zones.\n• Add candidates to your selection cart and unlock direct phone & WhatsApp contact details using your unlock credits!`;
   }
 
-  if (q.includes('post') || q.includes('employer') || q.includes('list job') || q.includes('recruit')) {
+  // Employer / Posting jobs
+  if (q.includes('post') || q.includes('employer') || q.includes('list job') || q.includes('recruit') || q.includes('company')) {
     return `Employers can post technical vacancies directly! 💼\n\n• Log in or register as an **Employer**.\n• Head to **[Employer Workspace](/employer.html)** or **[Post a Job on Listed Jobs](/jobs.html)**.\n• Specify the role, salary range, technical skills, and Visakhapatnam work location.\n• Candidate applications will arrive directly to your workspace dashboard.`;
   }
 
-  if (q.includes('price') || q.includes('cost') || q.includes('credit') || q.includes('pay') || q.includes('upi') || q.includes('fee')) {
+  // Pricing / Credits / Payment
+  if (q.includes('price') || q.includes('cost') || q.includes('credit') || q.includes('pay') || q.includes('upi') || q.includes('fee') || q.includes('pricing') || q.includes('rate')) {
     return `Here is our transparent pricing structure: 💳\n\n**For Employers (Candidate Unlocks):**\n• Single Candidate Unlock: **₹50** (1 credit)\n• Starter Pack (5 candidates): **₹200** (₹40/unlock)\n• Growth Pack (10 candidates): **₹450** (₹45/unlock)\n\n**For Workers:**\n• Priority Application Boost: **₹99**\n\nAll payments are verified instantly via direct ICICI UPI (**jobconnect@icici**). JobWay never takes salary cuts or commission!`;
   }
 
-  if (q.includes('vizag') || q.includes('visakhapatnam') || q.includes('location') || q.includes('city') || q.includes('area')) {
+  // Location / Vizag corridors
+  if (q.includes('vizag') || q.includes('visakhapatnam') || q.includes('location') || q.includes('city') || q.includes('area') || q.includes('place') || q.includes('where')) {
     return `JobWay operates **exclusively in Visakhapatnam, Andhra Pradesh**! 📍\n\nKey IT & Tech Hubs covered:\n• **Madhurawada IT SEZ** (Hill 2 & Hill 3)\n• **Rushikonda Millennium Tech Park**\n• **Duvvada VSEZ Tech Zone**\n• **Auto Nagar Technology Park**\n• **Gajuwaka Industrial & Tech Zone**\n• **Siripuram / MVP Colony**`;
   }
 
-  if (q.includes('verify') || q.includes('digilocker') || q.includes('trust') || q.includes('profile')) {
+  // Verification / DigiLocker
+  if (q.includes('verify') || q.includes('verification') || q.includes('digilocker') || q.includes('trust') || q.includes('badge')) {
     return `Verification ensures authentic tech credentials! 🛡️\n\n• Workers can link their DigiLocker or upload ID proof on **[Edit Profile / Trade Pass](/profile-edit.html)**.\n• Employers upload company registration (GST / Udyam / MCA) for verified employer badges.\n• Verified profiles receive higher trust and faster responses.`;
   }
 
-  if (q.includes('login') || q.includes('sign in') || q.includes('register') || q.includes('signup') || q.includes('account') || q.includes('password')) {
+  // Auth / Login / Password
+  if (q.includes('login') || q.includes('sign in') || q.includes('register') || q.includes('signup') || q.includes('account') || q.includes('password') || q.includes('reset') || q.includes('forgot')) {
     return `Need account help? 🔐\n\n• Visit **[Sign In / Register](/login.html)** to log in as a Worker or Employer.\n• Passwords must be at least 8 characters and include uppercase, lowercase, numbers, and symbols.\n• Forgot password? Click **"Forgot Password?"** on the login page to receive a 6-digit OTP to your registered email.`;
   }
 
-  return `Welcome to **JobWay** — Visakhapatnam's verified tech and engineering hiring network! 🌟\n\nHow can I help you today?\n• **[Find Jobs](/jobs.html)**: Search engineering & technical positions in Vizag\n• **[Browse Candidates](/candidates.html)**: Hire vetted software developers & specialists\n• **[Worker Desk](/worker.html)**: Manage your job applications\n• **[Employer Workspace](/employer.html)**: Post openings and unlock talent\n• **[Sign In / Register](/login.html)**: Access your account\n\nFeel free to ask me anything about how the platform works!`;
+  // Support / Contact
+  if (q.includes('contact') || q.includes('support') || q.includes('email') || q.includes('phone') || q.includes('help')) {
+    return `Need direct support? 💬\n\n• You can reach our Visakhapatnam support desk directly at **support@job-way.in**.\n• For candidate unlock verification, share your UPI transaction UTR number in your employer workspace.\n• Or feel free to ask me any question about navigating JobWay right here!`;
+  }
+
+  // General fallback
+  return `I'm here to help you get the most out of **JobWay Visakhapatnam**! 🌟\n\nHere are some popular topics you can ask me about:\n• **"How to use it"**: Quick guide for candidates & employers\n• **"Find jobs"**: View tech openings in Vizag\n• **"Hire candidates"**: Browse vetted software engineers\n• **"Pricing"**: Unlock credit costs and UPI details\n• **"IT corridors"**: Technology hubs in Visakhapatnam\n\nWhat can I help you with?`;
 }
 
 // Check status of Gemini API configuration
@@ -87,7 +120,7 @@ chatRoutes.get('/chat/status', async (c) => {
   const hasServerKey = Boolean(c.env.GEMINI_API_KEY && c.env.GEMINI_API_KEY.trim().length > 5);
   return c.json({
     configured: hasServerKey,
-    model: 'gemini-1.5-flash',
+    model: 'gemini-3.8-flash',
     platform: 'JobWay AI Assistant'
   });
 });
@@ -109,6 +142,7 @@ chatRoutes.post('/chat', async (c) => {
   // Use secure server-side API key
   const apiKey = (c.env.GEMINI_API_KEY || '').trim();
   const history = Array.isArray(body.history) ? body.history : [];
+  let geminiDenied = false;
 
   if (apiKey) {
     try {
@@ -140,8 +174,7 @@ chatRoutes.post('/chat', async (c) => {
         }
       };
 
-      // Try gemini-3.8-flash, fallback to gemini-1.5-flash
-      const candidateModels = ['gemini-3.8-flash', 'gemini-1.5-flash', 'gemini-flash-latest'];
+      const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash-lite', 'gemini-flash-latest'];
       let geminiReply: string | null = null;
 
       for (const model of candidateModels) {
@@ -165,8 +198,16 @@ chatRoutes.post('/chat', async (c) => {
                 model
               });
             }
+          } else {
+            const errText = await res.text();
+            console.warn(`[Gemini API] Model ${model} returned ${res.status}:`, errText);
+            if (res.status === 403) {
+              geminiDenied = true;
+            }
           }
-        } catch {}
+        } catch (callErr) {
+          console.warn(`[Gemini API] Request error for ${model}:`, callErr);
+        }
       }
     } catch (err) {
       console.warn('Gemini request failed, falling back to local knowledge:', err);
@@ -174,11 +215,12 @@ chatRoutes.post('/chat', async (c) => {
   }
 
   // Fallback to intelligent local knowledge assistant engine
-  const fallbackReply = getLocalKnowledgeReply(message);
+  const fallbackReply = getLocalKnowledgeReply(message, history);
   return c.json({
     reply: fallbackReply,
     source: 'knowledge_base',
-    needsApiKey: !apiKey
+    needsApiKey: !apiKey,
+    geminiPermissionDenied: geminiDenied
   });
 });
 
