@@ -21,8 +21,8 @@
   bottom: 24px;
   right: 24px;
   z-index: 999999;
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   cursor: pointer;
   background: linear-gradient(135deg, #14281D 0%, #064E3B 100%);
@@ -35,6 +35,7 @@
   font-family: inherit;
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  padding: 0;
 }
 
 .jobway-chat-launcher:hover {
@@ -47,17 +48,16 @@
 }
 
 .jobway-chat-launcher-robot {
-  font-size: 26px;
-  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #FFFFFF;
 }
 
 .jobway-chat-launcher-pulse {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 3px;
+  right: 3px;
   width: 11px;
   height: 11px;
   background: #00D084;
@@ -115,35 +115,44 @@
 }
 
 .jobway-chat-header-avatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #00D084 0%, #064E3B 100%);
+  background: linear-gradient(135deg, rgba(0, 208, 132, 0.22) 0%, rgba(6, 78, 59, 0.8) 100%);
+  border: 1px solid rgba(0, 208, 132, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 208, 132, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 4px 12px rgba(0, 208, 132, 0.3);
+  color: #FFFFFF;
   flex-shrink: 0;
 }
 
-.jobway-chat-header-title {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.jobway-chat-header-title,
+#jobway-chat-root .jobway-chat-header-title,
+#jobway-chat-root h3.jobway-chat-header-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  color: #FFFFFF !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  line-height: 1.25 !important;
 }
 
-.jobway-chat-header-subtitle {
-  font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.72);
-  margin-top: 2px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.jobway-chat-header-subtitle,
+#jobway-chat-root .jobway-chat-header-subtitle {
+  font-size: 11.5px !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  margin-top: 3px !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  line-height: 1.2 !important;
 }
 
 .jobway-chat-header-dot {
@@ -153,6 +162,7 @@
   background: #00D084;
   display: inline-block;
   box-shadow: 0 0 6px #00D084;
+  flex-shrink: 0;
 }
 
 .jobway-chat-header-actions {
@@ -161,24 +171,28 @@
   gap: 6px;
 }
 
-.jobway-chat-header-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  transition: all 0.2s ease;
+.jobway-chat-header-btn,
+#jobway-chat-root .jobway-chat-header-btn {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #FFFFFF !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
 }
 
-.jobway-chat-header-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+.jobway-chat-header-btn:hover,
+#jobway-chat-root .jobway-chat-header-btn:hover {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+  transform: scale(1.05) !important;
 }
 
 /* Messages Body */
@@ -338,76 +352,105 @@
 }
 
 /* Input Area */
-.jobway-chat-footer {
-  padding: 12px 14px;
+#jobway-chat-root .jobway-chat-footer {
+  padding: 12px 14px 10px;
   background: #FFFFFF;
-  border-top: 1px solid var(--chat-border);
+  border-top: 1px solid #EEF2F6;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.jobway-chat-form {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  padding: 4px 6px 4px 12px;
-  transition: all 0.2s ease;
+#jobway-chat-root .jobway-chat-form {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 9999px !important;
+  padding: 4px 5px 4px 14px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
 }
 
-.jobway-chat-form:focus-within {
-  background: #FFFFFF;
-  border-color: var(--chat-accent);
-  box-shadow: 0 0 0 2px var(--chat-accent-soft);
+#jobway-chat-root .jobway-chat-form:focus-within {
+  background: #FFFFFF !important;
+  border-color: #00D084 !important;
+  box-shadow: 0 0 0 3px rgba(0, 208, 132, 0.18), 0 2px 8px rgba(0, 208, 132, 0.08) !important;
 }
 
-.jobway-chat-input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 13.5px;
-  font-family: inherit;
-  color: var(--chat-text);
-  padding: 6px 0;
+#jobway-chat-root input.jobway-chat-input,
+#jobway-chat-root #jobway-chat-input,
+#jobway-chat-root .jobway-chat-input {
+  flex: 1 !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 13.5px !important;
+  font-family: inherit !important;
+  color: #0F172A !important;
+  padding: 7px 4px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  min-height: unset !important;
+  line-height: 1.4 !important;
+  width: auto !important;
 }
 
-.jobway-chat-input::placeholder {
-  color: #9CA3AF;
+#jobway-chat-root input.jobway-chat-input:focus,
+#jobway-chat-root #jobway-chat-input:focus,
+#jobway-chat-root .jobway-chat-input:focus {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
-.jobway-chat-send-btn {
-  background: var(--chat-primary);
-  color: #FFFFFF;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  transition: all 0.18s ease;
+#jobway-chat-root input.jobway-chat-input::placeholder,
+#jobway-chat-root #jobway-chat-input::placeholder {
+  color: #94A3B8 !important;
 }
 
-.jobway-chat-send-btn:hover:not(:disabled) {
-  background: #00D084;
-  color: var(--chat-primary);
-  transform: scale(1.04);
+#jobway-chat-root .jobway-chat-send-btn {
+  background: #14281D !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 2px 6px rgba(20, 40, 29, 0.25) !important;
+  padding: 0 !important;
 }
 
-.jobway-chat-send-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+#jobway-chat-root .jobway-chat-send-btn:hover:not(:disabled) {
+  background: #00D084 !important;
+  color: #14281D !important;
+  transform: scale(1.08) !important;
+  box-shadow: 0 4px 12px rgba(0, 208, 132, 0.35) !important;
 }
 
-.jobway-chat-branding {
-  font-size: 10.5px;
-  color: var(--chat-text-muted);
+#jobway-chat-root .jobway-chat-send-btn:active:not(:disabled) {
+  transform: scale(0.95) !important;
+}
+
+#jobway-chat-root .jobway-chat-send-btn:disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+#jobway-chat-root .jobway-chat-branding {
+  font-size: 11px;
+  color: #64748B;
   text-align: center;
   display: flex;
   align-items: center;

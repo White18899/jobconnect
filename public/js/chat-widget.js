@@ -9,9 +9,24 @@
     const link = document.createElement('link');
     link.id = 'jobway-chat-styles';
     link.rel = 'stylesheet';
-    link.href = '/css/chat-widget.css?v=2';
+    link.href = '/css/chat-widget.css?v=3';
     document.head.appendChild(link);
   }
+
+  // Professional SVG Robot Icon
+  const robotSvg = (size = 24) => `
+    <svg class="jobway-robot-svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="2" r="1.4" fill="#00D084"/>
+      <rect x="3.5" y="5.5" width="17" height="13.5" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,255,255,0.06)"/>
+      <path d="M1.5 10.5V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22.5 10.5V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <rect x="6.5" y="8.8" width="11" height="4.6" rx="2" fill="currentColor" fill-opacity="0.18"/>
+      <circle cx="9" cy="11.1" r="1.3" fill="#00D084"/>
+      <circle cx="15" cy="11.1" r="1.3" fill="#00D084"/>
+      <path d="M9.5 15.5H14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  `;
 
   // Determine API Base URL
   const getApiBase = () => {
@@ -74,7 +89,7 @@
     root.innerHTML = `
       <!-- Minimalist Floating Robot Launcher -->
       <button type="button" class="jobway-chat-launcher" id="jobway-chat-launcher" aria-label="Open JobWay AI Guide" title="JobWay AI Guide">
-        <span class="jobway-chat-launcher-robot">🤖</span>
+        <span class="jobway-chat-launcher-robot">${robotSvg(26)}</span>
         <span class="jobway-chat-launcher-pulse"></span>
       </button>
 
@@ -83,7 +98,7 @@
         <!-- Header -->
         <div class="jobway-chat-header">
           <div class="jobway-chat-header-info">
-            <div class="jobway-chat-header-avatar">🤖</div>
+            <div class="jobway-chat-header-avatar">${robotSvg(22)}</div>
             <div>
               <h3 class="jobway-chat-header-title">
                 JobWay AI Guide
@@ -95,7 +110,11 @@
             </div>
           </div>
           <div class="jobway-chat-header-actions">
-            <button type="button" class="jobway-chat-header-btn" id="jobway-chat-close-btn" title="Close Chat" aria-label="Close Chat">✕</button>
+            <button type="button" class="jobway-chat-header-btn" id="jobway-chat-close-btn" title="Close Chat" aria-label="Close Chat">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M1 1l12 12M13 1L1 13"/>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -129,7 +148,10 @@
               autocomplete="off"
             >
             <button type="submit" class="jobway-chat-send-btn" id="jobway-chat-send-btn" title="Send Message" aria-label="Send Message">
-              ➤
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
+                <path d="M22 2L11 13"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+              </svg>
             </button>
           </form>
           <div class="jobway-chat-branding">
