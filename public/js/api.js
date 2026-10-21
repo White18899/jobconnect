@@ -13,11 +13,6 @@ const API_BASE_URL = (() => {
       return 'http://127.0.0.1:8787/api';
     }
 
-    // In production on custom domain job-way.in
-    if (window.location.hostname.includes('job-way.in')) {
-      return 'https://api.job-way.in';
-    }
-  }
   return 'https://jobconnect-backend.white018899.workers.dev/api';
 })();
 
