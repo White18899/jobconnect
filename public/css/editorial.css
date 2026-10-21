@@ -303,9 +303,18 @@ body.editorial-page a {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: var(--font-size-s);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-primary) !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--color-text, #000000);
+  text-decoration: none;
+}
+
+.nav-logo span.link-line {
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
 }
 
 .brand-logo-img {
