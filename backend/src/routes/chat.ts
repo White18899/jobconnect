@@ -20,7 +20,7 @@ KEY WEBSITE SECTIONS & LINKS:
    - Employers can add candidates to a Selection Cart and unlock direct WhatsApp/phone contact details using unlock credits.
 
 3. Worker Desk: [Worker Desk](/worker.html)
-   - Personal dashboard for workers/engineers to track job application statuses, activate "Priority Application Boost" for ₹99, and view profile verification badges.
+   - Personal dashboard for workers/engineers to track job application statuses, activate "Priority Application Boost" for ₹149, and view profile verification badges.
 
 4. Edit Profile / Trade Pass: [Edit Profile](/profile-edit.html)
    - Workers update their tech stack, experience, educational qualifications (Andhra University, GITAM, GVP, etc.), past companies, and submit DigiLocker or government ID verification.
@@ -34,8 +34,11 @@ KEY WEBSITE SECTIONS & LINKS:
    - Real password reset via verified OTP delivery to email.
 
 7. Pricing & Unlock Credits:
-   - For Employers: Unlock packs via direct ICICI UPI (jobconnect@icici) — 1 Credit: ₹50, 5 Credits: ₹200, 10 Credits: ₹450.
-   - For Workers: Priority Application Boost is ₹99.
+   - For Employers (Candidate Unlocks):
+     • Starter Pack (1 Unlock): ₹75
+     • Growth Bundle (5 Unlocks): ₹249 (₹49/ea) — Most Popular (Save 35%)
+     • Scale Pack (10 Unlocks): ₹475 (₹47/ea)
+   - For Tech Candidates: 100% Free to browse jobs, apply, create profile, and get verified. Optional Priority Application Boost is ₹149.
    - Zero recruiter cuts or ongoing salary commissions — direct connection only!
 
 8. Geographic Focus:
@@ -68,7 +71,7 @@ function getLocalKnowledgeReply(message: string, history: Array<{ role: string; 
 
   // Features / Capabilities
   if (q.includes('feature') || q.includes('what can you do') || q.includes('capabilities') || q.includes('what do you do')) {
-    return `Here are the core features available on **JobWay**: ✨\n\n• **[Find Jobs](/jobs.html)**: Search software, DevOps, QA, and tech lead positions with salary transparency.\n• **[Candidate Directory](/candidates.html)**: Filter pre-vetted engineers by tech stack, experience, and Vizag locality.\n• **[Worker Desk](/worker.html)**: Track job application statuses and activate Priority Application Boost.\n• **[Employer Workspace](/employer.html)**: Post openings and manage incoming applicant pipelines.\n• **[DigiLocker Verification](/profile-edit.html)**: Government-backed trust badges for engineers.\n• **[Instant UPI Unlock Credits](/candidates.html)**: Transparent ₹50/unlock credit pricing via ICICI UPI without recruiter markups.`;
+    return `Here are the core features available on **JobWay**: ✨\n\n• **[Find Jobs](/jobs.html)**: Search software, DevOps, QA, and tech lead positions with salary transparency.\n• **[Candidate Directory](/candidates.html)**: Filter pre-vetted engineers by tech stack, experience, and Vizag locality.\n• **[Worker Desk](/worker.html)**: Track job application statuses and activate Priority Application Boost.\n• **[Employer Workspace](/employer.html)**: Post openings and manage incoming applicant pipelines.\n• **[DigiLocker Verification](/profile-edit.html)**: Government-backed trust badges for engineers.\n• **[Instant UPI Unlock Credits](/candidates.html)**: Transparent candidate unlock pricing starting at ₹75/unlock (or ₹249 for 5 unlocks) via ICICI UPI without recruiter markups.`;
   }
 
   // Job Search / Applying
@@ -88,7 +91,7 @@ function getLocalKnowledgeReply(message: string, history: Array<{ role: string; 
 
   // Pricing / Credits / Payment
   if (q.includes('price') || q.includes('cost') || q.includes('credit') || q.includes('pay') || q.includes('upi') || q.includes('fee') || q.includes('pricing') || q.includes('rate')) {
-    return `Here is our transparent pricing structure: 💳\n\n**For Employers (Candidate Unlocks):**\n• Single Candidate Unlock: **₹50** (1 credit)\n• Starter Pack (5 candidates): **₹200** (₹40/unlock)\n• Growth Pack (10 candidates): **₹450** (₹45/unlock)\n\n**For Workers:**\n• Priority Application Boost: **₹99**\n\nAll payments are verified instantly via direct ICICI UPI (**jobconnect@icici**). JobWay never takes salary cuts or commission!`;
+    return `Here is our transparent pricing structure: 💳\n\n**For Employers (Candidate Unlocks):**\n• **Starter Pack**: **₹75** (1 candidate unlock)\n• **Growth Bundle**: **₹249** (5 candidate unlocks • ₹49/ea • *Most Popular • Save 35%*)\n• **Scale Pack**: **₹475** (10 candidate unlocks • ₹47/ea)\n\n**For Tech Candidates & Engineers:**\n• **100% Free**: Search, apply, build profiles, and get verified for free.\n• **Priority Application Boost**: **₹149** (optional visibility boost on your Worker Desk)\n\nAll payments are verified via direct ICICI UPI (**jobconnect@icici**). JobWay never takes salary cuts or recruiter commissions!`;
   }
 
   // Location / Vizag corridors
