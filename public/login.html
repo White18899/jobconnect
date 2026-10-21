@@ -218,6 +218,48 @@
       border-color: #93C5FD;
       color: #1E40AF;
     }
+    .pwd-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .pwd-input-wrap .form-input {
+      padding-right: 42px;
+    }
+    .btn-toggle-visibility {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      padding: 6px;
+      cursor: pointer;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+    .btn-toggle-visibility:hover {
+      color: #0F172A;
+      background: rgba(0, 0, 0, 0.04);
+    }
+    .pwd-rule {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #64748B;
+      transition: all 0.2s ease;
+    }
+    .pwd-rule.valid {
+      color: #059669 !important;
+      font-weight: 600;
+    }
+    .pwd-rule.valid .pwd-rule-bullet {
+      color: #059669 !important;
+    }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -294,7 +336,12 @@
                 Forgot Password?
               </button>
             </div>
-            <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+            <div class="pwd-input-wrap">
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-visibility" data-target="login-password" aria-label="Toggle password visibility" title="Show/hide password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
           </div>
 
           <button type="button" class="search-btn" id="btn-submit-login" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-top: 14px;">
@@ -394,8 +441,44 @@
           </div>
 
           <div class="form-group" style="margin-bottom: 16px;">
-            <label class="form-label" for="reg-password">Create Password * (Min 6 characters)</label>
-            <input type="password" id="reg-password" class="form-input" placeholder="At least 6 characters..." required minlength="6" autocomplete="new-password">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="reg-password" style="margin-bottom: 0;">Create Password *</label>
+              <span style="font-size: 11px; font-weight: 600; color: #64748B;">Strong security required</span>
+            </div>
+            <div class="pwd-input-wrap">
+              <input type="password" id="reg-password" class="form-input" placeholder="At least 8 chars with Aa, 1, #..." required minlength="8" autocomplete="new-password">
+              <button type="button" class="btn-toggle-visibility" data-target="reg-password" aria-label="Toggle password visibility" title="Show/hide password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+
+            <!-- Real-time Password Strength Indicator & Checklist -->
+            <div id="reg-password-feedback" style="margin-top: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 11.5px; font-weight: 600; color: #475569;">Password Strength:</span>
+                <span id="reg-strength-label" style="font-size: 11.5px; font-weight: 700; color: #94A3B8;">Not entered</span>
+              </div>
+              <div style="height: 5px; width: 100%; background: #E2E8F0; border-radius: 999px; overflow: hidden; margin-bottom: 9px;">
+                <div id="reg-strength-bar" style="height: 100%; width: 0%; background: #94A3B8; border-radius: 999px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 11px; line-height: 1.4;">
+                <div id="reg-rule-length" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> 8+ characters
+                </div>
+                <div id="reg-rule-upper" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Uppercase (A-Z)
+                </div>
+                <div id="reg-rule-lower" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Lowercase (a-z)
+                </div>
+                <div id="reg-rule-number" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Number (0-9)
+                </div>
+                <div id="reg-rule-special" class="pwd-rule" style="grid-column: span 2;">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Special symbol (!@#$%^&*...)
+                </div>
+              </div>
+            </div>
           </div>
 
           <div style="background: var(--bg-page); border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--radius-md); font-size: 11.5px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px;">
@@ -500,8 +583,44 @@
             <input type="text" id="forgot-code" class="form-input code-input-field" placeholder="123456" maxlength="6" required>
           </div>
           <div class="form-group" style="margin-bottom: 16px;">
-            <label class="form-label" for="forgot-new-pass">New Password * (Min 6 chars)</label>
-            <input type="password" id="forgot-new-pass" class="form-input" placeholder="Enter new password..." required minlength="6">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="forgot-new-pass" style="margin-bottom: 0;">New Password *</label>
+              <span style="font-size: 11px; font-weight: 600; color: #64748B;">Strong security required</span>
+            </div>
+            <div class="pwd-input-wrap">
+              <input type="password" id="forgot-new-pass" class="form-input" placeholder="At least 8 chars with Aa, 1, #..." required minlength="8" autocomplete="new-password">
+              <button type="button" class="btn-toggle-visibility" data-target="forgot-new-pass" aria-label="Toggle password visibility" title="Show/hide password">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+
+            <!-- Real-time Password Strength Indicator & Checklist for Reset -->
+            <div id="forgot-password-feedback" style="margin-top: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 11.5px; font-weight: 600; color: #475569;">Password Strength:</span>
+                <span id="forgot-strength-label" style="font-size: 11.5px; font-weight: 700; color: #94A3B8;">Not entered</span>
+              </div>
+              <div style="height: 5px; width: 100%; background: #E2E8F0; border-radius: 999px; overflow: hidden; margin-bottom: 9px;">
+                <div id="forgot-strength-bar" style="height: 100%; width: 0%; background: #94A3B8; border-radius: 999px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 11px; line-height: 1.4;">
+                <div id="forgot-rule-length" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> 8+ characters
+                </div>
+                <div id="forgot-rule-upper" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Uppercase (A-Z)
+                </div>
+                <div id="forgot-rule-lower" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Lowercase (a-z)
+                </div>
+                <div id="forgot-rule-number" class="pwd-rule">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Number (0-9)
+                </div>
+                <div id="forgot-rule-special" class="pwd-rule" style="grid-column: span 2;">
+                  <span class="pwd-rule-bullet" style="font-size: 12px; line-height: 1; font-weight: bold;">○</span> Special symbol (!@#$%^&*...)
+                </div>
+              </div>
+            </div>
           </div>
           <button type="button" class="search-btn" id="btn-forgot-verify" style="width: 100%; justify-content: center; padding: 11px; font-size: 13.5px; margin-bottom: 12px;">
             <span>Update Password & Log In</span>
@@ -687,6 +806,104 @@
         t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
         c.appendChild(t);
         setTimeout(() => t.remove(), 4000);
+      }
+
+      // Password strength evaluation (strong rules: min 8, uppercase, lowercase, number, symbol)
+      function evaluatePasswordStrength(pwd) {
+        pwd = pwd || '';
+        const rules = {
+          length: pwd.length >= 8,
+          upper: /[A-Z]/.test(pwd),
+          lower: /[a-z]/.test(pwd),
+          number: /[0-9]/.test(pwd),
+          special: /[^A-Za-z0-9]/.test(pwd)
+        };
+        const passedCount = Object.values(rules).filter(Boolean).length;
+        return { rules, passedCount, isValid: passedCount === 5 };
+      }
+
+      function updatePasswordFeedback(prefix, pwd) {
+        const { rules, passedCount } = evaluatePasswordStrength(pwd);
+
+        const updateRuleEl = (ruleKey, id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const bullet = el.querySelector('.pwd-rule-bullet');
+          if (rules[ruleKey]) {
+            el.classList.add('valid');
+            if (bullet) bullet.textContent = '✓';
+          } else {
+            el.classList.remove('valid');
+            if (bullet) bullet.textContent = '○';
+          }
+        };
+
+        updateRuleEl('length', `${prefix}-rule-length`);
+        updateRuleEl('upper', `${prefix}-rule-upper`);
+        updateRuleEl('lower', `${prefix}-rule-lower`);
+        updateRuleEl('number', `${prefix}-rule-number`);
+        updateRuleEl('special', `${prefix}-rule-special`);
+
+        const label = document.getElementById(`${prefix}-strength-label`);
+        const bar = document.getElementById(`${prefix}-strength-bar`);
+        if (!label || !bar) return;
+
+        if (!pwd) {
+          label.textContent = 'Not entered';
+          label.style.color = '#94A3B8';
+          bar.style.width = '0%';
+          bar.style.background = '#94A3B8';
+          return;
+        }
+
+        if (passedCount <= 2) {
+          label.textContent = 'Weak';
+          label.style.color = '#EF4444';
+          bar.style.width = '25%';
+          bar.style.background = '#EF4444';
+        } else if (passedCount === 3) {
+          label.textContent = 'Fair';
+          label.style.color = '#F59E0B';
+          bar.style.width = '55%';
+          bar.style.background = '#F59E0B';
+        } else if (passedCount === 4) {
+          label.textContent = 'Good';
+          label.style.color = '#2563EB';
+          bar.style.width = '80%';
+          bar.style.background = '#2563EB';
+        } else {
+          label.textContent = 'Strong ✓';
+          label.style.color = '#059669';
+          bar.style.width = '100%';
+          bar.style.background = '#059669';
+        }
+      }
+
+      // Password visibility toggle setup
+      document.querySelectorAll('.btn-toggle-visibility').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = btn.getAttribute('data-target');
+          const input = document.getElementById(targetId);
+          if (!input) return;
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          btn.innerHTML = isPassword
+            ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+            : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        });
+      });
+
+      // Real-time input listeners
+      if (inputRegPass) {
+        inputRegPass.addEventListener('input', () => {
+          updatePasswordFeedback('reg', inputRegPass.value);
+        });
+      }
+      if (inputForgotNewPass) {
+        inputForgotNewPass.addEventListener('input', () => {
+          updatePasswordFeedback('forgot', inputForgotNewPass.value);
+        });
       }
 
       // Switch Main View
@@ -990,8 +1207,16 @@
           return;
         }
 
-        if (!password || password.length < 6) {
-          alert('Password must be at least 6 characters long.');
+        const pwdEval = evaluatePasswordStrength(password);
+        if (!pwdEval.isValid) {
+          const missing = [];
+          if (!pwdEval.rules.length) missing.push('At least 8 characters');
+          if (!pwdEval.rules.upper) missing.push('At least one uppercase letter (A-Z)');
+          if (!pwdEval.rules.lower) missing.push('At least one lowercase letter (a-z)');
+          if (!pwdEval.rules.number) missing.push('At least one number (0-9)');
+          if (!pwdEval.rules.special) missing.push('At least one special symbol (!@#$%^&*...)');
+
+          alert('Please create a stronger password.\n\nMissing requirement(s):\n• ' + missing.join('\n• '));
           inputRegPass.focus();
           return;
         }
@@ -1186,8 +1411,17 @@
           alert('Please enter the 6-digit reset code.');
           return;
         }
-        if (!newPassword || newPassword.length < 6) {
-          alert('New password must be at least 6 characters long.');
+        const pwdEval = evaluatePasswordStrength(newPassword);
+        if (!pwdEval.isValid) {
+          const missing = [];
+          if (!pwdEval.rules.length) missing.push('At least 8 characters');
+          if (!pwdEval.rules.upper) missing.push('At least one uppercase letter (A-Z)');
+          if (!pwdEval.rules.lower) missing.push('At least one lowercase letter (a-z)');
+          if (!pwdEval.rules.number) missing.push('At least one number (0-9)');
+          if (!pwdEval.rules.special) missing.push('At least one special symbol (!@#$%^&*...)');
+
+          alert('Please create a stronger new password.\n\nMissing requirement(s):\n• ' + missing.join('\n• '));
+          inputForgotNewPass.focus();
           return;
         }
 
