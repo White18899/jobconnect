@@ -106,8 +106,8 @@ chatRoutes.post('/chat', async (c) => {
     return c.json({ error: 'Message cannot be empty' }, 400);
   }
 
-  // Allow client override key or use server environment key
-  const apiKey = (body.apiKey || c.env.GEMINI_API_KEY || '').trim();
+  // Use secure server-side API key
+  const apiKey = (c.env.GEMINI_API_KEY || '').trim();
   const history = Array.isArray(body.history) ? body.history : [];
 
   if (apiKey) {
@@ -140,28 +140,33 @@ chatRoutes.post('/chat', async (c) => {
         }
       };
 
-      // Call Google Gemini API
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-      const res = await fetch(geminiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(geminiPayload),
-        signal: AbortSignal.timeout(9000)
-      });
+      // Try gemini-3.8-flash, fallback to gemini-1.5-flash
+      const candidateModels = ['gemini-3.8-flash', 'gemini-1.5-flash', 'gemini-flash-latest'];
+      let geminiReply: string | null = null;
 
-      if (res.ok) {
-        const data: any = await res.json();
-        const geminiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (geminiReply && geminiReply.trim()) {
-          return c.json({
-            reply: geminiReply.trim(),
-            source: 'gemini',
-            model: 'gemini-1.5-flash'
+      for (const model of candidateModels) {
+        try {
+          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+          const res = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(geminiPayload),
+            signal: AbortSignal.timeout(9000)
           });
-        }
-      } else {
-        const errText = await res.text();
-        console.warn('Gemini API error, falling back to local knowledge:', res.status, errText);
+
+          if (res.ok) {
+            const data: any = await res.json();
+            const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text && text.trim()) {
+              geminiReply = text.trim();
+              return c.json({
+                reply: geminiReply,
+                source: 'gemini',
+                model
+              });
+            }
+          }
+        } catch {}
       }
     } catch (err) {
       console.warn('Gemini request failed, falling back to local knowledge:', err);
