@@ -13,6 +13,7 @@ export interface SmtpConfig {
   pass: string;
   from: string;
   secure?: boolean; // true for port 465 (SSL), false for port 587 (STARTTLS)
+  brevoApiKey?: string;
 }
 
 export interface SendEmailOptions {
@@ -242,13 +243,66 @@ class SmtpSocketClient {
 }
 
 /**
- * Send an email via SMTP.
+ * Send an email via Brevo REST API (Official HTTPS Transactional Endpoint)
+ */
+export async function sendBrevoApiEmail(
+  options: SendEmailOptions,
+  apiKey: string,
+  fromEmail: string = 'noreply@job-way.in',
+  fromName: string = 'JobWay'
+): Promise<{ success: boolean; messageId?: string; error?: string }> {
+  try {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': apiKey.trim(),
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { name: fromName, email: fromEmail },
+        to: [{ email: options.to }],
+        subject: options.subject,
+        htmlContent: options.html,
+        textContent: options.text,
+      }),
+    });
+
+    const data: any = await res.json().catch(() => ({}));
+    if (res.ok && data.messageId) {
+      return { success: true, messageId: data.messageId };
+    }
+    return {
+      success: false,
+      error: data.message || `Brevo API HTTP ${res.status}`,
+    };
+  } catch (err: any) {
+    return { success: false, error: err?.message || 'Failed to dispatch email via Brevo API' };
+  }
+}
+
+/**
+ * Send an email via Brevo API or fallback to standard SMTP.
  */
 export async function sendSmtpEmail(
   options: SendEmailOptions,
   config: SmtpConfig
 ): Promise<{ success: boolean; messageId?: string; error?: string }> {
-  // If SMTP is not yet configured or missing credentials, log and return graceful error
+  // Priority 1: If Brevo API key is available, use Brevo's direct HTTPS transactional API
+  const brevoKey = (config.brevoApiKey || (config.pass && config.pass.startsWith('xkeysib-') ? config.pass : '')).trim();
+  if (brevoKey) {
+    const fromMatch = (config.from || '').match(/^(.*?)\s*<(.+)>$/);
+    const fromName = fromMatch ? fromMatch[1].trim() : 'JobWay';
+    const fromEmail = fromMatch ? fromMatch[2].trim() : (config.from || 'noreply@job-way.in');
+    const apiResult = await sendBrevoApiEmail(options, brevoKey, fromEmail, fromName);
+    if (apiResult.success) {
+      console.log(`[Email Delivered] Sent to ${options.to} via Brevo API (ID: ${apiResult.messageId})`);
+      return apiResult;
+    }
+    console.warn('[Brevo API Warning] REST dispatch failed, attempting SMTP socket fallback:', apiResult.error);
+  }
+
+  // Priority 2: Standard TCP socket SMTP
   if (!config.host || !config.from) {
     console.warn('[SMTP Notice] SMTP host or from address not configured in environment.');
     return {

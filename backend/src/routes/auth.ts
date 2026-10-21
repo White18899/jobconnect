@@ -30,12 +30,13 @@ function normalizePhone(input: string): string {
 
 function getSmtpConfig(env: Env): SmtpConfig {
   return {
-    host: env.SMTP_HOST || 'smtp.job-way.in',
-    port: parseInt(env.SMTP_PORT || '465', 10),
-    user: env.SMTP_USER || 'noreply@job-way.in',
-    pass: env.SMTP_PASS || '',
+    host: env.SMTP_HOST || 'smtp-relay.brevo.com',
+    port: parseInt(env.SMTP_PORT || '587', 10),
+    user: env.SMTP_USER || 'b2ab18001@smtp-brevo.com',
+    pass: env.SMTP_PASS || env.BREVO_API_KEY || '',
     from: env.SMTP_FROM || 'JobWay <noreply@job-way.in>',
     secure: env.SMTP_SECURE !== 'false',
+    brevoApiKey: env.BREVO_API_KEY,
   };
 }
 
@@ -135,8 +136,8 @@ authRoutes.post('/register/request', async (c) => {
     email,
     emailDelivered: emailResult.success,
     emailError: emailResult.success ? undefined : emailResult.error,
-    // Provide devCode when in development or if SMTP credentials are still pending configuration
-    devCode: (!emailResult.success || c.env.ENVIRONMENT === 'development') ? code : undefined,
+    // Provide devCode only if email dispatch was not successful
+    devCode: !emailResult.success ? code : undefined,
   });
 });
 
@@ -385,13 +386,17 @@ authRoutes.post('/forgot-password/request', async (c) => {
     smtpConfig
   );
 
+  if (!emailResult.success) {
+    console.error(`[Forgot Password] Failed to send email to ${email}:`, emailResult.error);
+    return c.json({
+      error: `Could not send password reset email: ${emailResult.error || 'delivery error'}. Please try again later.`,
+    }, 500);
+  }
+
   return c.json({
     success: true,
-    message: emailResult.success
-      ? `Password reset code sent to ${email}`
-      : `Reset code generated. (SMTP status: ${emailResult.error || 'notice'})`,
+    message: `Password reset code sent to ${email}. Please check your inbox.`,
     email,
-    devCode: (!emailResult.success || c.env.ENVIRONMENT === 'development') ? code : undefined,
   });
 });
 
