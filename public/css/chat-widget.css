@@ -466,18 +466,40 @@
 /* Mobile Responsiveness */
 @media (max-width: 480px) {
   .jobway-chat-launcher {
-    bottom: 16px;
-    right: 16px;
-    padding: 6px 12px 6px 8px;
+    bottom: 16px !important;
+    right: 16px !important;
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), 0 0 0 1.5px rgba(0, 208, 132, 0.4) !important;
   }
+
   .jobway-chat-window {
-    bottom: 0;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    border-radius: 0;
-    border: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 9999999 !important;
+  }
+
+  .jobway-chat-header {
+    padding: 12px 14px !important;
+  }
+
+  .jobway-chat-messages {
+    padding: 12px 14px !important;
+  }
+
+  #jobway-chat-root .jobway-chat-footer {
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
