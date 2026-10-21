@@ -15,7 +15,7 @@
 
   <!-- Core Stylesheets -->
   <link rel="stylesheet" href="css/style.css?v=26">
-  <link rel="stylesheet" href="css/editorial.css?v=28">
+  <link rel="stylesheet" href="css/editorial.css?v=29">
 
   <script>
     (function() {
@@ -883,16 +883,7 @@
     @media (max-width: 860px) {
       .directory-container {
         flex-direction: column;
-        padding: 20px 4vw;
-      }
-
-      .filters-sidebar {
-        width: 100%;
-        position: static;
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
-        padding-right: 0;
-        padding-bottom: 24px;
+        padding: 16px 14px;
       }
 
       .jobs-3col-grid {
@@ -1201,64 +1192,97 @@
   <!-- Main Directory: Left Filter Sidebar + Right 3-Card Grid -->
   <main class="directory-container">
     
-    <!-- LEFT SIDEBAR: Filters & Search (300px) -->
-    <aside class="filters-sidebar">
-      
-      <!-- 1. Search Box -->
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Vacancies</span>
-        </div>
-        <div class="filter-search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="filter-search-input" placeholder="Role, machine, skill..." autocomplete="off">
-        </div>
-      </div>
-
-      <!-- 2. Category / Technical Specialization -->
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Technical Discipline</span>
-        </div>
-        <div class="filter-list-group" id="filter-category-list">
-          <!-- Dynamically populated according to Job titles & disciplines in database -->
-        </div>
-      </div>
-
-      <!-- 3. Location Hub -->
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Tech Location Hub</span>
-        </div>
-        <select id="filter-city-select" class="sidebar-select">
-          <option value="all">All Locations (Visakhapatnam)</option>
-          <option value="Visakhapatnam" selected>Visakhapatnam (All Corridors)</option>
-          <option value="Madhurawada">Madhurawada (IT SEZ / Hill 2 & 3)</option>
-          <option value="Rushikonda">Rushikonda (Millennium Tech Park)</option>
-          <option value="Gajuwaka">Gajuwaka (Industrial Hub / Steel City)</option>
-          <option value="Auto Nagar">Auto Nagar (Engineering Hub)</option>
-          <option value="MVP Colony">MVP Colony / Siripuram</option>
-          <option value="Duvvada">Duvvada (VSEZ Special Econ Zone)</option>
-        </select>
-      </div>
-
-      <!-- 4. Minimum Compensation -->
-      <div class="filter-section">
-        <div class="filter-section-header">
-          <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Minimum Salary</span>
-        </div>
-        <select id="filter-salary-select" class="sidebar-select">
-          <option value="0">All Pay Scales</option>
-          <option value="60000">₹60,000+ / month</option>
-          <option value="80000">₹80,000+ / month</option>
-          <option value="110000">₹1,10,000+ / month</option>
-        </select>
-      </div>
-
-      <!-- Reset Action -->
-      <button type="button" class="btn-reset-filters" id="btn-reset-all" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
-        Reset All Filters
+    <!-- Mobile Filter Trigger Bar (Visible only on mobile <= 860px) -->
+    <div class="mobile-filter-bar">
+      <button type="button" class="btn-open-filter-drawer" id="btn-open-filters" aria-label="Open Filters & Search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M7 12h10m-7 6h4"/></svg>
+        <span>Filters & Search</span>
+        <span class="filter-active-count-badge" id="filter-active-count" style="display: none;">0</span>
       </button>
+      <span class="mobile-filter-stats" id="mobile-filter-stats">Showing Vacancies</span>
+    </div>
+
+    <!-- Filter Drawer Backdrop Overlay (Mobile only) -->
+    <div class="filter-drawer-overlay" id="filter-drawer-overlay"></div>
+
+    <!-- LEFT SIDEBAR: Filters & Search (Off-canvas drawer on mobile, sticky sidebar on desktop) -->
+    <aside class="filters-sidebar" id="filters-sidebar">
+      
+      <!-- Drawer Header (Mobile Only) -->
+      <div class="filter-drawer-header">
+        <div class="filter-drawer-title-group">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M7 12h10m-7 6h4"/></svg>
+          <span>Filters & Search</span>
+        </div>
+        <button type="button" class="btn-close-filter-drawer" id="btn-close-filters" aria-label="Close filters">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="filter-drawer-body">
+        <!-- 1. Search Box -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Vacancies</span>
+          </div>
+          <div class="filter-search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="filter-search-input" placeholder="Role, machine, skill..." autocomplete="off">
+          </div>
+        </div>
+
+        <!-- 2. Category / Technical Specialization -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Technical Discipline</span>
+          </div>
+          <div class="filter-list-group" id="filter-category-list">
+            <!-- Dynamically populated according to Job titles & disciplines in database -->
+          </div>
+        </div>
+
+        <!-- 3. Location Hub -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Tech Location Hub</span>
+          </div>
+          <select id="filter-city-select" class="sidebar-select">
+            <option value="all">All Locations (Visakhapatnam)</option>
+            <option value="Visakhapatnam" selected>Visakhapatnam (All Corridors)</option>
+            <option value="Madhurawada">Madhurawada (IT SEZ / Hill 2 & 3)</option>
+            <option value="Rushikonda">Rushikonda (Millennium Tech Park)</option>
+            <option value="Gajuwaka">Gajuwaka (Industrial Hub / Steel City)</option>
+            <option value="Auto Nagar">Auto Nagar (Engineering Hub)</option>
+            <option value="MVP Colony">MVP Colony / Siripuram</option>
+            <option value="Duvvada">Duvvada (VSEZ Special Econ Zone)</option>
+          </select>
+        </div>
+
+        <!-- 4. Minimum Compensation -->
+        <div class="filter-section">
+          <div class="filter-section-header">
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Minimum Salary</span>
+          </div>
+          <select id="filter-salary-select" class="sidebar-select">
+            <option value="0">All Pay Scales</option>
+            <option value="60000">₹60,000+ / month</option>
+            <option value="80000">₹80,000+ / month</option>
+            <option value="110000">₹1,10,000+ / month</option>
+          </select>
+        </div>
+
+        <!-- Reset Action -->
+        <button type="button" class="btn-reset-filters" id="btn-reset-all" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
+          Reset All Filters
+        </button>
+      </div>
+
+      <!-- Drawer Footer (Mobile Only) -->
+      <div class="filter-drawer-footer">
+        <button type="button" class="btn-apply-filter-drawer" id="btn-apply-filters">
+          <span>Show Results</span>
+        </button>
+      </div>
 
     </aside>
 
@@ -1867,6 +1891,7 @@
       function render3CardGrid() {
         const filtered = getFilteredJobs();
         resultsCountNumber.textContent = String(filtered.length).padStart(2, '0');
+        updateActiveFilterBadge(filtered.length);
 
         if (filtered.length === 0) {
           gridContainer.innerHTML = `
@@ -2456,6 +2481,71 @@
       // Auto-open drawer if ?id=... was passed
       if (initialJobId && allJobs.some(j => j.id === initialJobId)) {
         setTimeout(() => openJobDrawer(initialJobId), 150);
+      }
+
+      // ==========================================================================
+      // Filter Drawer Controls (Slide-out menu on mobile <= 860px)
+      // ==========================================================================
+      const filterDrawerOverlay = document.getElementById('filter-drawer-overlay');
+      const filtersSidebar = document.getElementById('filters-sidebar');
+      const btnOpenFilters = document.getElementById('btn-open-filters');
+      const btnCloseFilters = document.getElementById('btn-close-filters');
+      const btnApplyFilters = document.getElementById('btn-apply-filters');
+      const filterActiveBadge = document.getElementById('filter-active-count');
+      const mobileFilterStats = document.getElementById('mobile-filter-stats');
+
+      function openFilterDrawer() {
+        if (filtersSidebar) filtersSidebar.classList.add('drawer-open');
+        if (filterDrawerOverlay) filterDrawerOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeFilterDrawer() {
+        if (filtersSidebar) filtersSidebar.classList.remove('drawer-open');
+        if (filterDrawerOverlay) filterDrawerOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (btnOpenFilters) btnOpenFilters.addEventListener('click', openFilterDrawer);
+      if (btnCloseFilters) btnCloseFilters.addEventListener('click', closeFilterDrawer);
+      if (btnApplyFilters) btnApplyFilters.addEventListener('click', closeFilterDrawer);
+      if (filterDrawerOverlay) filterDrawerOverlay.addEventListener('click', closeFilterDrawer);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && filtersSidebar && filtersSidebar.classList.contains('drawer-open')) {
+          closeFilterDrawer();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860 && filtersSidebar && filtersSidebar.classList.contains('drawer-open')) {
+          closeFilterDrawer();
+        }
+      });
+
+      function updateActiveFilterBadge(resultCount) {
+        let count = 0;
+        const q = (searchInput?.value || '').trim();
+        const city = citySelect?.value;
+        const minSalary = Number(salarySelect?.value) || 0;
+        if (q) count++;
+        if (activeCategory !== 'all') count++;
+        if (city !== 'all' && city !== 'Visakhapatnam') count++;
+        if (minSalary > 0) count++;
+
+        if (filterActiveBadge) {
+          if (count > 0) {
+            filterActiveBadge.textContent = count;
+            filterActiveBadge.style.display = 'inline-block';
+          } else {
+            filterActiveBadge.style.display = 'none';
+          }
+        }
+
+        if (mobileFilterStats) {
+          const num = typeof resultCount === 'number' ? resultCount : (allJobs?.length || 0);
+          mobileFilterStats.textContent = `${num} Vacanc${num === 1 ? 'y' : 'ies'}`;
+        }
       }
 
       // Initial Dynamic Filters & 3-Card Grid Render

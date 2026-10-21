@@ -2529,8 +2529,22 @@ img {
   max-width: 100%;
 }
 
-/* Tablet & Mobile Header Normalization (<= 768px) */
-@media (max-width: 768px) {
+/* Filter Drawer Elements: Hidden on desktop */
+.mobile-filter-bar,
+.filter-drawer-overlay,
+.filter-drawer-header,
+.filter-drawer-footer {
+  display: none !important;
+}
+
+.filter-drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tablet & Mobile Header & Directory Normalization (<= 860px) */
+@media (max-width: 860px) {
   .editorial-header {
     padding: 10px 14px !important;
     width: 100% !important;
@@ -2704,75 +2718,238 @@ img {
     font-size: 13px !important;
   }
 
-  /* Directory Layout & Filters */
+  /* Directory Layout & Mobile Filter Drawer */
   .directory-container {
     flex-direction: column !important;
     padding: 16px 14px !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    gap: 16px !important;
+    gap: 12px !important;
   }
 
-  .filters-sidebar {
-    width: 100% !important;
-    position: static !important;
-    border-right: none !important;
-    border-bottom: 1px solid #E2E8F0 !important;
-    padding-right: 0 !important;
-    padding-bottom: 16px !important;
-    margin-bottom: 8px !important;
-    box-sizing: border-box !important;
-  }
-
-  .filter-search-box input {
-    height: 42px !important;
-    font-size: 13.5px !important;
-  }
-
-  /* Horizontal swipeable category chips on mobile */
-  .filter-list-group {
+  /* Mobile Filter Bar (Opens the Left Drawer) */
+  .mobile-filter-bar {
     display: flex !important;
-    flex-direction: row !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    gap: 8px !important;
-    padding: 2px 2px 8px !important;
-    scrollbar-width: none !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    margin-bottom: 2px !important;
   }
 
-  .filter-list-group::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  .filter-item-btn {
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    width: auto !important;
-    padding: 7px 14px !important;
-    border-radius: 9999px !important;
-    font-size: 12px !important;
-    border: 1px solid #E2E8F0 !important;
-    background: #F8FAFC !important;
+  .btn-open-filter-drawer {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 8px !important;
+    height: 38px !important;
+    padding: 0 14px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 8px !important;
+    font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
   }
 
-  .filter-item-btn.active {
+  .btn-open-filter-drawer:active {
+    transform: scale(0.98) !important;
+    background: #F8FAFC !important;
+  }
+
+  .filter-active-count-badge {
     background: #14281D !important;
     color: #FFFFFF !important;
-    border-color: #14281D !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 1px 6px !important;
+    border-radius: 9999px !important;
+    min-width: 18px !important;
+    text-align: center !important;
   }
 
-  .filter-item-btn.active .filter-item-count {
-    color: #00D084 !important;
+  .mobile-filter-stats {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #64748B !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  /* Filter Backdrop Overlay */
+  .filter-drawer-overlay {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 23, 42, 0.55) !important;
+    backdrop-filter: blur(3px) !important;
+    -webkit-backdrop-filter: blur(3px) !important;
+    z-index: 10050 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .filter-drawer-overlay.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Off-Canvas Slide Drawer from LEFT */
+  .filters-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 320px !important;
+    max-width: 86vw !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    background: #FFFFFF !important;
+    z-index: 10051 !important;
+    box-shadow: 12px 0 36px rgba(15, 23, 42, 0.22) !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow-y: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-right: 1px solid #E2E8F0 !important;
+    border-bottom: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+  }
+
+  .filters-sidebar.drawer-open {
+    transform: translateX(0) !important;
+  }
+
+  /* Sticky Drawer Header */
+  .filter-drawer-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    background: #FFFFFF !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .filter-drawer-title-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #0F172A !important;
+    font-size: 14.5px !important;
     font-weight: 700 !important;
   }
 
-  .filter-section select {
+  .btn-close-filter-drawer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    border: 1px solid #E2E8F0 !important;
+    background: #F8FAFC !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+  }
+
+  .btn-close-filter-drawer:active {
+    background: #F1F5F9 !important;
+    color: #0F172A !important;
+    transform: scale(0.95) !important;
+  }
+
+  /* Drawer Body Scroll Area */
+  .filter-drawer-body {
+    padding: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 18px !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .filter-drawer-body .filter-section {
+    gap: 8px !important;
+  }
+
+  .filter-drawer-body .filter-search-box input {
+    height: 40px !important;
+    font-size: 13.5px !important;
+  }
+
+  .filter-drawer-body .filter-list-group {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    max-height: 220px !important;
+    overflow-y: auto !important;
+  }
+
+  .filter-drawer-body .filter-item-btn {
+    white-space: normal !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .filter-drawer-body select {
     width: 100% !important;
+    height: 40px !important;
+    font-size: 13px !important;
+  }
+
+  /* Sticky Drawer Footer */
+  .filter-drawer-footer {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    border-top: 1px solid #E2E8F0 !important;
+    background: #FFFFFF !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 10 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .btn-apply-filter-drawer {
+    flex: 1 !important;
+    height: 42px !important;
+    background: #14281D !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    box-shadow: 0 2px 6px rgba(20, 40, 29, 0.25) !important;
+  }
+
+  .btn-apply-filter-drawer:active {
+    background: #000000 !important;
+    transform: scale(0.99) !important;
+  }
     height: 42px !important;
     font-size: 13.5px !important;
     box-sizing: border-box !important;
