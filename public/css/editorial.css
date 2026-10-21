@@ -1815,27 +1815,42 @@ button.nav-btn-link:hover,
   .portal-welcome-banner {
     flex-direction: column !important;
     align-items: stretch !important;
+    justify-content: flex-start !important;
     gap: 16px !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .portal-welcome-info {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
   .portal-welcome-aside {
-    align-items: flex-start;
-    width: 100%;
+    flex: 0 0 auto !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    gap: 12px !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
   .portal-welcome-actions {
-    justify-content: flex-start;
-    width: 100%;
+    justify-content: flex-start !important;
+    width: 100% !important;
   }
   .portal-welcome-stats {
-    width: 100%;
-    margin-left: 0;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
+    width: 100% !important;
+    margin-left: 0 !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
   }
   .portal-stat-pill {
-    flex: 1 1 calc(33.333% - 8px);
-    min-width: 115px;
-    width: auto;
+    flex: 1 1 calc(33.333% - 8px) !important;
+    min-width: 115px !important;
+    width: auto !important;
   }
 }
 
@@ -3078,33 +3093,47 @@ img {
     box-sizing: border-box !important;
     flex-direction: column !important;
     align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
 
   .portal-welcome-info {
+    flex: 0 0 auto !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 14px !important;
+    gap: 12px !important;
     width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 
   #banner-avatar-frame {
-    width: 68px !important;
-    height: 68px !important;
+    width: 64px !important;
+    height: 64px !important;
     border-radius: 14px !important;
   }
 
   #welcome-worker-heading {
-    font-size: 22px !important;
+    font-size: 21px !important;
+    margin: 2px 0 4px !important;
   }
 
   .portal-welcome-aside {
+    flex: 0 0 auto !important;
     width: 100% !important;
     align-items: stretch !important;
-    margin-top: 14px !important;
+    margin-top: 2px !important;
+    gap: 12px !important;
+    height: auto !important;
+    min-height: 0 !important;
   }
 
   .portal-welcome-actions {
     width: 100% !important;
+    margin-bottom: 0 !important;
   }
 
   .portal-welcome-actions a {
