@@ -20,6 +20,7 @@ export interface Env {
   WHATSAPP_PHONE_NUMBER_ID?: string;
   WHATSAPP_CLOUD_API_TOKEN?: string;
   WHATSAPP_TEMPLATE_NAME?: string;
+  GEMINI_API_KEY?: string;
 }
 
 

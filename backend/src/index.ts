@@ -9,6 +9,7 @@ import employerRoutes from './routes/employer';
 import paymentRoutes from './routes/payments';
 import adminRoutes from './routes/admin';
 import uploadRoutes from './routes/uploads';
+import chatRoutes from './routes/chat';
 
 const app = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
@@ -55,6 +56,7 @@ app.route('/api', employerRoutes);
 app.route('/api', paymentRoutes);
 app.route('/api', adminRoutes);
 app.route('/api', uploadRoutes);
+app.route('/api', chatRoutes);
 
 // Fallback 404
 app.notFound((c) => {
