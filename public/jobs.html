@@ -42,6 +42,8 @@
     #nav-trade-pass-link,
     #nav-employer-link,
     #nav-workspace-link,
+    #nav-jobs-employer-link,
+    #footer-jobs-employer-link,
     #btn-header-post-vacancy-user,
     #banner-employer-actions,
     #banner-worker-actions,
@@ -66,19 +68,25 @@
     html.role-worker #nav-trade-pass-link,
     html.role-worker #nav-employer-link,
     html.role-worker #nav-workspace-link,
+    html.role-worker #nav-jobs-employer-link,
     html.role-worker #btn-header-post-vacancy-user,
     html.role-worker #banner-employer-actions,
     html.role-worker #banner-guest-actions,
     html.role-worker #footer-candidates-link,
-    html.role-worker #footer-employer-link {
+    html.role-worker #footer-employer-link,
+    html.role-worker #footer-jobs-employer-link {
       display: none !important;
     }
 
     /* Employer Role */
     html.role-employer #nav-employer-link,
     html.role-employer #nav-workspace-link,
-    html.role-employer #nav-candidates-link {
+    html.role-employer #nav-candidates-link,
+    html.role-employer #nav-jobs-employer-link {
       display: inline-block !important;
+    }
+    html.role-employer #footer-jobs-employer-link {
+      display: block !important;
     }
     html.role-employer #btn-header-post-vacancy-user {
       display: inline-flex !important;
@@ -89,11 +97,13 @@
     html.role-employer #cand-credit-pill {
       display: inline-flex !important;
     }
+    html.role-employer #nav-jobs-worker-link,
     html.role-employer #nav-worker-link,
     html.role-employer #nav-trade-pass-link,
     html.role-employer #banner-worker-actions,
     html.role-employer #banner-guest-actions,
-    html.role-employer #footer-worker-link {
+    html.role-employer #footer-worker-link,
+    html.role-employer #footer-jobs-worker-link {
       display: none !important;
     }
 
@@ -104,6 +114,7 @@
     html.role-guest #banner-guest-actions {
       display: flex !important;
     }
+    html.role-guest #nav-jobs-employer-link,
     html.role-guest #nav-worker-link,
     html.role-guest #nav-trade-pass-link,
     html.role-guest #nav-employer-link,
@@ -111,6 +122,7 @@
     html.role-guest #btn-header-post-vacancy-user,
     html.role-guest #banner-employer-actions,
     html.role-guest #banner-worker-actions,
+    html.role-guest #footer-jobs-employer-link,
     html.role-guest #cand-credit-pill {
       display: none !important;
     }
@@ -1106,8 +1118,11 @@
 
       <!-- Center Links -->
       <div class="nav-links-wrapper">
-        <a href="/jobs.html" class="nav-link active" style="font-weight: 700; color: #2E3D28;">
+        <a href="/jobs.html" class="nav-link active" id="nav-jobs-worker-link" style="font-weight: 700; color: #2E3D28;">
           <span class="link-line">Find Jobs</span>
+        </a>
+        <a href="/jobs.html" class="nav-link active" id="nav-jobs-employer-link" style="font-weight: 700; color: #2E3D28; display: none;">
+          <span class="link-line">Listed Jobs</span>
         </a>
         <a href="/candidates.html" class="nav-link" id="nav-candidates-link">
           <span class="link-line">Candidates</span>
@@ -1517,7 +1532,8 @@
         <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
-          <a class="footer-link" href="/jobs.html">Find Jobs</a>
+          <a class="footer-link" id="footer-jobs-worker-link" href="/jobs.html">Find Jobs</a>
+          <a class="footer-link" id="footer-jobs-employer-link" href="/jobs.html" style="display: none;">Listed Jobs</a>
           <a class="footer-link" id="footer-candidates-link" href="/candidates.html">Candidates</a>
           <a class="footer-link" id="footer-worker-link" href="/worker.html">Worker Desk</a>
           <a class="footer-link" id="footer-employer-link" href="/employer.html">Employer Workspace</a>
@@ -1598,12 +1614,17 @@
         const initialPhoto = user.avatar || user.photo_key || localStorage.getItem('jc_worker_photo') || '';
         updateNavAvatar(initialPhoto, initials);
 
+        const navJobsWorker = document.getElementById('nav-jobs-worker-link');
+        const navJobsEmployer = document.getElementById('nav-jobs-employer-link');
+
         if (user.role === 'employer' || user.role === 'admin') {
           if (navProfileLink) {
             navProfileLink.href = '/employer.html';
             navProfileLink.title = 'Employer Workspace';
           }
-          // Employer: show employer workspace, candidates directory, and post job
+          // Employer: show employer workspace, candidates directory, and listed jobs
+          if (navJobsWorker) navJobsWorker.style.display = 'none';
+          if (navJobsEmployer) navJobsEmployer.style.display = 'inline-block';
           if (navWorkerLink) navWorkerLink.style.display = 'none';
           if (navTradePassLink) navTradePassLink.style.display = 'none';
           if (navEmployerLink) navEmployerLink.style.display = 'inline-block';
@@ -1619,6 +1640,8 @@
             navProfileLink.title = 'Worker Desk';
           }
           // Strictly HIDE Post Job, Candidates directory, and Employer Workspace
+          if (navJobsWorker) navJobsWorker.style.display = 'inline-block';
+          if (navJobsEmployer) navJobsEmployer.style.display = 'none';
           if (navWorkerLink) navWorkerLink.style.display = 'inline-block';
           if (navTradePassLink) navTradePassLink.style.display = 'none';
           if (navEmployerLink) navEmployerLink.style.display = 'none';
@@ -1648,6 +1671,10 @@
         }
       } else {
         // Logged Out (Guest Viewer Mode)
+        const navJobsWorker = document.getElementById('nav-jobs-worker-link');
+        const navJobsEmployer = document.getElementById('nav-jobs-employer-link');
+        if (navJobsWorker) navJobsWorker.style.display = 'inline-block';
+        if (navJobsEmployer) navJobsEmployer.style.display = 'none';
         if (authLoggedOut) authLoggedOut.style.display = 'flex';
         if (authLoggedIn) authLoggedIn.style.display = 'none';
         if (navWorkerLink) navWorkerLink.style.display = 'none';

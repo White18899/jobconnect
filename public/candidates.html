@@ -53,9 +53,22 @@
     html.is-logged-out #auth-logged-out { display: flex !important; }
     html.is-logged-out #auth-logged-in { display: none !important; }
 
+    #nav-jobs-employer-link,
+    #footer-jobs-employer-link {
+      display: none !important;
+    }
+
     /* Employer Role */
-    html.role-employer #nav-workspace-link {
+    html.role-employer #nav-workspace-link,
+    html.role-employer #nav-jobs-employer-link {
       display: inline-block !important;
+    }
+    html.role-employer #footer-jobs-employer-link {
+      display: inline !important;
+    }
+    html.role-employer #nav-jobs-worker-link,
+    html.role-employer #footer-jobs-worker-link {
+      display: none !important;
     }
     html.role-employer #cand-credit-pill {
       display: inline-flex !important;
@@ -68,6 +81,8 @@
     }
 
     /* Guest Role */
+    html.role-guest #nav-jobs-employer-link,
+    html.role-guest #footer-jobs-employer-link,
     html.role-guest #nav-workspace-link,
     html.role-guest #cand-credit-pill,
     html.role-guest #banner-employer-actions {
@@ -888,8 +903,11 @@
 
       <!-- Center Links -->
       <div class="nav-links-wrapper">
-        <a href="/jobs.html" class="nav-link">
+        <a href="/jobs.html" class="nav-link" id="nav-jobs-worker-link">
           <span class="link-line">Find Jobs</span>
+        </a>
+        <a href="/jobs.html" class="nav-link" id="nav-jobs-employer-link" style="display: none;">
+          <span class="link-line">Listed Jobs</span>
         </a>
         <a href="/candidates.html" class="nav-link active" style="font-weight: 600; color: #000000;">
           <span class="link-line">Candidates</span>
@@ -1119,7 +1137,8 @@
         <h4 class="footer-col-title">Portals</h4>
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
-          <a class="footer-link" href="/jobs.html">Find Jobs</a>
+          <a class="footer-link" id="footer-jobs-worker-link" href="/jobs.html">Find Jobs</a>
+          <a class="footer-link" id="footer-jobs-employer-link" href="/jobs.html" style="display: none;">Listed Jobs</a>
           <a class="footer-link" href="/candidates.html">Candidates</a>
           <a class="footer-link" href="/employer.html">Employer Workspace</a>
           <a class="footer-link" href="/worker.html">Worker Desk</a>
@@ -1155,14 +1174,21 @@
       const bannerRechargeLink = document.getElementById('banner-recharge-link');
       const navWorkspaceLink = document.getElementById('nav-workspace-link');
 
+      const navJobsWorker = document.getElementById('nav-jobs-worker-link');
+      const navJobsEmployer = document.getElementById('nav-jobs-employer-link');
+
       function updateCreditDisplay() {
         if (!user || user.role !== 'employer') {
+          if (navJobsWorker) navJobsWorker.style.display = 'inline-block';
+          if (navJobsEmployer) navJobsEmployer.style.display = 'none';
           if (candCreditPill) candCreditPill.style.display = 'none';
           if (bannerEmployerActions) bannerEmployerActions.style.display = 'none';
           if (bannerViewerActions) bannerViewerActions.style.display = 'flex';
           if (navWorkspaceLink) navWorkspaceLink.style.display = 'none';
           return;
         }
+        if (navJobsWorker) navJobsWorker.style.display = 'none';
+        if (navJobsEmployer) navJobsEmployer.style.display = 'inline-block';
         if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
         if (bannerViewerActions) bannerViewerActions.style.display = 'none';
         const c = window.jobApi.getUnlockCredits();
