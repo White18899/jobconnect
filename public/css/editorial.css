@@ -3056,10 +3056,6 @@ img {
     background: #000000 !important;
     transform: scale(0.99) !important;
   }
-    height: 42px !important;
-    font-size: 13.5px !important;
-    box-sizing: border-box !important;
-  }
 
   .content-results-bar {
     flex-direction: column !important;
