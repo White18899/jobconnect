@@ -729,7 +729,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=26"></script>
+  <script src="js/api.js?v=27"></script>
   <script src="js/chat-widget.js?v=3"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -982,43 +982,52 @@
           return;
         }
 
-        showToast('Verifying Google credentials...', 'success');
-        const res = await window.jobApi.loginWithGoogle(response.credential);
+        try {
+          showToast('Verifying Google credentials...', 'success');
+          if (!window.jobApi) {
+            alert('JobWay API service is initializing. Please refresh and try again.');
+            return;
+          }
+          const res = await window.jobApi.loginWithGoogle(response.credential);
 
-        if (!res.success) {
-          alert(res.error || 'Failed to authenticate with Google');
-          return;
-        }
+          if (!res.success) {
+            alert(res.error || 'Failed to authenticate with Google');
+            return;
+          }
 
-        if (res.isNewUser) {
-          // FIRST TIME LOGIN -> Prompt to select worker or employer!
-          pendingGoogleCredential = response.credential;
-          const gName = res.googleUser?.name || 'User';
-          const gEmail = res.googleUser?.email || '';
-          const gPic = res.googleUser?.picture;
+          if (res.isNewUser) {
+            // FIRST TIME LOGIN -> Prompt to select worker or employer!
+            pendingGoogleCredential = response.credential;
+            const gName = res.googleUser?.name || 'User';
+            const gEmail = res.googleUser?.email || '';
+            const gPic = res.googleUser?.picture;
 
-          const gNameElem = document.getElementById('google-user-name');
-          const gEmailElem = document.getElementById('google-user-email');
-          const gAvatarElem = document.getElementById('google-avatar-img');
+            const gNameElem = document.getElementById('google-user-name');
+            const gEmailElem = document.getElementById('google-user-email');
+            const gAvatarElem = document.getElementById('google-avatar-img');
 
-          if (gNameElem) gNameElem.textContent = gName;
-          if (gEmailElem) gEmailElem.textContent = gEmail;
-          if (gAvatarElem && gPic) gAvatarElem.src = gPic;
+            if (gNameElem) gNameElem.textContent = gName;
+            if (gEmailElem) gEmailElem.textContent = gEmail;
+            if (gAvatarElem && gPic) gAvatarElem.src = gPic;
 
-          setMode('google-role');
-          showToast(`Welcome! Please select your account type.`);
-        } else {
-          // EXISTING USER -> Direct Login & Routing!
-          showToast(`Welcome back, ${res.user?.name || 'User'}! Redirecting...`, 'success');
-          setTimeout(() => {
-            if (res.user?.role === 'admin') {
-              window.location.href = '/admin.html';
-            } else if (res.user?.role === 'employer') {
-              window.location.href = '/employer.html';
-            } else {
-              window.location.href = '/worker.html';
-            }
-          }, 500);
+            setMode('google-role');
+            showToast(`Welcome! Please select your account type.`);
+          } else {
+            // EXISTING USER -> Direct Login & Routing!
+            showToast(`Welcome back, ${res.user?.name || 'User'}! Redirecting...`, 'success');
+            setTimeout(() => {
+              if (res.user?.role === 'admin') {
+                window.location.href = '/admin.html';
+              } else if (res.user?.role === 'employer') {
+                window.location.href = '/employer.html';
+              } else {
+                window.location.href = '/worker.html';
+              }
+            }, 500);
+          }
+        } catch (err) {
+          console.error('[Google Auth Error]:', err);
+          alert('Failed to connect to authentication service. Please check your internet connection.');
         }
       }
 
@@ -1355,24 +1364,34 @@
         btnSubmitLogin.disabled = true;
         btnSubmitLogin.textContent = 'Signing in...';
 
-        const res = await window.jobApi.login(email, password);
+        try {
+          if (!window.jobApi) {
+            throw new Error('API client is initializing. Please refresh the page and try again.');
+          }
 
-        btnSubmitLogin.disabled = false;
-        btnSubmitLogin.textContent = 'Sign In to Dashboard →';
+          const res = await window.jobApi.login(email, password);
 
-        if (res.success) {
-          showToast('Authentication successful! Redirecting...');
-          setTimeout(() => {
-            if (res.user?.role === 'admin') {
-              window.location.href = '/admin.html';
-            } else if (res.user?.role === 'employer') {
-              window.location.href = '/employer.html';
-            } else {
-              window.location.href = '/worker.html';
-            }
-          }, 500);
-        } else {
-          alert(res.error || 'Invalid email or password.');
+          if (res.success) {
+            showToast('Authentication successful! Redirecting...');
+            setTimeout(() => {
+              if (res.user?.role === 'admin') {
+                window.location.href = '/admin.html';
+              } else if (res.user?.role === 'employer') {
+                window.location.href = '/employer.html';
+              } else {
+                window.location.href = '/worker.html';
+              }
+            }, 500);
+          } else {
+            btnSubmitLogin.disabled = false;
+            btnSubmitLogin.textContent = 'Sign In to Dashboard →';
+            alert(res.error || 'Invalid email or password.');
+          }
+        } catch (err) {
+          console.error('[Login Error]:', err);
+          btnSubmitLogin.disabled = false;
+          btnSubmitLogin.textContent = 'Sign In to Dashboard →';
+          alert(err.message || 'Unable to connect to service. Please check your internet connection.');
         }
       });
 
