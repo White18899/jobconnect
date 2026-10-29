@@ -1574,8 +1574,9 @@
         if (navJobsEmployer) navJobsEmployer.style.display = 'inline-block';
         if (bannerEmployerActions) bannerEmployerActions.style.display = 'flex';
         if (bannerViewerActions) bannerViewerActions.style.display = 'none';
-        const c = window.jobApi.getUnlockCredits();
+        let c = window.jobApi.getUnlockCredits();
         if (creditCountEl) creditCountEl.textContent = c;
+        window.jobApi.syncUnlockCredits().then(sc => { if (creditCountEl) creditCountEl.textContent = sc; }).catch(() => {});
         if (candCreditPill) candCreditPill.style.display = 'inline-flex';
         if (navWorkspaceLink) navWorkspaceLink.style.display = 'inline-block';
       }

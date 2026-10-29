@@ -18,7 +18,11 @@ employerRoutes.get('/employer/profile', authMiddleware, roleGuard(['employer']),
     return c.json({ error: 'Employer profile not found' }, 404);
   }
 
-  return c.json({ profile });
+  const credits = (profile as any).unlock_credits !== undefined && (profile as any).unlock_credits !== null
+    ? Number((profile as any).unlock_credits)
+    : 3;
+
+  return c.json({ profile, credits });
 });
 
 // 2. Update Employer Profile
@@ -167,7 +171,7 @@ employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), as
 // 4b. Get All Applications for Employer across all jobs
 employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
-  let employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
   if (!employer) {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
@@ -238,7 +242,8 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
     };
   });
 
-  return c.json({ applications });
+  const liveCredits = employer?.unlock_credits !== undefined && employer?.unlock_credits !== null ? Number(employer.unlock_credits) : 3;
+  return c.json({ applications, credits: liveCredits });
 });
 
 // 4c. Unlock Candidate Application Contact Details

@@ -572,16 +572,25 @@
         setTimeout(() => t.remove(), 3500);
       }
 
-      function updateCredits() {
-        const c = window.jobApi.getUnlockCredits();
-        document.getElementById('header-credit-count').textContent = c;
-        document.getElementById('stat-emp-credits').textContent = c;
+      async function updateCredits() {
+        let c = window.jobApi.getUnlockCredits();
+        const headerEl = document.getElementById('header-credit-count');
+        const statEl = document.getElementById('stat-emp-credits');
+        if (headerEl) headerEl.textContent = c;
+        if (statEl) statEl.textContent = c;
+
+        try {
+          c = await window.jobApi.syncUnlockCredits();
+          if (headerEl) headerEl.textContent = c;
+          if (statEl) statEl.textContent = c;
+        } catch (e) {}
       }
       updateCredits();
 
       // Render Applicants (Live D1 Backend Sync)
       async function renderApplicants() {
         const apps = await window.jobApi.getEmployerApplications();
+        updateCredits();
         const container = document.getElementById('employer-applicants-list');
         const statApps = document.getElementById('stat-emp-apps');
         const statUnlocked = document.getElementById('stat-emp-unlocked');

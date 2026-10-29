@@ -285,6 +285,9 @@ class JobConnectApi {
         });
         if (res.ok) {
           const data = await res.json();
+          if (data.credits !== undefined && data.credits !== null) {
+            localStorage.setItem('jc_credits', String(data.credits));
+          }
           if (Array.isArray(data.applications)) {
             const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
             const dirCartApps = localApps.filter(a => a.source === 'candidate_directory' && !data.applications.some(sa => sa.id === a.id));
@@ -657,6 +660,30 @@ class JobConnectApi {
 
   getUnlockCredits() {
     return Number(localStorage.getItem('jc_credits') || '0');
+  }
+
+  async syncUnlockCredits() {
+    try {
+      const token = this.getAuthToken();
+      if (!token) return this.getUnlockCredits();
+      const res = await fetch(`${this.baseUrl}/employer/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const credits = (data.profile && data.profile.unlock_credits !== undefined && data.profile.unlock_credits !== null)
+          ? Number(data.profile.unlock_credits)
+          : (data.credits !== undefined ? Number(data.credits) : 3);
+        localStorage.setItem('jc_credits', String(credits));
+        return credits;
+      }
+    } catch (e) {
+      console.warn('Network error syncing unlock credits:', e);
+    }
+    return this.getUnlockCredits();
   }
 
   addUnlockCredits(count) {
