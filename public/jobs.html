@@ -2451,11 +2451,12 @@
               <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
                 ${isOwnJob ? `
                   <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
-                    <span>★ Manage Applications in Employer Workspace →</span>
+                    <span>Manage Applications in Employer Workspace →</span>
                   </a>
                 ` : ''}
                 <a href="/candidates.html?jobId=${encodeURIComponent(job.id)}&category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center; gap: 6px; ${isOwnJob ? 'background: #0D9488; border-color: #0D9488;' : ''}">
-                  <span>🎯 Match Candidates for this Vacancy →</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                  <span>Match Candidates for this Vacancy →</span>
                 </a>
               </div>
             ` : `
