@@ -2409,9 +2409,18 @@
 
       // Master Job Titles Datalist & Quick Roles Setup
       const postTitlesDatalist = document.getElementById('library-post-job-titles');
-      if (postTitlesDatalist && window.JOB_TITLES_LIBRARY) {
-        postTitlesDatalist.innerHTML = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+      function refreshPostTitlesDatalist() {
+        if (!postTitlesDatalist || !window.JOB_TITLES_LIBRARY) return;
+        let html = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+        if (window.JobLibrary && typeof window.JobLibrary.getCustomCategories === 'function') {
+          const customList = window.JobLibrary.getCustomCategories();
+          if (customList.length > 0) {
+            html += customList.map(c => `<option value="${c}">Custom Category</option>`).join('');
+          }
+        }
+        postTitlesDatalist.innerHTML = html;
       }
+      refreshPostTitlesDatalist();
 
       const postTitleInput = document.getElementById('post-job-title');
       const postCategorySelect = document.getElementById('post-job-category');
@@ -2495,6 +2504,7 @@
 
           const saved = window.JobLibrary.saveCustomCategory(val);
           refreshEmployerCustomCategories();
+          refreshPostTitlesDatalist();
 
           // Select this category in the dropdown
           let found = false;

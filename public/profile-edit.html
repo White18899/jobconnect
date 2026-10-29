@@ -854,7 +854,14 @@
       // Populate Master Job Titles Datalist
       const jobTitlesDatalist = document.getElementById('library-job-titles-list');
       if (jobTitlesDatalist && window.JOB_TITLES_LIBRARY) {
-        jobTitlesDatalist.innerHTML = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+        let datalistHtml = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
+        if (window.JobLibrary && typeof window.JobLibrary.getCustomCategories === 'function') {
+          const customCats = window.JobLibrary.getCustomCategories();
+          if (customCats.length > 0) {
+            datalistHtml += customCats.map(c => `<option value="${c}">Custom Category</option>`).join('');
+          }
+        }
+        jobTitlesDatalist.innerHTML = datalistHtml;
       }
 
       // Populate Quick Roles Pills with Industry Filtering
