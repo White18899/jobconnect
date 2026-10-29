@@ -1094,6 +1094,94 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ==========================================================================
+       Skeleton Loading Shimmer States (Instant Paint & Smooth Transition)
+       ========================================================================== */
+    @keyframes skeleton-shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    .skeleton-shimmer {
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.5s infinite ease-in-out;
+    }
+
+    .job-skeleton-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      min-height: 380px;
+    }
+
+    .skeleton-img-box {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      padding: 12px;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      box-sizing: border-box;
+    }
+
+    .skeleton-badge {
+      border-radius: 6px;
+      height: 24px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.45) 25%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.45) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-shimmer 1.5s infinite ease-in-out;
+    }
+
+    .skeleton-card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+
+    .skeleton-line {
+      border-radius: 4px;
+      display: block;
+    }
+
+    .skeleton-serial-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skeleton-footer-row {
+      padding-top: 14px;
+      border-top: 1px solid #F1F5F9;
+      margin-top: auto;
+    }
+
+    .skeleton-btn {
+      width: 100%;
+      height: 38px;
+      border-radius: 8px;
+    }
+
+    .filter-skeleton-item {
+      height: 34px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      display: block;
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -1237,7 +1325,12 @@
             <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span>
           </div>
           <div class="filter-list-group" id="filter-category-list">
-            <!-- Dynamically populated according to Job titles & disciplines in database -->
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 100%;"></div>
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 88%;"></div>
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 94%;"></div>
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 82%;"></div>
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 90%;"></div>
+            <div class="skeleton-shimmer filter-skeleton-item" style="width: 85%;"></div>
           </div>
         </div>
 
@@ -1308,7 +1401,121 @@
 
       <!-- 3-Cards Grid -->
       <div class="jobs-3col-grid" id="jobs-grid-container">
-        <!-- Rendered dynamically via JavaScript -->
+        <!-- 6 Skeleton Cards displayed on initial page load / before data resolves -->
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 110px;"></div>
+            <div class="skeleton-badge" style="width: 72px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 75px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 60px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 88%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 60%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 50%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 120px;"></div>
+            <div class="skeleton-badge" style="width: 68px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 85px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 55px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 82%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 65%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 45%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 105px;"></div>
+            <div class="skeleton-badge" style="width: 72px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 70px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 65px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 90%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 55%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 52%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 115px;"></div>
+            <div class="skeleton-badge" style="width: 70px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 80px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 58px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 86%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 62%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 46%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 110px;"></div>
+            <div class="skeleton-badge" style="width: 72px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 76px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 62px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 80%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 58%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 50%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="job-skeleton-card" aria-hidden="true">
+          <div class="skeleton-img-box skeleton-shimmer">
+            <div class="skeleton-badge" style="width: 118px;"></div>
+            <div class="skeleton-badge" style="width: 66px;"></div>
+          </div>
+          <div class="skeleton-card-body">
+            <div class="skeleton-serial-row">
+              <div class="skeleton-line skeleton-shimmer" style="width: 82px; height: 13px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 56px; height: 13px;"></div>
+            </div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 84%; height: 18px; margin-top: 2px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 64%; height: 16px;"></div>
+            <div class="skeleton-line skeleton-shimmer" style="width: 48%; height: 13px; margin-top: 4px;"></div>
+            <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </section>
@@ -1902,6 +2109,31 @@
         t.innerHTML = `<span>${type === 'success' ? '✓' : 'ℹ️'}</span> <span>${msg}</span>`;
         c.appendChild(t);
         setTimeout(() => t.remove(), 3500);
+      }
+
+      function renderSkeletons(count = 6) {
+        if (!gridContainer) return;
+        gridContainer.innerHTML = Array.from({ length: count }).map(() => `
+          <div class="job-skeleton-card" aria-hidden="true">
+            <div class="skeleton-img-box skeleton-shimmer">
+              <div class="skeleton-badge" style="width: 110px;"></div>
+              <div class="skeleton-badge" style="width: 72px;"></div>
+            </div>
+            <div class="skeleton-card-body">
+              <div class="skeleton-serial-row">
+                <div class="skeleton-line skeleton-shimmer" style="width: 75px; height: 13px;"></div>
+                <div class="skeleton-line skeleton-shimmer" style="width: 60px; height: 13px;"></div>
+              </div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 88%; height: 18px; margin-top: 2px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 60%; height: 16px;"></div>
+              <div class="skeleton-line skeleton-shimmer" style="width: 50%; height: 13px; margin-top: 4px;"></div>
+              <div class="skeleton-footer-row" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                <div class="skeleton-btn skeleton-shimmer" style="width: 135px; height: 34px;"></div>
+                <div class="skeleton-line skeleton-shimmer" style="width: 50px; height: 14px;"></div>
+              </div>
+            </div>
+          </div>
+        `).join('');
       }
 
       try {
