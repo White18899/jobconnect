@@ -327,32 +327,44 @@ class JobConnectApi {
   }
 
   async unlockWorker(appId) {
-    let credits = Number(localStorage.getItem('jc_credits') || '0');
-
-    if (credits <= 0) {
-      return { success: false, needCredits: true, message: "Insufficient unlock credits. Please purchase an unlock bundle." };
-    }
-
     try {
       const token = this.getAuthToken();
       if (token) {
-        await fetch(`${this.baseUrl}/employer/applications/${appId}/unlock`, {
+        const res = await fetch(`${this.baseUrl}/employer/applications/${appId}/unlock`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` }
         });
+        const data = await res.json();
+        if (!res.ok || data.needCredits) {
+          if (data.remainingCredits !== undefined) {
+            localStorage.setItem('jc_credits', String(data.remainingCredits));
+          }
+          return {
+            success: false,
+            needCredits: true,
+            message: data.error || 'Insufficient unlock credits. Please purchase an unlock bundle.'
+          };
+        }
+        if (data.remainingCredits !== undefined) {
+          localStorage.setItem('jc_credits', String(data.remainingCredits));
+        }
+      } else {
+        let credits = Number(localStorage.getItem('jc_credits') || '0');
+        if (credits <= 0) {
+          return { success: false, needCredits: true, message: 'Insufficient unlock credits. Please purchase an unlock bundle.' };
+        }
+        credits -= 1;
+        localStorage.setItem('jc_credits', String(credits));
       }
     } catch (e) {
       console.warn('Network error unlocking application on D1:', e);
     }
 
-    credits -= 1;
-    localStorage.setItem('jc_credits', String(credits));
-
     const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
     const app = apps.find(a => a.id === appId);
     if (app) {
       app.unlocked = true;
-      app.status = "unlocked";
+      app.status = 'unlocked';
       localStorage.setItem('jc_apps', JSON.stringify(apps));
     }
 

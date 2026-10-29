@@ -181,6 +181,7 @@ paymentRoutes.post('/payments/:id/submit', authMiddleware, roleGuard(['employer'
 
 // 3. Get Payment Status
 paymentRoutes.get('/payments/:id', authMiddleware, async (c) => {
+  const user = c.get('user');
   const paymentId = c.req.param('id');
   const payment = await c.env.DB.prepare(`
     SELECT p.*, a.job_id, a.worker_id, j.title as job_title, wp.full_name as worker_name
@@ -193,6 +194,14 @@ paymentRoutes.get('/payments/:id', authMiddleware, async (c) => {
 
   if (!payment) {
     return c.json({ error: 'Payment not found' }, 404);
+  }
+
+  // BOLA / IDOR Protection: User must be an administrator or the employer who owns this payment
+  if (user.role !== 'admin') {
+    const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+    if (!employer || employer.id !== payment.employer_id) {
+      return c.json({ error: 'Access denied: You do not have permission to view this payment record' }, 403);
+    }
   }
 
   return c.json({ payment });
