@@ -88,8 +88,10 @@
     html.role-employer #footer-jobs-employer-link {
       display: block !important;
     }
-    html.role-employer #btn-header-post-vacancy-user {
-      display: inline-flex !important;
+    @media (min-width: 769px) {
+      html.role-employer #btn-header-post-vacancy-user {
+        display: inline-flex !important;
+      }
     }
     html.role-employer #banner-employer-actions {
       display: flex !important;
@@ -147,6 +149,28 @@
       flex-direction: column;
       margin: 0;
       padding: 0;
+    }
+
+        .banner-btn-secondary {
+      background: #FFFFFF !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      font-size: 12.5px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-decoration: none !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      padding: 9px 18px !important;
+      transition: all 0.15s ease !important;
+    }
+    .banner-btn-secondary:hover {
+      background: #F8FAFC !important;
+      border-color: #94A3B8 !important;
+      color: #0F172A !important;
     }
 
     /* Top Directory Breadcrumb Header */
@@ -1246,16 +1270,17 @@
     <div class="directory-banner-inner">
       <div>
         <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
-          Engineering & Industrial Trades Directory
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span>Verified Multi-Industry Career & Trades Directory</span>
         </div>
-        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Technical Vacancies</h1>
+        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Job Vacancies</h1>
       </div>
       <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
         <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>Post New Vacancy</span>
         </button>
-        <a href="/candidates.html" id="banner-browse-candidates" class="nav-btn-link" style="padding: 8px 16px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; gap: 6px;">
+        <a href="/candidates.html" id="banner-browse-candidates" class="banner-btn-secondary" style="padding: 9px 18px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
           <span>Browse Verified Candidates</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -1337,7 +1362,7 @@
         <!-- 3. Location Hub -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Tech Location Hub</span>
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub / City</span>
           </div>
           <select id="filter-city-select" class="sidebar-select">
             <option value="all">All Locations (Visakhapatnam)</option>
@@ -1387,7 +1412,7 @@
         <div class="results-heading-meta">
           <span>Showing <strong id="results-count-number">06</strong> verified vacancies</span>
           <span style="color: var(--color-border); font-weight: 300;">|</span>
-          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">Verified Tech Companies</span>
+          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Employers</span>
         </div>
 
         <div>
@@ -1530,7 +1555,7 @@
       <div class="drawer-header">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #059669;"></span>
-          <span style="font-size: 13px; font-weight: 750; color: #14281D; letter-spacing: 0.04em; text-transform: uppercase;">Technical Specification & Apply</span>
+          <span style="font-size: 13px; font-weight: 750; color: #14281D; letter-spacing: 0.04em; text-transform: uppercase;">Job Specification & Apply</span>
         </div>
         <button type="button" class="btn-close-drawer" id="btn-close-drawer" title="Close drawer">✕</button>
       </div>
@@ -1551,7 +1576,7 @@
       <div class="vacancy-modal-header" style="padding: 20px 28px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #FFFFFF;">
         <div>
           <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #059669; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.3); padding: 3px 9px; border-radius: 6px;">Direct Employer Listing</span>
-          <h2 class="vacancy-modal-title" id="post-vacancy-modal-title" style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 4px 0 0; letter-spacing: -0.02em;">Publish Technical Trade Opening</h2>
+          <h2 class="vacancy-modal-title" id="post-vacancy-modal-title" style="font-size: 20px; font-weight: 700; color: #0F172A; margin: 4px 0 0; letter-spacing: -0.02em;">Publish Job Vacancy</h2>
         </div>
         <button type="button" class="btn-close-drawer" id="btn-close-post-modal" title="Close modal" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E2E8F0; background: #F8FAFC; color: #475569; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: all 0.2s ease;">✕</button>
       </div>
@@ -1601,7 +1626,7 @@
         <!-- SECTION 2: Headline & Category -->
         <div class="vacancy-form-grid">
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-title">Job Title / Technical Headline *</label>
+            <label class="vacancy-label" for="post-job-title">Job Title / Role Headline *</label>
             <input type="text" id="post-job-title" class="vacancy-input" list="library-post-job-titles" placeholder="e.g. Full-Stack Developer, DevOps Engineer, QA Automation Lead..." required autocomplete="off">
             <datalist id="library-post-job-titles"></datalist>
           </div>
@@ -1754,13 +1779,13 @@
 
         <!-- SECTION 7: Scope & Machinery -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label" for="post-job-desc">Technical Scope & Responsibilities *</label>
+          <label class="vacancy-label" for="post-job-desc">Role Scope & Responsibilities *</label>
           <textarea id="post-job-desc" class="vacancy-textarea" placeholder="Detail the system architecture, code delivery expectations, tech stack, or team responsibilities..." required></textarea>
         </div>
 
         <!-- SECTION 8: Qualifications & Requirements -->
         <div class="vacancy-form-group full-width">
-          <label class="vacancy-label" for="post-job-reqs">Technical Proficiencies & Qualifications *</label>
+          <label class="vacancy-label" for="post-job-reqs">Key Skills & Qualifications *</label>
           <textarea id="post-job-reqs" class="vacancy-textarea" placeholder="e.g. B.Tech/BE in Computer Science, 4+ years building production applications with React, TypeScript, Node.js..." required></textarea>
         </div>
 
@@ -1796,13 +1821,13 @@
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span>JobWay</span>
       </span>
-      <span class="footer-copy">India's Verified Technical & Industrial Trades Network • job-way.in</span>
+      <span class="footer-copy">India's Verified Multi-Industry Career & Trades Network • job-way.in</span>
     </div>
     <div class="footer-right">
       <div class="footer-box">
         <h4 class="footer-col-title">Direct Trade Pass</h4>
         <p class="footer-text">
-          Zero middleman fees for tradesmen. Every candidate holds an authenticated digital pass with verified technical qualifications.
+          Zero middleman brokerage. Every candidate holds an authenticated digital profile with verified qualifications.
         </p>
       </div>
       <div class="footer-box">
@@ -2604,7 +2629,7 @@
 
       function openPostVacancyModal() {
         if (!user || (user.role !== 'employer' && user.role !== 'admin')) {
-          showToast("Please log in as an employer to post a technical vacancy.", "info");
+          showToast("Please log in as an employer to post a vacancy.", "info");
           setTimeout(() => {
             window.location.href = `/login.html?mode=signup&role=employer`;
           }, 1200);

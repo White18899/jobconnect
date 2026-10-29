@@ -2725,8 +2725,9 @@ img {
     gap: 6px !important;
   }
 
+  html.role-employer #btn-header-post-vacancy-user,
   #btn-header-post-vacancy-user {
-    display: none !important; /* Hide secondary post job in mobile header since main page CTA has it */
+    display: none !important; /* Hide redundant post job in mobile header since directory banner has it */
   }
 
   .nav-profile-chip {
@@ -2805,23 +2806,23 @@ img {
   #banner-guest-actions {
     width: 100% !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
     gap: 8px !important;
-    align-items: stretch !important;
+    align-items: center !important;
   }
 
-  #banner-employer-actions a,
-  #banner-employer-actions button,
-  #banner-worker-actions a,
-  #banner-worker-actions button,
-  #banner-guest-actions a,
-  #banner-guest-actions button {
-    width: 100% !important;
+  #banner-employer-actions > *,
+  #banner-worker-actions > *,
+  #banner-guest-actions > * {
+    flex: 1 1 calc(50% - 4px) !important;
+    min-width: 130px !important;
+    width: auto !important;
     justify-content: center !important;
     text-align: center !important;
     box-sizing: border-box !important;
-    padding: 10px 14px !important;
-    font-size: 13px !important;
+    padding: 9px 12px !important;
+    font-size: 12.5px !important;
   }
 
   /* Directory Layout & Mobile Filter Drawer */

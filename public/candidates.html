@@ -121,6 +121,28 @@
       padding: 0;
     }
 
+        .banner-btn-secondary {
+      background: #FFFFFF !important;
+      border: 1px solid #CBD5E1 !important;
+      color: #0F172A !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      font-size: 12.5px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      text-decoration: none !important;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      padding: 9px 18px !important;
+      transition: all 0.15s ease !important;
+    }
+    .banner-btn-secondary:hover {
+      background: #F8FAFC !important;
+      border-color: #94A3B8 !important;
+      color: #0F172A !important;
+    }
+
     /* Top Directory Breadcrumb Header */
     .directory-banner {
       border-bottom: 1px solid var(--color-border);
@@ -1185,9 +1207,10 @@
     <div class="directory-banner-inner">
       <div>
         <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
-          Vetted Technical Tradesmen & Engineers Directory
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Verified Multi-Industry Talent & Candidate Directory</span>
         </div>
-        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidate Passes</h1>
+        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidates Directory</h1>
       </div>
       <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
         <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 9px 18px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
@@ -1319,7 +1342,7 @@
         <div class="results-heading-meta">
           <span>Showing <strong id="cand-results-count">08</strong> verified candidates</span>
           <span style="color: var(--color-border); font-weight: 300;">|</span>
-          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Technical Profiles</span>
+          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Candidate Profiles</span>
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -1476,13 +1499,13 @@
         <img src="assets/logo.png" alt="JobWay Logo" class="brand-logo-img">
         <span>JobWay</span>
       </span>
-      <span class="footer-copy">India's Verified Technical & Industrial Trades Network • job-way.in</span>
+      <span class="footer-copy">India's Verified Multi-Industry Career & Trades Network • job-way.in</span>
     </div>
     <div class="footer-right">
       <div class="footer-box">
         <h4 class="footer-col-title">Direct Employer Unlocks</h4>
         <p class="footer-text">
-          Zero middleman brokerage. Unlocked candidates display verified technical credentials, WhatsApp contacts, and GitHub / portfolio profiles.
+          Zero middleman brokerage. Unlocked candidates display verified credentials, direct WhatsApp contacts, and professional portfolio profiles.
         </p>
       </div>
       <div class="footer-box">
@@ -2303,7 +2326,7 @@
           <div>
             <div style="display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #14281D; margin-bottom: 8px;">
               <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
-              Technical Profile & Hands-on Scope
+              Candidate Profile & Scope
             </div>
             <p style="font-size: 14px; line-height: 1.65; color: #4B5563; margin: 0; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 16px;">
               ${c.bio}
@@ -2329,7 +2352,7 @@
             </div>
             <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 18px;">
               <div style="font-size: 14px; font-weight: 700; color: #14281D;">${c.education}</div>
-              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">Verified against degree transcripts & technical portfolio records. Zero falsified credentials.</div>
+              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">Verified against credentials, certificates & professional portfolio records. Zero falsified profiles.</div>
             </div>
           </div>
 
