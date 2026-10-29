@@ -136,8 +136,7 @@ authRoutes.post('/register/request', async (c) => {
     email,
     emailDelivered: emailResult.success,
     emailError: emailResult.success ? undefined : emailResult.error,
-    // Provide devCode only if email dispatch was not successful
-    devCode: !emailResult.success ? code : undefined,
+    // In production, never leak the verification OTP over HTTP responses
   });
 });
 
@@ -543,7 +542,8 @@ async function verifyGoogleCredential(credential: string, expectedClientId?: str
     }
     const data: any = await res.json();
     if (expectedClientId && data.aud !== expectedClientId) {
-      console.warn(`[Google Auth] Audience mismatch: expected ${expectedClientId}, got ${data.aud}`);
+      console.error(`[Google Auth] Audience mismatch: expected ${expectedClientId}, got ${data.aud}`);
+      return { valid: false, error: 'Google authentication credential was issued for an unauthorized client application.' };
     }
     const emailVerified = data.email_verified === 'true' || data.email_verified === true;
     if (!emailVerified || !data.email) {

@@ -8,8 +8,6 @@ ENVIRONMENT = "development"
 FRONTEND_URL = "http://localhost:3000"
 UPI_ID = "jobconnect@icici"
 APP_NAME = "JobWay"
-JWT_SECRET = "jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key"
-ADMIN_PASSWORD = "JobConnect@Admin2026"
 
 # SMTP Configuration (Brevo SMTP Relay)
 SMTP_HOST = "smtp-relay.brevo.com"
@@ -21,7 +19,7 @@ GOOGLE_CLIENT_ID = "327984223622-q76h9hqckba58ga8ampesr7rid1dl3m9.apps.googleuse
 
 # Brevo Transactional SMS API Configuration
 BREVO_SMS_SENDER = "JobWay"
-BREVO_API_KEY = "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"
+# Set via wrangler secret put BREVO_API_KEY in production
 
 # Google Gemini AI API Configuration
 GEMINI_API_KEY = ""
