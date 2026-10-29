@@ -292,7 +292,8 @@ adminRoutes.get('/admin/users', async (c) => {
       ep.contact_person as employer_contact_person,
       ep.city as employer_city,
       ep.area as employer_area,
-      ep.verification_status as employer_verification_status
+      ep.verification_status as employer_verification_status,
+      ep.unlock_credits as employer_unlock_credits
     FROM users u
     LEFT JOIN worker_profiles wp ON u.id = wp.user_id
     LEFT JOIN employer_profiles ep ON u.id = ep.user_id
@@ -346,6 +347,7 @@ adminRoutes.get('/admin/users', async (c) => {
       employer_city: row.employer_city,
       employer_area: row.employer_area,
       employer_verification_status: row.employer_verification_status,
+      employer_unlock_credits: row.employer_unlock_credits !== null && row.employer_unlock_credits !== undefined ? Number(row.employer_unlock_credits) : 3,
     };
   });
 
@@ -495,6 +497,47 @@ adminRoutes.put('/admin/users/:id', async (c) => {
   await logAdminAudit(c.env.DB, admin.userId, 'edit_user', 'user', targetId, { email: newEmail }, ip);
 
   return c.json({ success: true, message: 'User updated successfully' });
+});
+
+// 8b. Grant / Adjust Employer Unlock Credits
+adminRoutes.post('/admin/users/:id/credits', async (c) => {
+  const admin = c.get('user');
+  const targetId = c.req.param('id');
+  const body = await c.req.json();
+  const creditsVal = Number(body.credits || 0);
+  const mode = body.mode || 'add'; // 'add' or 'set'
+  const reason = (body.notes || body.reason || 'Admin manual grant').trim();
+
+  const user = await c.env.DB.prepare('SELECT id, role, email FROM users WHERE id = ?').bind(targetId).first<any>();
+  if (!user) return c.json({ error: 'User not found' }, 404);
+  if (user.role !== 'employer') return c.json({ error: 'User is not an employer account' }, 400);
+
+  const ep = await c.env.DB.prepare('SELECT id, unlock_credits, business_name FROM employer_profiles WHERE user_id = ?').bind(targetId).first<any>();
+  if (!ep) return c.json({ error: 'Employer profile not found' }, 404);
+
+  const previousCredits = ep.unlock_credits !== null && ep.unlock_credits !== undefined ? Number(ep.unlock_credits) : 3;
+  let newCredits = mode === 'set' ? creditsVal : (previousCredits + creditsVal);
+  if (newCredits < 0) newCredits = 0;
+
+  await c.env.DB.prepare('UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    .bind(newCredits, ep.id).run();
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'grant_credits', 'employer', targetId, {
+    business_name: ep.business_name,
+    previousCredits,
+    newCredits,
+    amount: creditsVal,
+    mode,
+    reason
+  }, ip);
+
+  return c.json({
+    success: true,
+    message: `Granted credits to ${ep.business_name}. New balance: ${newCredits} credits.`,
+    credits: newCredits,
+    previousCredits
+  });
 });
 
 // 9. Delete User Permanently (Cascading worker / employer profiles & jobs)

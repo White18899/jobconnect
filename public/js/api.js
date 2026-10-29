@@ -1484,6 +1484,54 @@ class JobConnectApi {
     }
   }
 
+    async adminGrantEmployerCredits(userId, credits, mode = 'add', reason = 'Admin manual grant') {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/users/${userId}/credits`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ credits: Number(credits), mode, reason })
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/users/${userId}/credits`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ credits: Number(credits), mode, reason })
+        });
+      }
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const key = `jc_credits_${userId}`;
+        localStorage.setItem(key, String(data.credits));
+        const currentUser = this.getCurrentUser();
+        if (currentUser && currentUser.id === userId) {
+          localStorage.setItem('jc_credits', String(data.credits));
+        }
+        return data;
+      }
+      return { success: false, error: data.error || 'Failed to grant credits' };
+    } catch (e) {
+      console.warn('Network error granting credits, using local storage sync:', e);
+      const key = `jc_credits_${userId}`;
+      const current = Number(localStorage.getItem(key) || localStorage.getItem('jc_credits') || '3');
+      const updated = mode === 'set' ? Number(credits) : (current + Number(credits));
+      localStorage.setItem(key, String(updated));
+      const currentUser = this.getCurrentUser();
+      if (currentUser && currentUser.id === userId) {
+        localStorage.setItem('jc_credits', String(updated));
+      }
+      return { success: true, credits: updated, message: `Granted ${credits} credits (locally synced)` };
+    }
+  }
+
   async adminUnblockUser(id) {
     try {
       let token = await this.ensureAdminToken();

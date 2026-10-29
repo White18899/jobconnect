@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS worker_profiles (
     skill_proof_key TEXT,
     verification_status TEXT DEFAULT 'pending' CHECK(verification_status IN ('pending', 'verified', 'rejected')),
     verification_notes TEXT,
+    unlock_credits INTEGER DEFAULT 3,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
