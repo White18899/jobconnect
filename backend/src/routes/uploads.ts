@@ -46,8 +46,18 @@ uploadRoutes.put('/uploads/file/:key', authMiddleware, async (c) => {
     return c.json({ error: 'Unauthorized to upload to this path' }, 403);
   }
 
-  const contentType = c.req.header('Content-Type') || 'application/octet-stream';
+  const rawContentType = (c.req.header('Content-Type') || 'application/octet-stream').toLowerCase().split(';')[0].trim();
+  const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+  if (!ALLOWED_MIME_TYPES.includes(rawContentType)) {
+    return c.json({ error: 'Invalid file type. Allowed formats: JPG, PNG, WebP, PDF.' }, 400);
+  }
+
   const arrayBuffer = await c.req.arrayBuffer();
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB max
+  if (arrayBuffer.byteLength > MAX_FILE_SIZE) {
+    return c.json({ error: 'File size exceeds maximum allowed limit of 5MB' }, 413);
+  }
+  const contentType = rawContentType;
 
   if (c.env.FILES) {
     await c.env.FILES.put(key, arrayBuffer, {
@@ -83,6 +93,9 @@ uploadRoutes.get('/uploads/file/:key', authMiddleware, async (c) => {
   object.writeHttpMetadata(headers);
   headers.set('etag', object.httpEtag);
   headers.set('Cache-Control', 'private, max-age=300');
+  headers.set('Content-Security-Policy', "default-src 'none'; sandbox");
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('Content-Disposition', 'inline; filename="document"');
 
   return new Response(object.body, { headers });
 });

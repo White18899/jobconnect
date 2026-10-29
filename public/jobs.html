@@ -2275,14 +2275,14 @@
 
               <div class="job-card-body" style="padding: 18px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
                 <div class="job-card-serial-row" style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${job.category}</span>
+                  <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${escapeHtml(job.category)}</span>
                   ${maxApps > 0 ? `<span style="font-size: 11px; font-weight: 650; color: ${isLimitReached ? '#DC2626' : '#64748B'};">${currentApps}/${maxApps} applicants</span>` : ''}
                 </div>
 
-                <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${job.title}</h3>
+                <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${escapeHtml(job.title)}</h3>
 
                 <div class="job-card-company-line" style="font-size: 12.5px; color: #64748B; display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #0F172A; font-weight: 600;">${job.business_name || 'Verified Workshop'}</strong> • ${job.location_city}
+                  <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(job.business_name || 'Verified Workshop')}</strong> • ${escapeHtml(job.location_city)}
                 </div>
 
                 <div class="job-card-footer-action" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 14px; border-top: 1px solid #F1F5F9; margin-top: auto;">

@@ -630,17 +630,17 @@
           <div class="divided-row ${isHighlighted ? 'highlighted-applicant' : ''}" data-id="${app.id}" style="padding: 18px 20px; border-bottom: 1px solid #F1F5F9; background: #FFFFFF;">
             <div style="flex: 1.5; min-width: 250px;">
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
-                <h4 style="font-size: 16px; font-weight: 750; color: #14281D; margin: 0;">${app.worker_name}</h4>
-                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px;">${app.worker_category}</span>
+                <h4 style="font-size: 16px; font-weight: 750; color: #14281D; margin: 0;">${escapeHtml(app.worker_name)}</h4>
+                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px;">${escapeHtml(app.worker_category)}</span>
                 ${isDirCandidate ? '<span style="background: #F8FAFC; color: #475569; border: 1px solid #CBD5E1; font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px;">Directory Candidate</span>' : ''}
                 ${isHighlighted ? '<span style="background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.25); font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px;">Direct Candidate Pass</span>' : ''}
                 ${app.priority === 'PRIORITY_ACTIVE' && !isHighlighted ? '<span style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Priority Candidate</span>' : ''}
               </div>
               <div class="applicant-meta" style="font-size: 13px; color: #4B5563;">
-                ${app.worker_experience}+ Years Experience • For: <strong style="color: #14281D;">${app.job_title}</strong>
+                ${app.worker_experience}+ Years Experience • For: <strong style="color: #14281D;">${escapeHtml(app.job_title)}</strong>
               </div>
               <div style="font-size: 12px; color: #64748B; margin-top: 3px;">
-                ${app.experience_notes || 'Verified trade professional'}
+                ${escapeHtml(app.experience_notes || 'Verified trade professional')}
               </div>
             </div>
 

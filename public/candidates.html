@@ -2005,15 +2005,15 @@
               <div class="candidate-card-body">
                 <div>
                   <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                    <span style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">${serial} • ${c.category || c.trade_title || 'Specialist'}</span>
-                    <span style="font-family: var(--font-mono); font-size: 11.5px; color: #64748B; font-weight: 600;">${c.city}</span>
+                    <span style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">${serial} • ${escapeHtml(c.category || c.trade_title || 'Specialist')}</span>
+                    <span style="font-family: var(--font-mono); font-size: 11.5px; color: #64748B; font-weight: 600;">${escapeHtml(c.city)}</span>
                   </div>
-                  <h3 class="cand-name-title">${c.name}</h3>
-                  <div class="cand-trade-subtitle">${c.trade_title}</div>
+                  <h3 class="cand-name-title">${escapeHtml(c.name)}</h3>
+                  <div class="cand-trade-subtitle">${escapeHtml(c.trade_title || 'Specialist')}</div>
                 </div>
 
                 <div class="cand-skills-chips">
-                  ${(c.skills || []).slice(0, 3).map(s => `<span class="cand-skill-tag">${s}</span>`).join('')}
+                  ${(c.skills || []).slice(0, 3).map(s => `<span class="cand-skill-tag">${escapeHtml(s)}</span>`).join('')}
                 </div>
 
                 <div class="cand-contact-shield ${isUnlocked ? 'unlocked' : ''}">
