@@ -474,7 +474,7 @@
           <!-- Official VPA / Copy Rail -->
           <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;">
             <span style="font-size: 12px; color: var(--text-muted);">UPI ID:</span>
-            <code style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; background: var(--surface-tertiary); padding: 3px 8px; border-radius: var(--radius-xs); border: 1px solid var(--border);">jobconnect@icici</code>
+            <code id="modal-upi-id-display" style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; background: var(--surface-tertiary); padding: 3px 8px; border-radius: var(--radius-xs); border: 1px solid var(--border);">jobconnect@icici</code>
             <button type="button" id="btn-copy-upi" class="nav-btn-link" style="font-size: 11.5px; padding: 3px 8px; border: 1px solid var(--border); border-radius: var(--radius-xs); cursor: pointer;">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
               <span id="copy-upi-text">Copy</span>
@@ -991,9 +991,12 @@
         modalPlanAmount.textContent = `₹${pack.amount}`;
         modalPlanCredits.textContent = `${pack.plan} Credits`;
 
-        // Update QR Code with live amount
-        const upiUri = `upi://pay?pa=jobconnect@icici&pn=JobWay&am=${pack.amount}&cu=INR`;
-        modalQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}&margin=6`;
+        // Update QR Code with dynamic UPI & QR config from admin
+        const payConfig = window.jobApi.getPaymentConfig();
+        const upiIdDisplay = document.getElementById('modal-upi-id-display');
+        if (upiIdDisplay) upiIdDisplay.textContent = payConfig.upi_id || 'jobconnect@icici';
+
+        modalQrImg.src = window.jobApi.getPaymentQrUrl(pack.amount);
         modalQrImg.onerror = () => {
           modalQrImg.src = generateFallbackQrSvg(pack.amount);
         };
@@ -1042,7 +1045,7 @@
 
       // Copy UPI ID button
       document.getElementById('btn-copy-upi').addEventListener('click', () => {
-        navigator.clipboard.writeText('jobconnect@icici').then(() => {
+        navigator.clipboard.writeText(window.jobApi.getPaymentConfig().upi_id || 'jobconnect@icici').then(() => {
           const txt = document.getElementById('copy-upi-text');
           txt.textContent = 'Copied! ✓';
           setTimeout(() => { txt.textContent = 'Copy'; }, 2000);

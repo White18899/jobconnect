@@ -386,7 +386,7 @@
               <rect width="10" height="10" x="80" y="80"/>
             </svg>
             <div style="font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-top: 8px;">
-              UPI ID: <span class="mono-tag primary" style="font-size: 13px; font-weight: 600;">jobconnect@icici</span>
+              UPI ID: <span class="mono-tag primary" id="worker-upi-id-display" style="font-size: 13px; font-weight: 600;">jobconnect@icici</span>
             </div>
             <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 3px;">Amount: <span class="tabular-nums" style="font-weight: 600; color: var(--text-primary);">₹149.00</span></div>
           </div>
@@ -412,6 +412,17 @@
   <script src="js/chat-widget.js?v=4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Sync dynamic payment config for boost modal
+      function syncWorkerPaymentConfig() {
+        const payConfig = window.jobApi.getPaymentConfig();
+        const display = document.getElementById('worker-upi-id-display');
+        if (display) display.textContent = payConfig.upi_id || 'jobconnect@icici';
+        const qrContainer = document.querySelector('#boost-modal-overlay [viewBox="0 0 100 100"]');
+        if (qrContainer && payConfig.mode === 'custom_image' && payConfig.qr_image_url) {
+          qrContainer.outerHTML = `<img src="${payConfig.qr_image_url}" alt="UPI QR" width="120" height="120" style="display: block; margin: 0 auto; object-fit: contain; border-radius: 6px;">`;
+        }
+      }
+      syncWorkerPaymentConfig();
       // Check auth
       const user = window.jobApi.getCurrentUser();
       if (!user) {

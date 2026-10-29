@@ -690,3 +690,53 @@ adminRoutes.delete('/admin/jobs/:id', async (c) => {
 });
 
 export default adminRoutes;
+
+
+// 16. Get Platform Payment & QR Configuration
+adminRoutes.get('/admin/payment-config', async (c) => {
+  let config = null;
+  try {
+    config = await c.env.KV.get('platform_payment_config', 'json');
+  } catch (e) {}
+
+  if (!config) {
+    config = {
+      upi_id: c.env.UPI_ID || 'jobconnect@icici',
+      payee_name: 'JobWay',
+      mode: 'dynamic',
+      qr_image_url: ''
+    };
+  }
+
+  return c.json({ config });
+});
+
+// 17. Update Platform Payment & QR Configuration
+adminRoutes.post('/admin/payment-config', async (c) => {
+  const admin = c.get('user');
+  const body = await c.req.json();
+  const upiId = (body.upi_id || 'jobconnect@icici').trim();
+  const payeeName = (body.payee_name || 'JobWay').trim();
+  const mode = body.mode === 'custom_image' ? 'custom_image' : 'dynamic';
+  const qrImageUrl = (body.qr_image_url || '').trim();
+
+  const config = {
+    upi_id: upiId,
+    payee_name: payeeName,
+    mode,
+    qr_image_url: qrImageUrl,
+    updated_at: new Date().toISOString(),
+    updated_by: admin.userId
+  };
+
+  try {
+    await c.env.KV.put('platform_payment_config', JSON.stringify(config));
+  } catch (e) {
+    console.warn('KV put failed:', e);
+  }
+
+  const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
+  await logAdminAudit(c.env.DB, admin.userId, 'update_payment_config', 'payment', 'platform_payment_config', config, ip);
+
+  return c.json({ success: true, message: 'Platform UPI & QR code configuration updated', config });
+});

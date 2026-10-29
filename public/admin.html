@@ -454,6 +454,10 @@
         </p>
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
+        <button type="button" id="btn-header-qr-settings" class="search-btn" style="padding: 10px 16px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: #FFFFFF; border: 1px solid #CBD5E1; color: #0F172A; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>QR & UPI Settings</span>
+        </button>
         <button type="button" id="btn-open-create-user" class="search-btn" style="padding: 10px 16px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>+ Provision New Account</span>
@@ -659,7 +663,7 @@
          SECTION 3: UPI SETTLEMENTS LEDGER (AUDIT & PROOFS)
          ========================================================================= -->
     <section id="ledger-section" class="panel-card reveal-on-scroll">
-      <div class="panel-header">
+      <div class="panel-header" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;">
         <div>
           <h2 class="panel-title">
             UPI Settlements Ledger
@@ -667,6 +671,12 @@
           <p class="panel-subtitle">
             All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475). Audit payment screenshot proofs and approve credits.
           </p>
+        </div>
+        <div>
+          <button type="button" id="btn-ledger-qr-settings" class="search-btn" style="padding: 9px 16px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; background: #ECFDF5; border: 1px solid #A7F3D0; color: #047857;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Change QR Code & UPI</span>
+          </button>
         </div>
       </div>
 
@@ -1088,6 +1098,112 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             <span id="btn-grant-credits-label">Grant Credits</span>
           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    <!-- =========================================================================
+       MODAL 7: CONFIGURE PLATFORM UPI & QR CODE
+       ========================================================================= -->
+  <div class="modal-overlay" id="admin-qr-modal" role="dialog" aria-modal="true" aria-labelledby="admin-qr-title">
+    <div class="modal-card" style="max-width: 600px; width: 100%;">
+      <div class="modal-header" style="padding: 16px 20px; border-bottom: 1px solid #E2E8F0; background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%); display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #0F172A; color: #FFF;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </span>
+          <div>
+            <h3 id="admin-qr-title" style="margin: 0; font-size: 16px; font-weight: 750; color: #0F172A;">Configure Platform UPI & QR Code</h3>
+            <div style="font-size: 11.5px; color: #64748B;">Change the QR code and UPI VPA scanned by employers and job seekers</div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-qr-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-qr-settings" class="modal-body" style="padding: 20px;">
+        <div style="display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;">
+          
+          <!-- Live Preview Box -->
+          <div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 12px; padding: 14px; text-align: center;">
+            <div style="font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: #64748B; letter-spacing: 0.05em; margin-bottom: 8px;">Live Payer Preview</div>
+            <div style="background: #FFFFFF; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0; display: inline-block; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 8px;">
+              <img id="admin-qr-preview-img" src="" alt="QR Preview" width="140" height="140" style="display: block; width: 140px; height: 140px; object-fit: contain;">
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #0F172A; font-family: var(--font-mono, monospace); word-break: break-all;" id="admin-qr-preview-vpa">jobconnect@icici</div>
+            <div style="font-size: 10.5px; color: #64748B; margin-top: 2px;" id="admin-qr-preview-payee">Payee: JobWay</div>
+            
+            <!-- Amount Preview Selector -->
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #E2E8F0;">
+              <div style="font-size: 10px; font-weight: 600; color: #94A3B8; margin-bottom: 4px;">Test Amount:</div>
+              <div style="display: flex; gap: 4px; justify-content: center;">
+                <button type="button" class="btn-test-qr-amount" data-amt="75" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹75</button>
+                <button type="button" class="btn-test-qr-amount" data-amt="149" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹149</button>
+                <button type="button" class="btn-test-qr-amount" data-amt="249" style="padding: 3px 6px; font-size: 10.5px; border: 1.5px solid #047857; background: #ECFDF5; color: #047857; border-radius: 4px; cursor: pointer; font-weight: 700;">₹249</button>
+                <button type="button" class="btn-test-qr-amount" data-amt="475" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹475</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Configuration Fields -->
+          <div>
+            <!-- Mode Radio -->
+            <div style="margin-bottom: 14px;">
+              <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">QR Generation Mode</label>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label id="lbl-qr-mode-dynamic" style="display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border: 1.5px solid #047857; background: #F0FDF4; border-radius: 8px; cursor: pointer;">
+                  <input type="radio" name="admin_qr_mode" value="dynamic" checked style="accent-color: #047857; margin-top: 2px;">
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #065F46;">Dynamic UPI Protocol (Recommended)</div>
+                    <div style="font-size: 11px; color: #047857;">Auto-generates live QR codes embedded with exact plan amount & order ID</div>
+                  </div>
+                </label>
+                <label id="lbl-qr-mode-custom" style="display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 8px; cursor: pointer;">
+                  <input type="radio" name="admin_qr_mode" value="custom_image" style="accent-color: #047857; margin-top: 2px;">
+                  <div>
+                    <div style="font-size: 12px; font-weight: 700; color: #334155;">Custom Merchant Standee / Soundbox QR</div>
+                    <div style="font-size: 11px; color: #64748B;">Upload your physical PhonePe, GPay Business, or Paytm merchant QR image</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- UPI ID Input -->
+            <div style="margin-bottom: 12px;">
+              <label class="admin-form-label" for="admin-input-upi-id">UPI VPA Address *</label>
+              <input type="text" id="admin-input-upi-id" class="admin-form-input" placeholder="e.g. yourbusiness@icici or 9876543210@paytm" required style="font-family: var(--font-mono, monospace); font-weight: 600; font-size: 13.5px;">
+            </div>
+
+            <!-- Payee Name Input -->
+            <div style="margin-bottom: 12px;">
+              <label class="admin-form-label" for="admin-input-payee-name">Payee / Account Name *</label>
+              <input type="text" id="admin-input-payee-name" class="admin-form-input" placeholder="e.g. JobWay Technologies" required style="font-size: 13px;">
+            </div>
+
+            <!-- Custom Image Upload Section -->
+            <div id="admin-custom-qr-section" style="display: none; margin-top: 14px; padding: 12px; background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 8px;">
+              <label class="admin-form-label" style="color: #92400E; margin-bottom: 4px;">Upload Custom QR Image</label>
+              <input type="file" id="admin-input-qr-file" accept="image/*" class="admin-form-input" style="font-size: 12px; padding: 6px; background: #FFFFFF;">
+              <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 11px; color: #78350F;">Or paste Image URL:</span>
+                <input type="url" id="admin-input-qr-url" class="admin-form-input" placeholder="https://..." style="font-size: 11.5px; padding: 4px 8px; flex: 1;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E2E8F0; padding-top: 16px;">
+          <button type="button" id="btn-reset-default-qr" class="admin-action-btn" style="color: #64748B; border-color: #CBD5E1; font-size: 11.5px;">
+            Reset to Default (jobconnect@icici)
+          </button>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-signin-header" id="btn-cancel-qr" style="padding: 9px 16px; font-size: 13px;">Cancel</button>
+            <button type="submit" class="search-btn" id="btn-save-qr" style="background: #047857; border-color: #047857; color: #FFF; padding: 9px 20px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Save & Apply QR</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -1564,6 +1680,160 @@
           loadUsers();
         } else {
           showToast(res?.error || 'Failed to grant credits', 'error');
+        }
+      });
+
+            // =========================================================================
+      // QR CODE & UPI SETTINGS CONTROLLER
+      // =========================================================================
+      const qrModal = document.getElementById('admin-qr-modal');
+      const qrPreviewImg = document.getElementById('admin-qr-preview-img');
+      const qrPreviewVpa = document.getElementById('admin-qr-preview-vpa');
+      const qrPreviewPayee = document.getElementById('admin-qr-preview-payee');
+      const inputUpiId = document.getElementById('admin-input-upi-id');
+      const inputPayeeName = document.getElementById('admin-input-payee-name');
+      const customQrSection = document.getElementById('admin-custom-qr-section');
+      const inputQrFile = document.getElementById('admin-input-qr-file');
+      const inputQrUrl = document.getElementById('admin-input-qr-url');
+      let currentPreviewAmount = 249;
+      let customQrBase64 = '';
+
+      function refreshQrPreview() {
+        const upiId = (inputUpiId.value || 'jobconnect@icici').trim();
+        const payee = (inputPayeeName.value || 'JobWay').trim();
+        const mode = document.querySelector('input[name="admin_qr_mode"]:checked').value;
+
+        qrPreviewVpa.textContent = upiId;
+        qrPreviewPayee.textContent = 'Payee: ' + payee;
+
+        if (mode === 'custom_image' && (customQrBase64 || inputQrUrl.value.trim())) {
+          qrPreviewImg.src = customQrBase64 || inputQrUrl.value.trim();
+        } else {
+          const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payee)}&am=${currentPreviewAmount}&cu=INR`;
+          qrPreviewImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}&margin=6`;
+        }
+      }
+
+      function openQrSettingsModal() {
+        const config = window.jobApi.getPaymentConfig();
+        inputUpiId.value = config.upi_id || 'jobconnect@icici';
+        inputPayeeName.value = config.payee_name || 'JobWay';
+        customQrBase64 = config.qr_image_url || '';
+        inputQrUrl.value = (config.qr_image_url && config.qr_image_url.startsWith('http')) ? config.qr_image_url : '';
+
+        const isCustom = config.mode === 'custom_image';
+        document.querySelector(`input[name="admin_qr_mode"][value="${isCustom ? 'custom_image' : 'dynamic'}"]`).checked = true;
+        updateQrModeStyles(isCustom ? 'custom_image' : 'dynamic');
+
+        refreshQrPreview();
+        qrModal.classList.add('active');
+      }
+
+      function closeQrSettingsModal() {
+        qrModal.classList.remove('active');
+      }
+
+      const btnHeaderQr = document.getElementById('btn-header-qr-settings');
+      if (btnHeaderQr) btnHeaderQr.addEventListener('click', openQrSettingsModal);
+
+      const btnLedgerQr = document.getElementById('btn-ledger-qr-settings');
+      if (btnLedgerQr) btnLedgerQr.addEventListener('click', openQrSettingsModal);
+
+      document.getElementById('close-qr-modal').addEventListener('click', closeQrSettingsModal);
+      document.getElementById('btn-cancel-qr').addEventListener('click', closeQrSettingsModal);
+
+      function updateQrModeStyles(mode) {
+        const lblDynamic = document.getElementById('lbl-qr-mode-dynamic');
+        const lblCustom = document.getElementById('lbl-qr-mode-custom');
+        if (mode === 'dynamic') {
+          lblDynamic.style.borderColor = '#047857';
+          lblDynamic.style.background = '#F0FDF4';
+          lblCustom.style.borderColor = '#CBD5E1';
+          lblCustom.style.background = '#FFFFFF';
+          customQrSection.style.display = 'none';
+        } else {
+          lblCustom.style.borderColor = '#047857';
+          lblCustom.style.background = '#F0FDF4';
+          lblDynamic.style.borderColor = '#CBD5E1';
+          lblDynamic.style.background = '#FFFFFF';
+          customQrSection.style.display = 'block';
+        }
+        refreshQrPreview();
+      }
+
+      document.querySelectorAll('input[name="admin_qr_mode"]').forEach(radio => {
+        radio.addEventListener('change', (e) => updateQrModeStyles(e.target.value));
+      });
+
+      inputUpiId.addEventListener('input', refreshQrPreview);
+      inputPayeeName.addEventListener('input', refreshQrPreview);
+      inputQrUrl.addEventListener('input', () => {
+        customQrBase64 = '';
+        refreshQrPreview();
+      });
+
+      inputQrFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            customQrBase64 = ev.target.result;
+            refreshQrPreview();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      document.querySelectorAll('.btn-test-qr-amount').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.btn-test-qr-amount').forEach(b => {
+            b.style.borderColor = '#CBD5E1';
+            b.style.background = '#FFFFFF';
+            b.style.color = '#334155';
+            b.style.fontWeight = '600';
+          });
+          e.target.style.borderColor = '#047857';
+          e.target.style.background = '#ECFDF5';
+          e.target.style.color = '#047857';
+          e.target.style.fontWeight = '700';
+          currentPreviewAmount = Number(e.target.dataset.amt);
+          refreshQrPreview();
+        });
+      });
+
+      document.getElementById('btn-reset-default-qr').addEventListener('click', () => {
+        inputUpiId.value = 'jobconnect@icici';
+        inputPayeeName.value = 'JobWay';
+        customQrBase64 = '';
+        inputQrUrl.value = '';
+        document.querySelector('input[name="admin_qr_mode"][value="dynamic"]').checked = true;
+        updateQrModeStyles('dynamic');
+        showToast('Reset form to official JobWay defaults', 'info');
+      });
+
+      document.getElementById('form-qr-settings').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const mode = document.querySelector('input[name="admin_qr_mode"]:checked').value;
+        const config = {
+          upi_id: (inputUpiId.value || 'jobconnect@icici').trim(),
+          payee_name: (inputPayeeName.value || 'JobWay').trim(),
+          mode: mode,
+          qr_image_url: mode === 'custom_image' ? (customQrBase64 || inputQrUrl.value.trim()) : ''
+        };
+
+        const submitBtn = document.getElementById('btn-save-qr');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving...';
+
+        const res = await window.jobApi.adminUpdatePaymentConfig(config);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Save & Apply QR</span>';
+
+        if (res && res.success) {
+          showToast('Payment QR & UPI settings saved! Active across all checkout screens.', 'success');
+          closeQrSettingsModal();
+        } else {
+          showToast(res?.error || 'Failed to save QR configuration', 'error');
         }
       });
 

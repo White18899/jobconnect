@@ -7,6 +7,25 @@ import { roleGuard } from '../middlewares/roles';
 
 const paymentRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
+// 0. Public endpoint: Get Platform Payment & QR Configuration
+paymentRoutes.get('/payment-config', async (c) => {
+  let config = null;
+  try {
+    config = await c.env.KV.get('platform_payment_config', 'json');
+  } catch (e) {}
+
+  if (!config) {
+    config = {
+      upi_id: c.env.UPI_ID || APP_CONSTANTS.DEFAULT_UPI_ID || 'jobconnect@icici',
+      payee_name: APP_CONSTANTS.DEFAULT_PAYEE_NAME || 'JobWay',
+      mode: 'dynamic',
+      qr_image_url: ''
+    };
+  }
+
+  return c.json({ config });
+});
+
 // 1. Create Payment Order / Retrieve UPI QR Data
 paymentRoutes.post('/applications/:id/payment', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');

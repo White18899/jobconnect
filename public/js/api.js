@@ -688,6 +688,80 @@ class JobConnectApi {
     return newPay;
   }
 
+  getPaymentConfig() {
+    try {
+      const stored = localStorage.getItem('jc_payment_config');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return {
+      upi_id: 'jobconnect@icici',
+      payee_name: 'JobWay',
+      mode: 'dynamic',
+      qr_image_url: ''
+    };
+  }
+
+  async fetchPaymentConfig() {
+    try {
+      const res = await fetch(`${this.baseUrl}/payment-config`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.config) {
+          localStorage.setItem('jc_payment_config', JSON.stringify(data.config));
+          return data.config;
+        }
+      }
+    } catch (e) {}
+    return this.getPaymentConfig();
+  }
+
+  async adminUpdatePaymentConfig(config) {
+    try {
+      let token = await this.ensureAdminToken();
+      let res = await fetch(`${this.baseUrl}/admin/payment-config`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config)
+      });
+      if (res.status === 401) {
+        await this.adminLogin('JobConnect@Admin2026');
+        token = this.getAuthToken();
+        res = await fetch(`${this.baseUrl}/admin/payment-config`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(config)
+        });
+      }
+      const data = await res.json();
+      if (res.ok && data.success) {
+        localStorage.setItem('jc_payment_config', JSON.stringify(data.config || config));
+        return data;
+      }
+      return { success: false, error: data.error || 'Failed to update payment config' };
+    } catch (e) {
+      console.warn('Network error updating payment config, storing locally:', e);
+      localStorage.setItem('jc_payment_config', JSON.stringify(config));
+      return { success: true, config, message: 'Payment config updated (saved locally)' };
+    }
+  }
+
+  getPaymentQrUrl(amount = 75) {
+    const config = this.getPaymentConfig();
+    if (config.mode === 'custom_image' && config.qr_image_url) {
+      return config.qr_image_url;
+    }
+    const upiId = config.upi_id || 'jobconnect@icici';
+    const payee = config.payee_name || 'JobWay';
+    const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payee)}&am=${amount}&cu=INR`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}&margin=6`;
+  }
+
   getPayments() {
     return JSON.parse(localStorage.getItem('jc_payments') || '[]');
   }
