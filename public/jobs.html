@@ -158,13 +158,16 @@
       border-radius: 8px !important;
       font-weight: 600 !important;
       font-size: 12.5px !important;
+      height: 40px !important;
+      box-sizing: border-box !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 6px !important;
       text-decoration: none !important;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
-      padding: 9px 18px !important;
+      padding: 0 16px !important;
+      white-space: nowrap !important;
       transition: all 0.15s ease !important;
     }
     .banner-btn-secondary:hover {
@@ -1269,20 +1272,20 @@
   <section class="directory-banner" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0; padding: 26px 3vw;">
     <div class="directory-banner-inner">
       <div>
-        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          <span>Verified Multi-Industry Career & Trades Directory</span>
+        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 4px 10px; border-radius: 6px; margin-bottom: 6px; max-width: 100%; white-space: nowrap;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span>Careers & Skilled Trades Directory</span>
         </div>
         <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Job Vacancies</h1>
       </div>
-      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="padding: 9px 20px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span>Post New Vacancy</span>
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 10px;">
+        <button type="button" class="nav-btn-solid" id="btn-banner-post-vacancy" style="height: 40px; padding: 0 18px; font-size: 12.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; white-space: nowrap; box-sizing: border-box;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Post Vacancy</span>
         </button>
-        <a href="/candidates.html" id="banner-browse-candidates" class="banner-btn-secondary" style="padding: 9px 18px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
-          <span>Browse Verified Candidates</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <a href="/candidates.html" id="banner-browse-candidates" class="banner-btn-secondary" style="height: 40px; padding: 0 16px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #0F172A; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-sizing: border-box;">
+          <span>Browse Candidates</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
       <div id="banner-worker-actions" style="display: none; align-items: center; gap: 14px; flex-wrap: wrap;">

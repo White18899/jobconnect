@@ -2807,22 +2807,37 @@ img {
     width: 100% !important;
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     gap: 8px !important;
-    align-items: center !important;
+    align-items: stretch !important;
   }
 
   #banner-employer-actions > *,
   #banner-worker-actions > *,
   #banner-guest-actions > * {
-    flex: 1 1 calc(50% - 4px) !important;
-    min-width: 130px !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
     width: auto !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    display: inline-flex !important;
+    align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
     box-sizing: border-box !important;
-    padding: 9px 12px !important;
-    font-size: 12.5px !important;
+    padding: 0 10px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+  }
+
+  #banner-employer-actions > * span,
+  #banner-worker-actions > * span,
+  #banner-guest-actions > * span {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   /* Directory Layout & Mobile Filter Drawer */

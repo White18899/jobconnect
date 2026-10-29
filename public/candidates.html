@@ -128,13 +128,16 @@
       border-radius: 8px !important;
       font-weight: 600 !important;
       font-size: 12.5px !important;
+      height: 40px !important;
+      box-sizing: border-box !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 6px !important;
       text-decoration: none !important;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
-      padding: 9px 18px !important;
+      padding: 0 16px !important;
+      white-space: nowrap !important;
       transition: all 0.15s ease !important;
     }
     .banner-btn-secondary:hover {
@@ -1206,21 +1209,20 @@
   <section class="directory-banner" style="background: #FFFFFF; border-bottom: 1px solid #E2E8F0; padding: 26px 3vw;">
     <div class="directory-banner-inner">
       <div>
-        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 3px 10px; border-radius: 6px; margin-bottom: 4px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>Verified Multi-Industry Talent & Candidate Directory</span>
+        <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 4px 10px; border-radius: 6px; margin-bottom: 6px; max-width: 100%; white-space: nowrap;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Talent & Candidates Directory</span>
         </div>
         <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidates Directory</h1>
       </div>
-      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="padding: 9px 18px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span>Selected Candidates (<span id="banner-cart-count">0</span>)</span>
-          <span style="font-size: 13px;">→</span>
+      <div id="banner-employer-actions" style="display: none; align-items: center; gap: 10px;">
+        <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="height: 40px; padding: 0 16px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; white-space: nowrap; box-sizing: border-box;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Selected (<span id="banner-cart-count">0</span>)</span>
         </a>
-        <a href="/employer.html#credits-section" id="banner-recharge-link" class="nav-btn-link" style="padding: 8px 16px; border: 1px solid #FCD34D; background: #FFFBEB; color: #92400E; border-radius: 8px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Recharge Unlock Credits</span>
+        <a href="/employer.html#credits-section" id="banner-recharge-link" class="banner-btn-secondary" style="height: 40px; padding: 0 16px; border: 1px solid #FCD34D; background: #FFFBEB; color: #92400E; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-sizing: border-box;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Unlock Credits</span>
         </a>
       </div>
       <div id="banner-viewer-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
