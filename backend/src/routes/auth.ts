@@ -13,6 +13,7 @@ import {
 } from '../services/smtp';
 import { sendBrevoSmsOtp } from '../services/brevo-sms';
 import { signJwt, authMiddleware } from '../middlewares/auth';
+import { rateLimit } from '../middlewares/rateLimit';
 
 const authRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
@@ -261,7 +262,7 @@ const loginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-authRoutes.post('/login', async (c) => {
+authRoutes.post('/login', rateLimit(15, 60), async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const parsed = loginSchema.safeParse(body);
   if (!parsed.success) {
@@ -351,7 +352,7 @@ const forgotRequestSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
 });
 
-authRoutes.post('/forgot-password/request', async (c) => {
+authRoutes.post('/forgot-password/request', rateLimit(5, 600), async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const parsed = forgotRequestSchema.safeParse(body);
   if (!parsed.success) {
@@ -422,10 +423,29 @@ authRoutes.post('/forgot-password/verify', async (c) => {
     return c.json({ error: 'Server KV storage unavailable' }, 500);
   }
 
+  const attemptsKey = `pwd_reset_attempts:${email}`;
+  const attemptsVal = await c.env.KV.get(attemptsKey);
+  const failedAttempts = attemptsVal ? parseInt(attemptsVal, 10) : 0;
+
+  if (failedAttempts >= 3) {
+    await c.env.KV.delete(`pwd_reset:${email}`);
+    await c.env.KV.delete(attemptsKey);
+    return c.json({ error: 'Too many incorrect attempts. For security, this password reset code has been invalidated. Please request a new code.' }, 429);
+  }
+
   const storedCode = await c.env.KV.get(`pwd_reset:${email}`);
   if (!storedCode || storedCode !== inputCode) {
-    return c.json({ error: 'Invalid or expired password reset code.' }, 400);
+    const nextAttempts = failedAttempts + 1;
+    await c.env.KV.put(attemptsKey, nextAttempts.toString(), { expirationTtl: 900 });
+    const remaining = 3 - nextAttempts;
+    return c.json({
+      error: remaining > 0
+        ? `Invalid verification code. ${remaining} attempt(s) remaining.`
+        : 'Maximum attempts exceeded. This reset code has been invalidated.'
+    }, 400);
   }
+
+  await c.env.KV.delete(attemptsKey);
 
   // Hash new password
   const { hash, salt } = await hashPassword(parsed.data.newPassword);

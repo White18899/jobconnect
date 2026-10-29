@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { Env, UserTokenPayload } from '../config/env';
+import { rateLimit } from '../middlewares/rateLimit';
 
 const chatRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayload } }>();
 
@@ -129,7 +130,7 @@ chatRoutes.get('/chat/status', async (c) => {
 });
 
 // Chat endpoint
-chatRoutes.post('/chat', async (c) => {
+chatRoutes.post('/chat', rateLimit(30, 60), async (c) => {
   let body: any = {};
   try {
     body = await c.req.json();

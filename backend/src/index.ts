@@ -21,11 +21,12 @@ app.use('*', async (c, next) => {
   const allowedOrigin = c.env.FRONTEND_URL || '*';
   const corsMiddleware = cors({
     origin: allowedOrigin === '*' ? '*' : (origin) => {
-      // Allow localhost for dev, pages.dev, and job-way.in production domains
-      if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.endsWith('.pages.dev') || origin.includes('job-way.in')) {
+      // Strict regex for permitted origins
+      const ALLOWED_ORIGIN_REGEX = /^(https:\/\/(www\.)?job-way\.in|https:\/\/[a-z0-9-]+\.pages\.dev|http:\/\/(localhost|127\.0\.0\.1)(:\d+)?)$/;
+      if (!origin || ALLOWED_ORIGIN_REGEX.test(origin)) {
         return origin;
       }
-      return allowedOrigin;
+      return allowedOrigin !== '*' ? allowedOrigin : 'https://job-way.in';
     },
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

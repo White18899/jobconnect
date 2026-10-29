@@ -211,7 +211,7 @@ const linkedInSchema = z.object({
   linkedin_url: z.string().min(3, 'Valid LinkedIn profile URL or username required'),
 });
 
-workerRoutes.post('/worker/linkedin-sync', async (c) => {
+workerRoutes.post('/worker/linkedin-sync', authMiddleware, async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const parsed = linkedInSchema.safeParse(body);
   if (!parsed.success) {
@@ -228,6 +228,17 @@ workerRoutes.post('/worker/linkedin-sync', async (c) => {
     }
   }
   targetUrl = targetUrl.split('?')[0].replace(/\/+$/, '');
+
+  // SSRF Protection: Strictly validate URL protocol and domain whitelist
+  try {
+    const parsedUrl = new URL(targetUrl);
+    const allowedHosts = ['linkedin.com', 'www.linkedin.com'];
+    if (parsedUrl.protocol !== 'https:' || !allowedHosts.includes(parsedUrl.hostname.toLowerCase())) {
+      return c.json({ error: 'Invalid URL. Only secure HTTPS links to linkedin.com are supported.' }, 400);
+    }
+  } catch {
+    return c.json({ error: 'Malformed LinkedIn profile URL.' }, 400);
+  }
 
   let handle = targetUrl.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//i, '').replace(/\/.*$/, '').replace(/[^a-zA-Z0-9_-]/g, '');
   if (!handle) handle = 'professional';

@@ -163,7 +163,7 @@ employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), as
     WHERE j.employer_id = ?
     GROUP BY j.id
     ORDER BY j.created_at DESC
-  `).bind(employer.id).all();
+  `).bind(employer!.id).all();
 
   return c.json({ jobs: results || [] });
 });
@@ -178,7 +178,7 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
       INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, created_at, updated_at)
       VALUES (?, ?, ?, 'Tech Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
-    employer = { id: epId };
+    employer = { id: epId, unlock_credits: 3 };
   }
 
   const { results } = await c.env.DB.prepare(`
