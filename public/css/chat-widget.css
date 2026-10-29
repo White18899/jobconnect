@@ -79,7 +79,7 @@
   border-radius: 20px;
   box-shadow: var(--chat-shadow);
   border: 1px solid var(--chat-border);
-  display: flex;
+  display: none; /* strictly hidden by default - prevents FOUC/opening on refresh */
   flex-direction: column;
   overflow: hidden;
   z-index: 999999;
@@ -91,6 +91,7 @@
 }
 
 .jobway-chat-window.open {
+  display: flex !important;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);

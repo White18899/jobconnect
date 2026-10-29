@@ -9,7 +9,7 @@
     const link = document.createElement('link');
     link.id = 'jobway-chat-styles';
     link.rel = 'stylesheet';
-    link.href = '/css/chat-widget.css?v=5';
+    link.href = '/css/chat-widget.css?v=6';
     document.head.appendChild(link);
   }
 
@@ -91,7 +91,7 @@
       </button>
 
       <!-- Chat Modal Window -->
-      <div class="jobway-chat-window" id="jobway-chat-window" role="dialog" aria-label="JobWay AI Guide">
+      <div class="jobway-chat-window" id="jobway-chat-window" role="dialog" aria-label="JobWay AI Guide" style="display: none;">
         <!-- Header -->
         <div class="jobway-chat-header">
           <div class="jobway-chat-header-info">
@@ -168,35 +168,53 @@
     const input = document.getElementById('jobway-chat-input');
     const messagesEl = document.getElementById('jobway-chat-messages');
 
-    // Toggle Chat
-    const toggleChat = () => {
-      isOpen = !isOpen;
-      windowEl.classList.toggle('open', isOpen);
-      if (isOpen) {
-        input.focus();
+    // Chat Open/Close Handlers
+    function openChat() {
+      if (isOpen) return;
+      isOpen = true;
+      windowEl.style.display = 'flex';
+      // Force layout reflow so smooth CSS transition triggers properly
+      void windowEl.offsetWidth;
+      windowEl.classList.add('open');
+      setTimeout(() => {
+        if (input) input.focus();
         scrollBottom();
+      }, 50);
+    }
+
+    function closeChat() {
+      if (!isOpen) return;
+      isOpen = false;
+      windowEl.classList.remove('open');
+      setTimeout(() => {
+        if (!isOpen) {
+          windowEl.style.display = 'none';
+        }
+      }, 250);
+    }
+
+    const toggleChat = () => {
+      if (isOpen) {
+        closeChat();
+      } else {
+        openChat();
       }
     };
 
     launcher.addEventListener('click', toggleChat);
-    closeBtn.addEventListener('click', () => {
-      isOpen = false;
-      windowEl.classList.remove('open');
-    });
+    closeBtn.addEventListener('click', closeChat);
 
     // Close on click outside (mobile & desktop)
     document.addEventListener('click', (e) => {
       if (isOpen && !root.contains(e.target)) {
-        isOpen = false;
-        windowEl.classList.remove('open');
+        closeChat();
       }
     });
 
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) {
-        isOpen = false;
-        windowEl.classList.remove('open');
+        closeChat();
       }
     });
 
