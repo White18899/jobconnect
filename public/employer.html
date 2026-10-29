@@ -210,6 +210,10 @@
 
       <div class="portal-welcome-aside">
         <div class="portal-welcome-actions">
+          <a href="/jobs.html?action=post" class="nav-btn-solid" style="background: #059669; color: #ffffff; border-radius: 8px; font-weight: 600; padding: 9px 16px; box-shadow: 0 2px 6px rgba(5,150,105,0.25); display: inline-flex; align-items: center; gap: 6px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Post New Vacancy</span>
+          </a>
           <a href="/candidates.html" class="nav-btn-solid" style="background: #14281D; color: #ffffff; border-radius: 8px; font-weight: 600; padding: 9px 16px; box-shadow: 0 2px 6px rgba(20,40,29,0.15);">
             <span>Browse Candidates →</span>
           </a>
@@ -304,6 +308,56 @@
 
         <div id="employer-applicants-list" class="divided-list">
           <!-- Rendered by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Custom Job Categories & Vacancy Management -->
+    <section id="custom-categories-section" class="panel-card reveal-on-scroll" style="background: #FFFFFF; border: 1px solid rgba(20, 40, 29, 0.08); border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 6px 16px rgba(0,0,0,0.02); overflow: hidden; margin-top: 24px;">
+      <div class="panel-header" style="padding: 24px 28px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.2); padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #047857; margin-bottom: 4px;">
+            <span>✨ Custom Job Specializations</span>
+          </div>
+          <h2 class="panel-title" style="font-size: 20px; font-weight: 750; color: #14281D; margin: 0 0 4px;">
+            Employer Custom Job Categories
+          </h2>
+          <p class="panel-subtitle" style="font-size: 13.5px; color: #64748B; margin: 0;">
+            Define niche or business-specific job categories tailored to your organization. These sync automatically with your vacancy postings and candidate searches.
+          </p>
+        </div>
+        <a href="/jobs.html?action=post" style="padding: 9px 18px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; background: #059669; color: #ffffff; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(5,150,105,0.25);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Post a Job Opening</span>
+        </a>
+      </div>
+
+      <div style="padding: 24px 28px;">
+        <!-- Add Category Inline Form -->
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px;">
+          <label for="input-employer-new-cat" style="display: block; font-size: 12px; font-weight: 700; color: #14281D; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;">
+            + Add New Custom Category
+          </label>
+          <div style="display: flex; gap: 10px; max-width: 600px; flex-wrap: wrap;">
+            <input type="text" id="input-employer-new-cat" placeholder="e.g. Drone Aviation, Marine Logistics, Green Solar Energy..." style="flex: 1; min-width: 260px; height: 42px; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0 14px; font-size: 13.5px; outline: none;">
+            <button type="button" id="btn-employer-add-cat" style="background: #14281D; color: #ffffff; border: none; border-radius: 8px; padding: 0 18px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(20,40,29,0.15);">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add Category</span>
+            </button>
+          </div>
+          <div style="font-size: 11.5px; color: #64748B; margin-top: 6px;">
+            Saved categories immediately become available in your job posting form and filter menus.
+          </div>
+        </div>
+
+        <!-- Active Custom Categories List -->
+        <div>
+          <div style="font-size: 12px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">
+            Your Active Custom Categories (<span id="emp-custom-cat-count">0</span>):
+          </div>
+          <div id="emp-custom-categories-list" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <!-- Rendered via JS -->
+          </div>
         </div>
       </div>
     </section>
@@ -477,6 +531,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
+  <script src="js/job-library.js?v=25"></script>
   <script src="js/api.js?v=27"></script>
   <script src="js/chat-widget.js?v=4"></script>
   <script>
@@ -1071,6 +1126,81 @@
         closeCheckoutModal();
         showToast('Payment submitted successfully! Admin will audit the proof and activate your credits.', 'success');
       });
+
+      // Escape helpers for custom categories rendering
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      }
+      function escapeAttr(str) {
+        if (!str) return '';
+        return String(str).replace(/"/g, '&quot;');
+      }
+
+      // =========================================================
+      // EMPLOYER CUSTOM JOB CATEGORIES MANAGEMENT
+      // =========================================================
+      const empCatListContainer = document.getElementById('emp-custom-categories-list');
+      const empCatCountBadge = document.getElementById('emp-custom-cat-count');
+      const inputEmployerNewCat = document.getElementById('input-employer-new-cat');
+      const btnEmployerAddCat = document.getElementById('btn-employer-add-cat');
+
+      function renderEmployerCustomCategories() {
+        if (!empCatListContainer || !window.JobLibrary) return;
+        const customCats = window.JobLibrary.getCustomCategories();
+        if (empCatCountBadge) empCatCountBadge.textContent = customCats.length;
+
+        if (customCats.length === 0) {
+          empCatListContainer.innerHTML = `
+            <div style="font-size: 13px; color: #94A3B8; font-style: italic; padding: 6px 0;">
+              No custom categories created yet. Add one above to create custom job openings.
+            </div>
+          `;
+          return;
+        }
+
+        empCatListContainer.innerHTML = customCats.map(cat => `
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: #047857;">
+            <span>⭐ ${escapeHtml(cat)}</span>
+            <button type="button" class="btn-del-custom-cat" data-cat="${escapeAttr(cat)}" title="Remove custom category" style="background: none; border: none; color: #059669; font-size: 14px; cursor: pointer; padding: 0; line-height: 1;">✕</button>
+          </div>
+        `).join('');
+
+        empCatListContainer.querySelectorAll('.btn-del-custom-cat').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const catName = btn.dataset.cat;
+            if (confirm(`Remove custom category "${catName}"?`)) {
+              window.JobLibrary.deleteCustomCategory(catName);
+              renderEmployerCustomCategories();
+              showToast(`Category "${catName}" removed.`, 'info');
+            }
+          });
+        });
+      }
+
+      if (btnEmployerAddCat && inputEmployerNewCat) {
+        btnEmployerAddCat.addEventListener('click', () => {
+          const val = inputEmployerNewCat.value.trim();
+          if (!val || val.length < 2) {
+            alert('Please enter a category name with at least 2 characters.');
+            inputEmployerNewCat.focus();
+            return;
+          }
+          const saved = window.JobLibrary.saveCustomCategory(val);
+          inputEmployerNewCat.value = '';
+          renderEmployerCustomCategories();
+          showToast(`Custom category "${saved}" added successfully!`, 'success');
+        });
+
+        inputEmployerNewCat.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            btnEmployerAddCat.click();
+          }
+        });
+      }
+
+      renderEmployerCustomCategories();
 
       // Scroll reveal animation observer
       if ('IntersectionObserver' in window) {

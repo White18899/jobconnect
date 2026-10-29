@@ -85,8 +85,8 @@ function getLocalKnowledgeReply(message: string, history: Array<{ role: string; 
   }
 
   // Employer / Posting jobs
-  if (q.includes('post') || q.includes('employer') || q.includes('list job') || q.includes('recruit') || q.includes('company')) {
-    return `Employers can post technical vacancies directly! 💼\n\n• Log in or register as an **Employer**.\n• Head to **[Employer Workspace](/employer.html)** or **[Post a Job on Listed Jobs](/jobs.html)**.\n• Specify the role, salary range, technical skills, and Visakhapatnam work location.\n• Candidate applications will arrive directly to your workspace dashboard.`;
+  if (q.includes('post') || q.includes('employer') || q.includes('list job') || q.includes('recruit') || q.includes('company') || q.includes('category') || q.includes('custom category')) {
+    return `Employers can post vacancies across all industry sectors! 💼\n\n• Log in or register as an **Employer**.\n• Head to **[Employer Workspace](/employer.html)** or **[Post a Job on Listed Jobs](/jobs.html)**.\n• Choose from all categories (Technology, Sales, Finance, Healthcare, Logistics, Trades, Customer Support, etc.) or **+ Add Custom Category** tailored to your company!\n• Specify salary, requirements, and job details. Applications will arrive directly in your workspace dashboard.`;
   }
 
   // Pricing / Credits / Payment

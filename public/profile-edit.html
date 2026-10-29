@@ -616,12 +616,21 @@
         </div>
 
         <!-- Full-Width Specialization Suggestions Ribbon -->
-        <div style="grid-column: 1 / -1; margin-top: -4px; margin-bottom: 2px; padding: 11px 16px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-          <span style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            Popular Roles (Click to fill):
-          </span>
-          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1;" id="title-quick-pills"></div>
+        <div style="grid-column: 1 / -1; margin-top: -4px; margin-bottom: 2px; padding: 11px 16px; background: var(--surface-craft); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Popular Roles (Click to fill):
+            </span>
+            <div id="worker-roles-filter-tabs" style="display: flex; gap: 4px; flex-wrap: wrap;">
+              <button type="button" class="worker-role-tab active" data-filter="all" style="font-size: 11px; padding: 2px 9px; border-radius: 12px; border: 1px solid var(--border); background: var(--primary); color: #fff; cursor: pointer;">All Roles</button>
+              <button type="button" class="worker-role-tab" data-filter="tech" style="font-size: 11px; padding: 2px 9px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); cursor: pointer;">Tech & IT</button>
+              <button type="button" class="worker-role-tab" data-filter="business" style="font-size: 11px; padding: 2px 9px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); cursor: pointer;">Sales & Finance</button>
+              <button type="button" class="worker-role-tab" data-filter="health" style="font-size: 11px; padding: 2px 9px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); cursor: pointer;">Healthcare & Service</button>
+              <button type="button" class="worker-role-tab" data-filter="trades" style="font-size: 11px; padding: 2px 9px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--text-secondary); cursor: pointer;">Trades & Ops</button>
+            </div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%;" id="title-quick-pills"></div>
         </div>
 
         <div class="form-group">
@@ -745,10 +754,10 @@
         <div style="margin-top: 14px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
             <span style="font-size: 11.5px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">
-              Suggested technical stacks & languages (Click to add):
+              Suggested skills & proficiencies across industries (Click to add):
             </span>
             <span id="skill-category-count-badge" style="font-size: 11px; font-family: var(--font-mono); color: var(--text-muted);">
-              160+ Standardized Skills
+              340+ Standardized Skills
             </span>
           </div>
 
@@ -848,25 +857,46 @@
         jobTitlesDatalist.innerHTML = window.JOB_TITLES_LIBRARY.map(j => `<option value="${j.title}">${j.category}</option>`).join('');
       }
 
-      // Populate Quick Roles Pills
+      // Populate Quick Roles Pills with Industry Filtering
       const titleQuickPillsContainer = document.getElementById('title-quick-pills');
-      if (titleQuickPillsContainer) {
-        const popularTitles = [
-          "Full-Stack Developer",
-          "Frontend Developer",
-          "Backend Developer",
-          "DevOps Engineer",
-          "React & Next.js Developer",
-          "Cloud Solutions Architect",
-          "QA Automation Engineer",
-          "Python / Django Developer",
-          "Mobile Application Developer",
-          "AI / Machine Learning Engineer",
-          "Data Engineer",
-          "Cybersecurity Analyst",
-          "Technical Team Lead"
-        ];
-        titleQuickPillsContainer.innerHTML = popularTitles.map(t => `<span class="title-quick-pill" data-title="${t}">+ ${t}</span>`).join('');
+      const WORKER_ROLES_BY_SECTOR = {
+        all: [
+          "Full-Stack Developer", "Sales Executive", "Senior Accountant", "Registered Staff Nurse",
+          "DevOps Engineer", "Digital Marketing Specialist", "Customer Support Executive",
+          "Civil Site Engineer", "Head Chef / Cook", "QA Automation Engineer",
+          "Delivery Partner / Rider", "Licensed Commercial Electrician", "Data Entry Operator",
+          "AI / Machine Learning Engineer"
+        ],
+        tech: [
+          "Full-Stack Developer", "Frontend Developer", "Backend Developer", "DevOps Engineer",
+          "React & Next.js Developer", "Cloud Solutions Architect", "QA Automation Engineer",
+          "Python / Django Developer", "Mobile Application Developer", "AI / Machine Learning Engineer",
+          "Data Engineer", "Cybersecurity Analyst", "Technical Team Lead"
+        ],
+        business: [
+          "Sales Executive", "Business Development Manager (BDM)", "Senior Accountant",
+          "Chartered Accountant (CA)", "Financial Analyst", "Digital Marketing Specialist",
+          "SEO Specialist", "Content Writer & Copywriter", "Customer Support Executive",
+          "Human Resources (HR) Generalist", "Tele-Sales & Inside Sales Executive"
+        ],
+        health: [
+          "General Physician / Medical Officer", "Registered Staff Nurse", "Hospital / Retail Pharmacist",
+          "Medical Laboratory Technician (MLT)", "Physiotherapist", "High School Teacher",
+          "College Lecturer / Professor", "Head Chef / Executive Chef", "Front Desk Receptionist (Hotel)",
+          "Commercial Cook / Line Cook", "Housekeeping Supervisor"
+        ],
+        trades: [
+          "Delivery Partner / Courier Rider", "Warehouse Operations Supervisor", "Civil Site Engineer",
+          "Construction Site Supervisor", "Licensed Commercial Electrician", "Master Plumber & Pipefitter",
+          "HVAC & AC Service Technician", "Mechanical Design Engineer", "Automotive / Car Mechanic",
+          "Quality Control (QC) Inspector", "CNC Machine Operator", "Commercial Fleet Driver"
+        ]
+      };
+
+      function renderWorkerPopularRoles(sector = 'all') {
+        if (!titleQuickPillsContainer) return;
+        const roles = WORKER_ROLES_BY_SECTOR[sector] || WORKER_ROLES_BY_SECTOR.all;
+        titleQuickPillsContainer.innerHTML = roles.map(t => `<span class="title-quick-pill" data-title="${t}">+ ${t}</span>`).join('');
         titleQuickPillsContainer.querySelectorAll('.title-quick-pill').forEach(pill => {
           pill.addEventListener('click', () => {
             if (inputTitle) {
@@ -878,6 +908,22 @@
           });
         });
       }
+      renderWorkerPopularRoles('all');
+
+      // Setup Role Tab Buttons in Profile Edit
+      document.querySelectorAll('.worker-role-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.worker-role-tab').forEach(t => {
+            t.classList.remove('active');
+            t.style.background = 'var(--surface)';
+            t.style.color = 'var(--text-secondary)';
+          });
+          tab.classList.add('active');
+          tab.style.background = 'var(--primary)';
+          tab.style.color = '#fff';
+          renderWorkerPopularRoles(tab.dataset.filter);
+        });
+      });
 
       // Skills and Autocomplete State Variables
       let currentSkills = [];
@@ -899,6 +945,14 @@
         'Data & AI',
         'Cybersecurity',
         'Systems & Hardware',
+        'Business & Sales',
+        'Finance & Accounts',
+        'Marketing & Media',
+        'Customer Support',
+        'Healthcare & Clinical',
+        'Logistics & Operations',
+        'Trades & Engineering',
+        'Office & Productivity',
         'Tools & Practices'
       ];
       let activeSkillCategory = 'All';

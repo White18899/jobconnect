@@ -1231,10 +1231,10 @@
           </div>
         </div>
 
-        <!-- 2. Category / Technical Specialization -->
+        <!-- 2. Category / Specialization -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Technical Discipline</span>
+            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span>
           </div>
           <div class="filter-list-group" id="filter-category-list">
             <!-- Dynamically populated according to Job titles & disciplines in database -->
@@ -1400,28 +1400,85 @@
           </div>
 
           <div class="vacancy-form-group">
-            <label class="vacancy-label" for="post-job-category">Specialization / Discipline *</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label class="vacancy-label" for="post-job-category" style="margin: 0;">Specialization / Category *</label>
+              <button type="button" id="btn-toggle-custom-category" style="background: none; border: none; color: #059669; font-size: 11.5px; font-weight: 750; cursor: pointer; text-decoration: underline; padding: 0;">+ Custom Category</button>
+            </div>
             <select id="post-job-category" class="vacancy-select" required>
-              <option value="Software Engineering">Software Engineering (Full-Stack / Backend / Web)</option>
-              <option value="DevOps & Cloud">DevOps & Cloud Infrastructure (Kubernetes / IaC)</option>
-              <option value="QA & Testing">QA & Automation Testing (SDET / CI/CD)</option>
-              <option value="Mobile Development">Mobile Application Development (iOS / Android / Flutter)</option>
-              <option value="Data & AI">Data Engineering & Machine Learning (AI / Big Data)</option>
-              <option value="Cybersecurity">Cybersecurity & Information Security</option>
-              <option value="Team Leadership">Team Leadership & Engineering Management</option>
-              <option value="Product & Design">Product Management & UI/UX Design</option>
-              <option value="Systems & Hardware">Systems, Embedded & IoT Hardware</option>
-              <option value="IT & Systems">IT Support & Enterprise Systems</option>
-              <option value="Talent & Operations">Human Resources, Talent Acquisition & Operations</option>
+              <optgroup label="💻 Technology & Software">
+                <option value="Software Engineering" selected>Software Engineering (Full-Stack / Backend / Web)</option>
+                <option value="DevOps & Cloud">DevOps & Cloud Infrastructure (Kubernetes / IaC)</option>
+                <option value="QA & Testing">QA & Automation Testing (SDET / CI/CD)</option>
+                <option value="Mobile Development">Mobile Application Development (iOS / Android / Flutter)</option>
+                <option value="Data & AI">Data Engineering & Machine Learning (AI / Big Data)</option>
+                <option value="Cybersecurity">Cybersecurity & Information Security</option>
+                <option value="Product & Design">Product Management & UI/UX Design</option>
+                <option value="Systems & Hardware">Systems, Embedded & IoT Hardware</option>
+                <option value="IT & Systems">IT Support & Enterprise Systems</option>
+                <option value="Team Leadership">Team Leadership & Engineering Management</option>
+              </optgroup>
+              <optgroup label="💼 Business, Sales & Finance">
+                <option value="Sales, Retail & Business Development">Sales, Retail & Business Development</option>
+                <option value="Finance, Banking & Accounting">Finance, Banking & Accounting</option>
+                <option value="Marketing, Advertising & Content">Marketing, Advertising & Content</option>
+                <option value="Customer Support, BPO & Telecalling">Customer Support, BPO & Telecalling</option>
+                <option value="Human Resources & Talent Acquisition">Human Resources & Talent Acquisition</option>
+              </optgroup>
+              <optgroup label="🏥 Healthcare, Education & Hospitality">
+                <option value="Healthcare, Nursing & Pharmacy">Healthcare, Nursing & Pharmacy</option>
+                <option value="Education, Teaching & Training">Education, Teaching & Training</option>
+                <option value="Hospitality, Hotel & Food Service">Hospitality, Hotel & Food Service</option>
+              </optgroup>
+              <optgroup label="🚚 Logistics, Trades & Manufacturing">
+                <option value="Logistics, Supply Chain & Delivery">Logistics, Supply Chain & Delivery</option>
+                <option value="Construction, Architecture & Real Estate">Construction, Architecture & Real Estate</option>
+                <option value="Manufacturing, Mechanical & Production">Manufacturing, Mechanical & Production</option>
+                <option value="Administration, Office & Clerical">Administration, Office & Clerical</option>
+                <option value="Skilled Trades & Technical Services">Skilled Trades & Technical Services</option>
+                <option value="Legal & Corporate Compliance">Legal & Corporate Compliance</option>
+                <option value="Security, Facilities & Maintenance">Security, Facilities & Maintenance</option>
+              </optgroup>
+              <optgroup id="post-custom-categories-optgroup" label="⭐ Your Custom Categories" style="display: none;">
+                <!-- Populated dynamically from employer's saved custom categories -->
+              </optgroup>
+              <option value="__custom__" style="font-weight: 700; color: #047857;">✨ + Add Custom Category...</option>
             </select>
+
+            <!-- Dedicated Custom Category Input Box -->
+            <div id="post-job-custom-category-box" style="display: none; margin-top: 8px; padding: 12px 14px; background: #ECFDF5; border: 1.5px dashed #059669; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label for="post-job-custom-cat-input" style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #047857; letter-spacing: 0.04em; margin: 0;">
+                  Custom Category Name *
+                </label>
+                <button type="button" id="btn-cancel-custom-cat" style="background: none; border: none; font-size: 11px; font-weight: 600; color: #64748B; cursor: pointer;">✕ Cancel</button>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="post-job-custom-cat-input" class="vacancy-input" placeholder="e.g. Drone Aviation, Renewable Energy, Marine Logistics..." style="margin: 0; background: #FFFFFF; font-size: 13px;">
+                <button type="button" id="btn-save-custom-cat" style="background: #059669; color: #FFFFFF; border: none; border-radius: 8px; padding: 0 14px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                  ✓ Apply
+                </button>
+              </div>
+              <div style="font-size: 11px; color: #047857; margin-top: 5px;">
+                This category will be attached to this job and saved to your employer workspace.
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Quick Pick Popular Roles (Full Width) -->
+        <!-- Quick Pick Popular Roles (Full Width with Industry Filters) -->
         <div class="vacancy-form-group full-width" style="margin-top: -8px;">
-          <span style="font-size: 11px; color: var(--color-text-secondary); font-weight: 600; display: inline-block; margin-bottom: 2px;">
-            Popular roles (Click to fill):
-          </span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+            <span style="font-size: 11px; color: var(--color-text-secondary); font-weight: 600;">
+              Popular roles (Click to fill):
+            </span>
+            <div id="post-roles-filter-tabs" style="display: flex; gap: 4px; flex-wrap: wrap;">
+              <button type="button" class="post-role-tab active" data-filter="all" style="font-size: 10.5px; padding: 2px 8px; border-radius: 12px; border: 1px solid #CBD5E1; background: #14281D; color: #fff; cursor: pointer;">All Industries</button>
+              <button type="button" class="post-role-tab" data-filter="tech" style="font-size: 10.5px; padding: 2px 8px; border-radius: 12px; border: 1px solid #CBD5E1; background: #fff; color: #475569; cursor: pointer;">Tech & IT</button>
+              <button type="button" class="post-role-tab" data-filter="business" style="font-size: 10.5px; padding: 2px 8px; border-radius: 12px; border: 1px solid #CBD5E1; background: #fff; color: #475569; cursor: pointer;">Sales & Finance</button>
+              <button type="button" class="post-role-tab" data-filter="health" style="font-size: 10.5px; padding: 2px 8px; border-radius: 12px; border: 1px solid #CBD5E1; background: #fff; color: #475569; cursor: pointer;">Healthcare & Service</button>
+              <button type="button" class="post-role-tab" data-filter="trades" style="font-size: 10.5px; padding: 2px 8px; border-radius: 12px; border: 1px solid #CBD5E1; background: #fff; color: #475569; cursor: pointer;">Trades & Logistics</button>
+            </div>
+          </div>
           <div style="display: flex; flex-wrap: wrap; gap: 6px;" id="post-title-quick-pills"></div>
         </div>
 
@@ -1752,14 +1809,14 @@
 
         const total = allJobs.length;
 
-        // Group by job titles (or category if title missing)
+        // Group by job category (or title if category missing)
         const map = new Map();
         allJobs.forEach(j => {
-          const rawTitle = (j.title || j.category || '').trim();
-          if (!rawTitle) return;
-          const key = rawTitle.toLowerCase();
+          const rawCat = (j.category || j.title || '').trim();
+          if (!rawCat) return;
+          const key = rawCat.toLowerCase();
           if (!map.has(key)) {
-            map.set(key, { title: rawTitle, count: 0 });
+            map.set(key, { title: rawCat, count: 0 });
           }
           map.get(key).count += 1;
         });
@@ -1805,17 +1862,35 @@
         teamlead: 'assets/trades/teamlead.jpg',
         hr: 'assets/trades/hr.jpg',
         devops: 'assets/trades/devops.jpg',
-        mobile: 'assets/trades/mobile.jpg'
+        mobile: 'assets/trades/mobile.jpg',
+        cook: 'assets/trades/cook.jpg',
+        driver: 'assets/trades/driver.jpg',
+        electrician: 'assets/trades/electrician.jpg',
+        mechanic: 'assets/trades/mechanic.jpg',
+        plumber: 'assets/trades/plumber.jpg',
+        welding: 'assets/trades/welding.jpg',
+        cnc: 'assets/trades/cnc.jpg',
+        solar: 'assets/trades/solar.jpg',
+        hvac: 'assets/trades/hvac.jpg',
+        automation: 'assets/trades/automation.jpg'
       };
 
       function getJobImage(category = '') {
         const cat = (category || '').toLowerCase();
-        if (cat.includes('soft') || cat.includes('eng') || cat.includes('dev') || cat.includes('full') || cat.includes('web')) return TRADE_IMAGES.software;
+        if (cat.includes('cook') || cat.includes('chef') || cat.includes('food') || cat.includes('hospitality') || cat.includes('hotel') || cat.includes('restaurant')) return TRADE_IMAGES.cook;
+        if (cat.includes('driver') || cat.includes('delivery') || cat.includes('logistics') || cat.includes('transport') || cat.includes('courier')) return TRADE_IMAGES.driver;
+        if (cat.includes('electr') || cat.includes('wireman')) return TRADE_IMAGES.electrician;
+        if (cat.includes('plumb') || cat.includes('pipe')) return TRADE_IMAGES.plumber;
+        if (cat.includes('weld') || cat.includes('fabricat')) return TRADE_IMAGES.welding;
+        if (cat.includes('cnc') || cat.includes('lathe') || cat.includes('machin')) return TRADE_IMAGES.cnc;
+        if (cat.includes('solar') || cat.includes('renew') || cat.includes('green energy')) return TRADE_IMAGES.solar;
+        if (cat.includes('hvac') || cat.includes('ac tech') || cat.includes('air condition')) return TRADE_IMAGES.hvac;
+        if (cat.includes('mechanic') || cat.includes('auto') || cat.includes('diesel') || cat.includes('motor')) return TRADE_IMAGES.mechanic;
         if (cat.includes('qa') || cat.includes('test') || cat.includes('sdet') || cat.includes('quality')) return TRADE_IMAGES.qa;
-        if (cat.includes('team') || cat.includes('lead') || cat.includes('manage') || cat.includes('director')) return TRADE_IMAGES.teamlead;
-        if (cat.includes('hr') || cat.includes('recruit') || cat.includes('talent') || cat.includes('people')) return TRADE_IMAGES.hr;
         if (cat.includes('cloud') || cat.includes('devops') || cat.includes('infra') || cat.includes('sre')) return TRADE_IMAGES.devops;
         if (cat.includes('mobile') || cat.includes('app') || cat.includes('ios') || cat.includes('android') || cat.includes('flutter')) return TRADE_IMAGES.mobile;
+        if (cat.includes('team') || cat.includes('lead') || cat.includes('manage') || cat.includes('director')) return TRADE_IMAGES.teamlead;
+        if (cat.includes('hr') || cat.includes('recruit') || cat.includes('talent') || cat.includes('sales') || cat.includes('finance') || cat.includes('account') || cat.includes('admin') || cat.includes('office') || cat.includes('bpo') || cat.includes('support') || cat.includes('teach') || cat.includes('health') || cat.includes('nurse') || cat.includes('legal')) return TRADE_IMAGES.hr;
         return TRADE_IMAGES.software;
       }
 
@@ -2341,21 +2416,152 @@
       const postTitleInput = document.getElementById('post-job-title');
       const postCategorySelect = document.getElementById('post-job-category');
       const postTitleQuickPills = document.getElementById('post-title-quick-pills');
+      const customCategoryBox = document.getElementById('post-job-custom-category-box');
+      const customCategoryInput = document.getElementById('post-job-custom-cat-input');
+      const btnToggleCustomCat = document.getElementById('btn-toggle-custom-category');
+      const btnSaveCustomCat = document.getElementById('btn-save-custom-cat');
+      const btnCancelCustomCat = document.getElementById('btn-cancel-custom-cat');
+      const customOptgroup = document.getElementById('post-custom-categories-optgroup');
 
-      if (postTitleQuickPills) {
-        const topRoles = [
-          "Full-Stack Developer",
-          "Frontend Developer",
-          "Backend Developer",
-          "DevOps Engineer",
-          "QA Automation Engineer",
-          "Cloud Solutions Architect",
-          "React & Next.js Developer",
-          "Python / Django Developer",
-          "Mobile Application Developer",
+      // Populate Employer's Saved Custom Categories into Dropdown
+      function refreshEmployerCustomCategories() {
+        if (!customOptgroup || !window.JobLibrary) return;
+        const customList = window.JobLibrary.getCustomCategories();
+        if (customList && customList.length > 0) {
+          customOptgroup.innerHTML = customList.map(c => `<option value="${escapeAttr(c)}">⭐ ${escapeHtml(c)} (Custom)</option>`).join('');
+          customOptgroup.style.display = 'block';
+        } else {
+          customOptgroup.innerHTML = '';
+          customOptgroup.style.display = 'none';
+        }
+      }
+      refreshEmployerCustomCategories();
+
+      // Custom Category UI handlers
+      function openCustomCategoryBox() {
+        if (!customCategoryBox) return;
+        customCategoryBox.style.display = 'block';
+        if (customCategoryInput) {
+          customCategoryInput.focus();
+        }
+      }
+
+      function closeCustomCategoryBox() {
+        if (!customCategoryBox) return;
+        customCategoryBox.style.display = 'none';
+        if (customCategoryInput) customCategoryInput.value = '';
+        if (postCategorySelect && postCategorySelect.value === '__custom__') {
+          postCategorySelect.selectedIndex = 0;
+        }
+      }
+
+      if (btnToggleCustomCat) {
+        btnToggleCustomCat.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (customCategoryBox.style.display === 'none' || !customCategoryBox.style.display) {
+            openCustomCategoryBox();
+          } else {
+            closeCustomCategoryBox();
+          }
+        });
+      }
+
+      if (btnCancelCustomCat) {
+        btnCancelCustomCat.addEventListener('click', (e) => {
+          e.preventDefault();
+          closeCustomCategoryBox();
+        });
+      }
+
+      if (postCategorySelect) {
+        postCategorySelect.addEventListener('change', () => {
+          if (postCategorySelect.value === '__custom__') {
+            openCustomCategoryBox();
+          } else if (customCategoryBox && customCategoryBox.style.display !== 'none') {
+            closeCustomCategoryBox();
+          }
+        });
+      }
+
+      if (btnSaveCustomCat) {
+        btnSaveCustomCat.addEventListener('click', (e) => {
+          e.preventDefault();
+          const val = (customCategoryInput.value || '').trim();
+          if (!val || val.length < 2) {
+            alert('Please enter a valid category name (at least 2 letters).');
+            if (customCategoryInput) customCategoryInput.focus();
+            return;
+          }
+
+          const saved = window.JobLibrary.saveCustomCategory(val);
+          refreshEmployerCustomCategories();
+
+          // Select this category in the dropdown
+          let found = false;
+          for (let i = 0; i < postCategorySelect.options.length; i++) {
+            if (postCategorySelect.options[i].value.toLowerCase() === saved.toLowerCase()) {
+              postCategorySelect.selectedIndex = i;
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            const newOpt = document.createElement('option');
+            newOpt.value = saved;
+            newOpt.textContent = `⭐ ${saved} (Custom)`;
+            newOpt.selected = true;
+            if (customOptgroup) {
+              customOptgroup.appendChild(newOpt);
+              customOptgroup.style.display = 'block';
+            } else {
+              postCategorySelect.appendChild(newOpt);
+            }
+          }
+
+          customCategoryBox.style.display = 'none';
+          showToast(`Custom category "${saved}" applied!`, 'success');
+        });
+      }
+
+      // Industry Filtered Popular Roles
+      const ROLES_BY_SECTOR = {
+        all: [
+          "Full-Stack Developer", "Sales Executive", "Senior Accountant", "Registered Staff Nurse",
+          "DevOps Engineer", "Digital Marketing Specialist", "Customer Support Executive",
+          "Civil Site Engineer", "Head Chef / Cook", "QA Automation Engineer",
+          "Delivery Partner / Rider", "Licensed Commercial Electrician", "Data Entry Operator",
           "AI / Machine Learning Engineer"
-        ];
-        postTitleQuickPills.innerHTML = topRoles.map(r => `<span class="post-title-pill" data-title="${r}">+ ${r}</span>`).join('');
+        ],
+        tech: [
+          "Full-Stack Developer", "Frontend Developer", "Backend Developer", "DevOps Engineer",
+          "QA Automation Engineer", "Cloud Solutions Architect", "React & Next.js Developer",
+          "Python / Django Developer", "Mobile Application Developer", "AI / Machine Learning Engineer",
+          "Data Engineer", "Cybersecurity Analyst", "Technical Team Lead"
+        ],
+        business: [
+          "Sales Executive", "Business Development Manager (BDM)", "Senior Accountant",
+          "Chartered Accountant (CA)", "Financial Analyst", "Digital Marketing Specialist",
+          "SEO Specialist", "Content Writer & Copywriter", "Customer Support Executive",
+          "Human Resources (HR) Generalist", "Tele-Sales & Inside Sales Executive"
+        ],
+        health: [
+          "General Physician / Medical Officer", "Registered Staff Nurse", "Hospital / Retail Pharmacist",
+          "Medical Laboratory Technician (MLT)", "Physiotherapist", "High School Teacher",
+          "College Lecturer / Professor", "Head Chef / Executive Chef", "Front Desk Receptionist (Hotel)",
+          "Commercial Cook / Line Cook", "Housekeeping Supervisor"
+        ],
+        trades: [
+          "Delivery Partner / Courier Rider", "Warehouse Operations Supervisor", "Civil Site Engineer",
+          "Construction Site Supervisor", "Licensed Commercial Electrician", "Master Plumber & Pipefitter",
+          "HVAC & AC Service Technician", "Mechanical Design Engineer", "Automotive / Car Mechanic",
+          "Quality Control (QC) Inspector", "CNC Machine Operator", "Commercial Fleet Driver"
+        ]
+      };
+
+      function renderPostPopularRoles(sector = 'all') {
+        if (!postTitleQuickPills) return;
+        const roles = ROLES_BY_SECTOR[sector] || ROLES_BY_SECTOR.all;
+        postTitleQuickPills.innerHTML = roles.map(r => `<span class="post-title-pill" data-title="${r}">+ ${r}</span>`).join('');
         postTitleQuickPills.querySelectorAll('.post-title-pill').forEach(pill => {
           pill.addEventListener('click', () => {
             if (postTitleInput) {
@@ -2365,6 +2571,22 @@
           });
         });
       }
+      renderPostPopularRoles('all');
+
+      // Setup Role Tab Buttons
+      document.querySelectorAll('.post-role-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.post-role-tab').forEach(t => {
+            t.classList.remove('active');
+            t.style.background = '#fff';
+            t.style.color = '#475569';
+          });
+          tab.classList.add('active');
+          tab.style.background = '#14281D';
+          tab.style.color = '#fff';
+          renderPostPopularRoles(tab.dataset.filter);
+        });
+      });
 
       function syncCategoryFromTitle() {
         if (!postTitleInput || !postCategorySelect || !window.JobLibrary) return;
@@ -2372,10 +2594,28 @@
         if (!val) return;
         const detectedCat = window.JobLibrary.getCategoryForTitle(val);
         if (detectedCat) {
+          let matched = false;
           for (let i = 0; i < postCategorySelect.options.length; i++) {
-            if (postCategorySelect.options[i].value.toLowerCase() === detectedCat.toLowerCase()) {
+            const optVal = postCategorySelect.options[i].value;
+            if (optVal.toLowerCase() === detectedCat.toLowerCase() || detectedCat.toLowerCase().includes(optVal.toLowerCase())) {
               postCategorySelect.selectedIndex = i;
+              matched = true;
               break;
+            }
+          }
+          if (!matched) {
+            // Check if detected is custom category
+            const customCats = window.JobLibrary.getCustomCategories();
+            const cMatch = customCats.find(c => c.toLowerCase() === detectedCat.toLowerCase());
+            if (cMatch) {
+              refreshEmployerCustomCategories();
+              for (let i = 0; i < postCategorySelect.options.length; i++) {
+                if (postCategorySelect.options[i].value.toLowerCase() === cMatch.toLowerCase()) {
+                  postCategorySelect.selectedIndex = i;
+                  matched = true;
+                  break;
+                }
+              }
             }
           }
         }
@@ -2384,6 +2624,11 @@
       if (postTitleInput) {
         postTitleInput.addEventListener('input', syncCategoryFromTitle);
         postTitleInput.addEventListener('change', syncCategoryFromTitle);
+      }
+
+      // Check URL param or hash to auto-open post vacancy modal
+      if (urlParams.get('action') === 'post' || window.location.hash === '#post-vacancy' || window.location.hash === '#post-job') {
+        openPostVacancyModal();
       }
 
       // Custom file upload
@@ -2417,7 +2662,22 @@
       postVacancyForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = document.getElementById('post-job-title').value.trim();
-        const category = document.getElementById('post-job-category').value;
+        
+        // Resolve Category (including custom category support)
+        let category = document.getElementById('post-job-category').value;
+        const customInput = document.getElementById('post-job-custom-cat-input');
+        if (category === '__custom__' || (customCategoryBox && customCategoryBox.style.display !== 'none' && customInput && customInput.value.trim())) {
+          const customVal = customInput.value.trim();
+          if (customVal) {
+            category = window.JobLibrary.saveCustomCategory(customVal) || customVal;
+            refreshEmployerCustomCategories();
+          } else {
+            alert('Please enter your custom category name before submitting.');
+            if (customInput) customInput.focus();
+            return;
+          }
+        }
+
         const salaryMin = Number(document.getElementById('post-job-salary-min').value);
         const salaryMax = Number(document.getElementById('post-job-salary-max').value);
         const city = document.getElementById('post-job-city').value;
@@ -2457,7 +2717,7 @@
         closePostVacancyModal();
         postVacancyForm.reset();
         resetCoverImage();
-        showToast(`Vacancy "${title}" published successfully! Visible in directory & workspace.`, 'success');
+        showToast(`Vacancy "${title}" (${category}) published successfully! Visible in directory & workspace.`, 'success');
       });
 
       // Filter Events

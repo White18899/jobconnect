@@ -171,7 +171,115 @@
     { title: "Technical Recruiter / Talent Acquisition", category: "Talent & Operations", aliases: ["technical recruiter", "tech recruiter", "talent acquisition", "it recruiter", "sourcer"] },
     { title: "Human Resources (HR) Generalist", category: "Talent & Operations", aliases: ["hr", "hr generalist", "people operations", "human resources", "talent manager", "hr business partner"] },
     { title: "Technical Writer & Documentation Lead", category: "Talent & Operations", aliases: ["technical writer", "tech writer", "api documentation", "docs engineer", "information developer"] },
-    { title: "Developer Relations (DevRel) / Advocate", category: "Talent & Operations", aliases: ["devrel", "developer advocate", "developer relations", "tech evangelist"] }
+    { title: "Developer Relations (DevRel) / Advocate", category: "Talent & Operations", aliases: ["devrel", "developer advocate", "developer relations", "tech evangelist"] },
+
+    // =========================================================================
+    // NON-TECHNICAL & INDUSTRY-WIDE MASTER ROLES
+    // =========================================================================
+
+    // --- Sales, Retail & Business Development ---
+    { title: "Sales Executive", category: "Sales, Retail & Business Development", aliases: ["sales", "field sales", "sales officer", "sales rep", "b2c sales", "sales executive"] },
+    { title: "Business Development Manager (BDM)", category: "Sales, Retail & Business Development", aliases: ["bdm", "business development", "b2b sales", "bd manager", "sales lead"] },
+    { title: "Retail Store Manager", category: "Sales, Retail & Business Development", aliases: ["store manager", "shop manager", "outlet manager", "retail manager"] },
+    { title: "Retail Sales Associate / Cashier", category: "Sales, Retail & Business Development", aliases: ["cashier", "store assistant", "retail sales", "counter sales", "billing executive"] },
+    { title: "Tele-Sales & Inside Sales Executive", category: "Sales, Retail & Business Development", aliases: ["telesales", "inside sales", "telemarketing", "outbound sales", "calling executive"] },
+    { title: "Corporate Account Executive (B2B)", category: "Sales, Retail & Business Development", aliases: ["account executive", "client relationship executive", "enterprise sales", "key account"] },
+    { title: "Area Sales Manager", category: "Sales, Retail & Business Development", aliases: ["asm", "regional sales", "territory sales manager", "zonal sales"] },
+
+    // --- Finance, Banking & Accounting ---
+    { title: "Chartered Accountant (CA)", category: "Finance, Banking & Accounting", aliases: ["ca", "chartered accountant", "senior auditor", "finance controller"] },
+    { title: "Senior Accountant", category: "Finance, Banking & Accounting", aliases: ["accountant", "sr accountant", "chief accountant", "tally accountant", "bookkeeper"] },
+    { title: "Accounts Executive / Junior Accountant", category: "Finance, Banking & Accounting", aliases: ["accounts executive", "junior accountant", "tally operator", "ap/ar accountant"] },
+    { title: "Financial Analyst", category: "Finance, Banking & Accounting", aliases: ["finance analyst", "financial modeling", "investment analyst", "equity analyst"] },
+    { title: "Bank Branch Officer / Executive", category: "Finance, Banking & Accounting", aliases: ["bank officer", "banking executive", "branch clerk", "bank clerk"] },
+    { title: "Tax & GST Consultant", category: "Finance, Banking & Accounting", aliases: ["gst consultant", "tax consultant", "tax practitioner", "income tax advisor"] },
+    { title: "Internal Auditor", category: "Finance, Banking & Accounting", aliases: ["auditor", "internal audit", "statutory auditor", "financial auditor"] },
+
+    // --- Marketing, Advertising & Content ---
+    { title: "Digital Marketing Specialist", category: "Marketing, Advertising & Content", aliases: ["digital marketer", "digital marketing executive", "performance marketer", "growth hacker"] },
+    { title: "SEO Specialist / Strategist", category: "Marketing, Advertising & Content", aliases: ["seo", "seo executive", "search engine optimizer", "seo analyst"] },
+    { title: "Social Media Manager", category: "Marketing, Advertising & Content", aliases: ["social media", "smm", "social media executive", "community manager"] },
+    { title: "Content Writer & Copywriter", category: "Marketing, Advertising & Content", aliases: ["content writer", "copywriter", "blog writer", "creative writer", "content strategist"] },
+    { title: "Performance Marketing / PPC Lead", category: "Marketing, Advertising & Content", aliases: ["ppc specialist", "google ads specialist", "meta ads", "media buyer"] },
+    { title: "Brand & Creative Designer", category: "Marketing, Advertising & Content", aliases: ["brand designer", "marketing designer", "creative lead", "ad designer"] },
+
+    // --- Customer Support, BPO & Telecalling ---
+    { title: "Customer Support Executive", category: "Customer Support, BPO & Telecalling", aliases: ["customer support", "customer care", "customer service rep", "csr", "support executive"] },
+    { title: "International Voice Process Associate", category: "Customer Support, BPO & Telecalling", aliases: ["bpo voice", "voice associate", "call center agent", "international call center"] },
+    { title: "Chat & Email Support Specialist", category: "Customer Support, BPO & Telecalling", aliases: ["chat support", "email support", "non-voice bpo", "ticket specialist"] },
+    { title: "Customer Success Manager", category: "Customer Support, BPO & Telecalling", aliases: ["csm", "customer success", "client success", "account manager support"] },
+    { title: "Call Center Team Leader", category: "Customer Support, BPO & Telecalling", aliases: ["team lead bpo", "call center supervisor", "support lead", "floor manager"] },
+
+    // --- Healthcare, Nursing & Pharmacy ---
+    { title: "General Physician / Medical Officer", category: "Healthcare, Nursing & Pharmacy", aliases: ["doctor", "mbbs", "general physician", "medical officer", "resident doctor"] },
+    { title: "Registered Staff Nurse", category: "Healthcare, Nursing & Pharmacy", aliases: ["nurse", "staff nurse", "icu nurse", "clinical nurse", "gnm", "bsc nursing"] },
+    { title: "Hospital / Retail Pharmacist", category: "Healthcare, Nursing & Pharmacy", aliases: ["pharmacist", "chemist", "b.pharm", "d.pharm", "pharmacy technician"] },
+    { title: "Medical Laboratory Technician (MLT)", category: "Healthcare, Nursing & Pharmacy", aliases: ["lab technician", "mlt", "pathology technician", "diagnostic technician"] },
+    { title: "Physiotherapist", category: "Healthcare, Nursing & Pharmacy", aliases: ["physio", "bpt", "physical therapist", "rehab specialist"] },
+    { title: "Dental Surgeon / Dentist", category: "Healthcare, Nursing & Pharmacy", aliases: ["dentist", "bds", "dental surgeon", "orthodontist"] },
+    { title: "Patient Care Assistant / Ward Boy", category: "Healthcare, Nursing & Pharmacy", aliases: ["ward boy", "nursing assistant", "patient care", "hospital attendant", "ayush helper"] },
+
+    // --- Education, Teaching & Training ---
+    { title: "High School Teacher", category: "Education, Teaching & Training", aliases: ["teacher", "school teacher", "pgt", "tgt", "b.ed teacher", "science teacher", "math teacher"] },
+    { title: "College Lecturer / Professor", category: "Education, Teaching & Training", aliases: ["lecturer", "assistant professor", "professor", "faculty", "college teacher"] },
+    { title: "Primary School Teacher (PRT)", category: "Education, Teaching & Training", aliases: ["primary teacher", "prt", "elementary teacher", "kindergarten teacher"] },
+    { title: "Private Tutor / Subject Coach", category: "Education, Teaching & Training", aliases: ["tutor", "tuition teacher", "coaching instructor", "home tutor"] },
+    { title: "Academic Counselor & Admissions Officer", category: "Education, Teaching & Training", aliases: ["academic counselor", "admissions counselor", "education counselor", "student advisor"] },
+    { title: "Corporate / Soft Skills Trainer", category: "Education, Teaching & Training", aliases: ["soft skills trainer", "corporate trainer", "voice and accent trainer", "training manager"] },
+
+    // --- Hospitality, Hotel & Food Service ---
+    { title: "Head Chef / Executive Chef", category: "Hospitality, Hotel & Food Service", aliases: ["chef", "head chef", "master chef", "executive chef", "sous chef"] },
+    { title: "Commercial Cook / Line Cook", category: "Hospitality, Hotel & Food Service", aliases: ["cook", "restaurant cook", "fast food cook", "line cook", "kitchen cook"] },
+    { title: "Restaurant / Hotel Operations Manager", category: "Hospitality, Hotel & Food Service", aliases: ["hotel manager", "restaurant manager", "hospitality manager", "general manager hotel"] },
+    { title: "Food & Beverage (F&B) Steward / Waiter", category: "Hospitality, Hotel & Food Service", aliases: ["waiter", "steward", "f&b associate", "server", "captain"] },
+    { title: "Front Desk Receptionist (Hotel)", category: "Hospitality, Hotel & Food Service", aliases: ["front desk receptionist", "hotel receptionist", "front office executive", "guest service associate"] },
+    { title: "Barista & Beverage Specialist", category: "Hospitality, Hotel & Food Service", aliases: ["barista", "cafe manager", "coffee maker", "bartender"] },
+    { title: "Housekeeping Supervisor / Attendant", category: "Hospitality, Hotel & Food Service", aliases: ["housekeeping", "room attendant", "housekeeper", "facility cleaning supervisor"] },
+
+    // --- Logistics, Supply Chain & Delivery ---
+    { title: "Delivery Partner / Courier Rider", category: "Logistics, Supply Chain & Delivery", aliases: ["delivery boy", "delivery partner", "courier delivery", "bike rider", "last mile delivery"] },
+    { title: "Warehouse Operations Supervisor", category: "Logistics, Supply Chain & Delivery", aliases: ["warehouse supervisor", "warehouse incharge", "store keeper", "inventory supervisor"] },
+    { title: "Supply Chain & Procurement Executive", category: "Logistics, Supply Chain & Delivery", aliases: ["supply chain", "procurement officer", "purchase executive", "vendor manager"] },
+    { title: "Logistics & Dispatch Coordinator", category: "Logistics, Supply Chain & Delivery", aliases: ["logistics coordinator", "dispatch incharge", "shipping coordinator", "transport coordinator"] },
+    { title: "Commercial Heavy Vehicle / Fleet Driver", category: "Logistics, Supply Chain & Delivery", aliases: ["driver", "truck driver", "commercial driver", "fleet driver", "heavy vehicle driver"] },
+
+    // --- Construction, Architecture & Real Estate ---
+    { title: "Civil Site Engineer", category: "Construction, Architecture & Real Estate", aliases: ["civil engineer", "site engineer", "construction engineer", "b.tech civil"] },
+    { title: "Construction Site Supervisor", category: "Construction, Architecture & Real Estate", aliases: ["site supervisor", "construction supervisor", "building supervisor"] },
+    { title: "Architect & Spatial Designer", category: "Construction, Architecture & Real Estate", aliases: ["architect", "b.arch", "building designer", "landscape architect"] },
+    { title: "Interior Designer & Decorator", category: "Construction, Architecture & Real Estate", aliases: ["interior designer", "interior decorator", "3d visualizer interior"] },
+    { title: "Real Estate Property Consultant", category: "Construction, Architecture & Real Estate", aliases: ["real estate agent", "property advisor", "property dealer", "realtor"] },
+    { title: "Quantity Surveyor & Cost Estimator", category: "Construction, Architecture & Real Estate", aliases: ["quantity surveyor", "estimator", "boq engineer", "billing civil engineer"] },
+
+    // --- Manufacturing, Mechanical & Production ---
+    { title: "Mechanical Design Engineer", category: "Manufacturing, Mechanical & Production", aliases: ["mechanical engineer", "cad engineer", "solidworks designer", "b.tech mechanical"] },
+    { title: "Production Floor Supervisor", category: "Manufacturing, Mechanical & Production", aliases: ["production supervisor", "shopfloor supervisor", "manufacturing lead", "shift supervisor"] },
+    { title: "Quality Control (QC) Inspector", category: "Manufacturing, Mechanical & Production", aliases: ["qc inspector", "qa qc engineer", "quality control", "iso inspector"] },
+    { title: "CNC Machine Operator & Programmer", category: "Manufacturing, Mechanical & Production", aliases: ["cnc operator", "cnc programmer", "vmc operator", "lathe machinist"] },
+    { title: "Industrial Plant Maintenance Technician", category: "Manufacturing, Mechanical & Production", aliases: ["plant technician", "maintenance engineer", "electro-mechanical technician"] },
+
+    // --- Administration, Office & Clerical ---
+    { title: "Office Administrator / Facility Lead", category: "Administration, Office & Clerical", aliases: ["office admin", "office manager", "administrative officer", "admin executive"] },
+    { title: "Executive Assistant / Personal Secretary", category: "Administration, Office & Clerical", aliases: ["executive assistant", "ea", "personal assistant", "pa to md", "secretary"] },
+    { title: "Data Entry Operator (DEO)", category: "Administration, Office & Clerical", aliases: ["data entry", "deo", "computer operator", "back office executive", "typist"] },
+    { title: "Front Desk Executive / Receptionist", category: "Administration, Office & Clerical", aliases: ["receptionist", "front desk", "front office", "office receptionist"] },
+    { title: "Billing & Documentation Clerk", category: "Administration, Office & Clerical", aliases: ["billing clerk", "documentation executive", "office clerk", "filing clerk"] },
+
+    // --- Skilled Trades & Technical Services ---
+    { title: "Licensed Commercial Electrician", category: "Skilled Trades & Technical Services", aliases: ["electrician", "wireman", "iti electrician", "electrical technician", "maintenance electrician"] },
+    { title: "Master Plumber & Pipefitter", category: "Skilled Trades & Technical Services", aliases: ["plumber", "pipefitter", "sanitary plumber", "plumbing technician"] },
+    { title: "HVAC & AC Service Technician", category: "Skilled Trades & Technical Services", aliases: ["ac technician", "hvac technician", "refrigeration mechanic", "air conditioning repair"] },
+    { title: "Automotive / Car Mechanic", category: "Skilled Trades & Technical Services", aliases: ["mechanic", "auto mechanic", "car technician", "automobile engineer", "diesel mechanic"] },
+    { title: "Industrial Welder & Fabricator", category: "Skilled Trades & Technical Services", aliases: ["welder", "tig welder", "mig welder", "arc welder", "fabricator", "fitter"] },
+
+    // --- Legal & Corporate Compliance ---
+    { title: "Corporate Legal Advisor", category: "Legal & Corporate Compliance", aliases: ["legal advisor", "legal counsel", "corporate lawyer", "company legal lead"] },
+    { title: "Legal Associate / Advocate", category: "Legal & Corporate Compliance", aliases: ["advocate", "legal associate", "lawyer", "llb associate", "litigation lawyer"] },
+    { title: "Regulatory & Compliance Officer", category: "Legal & Corporate Compliance", aliases: ["compliance officer", "regulatory compliance", "risk officer", "legal compliance"] },
+
+    // --- Security, Facilities & Maintenance ---
+    { title: "Security Officer / Guard Incharge", category: "Security, Facilities & Maintenance", aliases: ["security guard", "security officer", "chief security officer", "security supervisor"] },
+    { title: "Facility & Building Maintenance Officer", category: "Security, Facilities & Maintenance", aliases: ["facility manager", "building maintenance", "property maintenance supervisor"] }
   ];
 
   // =========================================================================
@@ -476,7 +584,85 @@
     { name: "SAP ERP & ABAP", category: "Tools & Practices", aliases: ["sap", "abap", "sap erp", "hana"] },
     { name: "ServiceNow ITSM", category: "Tools & Practices", aliases: ["servicenow", "itsm", "cmdb", "service catalog"] },
     { name: "Technical Recruiting & Talent Sourcing", category: "Tools & Practices", aliases: ["tech recruiting", "boolean search", "talent screening", "ats"] },
-    { name: "Human Resources (HR) & People Ops", category: "Tools & Practices", aliases: ["human resources", "people operations", "onboarding", "payroll"] }
+    { name: "Human Resources (HR) & People Ops", category: "Tools & Practices", aliases: ["human resources", "people operations", "onboarding", "payroll"] },
+
+    // --- 12. Sales, CRM & Business Development ---
+    { name: "Lead Generation & Prospecting", category: "Business & Sales", aliases: ["lead gen", "cold outreach", "prospecting", "b2b leads"] },
+    { name: "B2B & Enterprise Sales", category: "Business & Sales", aliases: ["b2b sales", "corporate sales", "enterprise sales", "solution selling"] },
+    { name: "CRM Software (Salesforce, Zoho, HubSpot)", category: "Business & Sales", aliases: ["crm", "zoho crm", "hubspot", "lead tracking"] },
+    { name: "Cold Calling & Telesales", category: "Business & Sales", aliases: ["cold calling", "telecalling", "inside sales", "outbound calls"] },
+    { name: "Contract Negotiation & Deal Closing", category: "Business & Sales", aliases: ["negotiation", "deal closing", "sales closing", "pricing strategy"] },
+    { name: "Client Relationship Management (CRM)", category: "Business & Sales", aliases: ["client retention", "account management", "customer relations"] },
+    { name: "Retail Store Merchandising", category: "Business & Sales", aliases: ["merchandising", "visual merchandising", "retail operations", "store inventory"] },
+
+    // --- 13. Finance, Banking & Accounting ---
+    { name: "Tally Prime & ERP 9", category: "Finance & Accounts", aliases: ["tally", "tally prime", "tally erp", "tally accounting"] },
+    { name: "GST Return Filing & Compliance", category: "Finance & Accounts", aliases: ["gst", "gstr-1", "gstr-3b", "gst compliance", "input tax credit"] },
+    { name: "QuickBooks & Xero Accounting", category: "Finance & Accounts", aliases: ["quickbooks", "xero", "cloud accounting"] },
+    { name: "Financial Statement Analysis", category: "Finance & Accounts", aliases: ["balance sheet", "p&l statement", "financial reporting", "cash flow"] },
+    { name: "Income Tax & TDS Filing", category: "Finance & Accounts", aliases: ["tds", "income tax", "tax audit", "advance tax"] },
+    { name: "Auditing & Internal Verification", category: "Finance & Accounts", aliases: ["auditing", "statutory audit", "internal controls", "vouching"] },
+    { name: "Bank Reconciliation Statement (BRS)", category: "Finance & Accounts", aliases: ["brs", "bank reconciliation", "ledger balancing"] },
+    { name: "Accounts Payable & Receivable (AP/AR)", category: "Finance & Accounts", aliases: ["ap", "ar", "accounts payable", "accounts receivable", "invoicing"] },
+    { name: "Payroll Management & Statutory Compliance", category: "Finance & Accounts", aliases: ["payroll", "pf", "esi", "salary processing"] },
+    { name: "Advanced MS Excel (VLOOKUP, Pivot, Macros)", category: "Finance & Accounts", aliases: ["vlookup", "pivot tables", "excel formulas", "macros", "spreadsheet modeling"] },
+
+    // --- 14. Marketing, Advertising & Media ---
+    { name: "Search Engine Optimization (SEO)", category: "Marketing & Media", aliases: ["seo", "on page seo", "off page seo", "backlinks", "keyword research"] },
+    { name: "Google Ads & PPC Campaigns", category: "Marketing & Media", aliases: ["google ads", "ppc", "adwords", "search ads", "display ads"] },
+    { name: "Meta Ads (Facebook & Instagram Advertising)", category: "Marketing & Media", aliases: ["meta ads", "facebook ads", "instagram marketing", "fb ad manager"] },
+    { name: "Social Media Strategy & Marketing", category: "Marketing & Media", aliases: ["social media", "instagram growth", "linkedin marketing", "content calendar"] },
+    { name: "Content Writing & Copywriting", category: "Marketing & Media", aliases: ["content writing", "copywriting", "blog posts", "seo articles", "ad copy"] },
+    { name: "Canva & Visual Content Creation", category: "Marketing & Media", aliases: ["canva", "graphic design basic", "social posts", "banners"] },
+    { name: "Adobe Photoshop & Premiere Pro", category: "Marketing & Media", aliases: ["photoshop", "premiere pro", "video editing", "photo editing"] },
+    { name: "Email Marketing & Automation", category: "Marketing & Media", aliases: ["email marketing", "mailchimp", "klaviyo", "newsletters"] },
+    { name: "Google Analytics 4 (GA4)", category: "Marketing & Media", aliases: ["ga4", "google analytics", "web traffic", "conversion tracking"] },
+
+    // --- 15. Customer Support & BPO ---
+    { name: "Voice & Inbound Calling Support", category: "Customer Support", aliases: ["voice support", "inbound calls", "customer care voice", "telephony"] },
+    { name: "Chat & Email Support (Non-Voice)", category: "Customer Support", aliases: ["chat support", "non-voice", "email ticketing", "livechat"] },
+    { name: "Helpdesk Ticketing (Zendesk / Freshdesk)", category: "Customer Support", aliases: ["zendesk", "freshdesk", "jira service desk", "tickets"] },
+    { name: "Customer De-escalation & Conflict Resolution", category: "Customer Support", aliases: ["de-escalation", "conflict resolution", "complaint management"] },
+    { name: "Active Listening & English Fluency", category: "Customer Support", aliases: ["english communication", "accent neutralization", "active listening"] },
+    { name: "Telecalling & Lead Follow-up", category: "Customer Support", aliases: ["telecalling", "lead follow up", "customer outreach"] },
+
+    // --- 16. Healthcare & Clinical Practice ---
+    { name: "Patient Assessment & Vital Signs Monitoring", category: "Healthcare & Clinical", aliases: ["vitals", "blood pressure", "pulse", "patient triage"] },
+    { name: "Medication Administration & Dosage", category: "Healthcare & Clinical", aliases: ["medication", "injections", "iv drip", "pharmacology"] },
+    { name: "Phlebotomy & Sample Collection", category: "Healthcare & Clinical", aliases: ["blood sample", "phlebotomy", "vacutainer", "specimen collection"] },
+    { name: "First Aid & Basic Life Support (BLS)", category: "Healthcare & Clinical", aliases: ["cpr", "bls", "first aid", "emergency triage"] },
+    { name: "Clinical Documentation & EHR Systems", category: "Healthcare & Clinical", aliases: ["ehr", "emr", "medical records", "patient charting"] },
+    { name: "Infection Control & Sterilization Protocols", category: "Healthcare & Clinical", aliases: ["autoclave", "infection control", "hospital hygiene", "aseptic technique"] },
+    { name: "Diagnostic Laboratory Equipment Handling", category: "Healthcare & Clinical", aliases: ["centrifuge", "microscope", "hematology analyzer", "biochemistry analyzer"] },
+
+    // --- 17. Logistics, Supply Chain & Operations ---
+    { name: "Warehouse Inventory Management", category: "Logistics & Operations", aliases: ["inventory management", "stock taking", "fifo", "warehouse operations"] },
+    { name: "Dispatch & Route Optimization", category: "Logistics & Operations", aliases: ["route planning", "dispatching", "last mile logistics", "delivery routing"] },
+    { name: "Purchase Order & Vendor Tracking", category: "Logistics & Operations", aliases: ["po tracking", "vendor management", "inward outward"] },
+    { name: "Barcode & RFID Scanner Operation", category: "Logistics & Operations", aliases: ["barcode scanning", "rfid", "handheld scanner"] },
+    { name: "Supply Chain ERP Systems", category: "Logistics & Operations", aliases: ["erp logistics", "wms", "warehouse management system"] },
+
+    // --- 18. Construction & Architecture ---
+    { name: "AutoCAD 2D & 3D Drafting", category: "Trades & Engineering", aliases: ["autocad", "cad drafting", "architectural drawing", "engineering drawing"] },
+    { name: "Revit & Building Information Modeling (BIM)", category: "Trades & Engineering", aliases: ["revit", "bim", "3d modeling construction"] },
+    { name: "Construction Site Supervision & Safety", category: "Trades & Engineering", aliases: ["site safety", "site execution", "osha", "construction supervision"] },
+    { name: "Bill of Quantities (BOQ) & Cost Estimation", category: "Trades & Engineering", aliases: ["boq", "quantity estimation", "rate analysis", "civil billing"] },
+    { name: "Structural Analysis & Blueprint Reading", category: "Trades & Engineering", aliases: ["blueprint reading", "reinforcement detailing", "structural drawing"] },
+
+    // --- 19. Skilled Trades & Mechanical ---
+    { name: "Electrical Wiring & Circuit Installation", category: "Trades & Engineering", aliases: ["electrical wiring", "switchgear", "circuit breaker", "db dressing"] },
+    { name: "Plumbing Installation & Pipe Fitting", category: "Trades & Engineering", aliases: ["plumbing", "pvc pipes", "drainage", "pipe fitting", "cpvc"] },
+    { name: "HVAC & Air Conditioning Maintenance", category: "Trades & Engineering", aliases: ["hvac repair", "ac servicing", "gas charging", "compressor repair"] },
+    { name: "Arc, MIG & TIG Welding", category: "Trades & Engineering", aliases: ["welding", "tig welding", "mig welding", "gas cutting", "fabrication"] },
+    { name: "Automotive Engine Diagnostics & Repair", category: "Trades & Engineering", aliases: ["engine repair", "transmission", "brakes", "vehicle servicing"] },
+    { name: "CNC & VMC Machine Operation", category: "Trades & Engineering", aliases: ["cnc machine", "vmc machine", "g-code", "lathe machine"] },
+
+    // --- 20. Administration & Office Tools ---
+    { name: "Data Entry & High-Speed Typing (40+ WPM)", category: "Office & Productivity", aliases: ["typing", "data entry speed", "computer typing", "numeric keypad"] },
+    { name: "MS Office Suite (Word, Excel, PowerPoint)", category: "Office & Productivity", aliases: ["ms office", "word processing", "excel sheets", "powerpoint presentations"] },
+    { name: "Google Workspace (Docs, Sheets, Drive)", category: "Office & Productivity", aliases: ["google docs", "google sheets", "google drive", "gmail for business"] },
+    { name: "Office Calendar & Executive Scheduling", category: "Office & Productivity", aliases: ["calendar management", "meeting scheduling", "travel booking"] },
+    { name: "Business English & Written Correspondence", category: "Office & Productivity", aliases: ["business email", "formal letter writing", "minutes of meeting", "drafting"] }
   ];
 
   // =========================================================================
@@ -552,10 +738,96 @@
       return [...exact, ...starts, ...alias, ...contains].slice(0, 30);
     },
 
-    // Get list of distinct categories for jobs & candidates
+    // Master Standardized Industry Categories
+    MASTER_CATEGORIES: [
+      "Software & Web Development",
+      "DevOps, Cloud & Infrastructure",
+      "QA & Automation Testing",
+      "Mobile Application Development",
+      "Data Science, AI & Analytics",
+      "Cybersecurity & InfoSec",
+      "Product Management & UI/UX Design",
+      "IT Support & Enterprise Systems",
+      "Sales, Retail & Business Development",
+      "Finance, Banking & Accounting",
+      "Marketing, Advertising & Content",
+      "Customer Support, BPO & Telecalling",
+      "Healthcare, Nursing & Pharmacy",
+      "Education, Teaching & Training",
+      "Human Resources & Talent Acquisition",
+      "Logistics, Supply Chain & Delivery",
+      "Hospitality, Hotel & Food Service",
+      "Construction, Architecture & Real Estate",
+      "Manufacturing, Mechanical & Production",
+      "Administration, Office & Clerical",
+      "Skilled Trades & Technical Services",
+      "Legal & Corporate Compliance",
+      "Security, Facilities & Maintenance"
+    ],
+
+    // LocalStorage Key for Employer-Defined Custom Categories
+    CUSTOM_CATEGORY_KEY: 'jc_employer_custom_categories',
+
+    // Retrieve employer's custom categories
+    getCustomCategories() {
+      try {
+        const raw = localStorage.getItem(this.CUSTOM_CATEGORY_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            return parsed.map(c => String(c).trim()).filter(c => c.length >= 2);
+          }
+        }
+      } catch (err) {
+        console.warn("Could not parse custom employer categories:", err);
+      }
+      return [];
+    },
+
+    // Save a custom category created by an employer
+    saveCustomCategory(categoryName) {
+      if (!categoryName) return null;
+      const clean = String(categoryName).trim();
+      if (clean.length < 2) return null;
+
+      try {
+        const current = this.getCustomCategories();
+        const lower = clean.toLowerCase();
+        if (!current.some(c => c.toLowerCase() === lower)) {
+          current.unshift(clean);
+          localStorage.setItem(this.CUSTOM_CATEGORY_KEY, JSON.stringify(current));
+        }
+        return clean;
+      } catch (err) {
+        console.error("Failed to persist custom category:", err);
+        return clean;
+      }
+    },
+
+    // Remove a custom category
+    deleteCustomCategory(categoryName) {
+      if (!categoryName) return;
+      try {
+        const clean = String(categoryName).trim().toLowerCase();
+        let current = this.getCustomCategories();
+        current = current.filter(c => c.toLowerCase() !== clean);
+        localStorage.setItem(this.CUSTOM_CATEGORY_KEY, JSON.stringify(current));
+      } catch (err) {
+        console.error("Failed to delete custom category:", err);
+      }
+    },
+
+    // Get list of distinct categories (built-in + employer custom categories)
     getCategories() {
       const set = new Set();
-      JOB_TITLES_LIBRARY.forEach(j => set.add(j.category));
+      // Add standard master categories
+      this.MASTER_CATEGORIES.forEach(c => set.add(c));
+      // Add existing roles categories
+      JOB_TITLES_LIBRARY.forEach(j => {
+        if (j.category) set.add(j.category);
+      });
+      // Add employer custom categories
+      this.getCustomCategories().forEach(c => set.add(c));
       return Array.from(set);
     },
 
@@ -564,14 +836,86 @@
       if (!title) return "Software Engineering";
       const q = title.trim().toLowerCase();
 
-      // Direct match
+      // Check if matches any employer custom category directly or by keyword tokens
+      const customCats = this.getCustomCategories();
+      const customMatch = customCats.find(c => {
+        const cLower = c.toLowerCase();
+        if (cLower === q || q.includes(cLower) || cLower.includes(q)) return true;
+        const tokens = cLower.split(/\s+/).filter(t => t.length > 3);
+        return tokens.some(token => q.includes(token));
+      });
+      if (customMatch) return customMatch;
+
+      // Direct match from Master Titles Library
       const directMatch = JOB_TITLES_LIBRARY.find(j => {
         return j.title.toLowerCase() === q ||
                (j.aliases && j.aliases.some(a => a.toLowerCase() === q));
       });
       if (directMatch) return directMatch.category;
 
-      // Heuristic rules for real-time synchronization
+      // Heuristic rules for real-time synchronization across all fields:
+      // 1. Sales & Retail
+      if (q.includes("sales") || q.includes("bdm") || q.includes("retail") || q.includes("cashier") || q.includes("tele-sales") || q.includes("telesales") || q.includes("account executive") || q.includes("merchandis")) {
+        return "Sales, Retail & Business Development";
+      }
+      // 2. Finance & Accounting
+      if (q.includes("accountant") || q.includes("ca ") || q.includes("chartered") || q.includes("finance") || q.includes("audit") || q.includes("tax") || q.includes("gst") || q.includes("bookkeep") || q.includes("banking") || q.includes("billing clerk")) {
+        return "Finance, Banking & Accounting";
+      }
+      // 3. Marketing & Content
+      if (q.includes("marketing") || q.includes("seo") || q.includes("social media") || q.includes("copywriter") || q.includes("content writer") || q.includes("ppc") || q.includes("growth hacker") || q.includes("brand designer")) {
+        return "Marketing, Advertising & Content";
+      }
+      // 4. Customer Support & BPO
+      if (q.includes("customer support") || q.includes("customer care") || q.includes("call center") || q.includes("bpo") || q.includes("telecaller") || q.includes("voice process") || q.includes("chat support") || q.includes("customer success")) {
+        return "Customer Support, BPO & Telecalling";
+      }
+      // 5. Healthcare & Nursing
+      if (q.includes("doctor") || q.includes("physician") || q.includes("nurse") || q.includes("pharmacist") || q.includes("chemist") || q.includes("medical") || q.includes("clinic") || q.includes("hospital") || q.includes("lab tech") || q.includes("dentist") || q.includes("physiotherap") || q.includes("ward boy")) {
+        return "Healthcare, Nursing & Pharmacy";
+      }
+      // 6. Education & Teaching
+      if (q.includes("teacher") || q.includes("lecturer") || q.includes("professor") || q.includes("tutor") || q.includes("teaching") || q.includes("faculty") || q.includes("trainer") || q.includes("counselor") || q.includes("admissions")) {
+        return "Education, Teaching & Training";
+      }
+      // 7. Hospitality, Hotel & Food Service
+      if (q.includes("chef") || q.includes("cook") || q.includes("hotel") || q.includes("restaurant") || q.includes("waiter") || q.includes("steward") || q.includes("barista") || q.includes("bartender") || q.includes("hospitality") || q.includes("housekeeping")) {
+        return "Hospitality, Hotel & Food Service";
+      }
+      // 8. Logistics, Delivery & Supply Chain
+      if (q.includes("delivery") || q.includes("courier") || q.includes("rider") || q.includes("driver") || q.includes("logistics") || q.includes("supply chain") || q.includes("warehouse") || q.includes("dispatch") || q.includes("fleet")) {
+        return "Logistics, Supply Chain & Delivery";
+      }
+      // 9. Construction, Real Estate & Architecture
+      if (q.includes("civil") || q.includes("construction") || q.includes("site engineer") || q.includes("site supervisor") || q.includes("architect") || q.includes("interior design") || q.includes("real estate") || q.includes("property consultant") || q.includes("surveyor")) {
+        return "Construction, Architecture & Real Estate";
+      }
+      // 10. Manufacturing, Mechanical & Production
+      if (q.includes("mechanical") || q.includes("manufacturing") || q.includes("production") || q.includes("qc inspector") || q.includes("cnc") || q.includes("vmc") || q.includes("lathe") || q.includes("plant technician") || q.includes("shopfloor")) {
+        return "Manufacturing, Mechanical & Production";
+      }
+      // 11. Administration, Office & Clerical
+      if (q.includes("data entry") || q.includes("deo") || q.includes("receptionist") || q.includes("office admin") || q.includes("executive assistant") || q.includes("personal assistant") || q.includes("clerk") || q.includes("back office")) {
+        return "Administration, Office & Clerical";
+      }
+      // 12. Skilled Trades & Technical Services
+      if (q.includes("electrician") || q.includes("plumber") || q.includes("ac technician") || q.includes("hvac") || q.includes("welder") || q.includes("fabricator") || q.includes("mechanic") || q.includes("auto repair") || q.includes("wireman") || q.includes("fitter")) {
+        return "Skilled Trades & Technical Services";
+      }
+      // 13. Legal & Compliance
+      if (q.includes("lawyer") || q.includes("advocate") || q.includes("legal") || q.includes("compliance officer") || q.includes("paralegal") || q.includes("regulatory")) {
+        return "Legal & Corporate Compliance";
+      }
+      // 14. Security & Facilities
+      if (q.includes("security") && (q.includes("guard") || q.includes("officer") || q.includes("supervisor") || q.includes("facility"))) {
+        return "Security, Facilities & Maintenance";
+      }
+      // 15. HR & Talent
+      if (q.includes("recruiter") || q.includes("hr") || q.includes("talent") || q.includes("human resources") || q.includes("people ops") || q.includes("payroll")) {
+        return "Human Resources & Talent Acquisition";
+      }
+
+      // Tech Roles Heuristics
       if (q.includes("devops") || q.includes("sre") || q.includes("cloud") || q.includes("aws") || q.includes("azure") || q.includes("kubernetes") || q.includes("sysadmin") || q.includes("infrastructure") || q.includes("platform engineer")) {
         return "DevOps & Cloud";
       }
@@ -584,7 +928,7 @@
       if (q.includes("ai") || q.includes("ml") || q.includes("data") || q.includes("deep learning") || q.includes("analytics") || q.includes("bi analyst") || q.includes("spark") || q.includes("llm") || q.includes("genai")) {
         return "Data & AI";
       }
-      if (q.includes("security") || q.includes("cyber") || q.includes("pentest") || q.includes("soc") || q.includes("vapt") || q.includes("infosec")) {
+      if (q.includes("cyber") || q.includes("pentest") || q.includes("soc") || q.includes("vapt") || q.includes("infosec")) {
         return "Cybersecurity";
       }
       if (q.includes("product") || q.includes("ui") || q.includes("ux") || q.includes("design") || q.includes("figma") || q.includes("scrum product owner")) {
@@ -595,9 +939,6 @@
       }
       if (q.includes("embedded") || q.includes("firmware") || q.includes("iot") || q.includes("hardware") || q.includes("robotics") || q.includes("pcb")) {
         return "Systems & Hardware";
-      }
-      if (q.includes("recruiter") || q.includes("hr") || q.includes("talent") || q.includes("writer") || q.includes("devrel") || q.includes("human resources")) {
-        return "Talent & Operations";
       }
       if (q.includes("it support") || q.includes("helpdesk") || q.includes("salesforce") || q.includes("sap") || q.includes("servicenow") || q.includes("systems admin")) {
         return "IT & Systems";
