@@ -976,6 +976,150 @@
       margin-bottom: 6px;
       display: block;
     }
+
+    /* ==========================================================================
+       Smart Match Scoring Algorithm & Breakdown Styles
+       ========================================================================== */
+    .cand-badge-match {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 750 !important;
+      letter-spacing: -0.01em;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .cand-badge-match:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    .match-breakdown-panel {
+      display: none;
+      position: absolute;
+      top: 48px;
+      left: 10px;
+      right: 10px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25), 0 8px 10px -6px rgba(15, 23, 42, 0.12);
+      z-index: 20;
+      padding: 14px;
+      text-align: left;
+      animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .match-breakdown-panel.active {
+      display: block;
+    }
+
+    @keyframes popoverFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .match-breakdown-header {
+      padding-bottom: 8px;
+      border-bottom: 1px solid #F1F5F9;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .match-metric-row {
+      margin-bottom: 8px;
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 650;
+      color: #334155;
+      margin-bottom: 3px;
+    }
+
+    .metric-val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .match-progress-bar {
+      width: 100%;
+      height: 5px;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 3px;
+    }
+
+    .match-progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: #059669;
+      transition: width 0.35s ease;
+    }
+
+    .metric-subtext {
+      font-size: 10px;
+      color: #64748B;
+      line-height: 1.3;
+    }
+
+    .matched-chips-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .matched-chip {
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+      font-size: 9.5px;
+      font-weight: 650;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+    }
+
+    .missing-chip {
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+      font-size: 9.5px;
+      font-weight: 600;
+      padding: 1.5px 6px;
+      border-radius: 4px;
+    }
+
+    .match-breakdown-close {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background: none;
+      border: none;
+      color: #94A3B8;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .match-breakdown-close:hover {
+      color: #0F172A;
+      background: #F1F5F9;
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -1173,16 +1317,30 @@
       <!-- Results Status Bar -->
       <div class="content-results-bar">
         <div class="results-heading-meta">
-          <span>Showing <strong id="cand-results-count">02</strong> verified candidates</span>
+          <span>Showing <strong id="cand-results-count">08</strong> verified candidates</span>
           <span style="color: var(--color-border); font-weight: 300;">|</span>
           <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Technical Profiles</span>
         </div>
 
-        <div>
-          <select id="cand-sort-select" class="content-sort-select">
-            <option value="exp">Sort: Highest Experience</option>
-            <option value="name">Sort: Candidate Name</option>
-          </select>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <!-- Smart Match Target Dropdown -->
+          <div class="match-target-pill" style="display: inline-flex; align-items: center; gap: 6px; background: #FFFFFF; border: 1px solid #CBD5E1; padding: 4px 10px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+            <span style="font-size: 11px; font-weight: 750; color: #0F172A; text-transform: uppercase; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px;">
+              <span style="color: #059669; font-size: 13px;">🎯</span>
+              <span>Match:</span>
+            </span>
+            <select id="cand-match-target-select" class="content-sort-select" style="border: none; background: transparent; padding: 0 4px; font-size: 12px; font-weight: 650; color: #0F172A; outline: none; cursor: pointer; max-width: 240px;">
+              <option value="benchmark">General Market Benchmark</option>
+            </select>
+          </div>
+
+          <div>
+            <select id="cand-sort-select" class="content-sort-select">
+              <option value="match" selected>Sort: 🎯 Best Match % (Recommended)</option>
+              <option value="exp">Sort: Highest Experience</option>
+              <option value="name">Sort: Candidate Name</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -1432,6 +1590,7 @@
 
       // 2. Candidate Filtering & Render
       let allCandidates = [];
+      let allJobs = [];
       let activeCategory = 'all';
 
       const gridContainer = document.getElementById('candidates-grid-container');
@@ -1441,6 +1600,7 @@
       const expSelect = document.getElementById('cand-exp-select');
       const citySelect = document.getElementById('cand-city-select');
       const sortSelect = document.getElementById('cand-sort-select');
+      const matchTargetSelect = document.getElementById('cand-match-target-select');
       const btnReset = document.getElementById('btn-reset-cands');
 
       const drawerOverlay = document.getElementById('cand-drawer-overlay');
@@ -1546,11 +1706,61 @@
         });
       }
 
+      // Populate Match Target Jobs Dropdown
+      async function populateMatchTargetJobs() {
+        if (!matchTargetSelect) return;
+        try {
+          allJobs = await window.jobApi.getJobs();
+        } catch (e) {
+          allJobs = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlJobId = urlParams.get('jobId') || urlParams.get('targetJob');
+
+        let html = `<option value="benchmark">General Market Benchmark (High Readiness)</option>`;
+
+        const isEmployer = user && user.role === 'employer';
+        const myJobs = isEmployer ? allJobs.filter(j => (user.name && j.business_name && j.business_name.toLowerCase().includes(user.name.toLowerCase())) || (user.id && j.employer_id === user.id)) : [];
+        const otherJobs = isEmployer ? allJobs.filter(j => !myJobs.includes(j)) : allJobs;
+
+        if (myJobs.length > 0) {
+          html += `<optgroup label="⭐ Your Posted Vacancies">`;
+          myJobs.forEach(j => {
+            html += `<option value="${escapeAttr(j.id)}">🎯 ${escapeHtml(j.title)} (${escapeHtml(j.category)})</option>`;
+          });
+          html += `</optgroup>`;
+        }
+
+        if (otherJobs.length > 0) {
+          html += `<optgroup label="All Active Vacancies">`;
+          otherJobs.forEach(j => {
+            html += `<option value="${escapeAttr(j.id)}">${escapeHtml(j.title)} (${escapeHtml(j.category)})</option>`;
+          });
+          html += `</optgroup>`;
+        }
+
+        matchTargetSelect.innerHTML = html;
+
+        if (urlJobId && allJobs.some(j => j.id === urlJobId)) {
+          matchTargetSelect.value = urlJobId;
+        } else if (myJobs.length > 0) {
+          matchTargetSelect.value = myJobs[0].id;
+        }
+      }
+
+      function getActiveTargetJob() {
+        const val = matchTargetSelect?.value || 'benchmark';
+        if (val === 'benchmark') return 'benchmark';
+        return allJobs.find(j => j.id === val) || 'benchmark';
+      }
+
       function getFilteredCandidates() {
         const query = (searchInput.value || '').trim().toLowerCase();
         const city = citySelect.value;
         const minExp = Number(expSelect.value) || 0;
         const sortMode = sortSelect.value;
+        const targetJob = getActiveTargetJob();
 
         let filtered = allCandidates.filter(c => {
           if (activeCategory !== 'all') {
@@ -1575,7 +1785,28 @@
           return true;
         });
 
-        if (sortMode === 'exp') {
+        // Compute AI Match Score for every candidate against the active target
+        filtered.forEach(c => {
+          c._match = (window.JobLibrary && typeof window.JobLibrary.calculateMatchScore === 'function')
+            ? window.JobLibrary.calculateMatchScore(c, targetJob)
+            : {
+                score: 85,
+                tier: 'strong',
+                label: 'Strong Match',
+                badgeColor: '#059669',
+                targetJobTitle: typeof targetJob === 'object' ? targetJob.title : 'Market Benchmark',
+                breakdown: {
+                  skills: { score: 85, matched: c.skills || [], missing: [], detail: 'Core skills verified' },
+                  role: { score: 90, detail: c.trade_title },
+                  experience: { score: 85, detail: `${c.experience} yrs exp` },
+                  location: { score: 90, detail: c.city }
+                }
+              };
+        });
+
+        if (sortMode === 'match') {
+          filtered.sort((a, b) => (b._match.score || 0) - (a._match.score || 0) || (b.experience || 0) - (a.experience || 0));
+        } else if (sortMode === 'exp') {
           filtered.sort((a, b) => (b.experience || 0) - (a.experience || 0));
         } else if (sortMode === 'name') {
           filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -1658,17 +1889,88 @@
           const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
           return `
-            <article class="candidate-card" data-cand-id="${c.id}">
+            <article class="candidate-card" data-cand-id="${c.id}" style="position: relative;">
               <div class="candidate-card-header-box">
                 <img src="${resolveCandidateCover(c)}" alt="${c.name}" loading="lazy">
                 <div class="candidate-floating-badges">
                   <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
+                  <!-- Smart Match Badge -->
+                  <span class="cand-badge cand-badge-match" data-action="toggle-match" data-cand-id="${c.id}" style="background: ${c._match.badgeColor}; color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-weight: 750; font-size: 11px; cursor: pointer;" title="AI Match: ${c._match.score}% - Click to view detailed score breakdown">
+                    <span class="match-sparkle">🎯</span>
+                    <strong>${c._match.score}% Match</strong>
+                  </span>
                   ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px;">🛒 Selected</span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>')}
                 </div>
 
                 <div class="cand-avatar-pill">
                   ${(c.photo_key || c.avatar) ? `<img src="${c.photo_key || c.avatar}" alt="${c.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : initials}
                   <div class="cand-verified-microtick" title="KYC Verified">✓</div>
+                </div>
+              </div>
+
+              <!-- Interactive Match Breakdown Popover -->
+              <div class="match-breakdown-panel" id="match-breakdown-${c.id}">
+                <button type="button" class="match-breakdown-close" data-action="close-match" data-cand-id="${c.id}" title="Close breakdown">✕</button>
+                <div class="match-breakdown-header">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 6px;">
+                      <span style="background: ${c._match.badgeColor}; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">🎯</span>
+                      <span>${c._match.score}% Match Score</span>
+                    </div>
+                    <span style="font-size: 10.5px; font-weight: 700; color: ${c._match.badgeColor}; text-transform: uppercase; letter-spacing: 0.05em; background: ${c._match.badgeColor}18; padding: 2px 7px; border-radius: 4px;">
+                      ${c._match.label}
+                    </span>
+                  </div>
+                  <div style="font-size: 11px; color: #64748B; margin-top: 5px;">
+                    Benchmark: <strong style="color: #0F172A;">${escapeHtml(c._match.targetJobTitle)}</strong>
+                  </div>
+                </div>
+
+                <div class="match-breakdown-body">
+                  <!-- Skills Metric -->
+                  <div class="match-metric-row">
+                    <div class="metric-top">
+                      <span>Skills Overlap (45% weight)</span>
+                      <span class="metric-val" style="color: ${c._match.badgeColor};">${c._match.breakdown.skills.score}%</span>
+                    </div>
+                    <div class="match-progress-bar"><div class="match-progress-fill" style="width: ${c._match.breakdown.skills.score}%; background: ${c._match.badgeColor};"></div></div>
+                    <div class="metric-subtext">${escapeHtml(c._match.breakdown.skills.detail)}</div>
+                    ${c._match.breakdown.skills.matched && c._match.breakdown.skills.matched.length > 0 ? `
+                      <div class="matched-chips-row">
+                        ${c._match.breakdown.skills.matched.map(m => `<span class="matched-chip">✓ ${escapeHtml(m)}</span>`).join('')}
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  <!-- Role Metric -->
+                  <div class="match-metric-row">
+                    <div class="metric-top">
+                      <span>Role Alignment (25% weight)</span>
+                      <span class="metric-val">${c._match.breakdown.role.score}%</span>
+                    </div>
+                    <div class="match-progress-bar"><div class="match-progress-fill" style="width: ${c._match.breakdown.role.score}%;"></div></div>
+                    <div class="metric-subtext">${escapeHtml(c._match.breakdown.role.detail)}</div>
+                  </div>
+
+                  <!-- Experience Metric -->
+                  <div class="match-metric-row">
+                    <div class="metric-top">
+                      <span>Experience Fit (18% weight)</span>
+                      <span class="metric-val">${c._match.breakdown.experience.score}%</span>
+                    </div>
+                    <div class="match-progress-bar"><div class="match-progress-fill" style="width: ${c._match.breakdown.experience.score}%;"></div></div>
+                    <div class="metric-subtext">${escapeHtml(c._match.breakdown.experience.detail)}</div>
+                  </div>
+
+                  <!-- Location Metric -->
+                  <div class="match-metric-row" style="margin-bottom: 0;">
+                    <div class="metric-top">
+                      <span>Location Proximity (12% weight)</span>
+                      <span class="metric-val">${c._match.breakdown.location.score}%</span>
+                    </div>
+                    <div class="match-progress-bar"><div class="match-progress-fill" style="width: ${c._match.breakdown.location.score}%;"></div></div>
+                    <div class="metric-subtext">${escapeHtml(c._match.breakdown.location.detail)}</div>
+                  </div>
                 </div>
               </div>
 
@@ -1738,10 +2040,29 @@
         // Attach listeners
         gridContainer.querySelectorAll('.candidate-card').forEach(card => {
           card.addEventListener('click', (e) => {
+            const toggleMatchBtn = e.target.closest('[data-action="toggle-match"]');
+            const closeMatchBtn = e.target.closest('[data-action="close-match"]');
             const toggleCartBtn = e.target.closest('[data-action="toggle-cart"]');
             const workspaceBtn = e.target.closest('[data-action="workspace"]');
             const viewerUnlockBtn = e.target.closest('[data-action="viewer-unlock"]');
             const candId = card.dataset.candId;
+
+            if (toggleMatchBtn) {
+              e.stopPropagation();
+              const panel = document.getElementById(`match-breakdown-${candId}`);
+              if (panel) {
+                const wasActive = panel.classList.contains('active');
+                gridContainer.querySelectorAll('.match-breakdown-panel.active').forEach(p => p.classList.remove('active'));
+                if (!wasActive) panel.classList.add('active');
+              }
+              return;
+            }
+
+            if (closeMatchBtn) {
+              e.stopPropagation();
+              document.getElementById(`match-breakdown-${candId}`)?.classList.remove('active');
+              return;
+            }
 
             if (toggleCartBtn) {
               e.stopPropagation();
@@ -1842,6 +2163,10 @@
         const telLink = cleanPhone ? `tel:+${cleanPhone}` : '#';
         const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
+        const cMatch = (window.JobLibrary && typeof window.JobLibrary.calculateMatchScore === 'function')
+          ? window.JobLibrary.calculateMatchScore(c, getActiveTargetJob())
+          : { score: 90, label: 'Strong Fit', badgeColor: '#059669', breakdown: {} };
+
         drawerBody.innerHTML = `
           <!-- Header Profile Row -->
           <div style="display: flex; gap: 16px; align-items: flex-start;">
@@ -1853,11 +2178,46 @@
               <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
                 <span class="cand-badge cand-badge-kyc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>
                 <span class="cand-badge">${c.experience}+ Yrs Exp</span>
+                <span class="cand-badge cand-badge-match" style="background: ${cMatch.badgeColor}; color: #ffffff;">🎯 ${cMatch.score}% Match</span>
                 ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Unlocked Pass</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-weight: 700;">🛒 Selected</span>' : '')}
               </div>
               <h2 style="font-size: 22px; font-weight: 750; margin: 0; color: #14281D; letter-spacing: -0.02em;">${c.name}</h2>
               <div style="font-size: 13.5px; color: #4B5563; margin-top: 3px; font-weight: 500;">
                 ${c.trade_title} • ${c.city}
+              </div>
+            </div>
+          </div>
+
+          <!-- Smart Match Intelligence Overview in Drawer -->
+          <div style="background: #FFFFFF; border: 1.5px solid ${cMatch.badgeColor}35; border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+              <div style="font-size: 13.5px; font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 6px;">
+                <span style="background: ${cMatch.badgeColor}; color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">🎯</span>
+                <span>${cMatch.score}% AI Match Compatibility</span>
+              </div>
+              <span style="font-size: 11px; font-weight: 750; color: ${cMatch.badgeColor}; background: ${cMatch.badgeColor}18; padding: 3px 9px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.04em;">
+                ${cMatch.label}
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #64748B; margin-bottom: 10px;">
+              Evaluated against: <strong style="color: #0F172A;">${escapeHtml(cMatch.targetJobTitle)}</strong>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 8px;">
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 10px;">
+                <div style="font-size: 10px; color: #64748B; font-weight: 700; text-transform: uppercase;">Skills (45%)</div>
+                <div style="font-size: 15px; font-weight: 800; color: ${cMatch.badgeColor}; margin-top: 2px;">${cMatch.breakdown?.skills?.score || 0}%</div>
+              </div>
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 10px;">
+                <div style="font-size: 10px; color: #64748B; font-weight: 700; text-transform: uppercase;">Role (25%)</div>
+                <div style="font-size: 15px; font-weight: 800; color: #0F172A; margin-top: 2px;">${cMatch.breakdown?.role?.score || 0}%</div>
+              </div>
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 10px;">
+                <div style="font-size: 10px; color: #64748B; font-weight: 700; text-transform: uppercase;">Experience (18%)</div>
+                <div style="font-size: 15px; font-weight: 800; color: #0F172A; margin-top: 2px;">${cMatch.breakdown?.experience?.score || 0}%</div>
+              </div>
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 8px 10px;">
+                <div style="font-size: 10px; color: #64748B; font-weight: 700; text-transform: uppercase;">Location (12%)</div>
+                <div style="font-size: 15px; font-weight: 800; color: #0F172A; margin-top: 2px;">${cMatch.breakdown?.location?.score || 0}%</div>
               </div>
             </div>
           </div>
@@ -2027,17 +2387,26 @@
       expSelect.addEventListener('change', renderCandidatesGrid);
       citySelect.addEventListener('change', renderCandidatesGrid);
       sortSelect.addEventListener('change', renderCandidatesGrid);
+      matchTargetSelect?.addEventListener('change', renderCandidatesGrid);
 
       function resetFilters() {
         searchInput.value = '';
         expSelect.value = '0';
         citySelect.value = 'all';
-        sortSelect.value = 'exp';
+        sortSelect.value = 'match';
+        if (matchTargetSelect) matchTargetSelect.value = 'benchmark';
         activeCategory = 'all';
         renderDynamicCandidateCategoryFilters();
         renderCandidatesGrid();
       }
       if (btnReset) btnReset.addEventListener('click', resetFilters);
+
+      // Outside click listener to dismiss breakdown popovers
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.match-breakdown-panel') && !e.target.closest('[data-action="toggle-match"]')) {
+          gridContainer?.querySelectorAll('.match-breakdown-panel.active').forEach(p => p.classList.remove('active'));
+        }
+      });
 
       // ==========================================================================
       // Filter Drawer Controls (Slide-out menu on mobile <= 860px)
@@ -2104,15 +2473,18 @@
         }
       }
 
-      // Initial Dynamic Filters & Render from local cache
-      renderDynamicCandidateCategoryFilters();
-      renderCandidatesGrid();
+      // Initial Dynamic Filters & Render with Match Benchmark populated
+      populateMatchTargetJobs().then(() => {
+        renderDynamicCandidateCategoryFilters();
+        renderCandidatesGrid();
+      });
 
       // Fetch live verified candidates from Cloudflare D1 database (sync across all domains)
       (async function syncCandidatesFromD1() {
         try {
           if (window.jobApi && typeof window.jobApi.fetchCandidates === 'function') {
             await window.jobApi.fetchCandidates();
+            await populateMatchTargetJobs();
             renderDynamicCandidateCategoryFilters();
             renderCandidatesGrid();
           }

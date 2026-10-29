@@ -2448,15 +2448,16 @@
           <!-- Action Buttons -->
           <div class="drawer-actions-row">
             ${isEmployer ? `
-              ${isOwnJob ? `
-                <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
-                  <span>★ Manage Applications in Employer Workspace →</span>
+              <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+                ${isOwnJob ? `
+                  <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
+                    <span>★ Manage Applications in Employer Workspace →</span>
+                  </a>
+                ` : ''}
+                <a href="/candidates.html?jobId=${encodeURIComponent(job.id)}&category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center; gap: 6px; ${isOwnJob ? 'background: #0D9488; border-color: #0D9488;' : ''}">
+                  <span>🎯 Match Candidates for this Vacancy →</span>
                 </a>
-              ` : `
-                <a href="/candidates.html?category=${encodeURIComponent(job.category)}" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
-                  <span>Browse Candidates in ${job.category} →</span>
-                </a>
-              `}
+              </div>
             ` : `
               ${isApplied ? `
                 <div style="display: flex; gap: 8px; flex: 1; align-items: center;">
