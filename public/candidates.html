@@ -7,6 +7,9 @@
   <meta name="description" content="Directly browse, filter, and unlock verified technical trade candidates, engineers, and machine operators across India with zero brokerage.">
   <link rel="canonical" href="https://job-way.in/candidates.html">
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#14281D">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
 
   <!-- Fonts: Geist, Geist Mono & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2527,6 +2530,13 @@
         }
       })();
     });
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>

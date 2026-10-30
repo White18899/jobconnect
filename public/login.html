@@ -7,6 +7,9 @@
   <meta name="description" content="Sign in or create your verified JobWay account with email verification. Powered by job-way.in SMTP.">
   <link rel="canonical" href="https://job-way.in/login">
   <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#14281D">
+  <link rel="apple-touch-icon" href="/assets/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1571,5 +1574,12 @@
       </div>
     </div>
   </footer>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>

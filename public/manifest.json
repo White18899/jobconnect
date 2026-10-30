@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "JobWay - Verified Tech Hiring Network",
+  "short_name": "JobWay",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#14281D",
+  "description": "Direct verified employment network for software engineers, QA testers, tech professionals and hiring companies across India. Zero middleman brokerage.",
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Verified Jobs",
+      "short_name": "Jobs",
+      "url": "/jobs.html",
+      "description": "Explore verified technical vacancies across Visakhapatnam and India"
+    },
+    {
+      "name": "Candidate Directory",
+      "short_name": "Candidates",
+      "url": "/candidates.html",
+      "description": "Browse pre-screened software engineers and tech talent"
+    },
+    {
+      "name": "Employer Desk",
+      "short_name": "Employer",
+      "url": "/employer.html",
+      "description": "Manage candidate applications and contact unlocks"
+    }
+  ]
+}
