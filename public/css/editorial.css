@@ -3453,3 +3453,577 @@ img {
   }
 }
 
+
+
+/* =========================================================
+   Mobile App Navigation, Bottom Sheet & Launch Experience
+   ========================================================= */
+
+@media (min-width: 769px) {
+  #jobway-mobile-bottom-nav,
+  #jobway-profile-sheet-overlay,
+  .mobile-search-pill-wrapper,
+  .mobile-category-chips-wrapper,
+  #mobile-role-hero-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 78px !important;
+  }
+
+  /* Compact top header - prevent horizontal clipping */
+  .editorial-header {
+    padding: 10px 14px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(8px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .editorial-navbar {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  #btn-header-post-vacancy-user,
+  #home-logout-btn {
+    display: none !important;
+  }
+
+  .nav-profile-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    height: 34px !important;
+    padding: 3px 10px 3px 4px !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 20px !important;
+  }
+
+  .nav-profile-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background: #14281D !important;
+    color: #FFFFFF !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .nav-profile-name {
+    font-size: 12px !important;
+    font-weight: 650 !important;
+    color: #1E293B !important;
+    max-width: 75px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Bottom Navigation Bar */
+  .jobway-mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid #E2E8F0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4px;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    z-index: 1050;
+    box-sizing: border-box;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex: 1;
+    height: 100%;
+    color: #64748B;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: color 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-nav-item.active {
+    color: #059669 !important;
+  }
+
+  .mobile-nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+
+  .mobile-nav-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .mobile-avatar-pill {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #14281D;
+    color: #FFFFFF;
+    font-size: 9.5px;
+    font-weight: 750;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Bottom Sheet Overlay & Panel */
+  .mobile-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .mobile-sheet-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-sheet-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.18);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  .mobile-sheet-overlay.active .mobile-sheet-panel {
+    transform: translateY(0);
+  }
+
+  .mobile-sheet-drag-handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #CBD5E1;
+    margin: 10px auto 4px;
+  }
+
+  .mobile-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .mobile-sheet-user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mobile-sheet-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #14281D;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 750;
+  }
+
+  .mobile-sheet-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+  }
+
+  .mobile-sheet-role {
+    font-size: 11.5px;
+    color: #059669;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .sheet-role-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10B981;
+  }
+
+  .mobile-sheet-close-btn {
+    background: #F1F5F9;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #64748B;
+    cursor: pointer;
+  }
+
+  .mobile-sheet-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+  }
+
+  .mobile-sheet-credit-box {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .mobile-sheet-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-sheet-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #1E293B;
+    font-size: 13.5px;
+    font-weight: 600;
+    background: #F8FAFC;
+    transition: background 0.15s ease;
+  }
+
+  .mobile-sheet-menu-item:hover,
+  .mobile-sheet-menu-item:active {
+    background: #F1F5F9;
+  }
+
+  .sheet-item-icon {
+    font-size: 16px;
+    margin-right: 12px;
+    width: 22px;
+    text-align: center;
+  }
+
+  .sheet-item-text {
+    flex: 1;
+  }
+
+  .sheet-item-arrow {
+    color: #94A3B8;
+    font-size: 14px;
+  }
+
+  .mobile-sheet-logout-btn {
+    width: 100%;
+    height: 44px;
+    background: #FEF2F2;
+    border: 1px solid #FEE2E2;
+    color: #DC2626;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 650;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .sheet-btn-primary {
+    background: #059669;
+    color: #FFFFFF;
+    text-decoration: none;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+
+  .sheet-btn-secondary {
+    background: #14281D;
+    color: #FFFFFF;
+    text-decoration: none;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13.5px;
+    font-weight: 650;
+  }
+
+  .sheet-btn-outline {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #1E293B;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  /* Compact Home Hero on Mobile */
+  .home-hero {
+    min-height: auto !important;
+    padding: 16px 16px 24px !important;
+    gap: 14px !important;
+  }
+
+  .home-hero-subtitle-wrapper {
+    margin-top: 2px !important;
+  }
+
+  .home-hero-subtitle {
+    font-size: 14.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  .home-hero-bracket {
+    margin-top: 4px !important;
+    font-size: 11.5px !important;
+  }
+
+  /* Mobile Search Pill */
+  .mobile-search-pill-wrapper {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .mobile-search-pill {
+    background: #FFFFFF;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 24px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    cursor: pointer;
+  }
+
+  .search-placeholder {
+    flex: 1;
+    font-size: 13px;
+    color: #64748B;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .search-city-tag {
+    background: #ECFDF5;
+    color: #065F46;
+    font-size: 10.5px;
+    font-weight: 750;
+    padding: 3px 8px;
+    border-radius: 12px;
+    border: 1px solid #A7F3D0;
+  }
+
+  /* Category Quick Chips */
+  .mobile-category-chips-wrapper {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .mobile-category-chips-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-category-chips-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-chip {
+    white-space: nowrap;
+    background: #F1F5F9;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .mobile-chip.active,
+  .mobile-chip:active {
+    background: #14281D;
+    color: #FFFFFF;
+    border-color: #14281D;
+  }
+
+  /* Mobile Micro-Trust Ticker */
+  .mobile-trust-ticker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #64748B;
+    font-weight: 550;
+  }
+
+  .mobile-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Role-Aware Mobile Hero Container */
+  #mobile-role-hero-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .mobile-role-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  }
+
+  .mobile-role-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .mobile-role-title {
+    font-size: 14.5px;
+    font-weight: 750;
+    color: #0F172A;
+  }
+
+  .mobile-role-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+  }
+
+  .mobile-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+  }
+
+  .mobile-stat-col {
+    text-align: center;
+    flex: 1;
+  }
+
+  .mobile-stat-val {
+    font-size: 13.5px;
+    font-weight: 750;
+    color: #0F172A;
+  }
+
+  .mobile-stat-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .mobile-actions-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mobile-btn-action {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 650;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

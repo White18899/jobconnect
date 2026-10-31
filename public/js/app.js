@@ -30,6 +30,137 @@ document.addEventListener('DOMContentLoaded', async () => {
     return clean.slice(0, 2).toUpperCase() || 'RK';
   }
 
+  function renderMobileRoleHeroCard(user) {
+    const container = document.getElementById('mobile-role-hero-container');
+    if (!container) return;
+
+    if (user && (user.role === 'employer' || user.role === 'admin')) {
+      const cleanName = sanitizeName(user.name) || 'Employer';
+      const localJobs = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
+      const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+      const vacanciesCount = localJobs.length || 2;
+      const appsCount = localApps.length || 2;
+      const credits = localStorage.getItem('jc_credits') || '3';
+
+      container.innerHTML = `
+        <div class="mobile-role-card">
+          <div class="mobile-role-card-header">
+            <div>
+              <div class="mobile-role-title">Welcome back, ${cleanName} 👋</div>
+              <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">Tech Employer Workspace</div>
+            </div>
+            <span class="mobile-role-badge">● Active</span>
+          </div>
+
+          <div class="mobile-stats-row">
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val">${vacanciesCount}</div>
+              <div class="mobile-stat-lbl">Vacancies</div>
+            </div>
+            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val">${appsCount}</div>
+              <div class="mobile-stat-lbl">Applicants</div>
+            </div>
+            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val" style="color: #059669;">⚡ ${credits}</div>
+              <div class="mobile-stat-lbl">Credits</div>
+            </div>
+          </div>
+
+          <div class="mobile-actions-row">
+            <a href="/employer.html#applicants-section" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
+              <span>+ Post Vacancy</span>
+            </a>
+            <a href="/employer.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
+              <span>View Applicants (${appsCount}) →</span>
+            </a>
+          </div>
+        </div>
+      `;
+    } else if (user && user.role === 'worker') {
+      const cleanName = sanitizeName(user.name) || 'Specialist';
+      const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+      const appsCount = localApps.length || 2;
+
+      container.innerHTML = `
+        <div class="mobile-role-card">
+          <div class="mobile-role-card-header">
+            <div>
+              <div class="mobile-role-title">Hello, ${cleanName} 👋</div>
+              <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 2px;">✓ Verified Trade Pass Active</div>
+            </div>
+            <span class="mobile-role-badge">Visakhapatnam</span>
+          </div>
+
+          <div class="mobile-stats-row">
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val">${appsCount}</div>
+              <div class="mobile-stat-lbl">Applications</div>
+            </div>
+            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val" style="color: #059669;">0%</div>
+              <div class="mobile-stat-lbl">Brokerage</div>
+            </div>
+            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
+            <div class="mobile-stat-col">
+              <div class="mobile-stat-val" style="color: #0284C7;">Direct</div>
+              <div class="mobile-stat-lbl">Payroll</div>
+            </div>
+          </div>
+
+          <div class="mobile-actions-row">
+            <a href="/jobs.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
+              <span>🔍 Browse Vacancies</span>
+            </a>
+            <a href="/worker.html" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
+              <span>My Applications (${appsCount}) →</span>
+            </a>
+          </div>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="mobile-role-card" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
+          <div style="font-size: 13.5px; font-weight: 700; color: #0F172A; margin-bottom: 8px;">Direct hiring & authentic trade pass network</div>
+          <div class="mobile-actions-row">
+            <a href="/jobs.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
+              <span>👷 Explore Jobs</span>
+            </a>
+            <a href="/candidates.html" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
+              <span>🏢 Hire Talent →</span>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  function initMobileSearchAndChips() {
+    const searchBtn = document.getElementById('hero-mobile-search-btn');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        window.location.href = '/jobs.html?focus=search';
+      });
+    }
+
+    const chips = document.querySelectorAll('#mobile-hero-chips-container .mobile-chip');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const cat = chip.dataset.category;
+        if (cat === 'all') {
+          window.location.href = '/jobs.html';
+        } else {
+          window.location.href = `/jobs.html?category=${encodeURIComponent(cat)}`;
+        }
+      });
+    });
+  }
+
   function checkSession() {
     const user = window.jobApi?.getCurrentUser();
     const doc = document.documentElement;
@@ -72,14 +203,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       if (btnHeaderPostVacancyUser) {
-        if (user.role === 'employer') {
+        if (user.role === 'employer' && window.innerWidth > 768) {
           btnHeaderPostVacancyUser.style.setProperty('display', 'inline-flex', 'important');
           btnHeaderPostVacancyUser.onclick = () => { window.location.href = '/employer.html#applicants-section'; };
         } else {
           btnHeaderPostVacancyUser.style.setProperty('display', 'none', 'important');
         }
       }
+
+      renderMobileRoleHeroCard(user);
     } else {
+      renderMobileRoleHeroCard(null);
       doc.classList.remove('is-logged-in', 'role-worker', 'role-employer', 'role-admin');
       doc.classList.add('is-logged-out', 'role-guest');
 
@@ -143,6 +277,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   initHeroAnimations();
+  initMobileSearchAndChips();
 
   // =========================================================================
   // 3. Scroll-In Intersection Observer (Hairlines, Numbers & Text)
