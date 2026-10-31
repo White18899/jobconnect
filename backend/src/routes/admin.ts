@@ -730,13 +730,26 @@ adminRoutes.post('/admin/payment-config', async (c) => {
   };
 
   try {
-    await c.env.KV.put('platform_payment_config', JSON.stringify(config));
+    if (c.env.KV) {
+      await c.env.KV.put('platform_payment_config', JSON.stringify(config));
+    }
   } catch (e) {
     console.warn('KV put failed:', e);
   }
 
   const ip = c.req.header('cf-connecting-ip') || '127.0.0.1';
-  await logAdminAudit(c.env.DB, admin.userId, 'update_payment_config', 'payment', 'platform_payment_config', config, ip);
+  const auditDetails = {
+    upi_id: upiId,
+    payee_name: payeeName,
+    mode,
+    has_custom_image: !!qrImageUrl,
+    updated_at: config.updated_at
+  };
+  try {
+    await logAdminAudit(c.env.DB, admin.userId, 'update_payment_config', 'payment', 'platform_payment_config', auditDetails, ip);
+  } catch (auditErr) {
+    console.warn('Admin audit log failed:', auditErr);
+  }
 
   return c.json({ success: true, message: 'Platform UPI & QR code configuration updated', config });
 });

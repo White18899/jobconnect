@@ -427,6 +427,7 @@
         }
       }
       syncWorkerPaymentConfig();
+      window.jobApi.fetchPaymentConfig().then(() => syncWorkerPaymentConfig()).catch(() => {});
       // Check auth
       const user = window.jobApi.getCurrentUser();
       if (!user) {
