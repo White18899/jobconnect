@@ -429,28 +429,36 @@ workerRoutes.get('/jobs', async (c) => {
 
   let query = `
     SELECT
-      j.id, j.title, j.description, j.category, j.salary_min, j.salary_max, j.salary_period,
+      j.id, j.employer_id, j.title, j.description, j.category, j.salary_min, j.salary_max, j.salary_period,
       j.location_area, j.location_city, j.working_hours, j.requirements, j.vacancies,
       COALESCE(j.max_applications, 0) as max_applications,
       (SELECT COUNT(*) FROM applications WHERE job_id = j.id) as applications_count,
       j.cover_image, j.maps_url,
       j.status, j.created_at,
+      ep.user_id as employer_user_id,
+      u.email as employer_email,
       COALESCE(ep.business_name, 'Direct Employer') as business_name,
       COALESCE(ep.business_type, 'Enterprise') as business_type,
       COALESCE(ep.verification_status, 'verified') as employer_verified
     FROM jobs j
     LEFT JOIN employer_profiles ep ON j.employer_id = ep.id
+    LEFT JOIN users u ON ep.user_id = u.id
     WHERE j.status = 'open'
   `;
 
   const params: any[] = [];
-  if (category) {
+  if (category && category !== 'all') {
     query += ' AND (j.category = ? OR j.category LIKE ?)';
     params.push(category, `%${category}%`);
   }
-  if (city) {
-    query += ' AND j.location_city = ?';
-    params.push(city);
+  if (city && city !== 'all') {
+    if (city.toLowerCase() === 'visakhapatnam') {
+      query += ' AND (j.location_city = ? OR j.location_city LIKE ?)';
+      params.push('Visakhapatnam', '%Visakhapatnam%');
+    } else {
+      query += ' AND (j.location_area LIKE ? OR j.location_city LIKE ?)';
+      params.push(`%${city}%`, `%${city}%`);
+    }
   }
   if (min_salary) {
     query += ' AND j.salary_max >= ?';
@@ -668,9 +676,7 @@ workerRoutes.delete('/worker/applications/:appId', authMiddleware, roleGuard(['w
 workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), async (c) => {
   const user = c.get('user');
   const worker = await c.env.DB.prepare('SELECT id FROM worker_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
-  if (!worker) {
-    return c.json({ applications: [] });
-  }
+  const workerId = worker ? worker.id : user.userId;
 
   const { results } = await c.env.DB.prepare(`
     SELECT
@@ -684,9 +690,9 @@ workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), 
     LEFT JOIN jobs j ON a.job_id = j.id
     LEFT JOIN employer_profiles ep ON a.employer_id = ep.id
     LEFT JOIN payments p ON p.application_id = a.id
-    WHERE a.worker_id = ?
+    WHERE (a.worker_id = ? OR a.worker_id = ?)
     ORDER BY a.applied_at DESC
-  `).bind(worker.id).all<any>();
+  `).bind(workerId, user.userId).all<any>();
 
   const applications = (results || []).map((row: any) => {
     const isUnlocked = row.application_status === 'unlocked';

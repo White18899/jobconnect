@@ -117,7 +117,12 @@ class JobConnectApi {
       local = local.filter(j => j.category && j.category.toLowerCase() === filters.category.toLowerCase());
     }
     if (filters.city && filters.city !== 'all') {
-      local = local.filter(j => j.location_city && j.location_city.toLowerCase() === filters.city.toLowerCase());
+      const fc = filters.city.toLowerCase();
+      local = local.filter(j => {
+        const jCity = (j.location_city || '').toLowerCase();
+        const jArea = (j.location_area || '').toLowerCase();
+        return jCity.includes(fc) || jArea.includes(fc);
+      });
     }
     if (filters.minSalary) {
       local = local.filter(j => (j.salary_max || j.salary_min) >= Number(filters.minSalary));
@@ -192,6 +197,9 @@ class JobConnectApi {
     const newJob = {
       ...payload,
       id: data.jobId || `job_${Date.now().toString().slice(-6)}`,
+      employer_id: user.id || user.userId,
+      employer_user_id: user.id || user.userId,
+      employer_email: user.email || '',
       business_name: jobData.business_name || user.name || 'Direct Employer',
       business_type: jobData.business_type || 'Enterprise',
       created_at: new Date().toISOString().split('T')[0],
@@ -208,6 +216,76 @@ class JobConnectApi {
     } catch (e) {}
 
     return newJob;
+  }
+
+  async updateJob(jobId, jobData) {
+    const token = this.getAuthToken();
+    const user = this.getCurrentUser();
+
+    if (!token || !user) {
+      throw new Error('Please log in with an Employer account to edit this job vacancy.');
+    }
+    if (user.role !== 'employer' && user.role !== 'admin') {
+      throw new Error('Only Employer accounts can edit vacancies.');
+    }
+
+    const payload = {};
+    if (jobData.title !== undefined) payload.title = jobData.title;
+    if (jobData.description !== undefined) payload.description = jobData.description;
+    if (jobData.category !== undefined) payload.category = jobData.category;
+    if (jobData.salary_min !== undefined) payload.salary_min = Number(jobData.salary_min);
+    if (jobData.salary_max !== undefined) payload.salary_max = Number(jobData.salary_max);
+    if (jobData.salary_period !== undefined) payload.salary_period = jobData.salary_period;
+    if (jobData.location_area !== undefined) payload.location_area = jobData.location_area;
+    if (jobData.location_city !== undefined) payload.location_city = jobData.location_city;
+    if (jobData.working_hours !== undefined) payload.working_hours = jobData.working_hours;
+    if (jobData.requirements !== undefined) payload.requirements = jobData.requirements;
+    if (jobData.vacancies !== undefined) payload.vacancies = Number(jobData.vacancies);
+    if (jobData.max_applications !== undefined) payload.max_applications = Number(jobData.max_applications);
+    if (jobData.maps_url !== undefined) payload.maps_url = jobData.maps_url;
+    if (jobData.cover_image !== undefined) payload.cover_image = jobData.cover_image;
+    if (jobData.status !== undefined) payload.status = jobData.status;
+
+    let res;
+    try {
+      res = await fetch(`${this.baseUrl}/employer/jobs/${encodeURIComponent(jobId)}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch (networkErr) {
+      console.warn('Network error updating job on backend:', networkErr);
+      throw new Error('Network connection error. Could not update vacancy on server.');
+    }
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || `Server error (${res.status}) updating vacancy.`);
+    }
+
+    const local = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
+    const idx = local.findIndex(j => j.id === jobId);
+    const existing = idx >= 0 ? local[idx] : {};
+    const updatedJob = {
+      ...existing,
+      ...(data.job || {}),
+      ...payload,
+      id: jobId,
+      updated_at: new Date().toISOString()
+    };
+    if (idx >= 0) {
+      local[idx] = updatedJob;
+    } else {
+      local.unshift(updatedJob);
+    }
+    try {
+      localStorage.setItem('jc_jobs', JSON.stringify(local));
+    } catch (e) {}
+
+    return updatedJob;
   }
 
   async applyJob(jobId, workerData, isPriority = false) {
@@ -253,12 +331,19 @@ class JobConnectApi {
       id: serverAppId || `app_${Date.now().toString().slice(-6)}`,
       job_id: jobId,
       job_title: job ? job.title : "Trade Job",
+      job_category: job ? job.category : (workerData.category || "General"),
       employer_name: job ? (job.business_name || job.employerName || "Hiring Employer") : "Hiring Employer",
       worker_id: workerData.id || "wrk-1",
       worker_name: workerData.name || "Worker Applicant",
       worker_category: workerData.category || (job ? job.category : "General"),
       worker_experience: workerData.experience || 3,
       worker_city: workerData.city || "Visakhapatnam",
+      location_area: job ? job.location_area : "Visakhapatnam",
+      location_city: job ? (job.location_city || "Visakhapatnam") : "Visakhapatnam",
+      workplace_location: job ? `${job.location_area || 'Visakhapatnam'}, ${job.location_city || 'Visakhapatnam'}` : "Visakhapatnam",
+      maps_url: job ? (job.maps_url || null) : null,
+      salary_min: job ? job.salary_min : null,
+      salary_max: job ? job.salary_max : null,
       applied_date: new Date().toISOString().split('T')[0],
       status: "applied",
       priority: isPriority ? "PRIORITY_ACTIVE" : "STANDARD",

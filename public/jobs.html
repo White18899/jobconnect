@@ -2074,11 +2074,28 @@
           .replace(/'/g, '&#039;');
       }
 
+      function checkIsOwnJob(job) {
+        if (!user || !job) return false;
+        const isEmployerOrAdmin = user.role === 'employer' || user.role === 'admin';
+        if (!isEmployerOrAdmin) return false;
+        const uid = user.id || user.userId;
+        if (uid && (job.employer_id === uid || job.employer_user_id === uid)) return true;
+        if (user.email && job.employer_email && job.employer_email.toLowerCase() === user.email.toLowerCase()) return true;
+        if (user.name && job.business_name) {
+          const uName = user.name.trim().toLowerCase();
+          const bName = job.business_name.trim().toLowerCase();
+          if (uName && bName && (uName === bName || bName.includes(uName) || uName.includes(bName))) return true;
+        }
+        return false;
+      }
+
       function renderDynamicJobCategoryFilters() {
         const catListContainer = document.getElementById('filter-category-list');
         if (!catListContainer) return;
 
         const total = allJobs.length;
+        const ownJobsCount = allJobs.filter(checkIsOwnJob).length;
+        const isEmployerOrAdmin = user && (user.role === 'employer' || user.role === 'admin');
 
         // Group by job category (or title if category missing)
         const map = new Map();
@@ -2092,11 +2109,27 @@
           map.get(key).count += 1;
         });
 
-        if (activeCategory !== 'all' && !map.has(activeCategory.toLowerCase())) {
+        if (activeCategory !== 'all' && activeCategory !== '__my_vacancies__' && !map.has(activeCategory.toLowerCase())) {
           activeCategory = 'all';
         }
 
-        let html = `
+        let html = '';
+
+        // If employer or admin has vacancy posts, show the "Your Vacancy Posts" filter pill
+        if (isEmployerOrAdmin && ownJobsCount > 0) {
+          const isMyActive = activeCategory === '__my_vacancies__';
+          html += `
+            <button type="button" class="filter-item-btn ${isMyActive ? 'active' : ''}" data-cat="__my_vacancies__" style="background: ${isMyActive ? '#14281D' : '#ECFDF5'}; border: 1.5px solid ${isMyActive ? '#14281D' : '#10B981'}; color: ${isMyActive ? '#FFFFFF' : '#065F46'}; font-weight: 700; margin-bottom: 6px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span>Your Vacancy Posts</span>
+              </span>
+              <span class="filter-item-count" style="color: inherit; font-weight: 750;">(${String(ownJobsCount).padStart(2, '0')})</span>
+            </button>
+          `;
+        }
+
+        html += `
           <button type="button" class="filter-item-btn ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">
             <span>All Specializations</span>
             <span class="filter-item-count" id="count-all-trades">(${String(total).padStart(2, '0')})</span>
@@ -2218,8 +2251,10 @@
         const sortMode = sortSelect.value;
 
         let filtered = allJobs.filter(job => {
-          // Category
-          if (activeCategory !== 'all') {
+          // Category & Your Vacancy Filter
+          if (activeCategory === '__my_vacancies__') {
+            if (!checkIsOwnJob(job)) return false;
+          } else if (activeCategory !== 'all') {
             const q = activeCategory.toLowerCase();
             const jTitle = (job.title || '').toLowerCase();
             const jCat = (job.category || '').toLowerCase();
@@ -2228,9 +2263,20 @@
             if (!matchCat) return false;
           }
 
-          // City
+          // City & Corridor Filter
           if (city !== 'all') {
-            if ((job.location_city || '').toLowerCase() !== city.toLowerCase()) return false;
+            const cLower = city.toLowerCase();
+            const jCity = (job.location_city || '').toLowerCase();
+            const jArea = (job.location_area || '').toLowerCase();
+            const jAddress = (job.exact_address || job.workplace_location || '').toLowerCase();
+
+            if (cLower === 'visakhapatnam') {
+              const isVsp = jCity.includes('visakhapatnam') || jArea.includes('visakhapatnam') || !jCity;
+              if (!isVsp) return false;
+            } else {
+              const matchesCorridor = jArea.includes(cLower) || jCity.includes(cLower) || jAddress.includes(cLower);
+              if (!matchesCorridor) return false;
+            }
           }
 
           // Min Salary
@@ -2277,7 +2323,7 @@
           return;
         }
 
-        const isEmployer = user && user.role === 'employer';
+        const isEmployer = user && (user.role === 'employer' || user.role === 'admin');
 
         gridContainer.innerHTML = filtered.map((job, idx) => {
           const isApplied = appliedJobIds.has(job.id);
@@ -2288,10 +2334,8 @@
           const maxApps = Number(job.max_applications) || 0;
           const currentApps = Number(job.applications_count) || (JSON.parse(localStorage.getItem('jc_apps') || '[]').filter(a => a.job_id === job.id).length);
           const isLimitReached = Boolean(maxApps > 0 && currentApps >= maxApps);
-          const isOwnJob = isEmployer && (
-            (user.name && job.business_name && job.business_name.toLowerCase().includes(user.name.toLowerCase())) ||
-            (user.id && job.employer_id === user.id)
-          );
+          const isOwnJob = checkIsOwnJob(job);
+          const displayLoc = job.location_area ? `${job.location_area}, ${job.location_city || 'Visakhapatnam'}` : (job.location_city || 'Visakhapatnam');
 
           return `
             <article class="job-editorial-card" data-job-id="${job.id}" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease;">
@@ -2317,12 +2361,26 @@
 
                 <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${escapeHtml(job.title)}</h3>
 
-                <div class="job-card-company-line" style="font-size: 12.5px; color: #64748B; display: flex; align-items: center; gap: 6px;">
-                  <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(job.business_name || 'Verified Workshop')}</strong> • ${escapeHtml(job.location_city)}
+                <div class="job-card-company-line" style="font-size: 12.5px; color: #64748B; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                  <span>
+                    <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(job.business_name || 'Verified Workshop')}</strong> • ${escapeHtml(displayLoc)}
+                  </span>
+                  ${job.maps_url ? `<a href="${escapeAttr(job.maps_url)}" target="_blank" rel="noopener noreferrer" class="card-map-link" style="color: #059669; font-weight: 650; font-size: 11.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;" title="View exact location on Google Maps"><span>📍 Map</span><span>↗</span></a>` : ''}
                 </div>
 
                 <div class="job-card-footer-action" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 14px; border-top: 1px solid #F1F5F9; margin-top: auto;">
-                  ${isEmployer ? `
+                  ${isOwnJob ? `
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;">
+                      <button type="button" class="btn-card-specs" data-action="view" data-job-id="${job.id}">
+                        <span>View Specs</span>
+                        <span style="font-size: 13px;">→</span>
+                      </button>
+                      <button type="button" class="btn-card-edit" data-action="edit" data-job-id="${job.id}" style="background: #14281D; color: #FFFFFF; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 650; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        <span>Edit Vacancy</span>
+                      </button>
+                    </div>
+                  ` : isEmployer ? `
                     <button type="button" class="btn-card-specs" data-action="view" data-job-id="${job.id}">
                       <span>View Specifications</span>
                       <span style="font-size: 13px;">→</span>
@@ -2355,9 +2413,22 @@
         // Attach Card Click & Button Listeners
         gridContainer.querySelectorAll('.job-editorial-card').forEach(card => {
           card.addEventListener('click', (e) => {
+            const editBtn = e.target.closest('[data-action="edit"]');
             const unapplyBtn = e.target.closest('[data-action="unapply"]');
             const applyBtn = e.target.closest('[data-action="apply"]');
+            const mapLink = e.target.closest('.card-map-link');
             const jobId = card.dataset.jobId;
+
+            if (mapLink) {
+              e.stopPropagation();
+              return;
+            }
+
+            if (editBtn) {
+              e.stopPropagation();
+              openEditJobModal(jobId);
+              return;
+            }
 
             if (unapplyBtn) {
               e.stopPropagation();
@@ -2457,11 +2528,8 @@
         const job = allJobs.find(j => j.id === jobId);
         if (!job) return;
 
-        const isEmployer = user && user.role === 'employer';
-        const isOwnJob = isEmployer && (
-          (user.name && job.business_name && job.business_name.toLowerCase().includes(user.name.toLowerCase())) ||
-          (user.id && job.employer_id === user.id)
-        );
+        const isEmployer = user && (user.role === 'employer' || user.role === 'admin');
+        const isOwnJob = checkIsOwnJob(job);
         const isApplied = appliedJobIds.has(job.id);
         const minSal = (job.salary_min || 18000).toLocaleString('en-IN');
         const maxSal = (job.salary_max || 28000).toLocaleString('en-IN');
@@ -2469,6 +2537,8 @@
         const maxApps = Number(job.max_applications) || 0;
         const currentApps = Number(job.applications_count) || (JSON.parse(localStorage.getItem('jc_apps') || '[]').filter(a => a.job_id === job.id).length);
         const isLimitReached = Boolean(maxApps > 0 && currentApps >= maxApps);
+        const displayLoc = job.location_area ? `${job.location_area}, ${job.location_city || 'Visakhapatnam'}` : (job.location_city || 'Visakhapatnam');
+        const mapsLinkUrl = job.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayLoc)}`;
 
         const waText = encodeURIComponent(`Hello, I saw your verified opening for "${job.title}" on JobWay. I hold an authenticated trade pass and would like to connect.`);
         const waLink = `https://wa.me/919849123434?text=${waText}`;
@@ -2477,14 +2547,14 @@
           <!-- Top Role & Verification -->
           <div>
             <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;">
-              ${isOwnJob ? '<span class="card-badge" style="background: #000; color: #fff; font-weight: 700;">★ Your Vacancy</span>' : '<span class="card-badge card-badge-verified">Verified Company</span>'}
-              <span class="card-badge">${job.category}</span>
+              ${isOwnJob ? '<span class="card-badge" style="background: #14281D; color: #fff; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <span>Your Vacancy</span></span>' : '<span class="card-badge card-badge-verified">Verified Company</span>'}
+              <span class="card-badge">${escapeHtml(job.category)}</span>
               ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied">✓ Application Active</span>' : ''}
               ${maxApps > 0 && isLimitReached && !isApplied ? '<span class="card-badge" style="background: #DC2626; color: #fff; font-weight: 700;">Full (Cap Reached)</span>' : ''}
             </div>
-            <h2 class="drawer-role-title">${job.title}</h2>
+            <h2 class="drawer-role-title">${escapeHtml(job.title)}</h2>
             <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 6px;">
-              Direct Hiring at <strong>${job.business_name || 'Verified Tech Organization'}</strong>
+              Direct Hiring at <strong>${escapeHtml(job.business_name || 'Verified Tech Organization')}</strong>
             </div>
           </div>
 
@@ -2514,7 +2584,11 @@
             ${isEmployer ? `
               <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
                 ${isOwnJob ? `
-                  <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center;">
+                  <button type="button" class="btn-drawer-apply" id="drawer-btn-edit-action" data-job-id="${job.id}" style="background: #14281D; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border-radius: 8px; padding: 10px 18px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span>✏️ Edit This Vacancy</span>
+                  </button>
+                  <a href="/employer.html#applicants-section" class="btn-drawer-apply" style="text-decoration: none; color: #ffffff !important; display: inline-flex; align-items: center; justify-content: center; background: #059669; border-color: #059669;">
                     <span>Manage Applications in Employer Workspace →</span>
                   </a>
                 ` : ''}
@@ -2564,7 +2638,7 @@
               Technical Scope
             </div>
             <p style="font-size: 13.5px; line-height: 1.6; color: var(--color-text-secondary); margin: 0;">
-              ${job.description || 'On-site technical operations, preventive maintenance, calibration, and machine operation in compliance with factory safety standards.'}
+              ${escapeHtml(job.description || 'On-site technical operations, preventive maintenance, calibration, and machine operation in compliance with factory safety standards.')}
             </p>
           </div>
 
@@ -2577,7 +2651,7 @@
             <div style="background: #fafafa; border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 14px 16px;">
               <div style="font-size: 13px; font-weight: 600; color: #000000; margin-bottom: 4px;">Verified Qualifications</div>
               <div style="font-size: 12.5px; color: var(--color-text-secondary); line-height: 1.5;">
-                ${job.requirements || 'Trade certification, ITI/Diploma, or documented technical vocational experience.'}
+                ${escapeHtml(job.requirements || 'Trade certification, ITI/Diploma, or documented technical vocational experience.')}
               </div>
             </div>
           </div>
@@ -2590,12 +2664,16 @@
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
               <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
-                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">LOCATION / SEZ</div>
-                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${job.location_area || job.location_city || 'SEZ Hub'}</div>
+                <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">LOCATION / HUB</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${escapeHtml(displayLoc)}</div>
+                <a href="${escapeAttr(mapsLinkUrl)}" target="_blank" rel="noopener noreferrer" style="margin-top: 5px; display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #059669; font-weight: 650; text-decoration: none;">
+                  <span>📍 Open in Google Maps</span>
+                  <span style="font-size: 10px;">↗</span>
+                </a>
               </div>
               <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
                 <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">SHIFT SCHEDULE</div>
-                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${job.working_hours || 'Day Shift (8 hrs)'}</div>
+                <div style="font-size: 13.5px; font-weight: 700; color: #14281D; margin-top: 2px;">${escapeHtml(job.working_hours || 'Day Shift (8 hrs)')}</div>
               </div>
               <div style="border: 1px solid var(--color-border); border-radius: var(--radius-s); padding: 10px 12px; background: #F8FAFC;">
                 <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">HIRING STATUS</div>
@@ -2609,7 +2687,12 @@
           </div>
         `;
 
-        // Drawer Apply / Unapply Button Listeners
+        // Drawer Apply / Unapply / Edit Button Listeners
+        document.getElementById('drawer-btn-edit-action')?.addEventListener('click', (e) => {
+          const jId = e.currentTarget.dataset.jobId;
+          openEditJobModal(jId);
+        });
+
         document.getElementById('btn-drawer-apply-action')?.addEventListener('click', () => {
           handleApplyClick(job.id);
         });
@@ -2722,6 +2805,18 @@
           return;
         }
 
+        // Reset edit state
+        delete postVacancyModal.dataset.editJobId;
+        const titleEl = document.getElementById('post-vacancy-modal-title');
+        if (titleEl) titleEl.textContent = 'Publish Job Vacancy';
+        const submitBtn = postVacancyForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.innerHTML = `
+            <span>Publish Vacancy to Directory</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          `;
+        }
+
         // Pre-fill business name if user is logged in
         const bizNameInput = document.getElementById('post-job-biz-name');
         if (bizNameInput && !bizNameInput.value) {
@@ -2731,9 +2826,115 @@
         document.body.style.overflow = 'hidden';
       }
 
+      function openEditJobModal(jobId) {
+        if (!user) {
+          showToast("Please log in as an employer to edit vacancies.", "info");
+          return;
+        }
+
+        const job = allJobs.find(j => j.id === jobId);
+        if (!job) return;
+
+        if (drawerOverlay && drawerOverlay.classList.contains('active')) {
+          closeDrawer();
+        }
+
+        // Set edit mode
+        postVacancyModal.dataset.editJobId = job.id;
+        const titleEl = document.getElementById('post-vacancy-modal-title');
+        if (titleEl) titleEl.textContent = `Edit Vacancy: ${job.title}`;
+
+        const submitBtn = postVacancyForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.innerHTML = `
+            <span>Update Vacancy Details</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          `;
+        }
+
+        // Populate fields
+        const titleInput = document.getElementById('post-job-title');
+        if (titleInput) titleInput.value = job.title || '';
+
+        const catSelect = document.getElementById('post-job-category');
+        if (catSelect) {
+          let matched = false;
+          for (let i = 0; i < catSelect.options.length; i++) {
+            if (catSelect.options[i].value.toLowerCase() === (job.category || '').toLowerCase()) {
+              catSelect.selectedIndex = i;
+              matched = true;
+              break;
+            }
+          }
+          if (!matched && job.category) {
+            const opt = document.createElement('option');
+            opt.value = job.category;
+            opt.textContent = `⭐ ${job.category} (Custom)`;
+            opt.selected = true;
+            catSelect.appendChild(opt);
+          }
+        }
+
+        const minSalInput = document.getElementById('post-job-salary-min');
+        if (minSalInput) minSalInput.value = job.salary_min || 60000;
+
+        const maxSalInput = document.getElementById('post-job-salary-max');
+        if (maxSalInput) maxSalInput.value = job.salary_max || 120000;
+
+        const cityInput = document.getElementById('post-job-city');
+        if (cityInput) cityInput.value = job.location_city || 'Visakhapatnam';
+
+        const areaInput = document.getElementById('post-job-area');
+        if (areaInput) areaInput.value = job.location_area || '';
+
+        const mapsInput = document.getElementById('post-job-maps-url');
+        if (mapsInput) mapsInput.value = job.maps_url || '';
+
+        const vacInput = document.getElementById('post-job-vacancies');
+        if (vacInput) vacInput.value = job.vacancies || 1;
+
+        const maxAppInput = document.getElementById('post-job-max-applicants');
+        if (maxAppInput) maxAppInput.value = job.max_applications || 0;
+
+        const hoursInput = document.getElementById('post-job-hours');
+        if (hoursInput) hoursInput.value = job.working_hours || '10:00 AM - 7:00 PM (Hybrid)';
+
+        const bizTypeInput = document.getElementById('post-job-biz-type');
+        if (bizTypeInput) bizTypeInput.value = job.business_type || 'Enterprise SaaS & Cloud Platforms';
+
+        const bizNameInput = document.getElementById('post-job-biz-name');
+        if (bizNameInput) bizNameInput.value = job.business_name || user?.name || '';
+
+        const descInput = document.getElementById('post-job-desc');
+        if (descInput) descInput.value = job.description || '';
+
+        const reqsInput = document.getElementById('post-job-reqs');
+        if (reqsInput) {
+          reqsInput.value = typeof job.requirements === 'string'
+            ? job.requirements
+            : (Array.isArray(job.requirements) ? job.requirements.join('\n') : '');
+        }
+
+        const perksInput = document.getElementById('post-job-perks');
+        if (perksInput) perksInput.value = job.overtime_policy || '';
+
+        if (job.cover_image) {
+          selectedCoverImage = job.cover_image;
+          if (modalPreviewRow) modalPreviewRow.style.display = 'flex';
+          if (selectedPreviewThumb) selectedPreviewThumb.src = selectedCoverImage;
+          if (selectedPreviewText) selectedPreviewText.textContent = 'Existing Cover Photo Attached';
+        } else {
+          resetCoverImage();
+        }
+
+        postVacancyModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
       function closePostVacancyModal() {
         postVacancyModal.classList.remove('active');
         document.body.style.overflow = '';
+        delete postVacancyModal.dataset.editJobId;
         resetCoverImage();
       }
 
@@ -3050,45 +3251,81 @@
         const mapsInputEl = document.getElementById('post-job-maps-url');
         const customMapsUrl = mapsInputEl?.value.trim() || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(area + ', ' + city)}`;
 
+        const editJobId = postVacancyModal.dataset.editJobId;
+
         try {
           if (submitBtn) {
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Publishing Vacancy...</span>';
+            submitBtn.innerHTML = editJobId ? '<span>Updating Vacancy...</span>' : '<span>Publishing Vacancy...</span>';
           }
 
-          const newJob = await window.jobApi.createJob({
-            title,
-            category,
-            salary_min: salaryMin,
-            salary_max: salaryMax,
-            salary_period: "monthly",
-            location_city: city,
-            location_area: area,
-            maps_url: customMapsUrl,
-            vacancies,
-            max_applications: maxApplicants,
-            working_hours: hours,
-            business_name: bizName,
-            business_type: bizType,
-            description: desc,
-            requirements: reqs,
-            overtime_policy: perks,
-            cover_image: selectedCoverImage,
-            employer_id: user ? (user.id || user.userId) : "emp_manual"
-          });
+          if (editJobId) {
+            const updatedJob = await window.jobApi.updateJob(editJobId, {
+              title,
+              category,
+              salary_min: salaryMin,
+              salary_max: salaryMax,
+              salary_period: "monthly",
+              location_city: city,
+              location_area: area,
+              maps_url: customMapsUrl,
+              vacancies,
+              max_applications: maxApplicants,
+              working_hours: hours,
+              business_name: bizName,
+              business_type: bizType,
+              description: desc,
+              requirements: reqs,
+              overtime_policy: perks,
+              cover_image: selectedCoverImage
+            });
 
-          allJobs = allJobs.filter(j => j.id !== newJob.id);
-          allJobs.unshift(newJob);
+            const idx = allJobs.findIndex(j => j.id === editJobId);
+            if (idx !== -1) {
+              allJobs[idx] = { ...allJobs[idx], ...updatedJob };
+            }
 
-          renderDynamicJobCategoryFilters();
-          render3CardGrid();
-          closePostVacancyModal();
-          postVacancyForm.reset();
-          resetCoverImage();
-          showToast(`Vacancy "${title}" (${category}) published successfully! Visible to all candidates in directory.`, 'success');
+            renderDynamicJobCategoryFilters();
+            render3CardGrid();
+            closePostVacancyModal();
+            postVacancyForm.reset();
+            resetCoverImage();
+            showToast(`Vacancy "${title}" updated successfully!`, 'success');
+          } else {
+            const newJob = await window.jobApi.createJob({
+              title,
+              category,
+              salary_min: salaryMin,
+              salary_max: salaryMax,
+              salary_period: "monthly",
+              location_city: city,
+              location_area: area,
+              maps_url: customMapsUrl,
+              vacancies,
+              max_applications: maxApplicants,
+              working_hours: hours,
+              business_name: bizName,
+              business_type: bizType,
+              description: desc,
+              requirements: reqs,
+              overtime_policy: perks,
+              cover_image: selectedCoverImage,
+              employer_id: user ? (user.id || user.userId) : "emp_manual"
+            });
+
+            allJobs = allJobs.filter(j => j.id !== newJob.id);
+            allJobs.unshift(newJob);
+
+            renderDynamicJobCategoryFilters();
+            render3CardGrid();
+            closePostVacancyModal();
+            postVacancyForm.reset();
+            resetCoverImage();
+            showToast(`Vacancy "${title}" (${category}) published successfully! Visible to all candidates in directory.`, 'success');
+          }
         } catch (err) {
-          console.error("Error publishing vacancy:", err);
-          showToast(err.message || 'Failed to publish vacancy. Please check inputs and try again.', 'error');
+          console.error("Error saving vacancy:", err);
+          showToast(err.message || 'Failed to save vacancy. Please check inputs and try again.', 'error');
         } finally {
           if (submitBtn) {
             submitBtn.disabled = false;

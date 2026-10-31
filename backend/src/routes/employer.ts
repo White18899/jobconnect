@@ -166,9 +166,7 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer', 'ad
 employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
   const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
-  if (!employer) {
-    return c.json({ jobs: [] });
-  }
+  const employerId = employer ? employer.id : user.userId;
 
   const { results } = await c.env.DB.prepare(`
     SELECT
@@ -178,10 +176,10 @@ employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), as
       SUM(CASE WHEN a.status = 'pending_verification' THEN 1 ELSE 0 END) as pending_verification_count
     FROM jobs j
     LEFT JOIN applications a ON j.id = a.job_id
-    WHERE j.employer_id = ?
+    WHERE (j.employer_id = ? OR j.employer_id = ?)
     GROUP BY j.id
     ORDER BY j.created_at DESC
-  `).bind(employer!.id).all();
+  `).bind(employerId, user.userId).all();
 
   return c.json({ jobs: results || [] });
 });
@@ -189,35 +187,35 @@ employerRoutes.get('/employer/jobs', authMiddleware, roleGuard(['employer']), as
 // 4b. Get All Applications for Employer across all jobs
 employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
-  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
+  let employer = await c.env.DB.prepare('SELECT id, user_id, business_name, city, area, exact_address, maps_url, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<any>();
   if (!employer) {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
       INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, created_at, updated_at)
       VALUES (?, ?, ?, 'Tech Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
-    employer = { id: epId, unlock_credits: 3 };
+    employer = { id: epId, unlock_credits: 3, business_name: 'Employer', city: 'Visakhapatnam', area: 'Madhurawada IT SEZ', exact_address: 'Visakhapatnam, Andhra Pradesh' };
   }
 
   const { results } = await c.env.DB.prepare(`
     SELECT
       a.id as application_id, a.id, a.status as application_status, a.status, a.applied_at,
-      j.id as job_id, j.title as job_title, j.category as job_category,
+      j.id as job_id, j.title as job_title, j.category as job_category, j.location_area, j.location_city, j.maps_url as job_maps_url,
       wp.id as worker_id, wp.full_name as worker_name, wp.trade_title, wp.skills as worker_skills,
       wp.experience_years as worker_experience, wp.preferred_area as worker_area, wp.city as worker_city,
       wp.verification_status as worker_verification_status, wp.digilocker_verified, wp.id_number_masked,
       u.phone as worker_phone, u.email as worker_email,
-      ep.business_name as employer_name,
+      COALESCE(ep.business_name, 'Hiring Employer') as employer_name,
       p.status as payment_status
     FROM applications a
-    JOIN jobs j ON a.job_id = j.id
-    JOIN worker_profiles wp ON a.worker_id = wp.id
-    JOIN users u ON wp.user_id = u.id
-    JOIN employer_profiles ep ON a.employer_id = ep.id
+    LEFT JOIN jobs j ON a.job_id = j.id
+    LEFT JOIN worker_profiles wp ON (a.worker_id = wp.id OR a.worker_id = wp.user_id)
+    LEFT JOIN users u ON (wp.user_id = u.id OR a.worker_id = u.id)
+    LEFT JOIN employer_profiles ep ON (a.employer_id = ep.id OR a.employer_id = ep.user_id)
     LEFT JOIN payments p ON p.application_id = a.id
-    WHERE a.employer_id = ?
+    WHERE (a.employer_id = ? OR a.employer_id = ? OR a.job_id IN (SELECT id FROM jobs WHERE employer_id = ? OR employer_id = ?))
     ORDER BY a.applied_at DESC
-  `).bind(employer.id).all<any>();
+  `).bind(employer.id, user.userId, employer.id, user.userId).all<any>();
 
   const applications = (results || []).map((row: any) => {
     const isUnlocked = row.application_status === 'unlocked' || row.status === 'unlocked';
@@ -288,7 +286,7 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
   const targetWorkerId = body?.worker_id;
 
   // 1. Check if application already exists in DB
-  const app = await c.env.DB.prepare('SELECT id, status, worker_id, job_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<any>();
+  const app = await c.env.DB.prepare('SELECT id, status, worker_id, job_id FROM applications WHERE id = ? AND (employer_id = ? OR employer_id = ?)').bind(appId, employer.id, user.userId).first<any>();
 
   if (app && app.status === 'unlocked') {
     return c.json({
@@ -347,10 +345,10 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
     await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
     const workerRow = await c.env.DB.prepare(`
-      SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+      SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.preferred_area as area
       FROM applications a
-      JOIN worker_profiles wp ON a.worker_id = wp.id
-      JOIN users u ON wp.user_id = u.id
+      LEFT JOIN worker_profiles wp ON (a.worker_id = wp.id OR a.worker_id = wp.user_id)
+      LEFT JOIN users u ON (wp.user_id = u.id OR a.worker_id = u.id)
       WHERE a.id = ?
     `).bind(app.id).first<any>();
 
@@ -379,9 +377,9 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
   // 2. Directory candidate added to cart or worker profile ID
   const lookupWorkerId = targetWorkerId || appId;
   const worker = await c.env.DB.prepare(`
-    SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+    SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.preferred_area as area
     FROM worker_profiles wp
-    JOIN users u ON wp.user_id = u.id
+    LEFT JOIN users u ON wp.user_id = u.id
     WHERE wp.id = ? OR wp.user_id = ?
   `).bind(lookupWorkerId, lookupWorkerId).first<any>();
 
@@ -484,13 +482,13 @@ employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleG
     const workerId = item.worker_id;
 
     let targetWorkerUserId = null;
-    const app = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<any>();
+    const app = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE id = ? AND (employer_id = ? OR employer_id = ?)').bind(appId, employer.id, user.userId).first<any>();
     if (app) {
       await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
       const wp = await c.env.DB.prepare('SELECT user_id FROM worker_profiles WHERE id = ?').bind(app.worker_id).first<any>();
       targetWorkerUserId = wp?.user_id;
     } else if (workerId) {
-      const existing = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE worker_id = ? AND employer_id = ?').bind(workerId, employer.id).first<any>();
+      const existing = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE worker_id = ? AND (employer_id = ? OR employer_id = ?)').bind(workerId, employer.id, user.userId).first<any>();
       if (existing) {
         await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
       } else {
@@ -532,23 +530,75 @@ employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleG
   });
 });
 
-// 5. Update Job Status (open / closed)
-employerRoutes.put('/employer/jobs/:id', authMiddleware, roleGuard(['employer']), async (c) => {
+// 5. Update / Re-edit Job Details or Status
+const updateJobSchema = z.object({
+  title: z.string().min(2).optional(),
+  description: z.string().optional(),
+  category: z.string().min(2).optional(),
+  salary_min: z.coerce.number().min(0).optional(),
+  salary_max: z.coerce.number().min(0).optional(),
+  salary_period: z.enum(['hourly', 'daily', 'monthly']).optional(),
+  location_area: z.string().optional(),
+  location_city: z.string().optional(),
+  working_hours: z.string().optional(),
+  requirements: z.union([z.array(z.string()), z.string()]).optional(),
+  vacancies: z.coerce.number().min(1).optional(),
+  max_applications: z.coerce.number().min(0).optional(),
+  maps_url: z.string().optional().nullable(),
+  cover_image: z.string().optional().nullable(),
+  status: z.enum(['open', 'closed']).optional(),
+});
+
+employerRoutes.put('/employer/jobs/:id', authMiddleware, roleGuard(['employer', 'admin']), async (c) => {
   const user = c.get('user');
   const jobId = c.req.param('id');
   const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
-  if (!employer) return c.json({ error: 'Unauthorized' }, 401);
+  const employerId = employer ? employer.id : user.userId;
 
-  const { status } = await c.req.json();
-  if (!['open', 'closed'].includes(status)) {
-    return c.json({ error: 'Status must be open or closed' }, 400);
+  // Verify job ownership (or allow admin)
+  const existingJob = await c.env.DB.prepare(`
+    SELECT * FROM jobs WHERE id = ? AND (employer_id = ? OR employer_id = ? OR ? = 'admin')
+  `).bind(jobId, employerId, user.userId, user.role || 'employer').first();
+
+  if (!existingJob) {
+    return c.json({ error: 'Job not found or access denied' }, 404);
   }
 
-  await c.env.DB.prepare(
-    'UPDATE jobs SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND employer_id = ?'
-  ).bind(status, jobId, employer.id).run();
+  const body = await c.req.json();
+  const parsed = updateJobSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: parsed.error.issues[0]?.message || 'Invalid job update data' }, 400);
+  }
 
-  return c.json({ success: true, message: `Job marked as ${status}` });
+  const d = parsed.data;
+  const updates: string[] = ['updated_at = CURRENT_TIMESTAMP'];
+  const bindings: any[] = [];
+
+  if (d.title !== undefined) { updates.push('title = ?'); bindings.push(d.title); }
+  if (d.description !== undefined) { updates.push('description = ?'); bindings.push(d.description); }
+  if (d.category !== undefined) { updates.push('category = ?'); bindings.push(d.category); }
+  if (d.salary_min !== undefined) { updates.push('salary_min = ?'); bindings.push(d.salary_min); }
+  if (d.salary_max !== undefined) { updates.push('salary_max = ?'); bindings.push(d.salary_max); }
+  if (d.salary_period !== undefined) { updates.push('salary_period = ?'); bindings.push(d.salary_period); }
+  if (d.location_area !== undefined) { updates.push('location_area = ?'); bindings.push(d.location_area); }
+  if (d.location_city !== undefined) { updates.push('location_city = ?'); bindings.push(d.location_city); }
+  if (d.working_hours !== undefined) { updates.push('working_hours = ?'); bindings.push(d.working_hours); }
+  if (d.requirements !== undefined) {
+    const reqStr = typeof d.requirements === 'string' ? d.requirements : JSON.stringify(d.requirements);
+    updates.push('requirements = ?');
+    bindings.push(reqStr);
+  }
+  if (d.vacancies !== undefined) { updates.push('vacancies = ?'); bindings.push(d.vacancies); }
+  if (d.max_applications !== undefined) { updates.push('max_applications = ?'); bindings.push(d.max_applications); }
+  if (d.maps_url !== undefined) { updates.push('maps_url = ?'); bindings.push(d.maps_url); }
+  if (d.cover_image !== undefined) { updates.push('cover_image = ?'); bindings.push(d.cover_image); }
+  if (d.status !== undefined) { updates.push('status = ?'); bindings.push(d.status); }
+
+  bindings.push(jobId);
+  await c.env.DB.prepare(`UPDATE jobs SET ${updates.join(', ')} WHERE id = ?`).bind(...bindings).run();
+
+  const updatedJob = await c.env.DB.prepare('SELECT * FROM jobs WHERE id = ?').bind(jobId).first();
+  return c.json({ success: true, message: 'Job updated successfully', job: updatedJob });
 });
 
 // 6. Get Applicants for a specific job
