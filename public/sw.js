@@ -3,16 +3,16 @@
  * Provides offline shell, static caching, and network pass-through for API.
  */
 
-const CACHE_NAME = 'jobway-shell-v6';
+const CACHE_NAME = 'jobway-shell-v7';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/jobs.html',
   '/candidates.html',
   '/css/style.css?v=28',
-  '/css/editorial.css?v=37',
+  '/css/editorial.css?v=38',
   '/css/chat-widget.css?v=8',
-  '/js/mobile-nav.js?v=4',
+  '/js/mobile-nav.js?v=5',
   '/assets/logo.png',
   '/assets/icon-192.png',
   '/assets/icon-512.png',

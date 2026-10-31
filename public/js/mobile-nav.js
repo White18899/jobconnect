@@ -221,6 +221,7 @@
       if (overlay) {
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        document.documentElement.classList.add('mobile-sheet-open');
       }
     }
 
@@ -228,6 +229,7 @@
       if (overlay) {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
+        document.documentElement.classList.remove('mobile-sheet-open');
       }
     }
 
@@ -254,13 +256,25 @@
     }
 
     if (sheetLogoutBtn) {
-      sheetLogoutBtn.addEventListener('click', () => {
-        if (window.jobApi?.logout) {
-          window.jobApi.logout();
+      sheetLogoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeSheet();
+        if (window.jobApi && typeof window.jobApi.logout === 'function') {
+          window.jobApi.logout('/');
         } else {
-          localStorage.removeItem('jc_token');
-          localStorage.removeItem('jc_user');
-          window.location.href = '/';
+          try {
+            localStorage.removeItem('jc_auth_user');
+            localStorage.removeItem('jobconnect_token');
+            localStorage.removeItem('jc_token');
+            localStorage.removeItem('jc_user');
+            sessionStorage.clear();
+          } catch (err) {}
+          if (window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '') {
+            window.location.reload();
+          } else {
+            window.location.replace('/');
+          }
         }
       });
     }

@@ -2083,8 +2083,32 @@ class JobConnectApi {
     return { success: false, error: 'Phone OTP has been upgraded to Email Verification with SMTP on job-way.in.' };
   }
 
-  logout() {
+  logout(redirectUrl = '/') {
     this.setCurrentUser(null);
+    try {
+      localStorage.removeItem('jc_auth_user');
+      localStorage.removeItem('jobconnect_token');
+      localStorage.removeItem('jc_token');
+      localStorage.removeItem('jc_user');
+      localStorage.removeItem('jc_worker_photo');
+      localStorage.removeItem('jc_worker_cover');
+      sessionStorage.clear();
+    } catch (e) {}
+
+    try {
+      document.documentElement.classList.remove('is-logged-in', 'role-worker', 'role-employer');
+      document.documentElement.classList.add('is-logged-out', 'role-guest');
+      window.dispatchEvent(new Event('auth-changed'));
+      window.dispatchEvent(new Event('storage'));
+    } catch (e) {}
+
+    if (redirectUrl) {
+      if (window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '') {
+        window.location.reload();
+      } else {
+        window.location.replace(redirectUrl);
+      }
+    }
   }
 }
 

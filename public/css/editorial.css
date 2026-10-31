@@ -3633,10 +3633,17 @@ img {
     background: rgba(15, 23, 42, 0.5);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    z-index: 1100;
+    z-index: 10000002 !important;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
+  }
+
+  html.mobile-sheet-open .jobway-chat-launcher {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.8) !important;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
   }
 
   .mobile-sheet-overlay.active {

@@ -248,10 +248,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   checkSession();
 
-  if (homeLogoutBtn) {
-    homeLogoutBtn.addEventListener('click', () => {
-      window.jobApi?.logout();
-      checkSession();
+    if (homeLogoutBtn) {
+    homeLogoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.jobApi?.logout) {
+        window.jobApi.logout('/');
+      } else {
+        localStorage.removeItem('jc_auth_user');
+        localStorage.removeItem('jobconnect_token');
+        window.location.reload();
+      }
     });
   }
 
