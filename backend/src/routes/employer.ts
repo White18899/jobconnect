@@ -10,15 +10,21 @@ const employerRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPay
 // 1. Get Employer Profile
 employerRoutes.get('/employer/profile', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
-  const profile = await c.env.DB.prepare(
+  let profile = await c.env.DB.prepare(
     'SELECT * FROM employer_profiles WHERE user_id = ?'
   ).bind(user.userId).first();
 
   if (!profile) {
-    return c.json({ error: 'Employer profile not found' }, 404);
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
+      VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
+
+    profile = await c.env.DB.prepare('SELECT * FROM employer_profiles WHERE id = ?').bind(epId).first();
   }
 
-  const credits = (profile as any).unlock_credits !== undefined && (profile as any).unlock_credits !== null
+  const credits = (profile as any)?.unlock_credits !== undefined && (profile as any)?.unlock_credits !== null
     ? Number((profile as any).unlock_credits)
     : 3;
 
@@ -250,15 +256,175 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
 employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
   const appId = c.req.param('id');
-  const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
-  if (!employer) return c.json({ error: 'Unauthorized' }, 401);
+  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
+  if (!employer) {
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
+      VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
+    employer = { id: epId, unlock_credits: 3 };
+  }
 
-  const app = await c.env.DB.prepare('SELECT id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first();
-  if (!app) return c.json({ error: 'Application not found' }, 404);
+  const currentCredits = employer.unlock_credits !== undefined && employer.unlock_credits !== null ? Number(employer.unlock_credits) : 3;
 
-  await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
+  let body: any = {};
+  try {
+    body = await c.req.json();
+  } catch {}
 
-  return c.json({ success: true, message: 'Applicant contact details unlocked successfully' });
+  const targetWorkerId = body?.worker_id;
+
+  // 1. Check if application already exists in DB
+  const app = await c.env.DB.prepare('SELECT id, status, worker_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<{ id: string; status: string; worker_id: string }>();
+
+  if (app && app.status === 'unlocked') {
+    return c.json({
+      success: true,
+      message: 'Candidate contact details are already unlocked',
+      remainingCredits: currentCredits
+    });
+  }
+
+  // Insufficient credits check
+  if (currentCredits < 1) {
+    return c.json({
+      error: 'Insufficient unlock credits. Please purchase an unlock bundle.',
+      needCredits: true,
+      remainingCredits: 0
+    }, 402);
+  }
+
+  const newCredits = Math.max(0, currentCredits - 1);
+
+  if (app) {
+    await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(app.id).run();
+    await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
+
+    const workerRow = await c.env.DB.prepare(`
+      SELECT wp.id as worker_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+      FROM applications a
+      JOIN worker_profiles wp ON a.worker_id = wp.id
+      JOIN users u ON wp.user_id = u.id
+      WHERE a.id = ?
+    `).bind(app.id).first<{ worker_id: string; full_name: string; phone: string; email: string; city: string; area: string }>();
+
+    return c.json({
+      success: true,
+      message: 'Applicant contact details unlocked successfully',
+      remainingCredits: newCredits,
+      phone: workerRow?.phone,
+      email: workerRow?.email
+    });
+  }
+
+  // 2. Directory candidate added to cart or worker profile ID
+  const lookupWorkerId = targetWorkerId || appId;
+  const worker = await c.env.DB.prepare(`
+    SELECT wp.id as worker_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+    FROM worker_profiles wp
+    JOIN users u ON wp.user_id = u.id
+    WHERE wp.id = ? OR wp.user_id = ?
+  `).bind(lookupWorkerId, lookupWorkerId).first<{ worker_id: string; full_name: string; phone: string; email: string; city: string; area: string }>();
+
+  if (worker) {
+    const existing = await c.env.DB.prepare('SELECT id, status FROM applications WHERE worker_id = ? AND employer_id = ?').bind(worker.worker_id, employer.id).first<{ id: string; status: string }>();
+    if (existing) {
+      await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
+    } else {
+      const newAppId = (typeof appId === 'string' && appId.startsWith('app_')) ? appId : 'app_' + crypto.randomUUID().replace(/-/g, '').slice(0, 8);
+      await c.env.DB.prepare(`
+        INSERT INTO applications (id, job_id, worker_id, employer_id, status, created_at, updated_at)
+        VALUES (?, 'dir_selected', ?, ?, 'unlocked', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      `).bind(newAppId, worker.worker_id, employer.id).run();
+    }
+
+    await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
+
+    return c.json({
+      success: true,
+      message: 'Candidate contact details unlocked successfully',
+      remainingCredits: newCredits,
+      phone: worker.phone,
+      email: worker.email
+    });
+  }
+
+  // 3. Fallback for client mock/localStorage candidates: deduct credit and confirm unlock
+  await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
+
+  return c.json({
+    success: true,
+    message: 'Candidate contact details unlocked successfully',
+    remainingCredits: newCredits
+  });
+});
+
+// 4d. Batch Unlock Selected Candidates from Cart
+employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleGuard(['employer']), async (c) => {
+  const user = c.get('user');
+  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
+  if (!employer) {
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
+      VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
+    employer = { id: epId, unlock_credits: 3 };
+  }
+
+  const currentCredits = employer.unlock_credits !== undefined && employer.unlock_credits !== null ? Number(employer.unlock_credits) : 3;
+
+  let body: any = {};
+  try {
+    body = await c.req.json();
+  } catch {}
+
+  const items: Array<{ id: string; worker_id?: string }> = Array.isArray(body?.items) ? body.items : [];
+  if (items.length === 0) {
+    return c.json({ error: 'No items provided' }, 400);
+  }
+
+  if (currentCredits < items.length) {
+    return c.json({
+      error: `Need ${items.length} credits to unlock all, but you have ${currentCredits}. Please recharge.`,
+      needCredits: true,
+      required: items.length,
+      available: currentCredits,
+      remainingCredits: currentCredits
+    }, 402);
+  }
+
+  const newCredits = Math.max(0, currentCredits - items.length);
+  await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
+
+  for (const item of items) {
+    const appId = item.id;
+    const workerId = item.worker_id;
+
+    const app = await c.env.DB.prepare('SELECT id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first();
+    if (app) {
+      await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
+    } else if (workerId) {
+      const existing = await c.env.DB.prepare('SELECT id FROM applications WHERE worker_id = ? AND employer_id = ?').bind(workerId, employer.id).first();
+      if (existing) {
+        await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
+      } else {
+        const newAppId = (typeof appId === 'string' && appId.startsWith('app_')) ? appId : 'app_' + crypto.randomUUID().replace(/-/g, '').slice(0, 8);
+        await c.env.DB.prepare(`
+          INSERT INTO applications (id, job_id, worker_id, employer_id, status, created_at, updated_at)
+          VALUES (?, 'dir_selected', ?, ?, 'unlocked', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        `).bind(newAppId, workerId, employer.id).run();
+      }
+    }
+  }
+
+  return c.json({
+    success: true,
+    count: items.length,
+    remainingCredits: newCredits,
+    message: `Successfully unlocked ${items.length} candidate(s)`
+  });
 });
 
 // 5. Update Job Status (open / closed)

@@ -725,7 +725,7 @@
               updateCredits();
               await renderApplicants();
             } else if (res.needCredits) {
-              showToast('You have 0 credits remaining! Please recharge below.', 'error');
+              showToast(res.message || 'You have 0 credits remaining! Please recharge below.', 'error');
               openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
             } else {
               showToast(res.message, 'error');
@@ -753,14 +753,14 @@
       }
 
       // Wire Batch Actions for Cart Banner
-      document.getElementById('btn-batch-unlock-cart')?.addEventListener('click', () => {
-        const res = window.jobApi.unlockSelectedBatch();
+      document.getElementById('btn-batch-unlock-cart')?.addEventListener('click', async () => {
+        const res = await window.jobApi.unlockSelectedBatch();
         if (res.success) {
           showToast(`Successfully unlocked direct contact details for ${res.count} candidates!`, 'success');
           updateCredits();
-          renderApplicants();
+          await renderApplicants();
         } else if (res.needCredits) {
-          showToast(res.message, 'error');
+          showToast(res.message || 'Insufficient unlock credits. Please recharge below.', 'error');
           openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
         } else {
           showToast(res.message, 'info');
@@ -946,7 +946,7 @@
             await renderApplicants();
             openApplicantPassDrawer(app.id);
           } else if (res.needCredits) {
-            showToast('You have 0 credits remaining! Please recharge below.', 'error');
+            showToast(res.message || 'You have 0 credits remaining! Please recharge below.', 'error');
             openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
           }
         });

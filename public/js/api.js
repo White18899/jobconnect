@@ -290,8 +290,22 @@ class JobConnectApi {
           }
           if (Array.isArray(data.applications)) {
             const localApps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-            const dirCartApps = localApps.filter(a => a.source === 'candidate_directory' && !data.applications.some(sa => sa.id === a.id));
-            const merged = [...data.applications, ...dirCartApps];
+            const dirCartApps = localApps.filter(a => (a.source === 'candidate_directory' || a.job_id === 'dir_selected') && !data.applications.some(sa => sa.id === a.id || (sa.worker_id && a.worker_id && sa.worker_id === a.worker_id)));
+            // Preserve local unlocked state if already unlocked in cart
+            const enrichedServerApps = data.applications.map(sa => {
+              const matchedLocal = localApps.find(la => la.id === sa.id || (la.worker_id && la.worker_id === sa.worker_id));
+              if (matchedLocal && matchedLocal.unlocked) {
+                return {
+                  ...sa,
+                  unlocked: true,
+                  status: 'unlocked',
+                  phone_masked: matchedLocal.phone_unlocked || sa.phone_unlocked || sa.phone_masked,
+                  phone_unlocked: matchedLocal.phone_unlocked || sa.phone_unlocked
+                };
+              }
+              return sa;
+            });
+            const merged = [...enrichedServerApps, ...dirCartApps];
             localStorage.setItem('jc_apps', JSON.stringify(merged));
             return merged;
           }
@@ -327,15 +341,32 @@ class JobConnectApi {
   }
 
   async unlockWorker(appId) {
+    let localCredits = Number(localStorage.getItem('jc_credits') || '0');
+    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
+    const app = apps.find(a => a.id === appId);
+
+    if (app && app.unlocked) {
+      return { success: true, app, remainingCredits: localCredits, alreadyUnlocked: true };
+    }
+
     try {
       const token = this.getAuthToken();
       if (token) {
-        const res = await fetch(`${this.baseUrl}/employer/applications/${appId}/unlock`, {
+        const res = await fetch(`${this.baseUrl}/employer/applications/${encodeURIComponent(appId)}/unlock`, {
           method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}` }
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            worker_id: app?.worker_id,
+            worker_name: app?.worker_name 
+          })
         });
         const data = await res.json();
-        if (!res.ok || data.needCredits) {
+
+        // ONLY trigger needCredits if server explicitly returned 402 or data.needCredits
+        if (res.status === 402 || data.needCredits) {
           if (data.remainingCredits !== undefined) {
             localStorage.setItem('jc_credits', String(data.remainingCredits));
           }
@@ -345,26 +376,52 @@ class JobConnectApi {
             message: data.error || 'Insufficient unlock credits. Please purchase an unlock bundle.'
           };
         }
-        if (data.remainingCredits !== undefined) {
-          localStorage.setItem('jc_credits', String(data.remainingCredits));
+
+        if (res.ok && data.success) {
+          if (data.remainingCredits !== undefined) {
+            localCredits = Number(data.remainingCredits);
+            localStorage.setItem('jc_credits', String(localCredits));
+          } else {
+            localCredits = Math.max(0, localCredits - 1);
+            localStorage.setItem('jc_credits', String(localCredits));
+          }
+          if (app && data.phone) {
+            app.phone_unlocked = data.phone;
+            app.phone_masked = data.phone;
+          }
+          if (app && data.email) {
+            app.worker_email = data.email;
+          }
+        } else {
+          // If server failed for non-credit reasons (e.g. 500, network), fallback to local credits
+          if (localCredits <= 0) {
+            return { success: false, needCredits: true, message: 'Insufficient unlock credits. Please purchase an unlock bundle.' };
+          }
+          localCredits -= 1;
+          localStorage.setItem('jc_credits', String(localCredits));
         }
       } else {
-        let credits = Number(localStorage.getItem('jc_credits') || '0');
-        if (credits <= 0) {
+        // Guest mode
+        if (localCredits <= 0) {
           return { success: false, needCredits: true, message: 'Insufficient unlock credits. Please purchase an unlock bundle.' };
         }
-        credits -= 1;
-        localStorage.setItem('jc_credits', String(credits));
+        localCredits -= 1;
+        localStorage.setItem('jc_credits', String(localCredits));
       }
     } catch (e) {
       console.warn('Network error unlocking application on D1:', e);
+      if (localCredits <= 0) {
+        return { success: false, needCredits: true, message: 'Insufficient unlock credits. Please purchase an unlock bundle.' };
+      }
+      localCredits -= 1;
+      localStorage.setItem('jc_credits', String(localCredits));
     }
 
-    const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    const app = apps.find(a => a.id === appId);
     if (app) {
       app.unlocked = true;
       app.status = 'unlocked';
+      if (app.phone_unlocked) app.phone_masked = app.phone_unlocked;
+      if (app.address_unlocked) app.address_masked = app.address_unlocked;
       localStorage.setItem('jc_apps', JSON.stringify(apps));
     }
 
@@ -377,7 +434,11 @@ class JobConnectApi {
       localStorage.setItem('jc_candidates', JSON.stringify(candidates));
     }
 
-    return { success: true, app: app || { id: appId, worker_name: 'Candidate' }, remainingCredits: credits };
+    return { 
+      success: true, 
+      app: app || { id: appId, worker_name: 'Candidate' }, 
+      remainingCredits: localCredits 
+    };
   }
 
   async fetchCandidates(filters = {}) {
@@ -630,33 +691,92 @@ class JobConnectApi {
     return { success: true, candidate, remainingCredits: credits, appId: existingApp.id };
   }
 
-  unlockSelectedBatch() {
+  async unlockSelectedBatch() {
     const apps = JSON.parse(localStorage.getItem('jc_apps') || '[]');
-    const shielded = apps.filter(a => a.source === "candidate_directory" && !a.unlocked);
+    const shielded = apps.filter(a => (a.source === "candidate_directory" || a.job_id === "dir_selected") && !a.unlocked);
     let credits = Number(localStorage.getItem('jc_credits') || '0');
 
     if (shielded.length === 0) {
       return { success: false, message: "No locked candidates in selection cart." };
     }
 
-    if (credits < shielded.length) {
-      return { 
-        success: false, 
-        needCredits: true, 
-        required: shielded.length, 
-        available: credits,
-        message: `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
-      };
+    const token = this.getAuthToken();
+    if (token) {
+      try {
+        const res = await fetch(`${this.baseUrl}/employer/applications/unlock-batch`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            items: shielded.map(s => ({ id: s.id, worker_id: s.worker_id }))
+          })
+        });
+        const data = await res.json();
+        if (res.status === 402 || data.needCredits) {
+          if (data.remainingCredits !== undefined) {
+            localStorage.setItem('jc_credits', String(data.remainingCredits));
+          }
+          return {
+            success: false,
+            needCredits: true,
+            required: shielded.length,
+            available: data.available !== undefined ? data.available : credits,
+            message: data.error || `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
+          };
+        }
+        if (res.ok && data.success && data.remainingCredits !== undefined) {
+          credits = Number(data.remainingCredits);
+          localStorage.setItem('jc_credits', String(credits));
+        } else {
+          if (credits < shielded.length) {
+            return {
+              success: false,
+              needCredits: true,
+              required: shielded.length,
+              available: credits,
+              message: `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
+            };
+          }
+          credits -= shielded.length;
+          localStorage.setItem('jc_credits', String(credits));
+        }
+      } catch (e) {
+        console.warn('Network error batch unlocking:', e);
+        if (credits < shielded.length) {
+          return {
+            success: false,
+            needCredits: true,
+            required: shielded.length,
+            available: credits,
+            message: `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
+          };
+        }
+        credits -= shielded.length;
+        localStorage.setItem('jc_credits', String(credits));
+      }
+    } else {
+      if (credits < shielded.length) {
+        return { 
+          success: false, 
+          needCredits: true, 
+          required: shielded.length, 
+          available: credits,
+          message: `Need ${shielded.length} credits to unlock all, but you have ${credits}. Please recharge.`
+        };
+      }
+      credits -= shielded.length;
+      localStorage.setItem('jc_credits', String(credits));
     }
-
-    credits -= shielded.length;
-    localStorage.setItem('jc_credits', String(credits));
 
     const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
 
     shielded.forEach(app => {
       app.unlocked = true;
       app.status = "unlocked";
+      if (app.phone_unlocked) app.phone_masked = app.phone_unlocked;
+      if (app.address_unlocked) app.address_masked = app.address_unlocked;
       const c = candidates.find(cand => cand.id === app.worker_id || cand.name === app.worker_name);
       if (c) {
         c.unlocked = true;
