@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=26">
-  <link rel="stylesheet" href="css/editorial.css?v=33">
-  <link rel="stylesheet" href="css/chat-widget.css?v=7">
+  <link rel="stylesheet" href="css/editorial.css?v=37">
+  <link rel="stylesheet" href="css/chat-widget.css?v=8">
   <style>
     .auth-mode-switch {
       display: flex;
@@ -263,6 +263,46 @@
     }
     .pwd-rule.valid .pwd-rule-bullet {
       color: #059669 !important;
+    }
+  
+    @media (max-width: 520px) {
+      main {
+        padding: 20px 12px calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+      .auth-card {
+        padding: 24px 16px !important;
+        border-radius: 14px !important;
+        box-sizing: border-box !important;
+      }
+      .role-toggle-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .role-toggle-card {
+        padding: 10px 8px !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+      }
+      .role-toggle-card svg {
+        width: 15px !important;
+        height: 15px !important;
+        flex-shrink: 0 !important;
+      }
+      .role-toggle-title {
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .role-toggle-sub {
+        font-size: 10.5px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
     }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -734,7 +774,7 @@
 
   <!-- Scripts -->
   <script src="js/api.js?v=28"></script>
-  <script src="js/chat-widget.js?v=7"></script>
+  <script src="js/chat-widget.js?v=8"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Views

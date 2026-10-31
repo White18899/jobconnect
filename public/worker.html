@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=27">
-  <link rel="stylesheet" href="css/editorial.css?v=36">
-  <link rel="stylesheet" href="css/chat-widget.css?v=7">
+  <link rel="stylesheet" href="css/editorial.css?v=37">
+  <link rel="stylesheet" href="css/chat-widget.css?v=8">
   <script>
     try {
       var raw = localStorage.getItem('jc_auth_user');
@@ -30,6 +30,44 @@
     } catch(e) {}
   </script>
   <style>
+    @media (max-width: 640px) {
+      main.main-content {
+        padding: 14px 12px calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+      .portal-welcome-banner {
+        padding: 14px 14px !important;
+        gap: 12px !important;
+      }
+      .portal-welcome-info {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px !important;
+      }
+      #banner-avatar-frame {
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 12px !important;
+      }
+      #banner-worker-avatar-fallback {
+        font-size: 19px !important;
+      }
+      #welcome-worker-heading {
+        font-size: 17px !important;
+        margin: 0 !important;
+      }
+      .portal-welcome-desc {
+        display: none !important;
+      }
+      #btn-worker-logout span {
+        display: none !important;
+      }
+      .nav-profile-name {
+        max-width: 50px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+    }
     .btn-withdraw-action:hover {
       background: #FEF2F2 !important;
       color: #DC2626 !important;
@@ -86,36 +124,36 @@
     
     <!-- Welcome Banner with Integrated Mini Stats -->
     <div class="portal-welcome-banner reveal-on-scroll" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 26px 30px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 6px 16px rgba(15,23,42,0.02);">
-      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 22px; flex-wrap: wrap;">
+      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 18px; min-width: 0;">
         <!-- Worker Profile Avatar -->
         <a href="/profile-edit.html" class="portal-worker-avatar-wrap" title="Click to view or edit profile photo" style="position: relative; flex-shrink: 0; display: block; text-decoration: none;">
-          <div id="banner-avatar-frame" style="width: 82px; height: 82px; border-radius: 16px; border: 2px solid #E2E8F0; overflow: hidden; background: #0F172A; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15,23,42,0.08); transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;" onmouseover="this.style.transform='scale(1.04)'; this.style.borderColor='#14281D'" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='#E2E8F0'">
+          <div id="banner-avatar-frame" style="width: 70px; height: 70px; border-radius: 16px; border: 2px solid #E2E8F0; overflow: hidden; background: #0F172A; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15,23,42,0.08); transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;">
             <img id="banner-worker-avatar-img" src="" alt="Worker Avatar" style="width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 14px;">
-            <span id="banner-worker-avatar-fallback" style="font-size: 26px; font-weight: 750; color: #ffffff; letter-spacing: -0.02em; font-family: var(--font-sans);">
+            <span id="banner-worker-avatar-fallback" style="font-size: 24px; font-weight: 750; color: #ffffff; letter-spacing: -0.02em; font-family: var(--font-sans);">
               --
             </span>
           </div>
           <!-- Verified Shield Badge -->
-          <div title="Verified Professional Candidate" style="position: absolute; bottom: -4px; right: -4px; width: 24px; height: 24px; border-radius: 7px; background: #059669; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(5,150,105,0.35);">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <div title="Verified Professional Candidate" style="position: absolute; bottom: -3px; right: -3px; width: 22px; height: 22px; border-radius: 6px; background: #059669; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(5,150,105,0.35);">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </a>
 
-        <div>
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-            <span class="portal-welcome-badge" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 9999px; background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3);">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+            <span class="portal-welcome-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3);">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               <span>Verified Professional</span>
             </span>
-            <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11.5px; padding: 3px 10px; border: 1px solid #E2E8F0; border-radius: 6px; background: #FFFFFF; color: #475569; display: inline-flex; align-items: center; gap: 4px;">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11px; padding: 3px 8px; border: 1px solid #E2E8F0; border-radius: 6px; background: #FFFFFF; color: #475569; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               <span>Edit Profile</span>
             </a>
           </div>
-          <h1 style="font-size: 26px; font-weight: 700; color: #0F172A; margin: 2px 0 6px; letter-spacing: -0.025em;" id="welcome-worker-heading">
+          <h1 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 0 0 4px; letter-spacing: -0.025em; line-height: 1.25;" id="welcome-worker-heading">
             Worker Desk
           </h1>
-          <p style="color: #64748B; font-size: 13.5px; max-width: 580px; line-height: 1.5; margin: 0;">
+          <p style="color: #64748B; font-size: 13px; max-width: 580px; line-height: 1.45; margin: 0;" class="portal-welcome-desc">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
           </p>
         </div>
@@ -431,8 +469,8 @@
 
   <!-- Scripts -->
   <script src="js/api.js?v=28"></script>
-  <script src="js/mobile-nav.js?v=1" defer></script>
-  <script src="js/chat-widget.js?v=7"></script>
+  <script src="js/mobile-nav.js?v=4" defer></script>
+  <script src="js/chat-widget.js?v=8"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Sync dynamic payment config for boost modal
@@ -649,86 +687,89 @@
           return;
         }
 
-        container.innerHTML = currentApps.map(app => `
-          <div class="divided-row">
-            <div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
-                <h3 style="font-size: 15.5px; font-weight: 700; color: #0F172A; margin: 0;">${app.job_title}</h3>
-                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10.5px; padding: 2px 8px; border-radius: 6px;">${app.worker_category}</span>
-                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 2px rgba(29, 78, 216, 0.06);"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Priority Boosted</span>' : ''}
-              </div>
-              <div style="font-size: 13px; color: #64748B;">
-                Employer: <strong style="color: #0F172A; font-weight: 600;">${app.employer_name}</strong> • Applied: <span class="mono-tag" style="font-size: 11px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 2px 7px; border-radius: 4px;">${app.applied_date}</span>
-              </div>
-              <div style="font-size: 12.5px; color: #475569; margin-top: 5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                <span style="display: inline-flex; align-items: center; gap: 4px; color: #047857; font-weight: 600;">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span>${app.location_area ? app.location_area + ', ' + (app.location_city || 'Visakhapatnam') : (app.location_city || 'Visakhapatnam')}</span>
-                </span>
-                ${app.salary_min || app.salary_max ? `<span style="color: #64748B;">• ₹${(app.salary_min || 0).toLocaleString('en-IN')} – ₹${(app.salary_max || 0).toLocaleString('en-IN')}/mo</span>` : ''}
-                ${app.maps_url ? `<a href="${app.maps_url}" target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 650; text-decoration: none; font-size: 11.5px; margin-left: 2px; display: inline-flex; align-items: center; gap: 3px;" title="Open in Maps"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Maps ↗</span></a>` : ''}
-              </div>
-              <div style="font-size: 12px; color: #94A3B8; margin-top: 3px;">
-                Experience on file: ${app.worker_experience} Years
+        container.innerHTML = currentApps.map(app => {
+          const isUnlocked = app.status === 'unlocked' || app.unlocked;
+          const isShortlisted = app.status === 'shortlisted';
+          const statusBadge = isUnlocked
+            ? '<span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 4px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #059669;"></span> UNLOCKED</span>'
+            : (isShortlisted
+              ? '<span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 4px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #2563EB;"></span> SHORTLISTED</span>'
+              : '<span class="status-badge pending" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-weight: 600; font-size: 10.5px; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 4px;"><span style="width: 5px; height: 5px; border-radius: 50%; background: #64748B;"></span> APPLIED</span>');
+
+          return `
+          <div class="divided-row" style="padding: 18px 0; border-bottom: 1px solid #F1F5F9;">
+            <div style="width: 100%;">
+              <!-- Card Header Row: Title + Category on Left, Status Badge on Right -->
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 4px;">
+                    <h3 style="font-size: 15px; font-weight: 700; color: #0F172A; margin: 0; line-height: 1.3;">${escapeHtml(app.job_title)}</h3>
+                    <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600;">${escapeHtml(app.worker_category)}</span>
+                    ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10px; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Boosted</span>' : ''}
+                  </div>
+                  <div style="font-size: 12.5px; color: #64748B;">
+                    Employer: <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(app.employer_name)}</strong> • Applied: <span class="mono-tag" style="font-size: 10.5px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 1px 6px; border-radius: 4px;">${escapeHtml(app.applied_date)}</span>
+                  </div>
+                </div>
+                <div style="flex-shrink: 0;">
+                  ${statusBadge}
+                </div>
               </div>
 
-              ${app.status === 'unlocked' || app.unlocked ? `
-                <div style="margin-top: 10px; padding: 10px 14px; background: #ECFDF5; border: 1.5px solid rgba(16,185,129,0.35); border-radius: 9px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="width: 26px; height: 26px; border-radius: 7px; background: #D1FAE5; color: #047857; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <!-- Location, Salary & Details -->
+              <div style="font-size: 12px; color: #475569; margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="display: inline-flex; align-items: center; gap: 4px; color: #047857; font-weight: 600;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span>${escapeHtml(app.location_area ? app.location_area + ', ' + (app.location_city || 'Visakhapatnam') : (app.location_city || 'Visakhapatnam'))}</span>
+                </span>
+                ${app.salary_min || app.salary_max ? `<span style="color: #64748B;">• ₹${(app.salary_min || 0).toLocaleString('en-IN')} – ₹${(app.salary_max || 0).toLocaleString('en-IN')}/mo</span>` : ''}
+                ${app.maps_url ? `<a href="${escapeAttr(app.maps_url)}" target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 650; text-decoration: none; font-size: 11px; display: inline-flex; align-items: center; gap: 3px;" title="Open in Maps"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Maps ↗</span></a>` : ''}
+              </div>
+              <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">
+                Experience on file: ${escapeHtml(app.worker_experience || '0')} Years
+              </div>
+
+              <!-- Workplace Location Box (Only shown when unlocked) -->
+              ${isUnlocked ? `
+                <div style="margin-top: 10px; padding: 10px 12px; background: #ECFDF5; border: 1px solid rgba(16,185,129,0.35); border-radius: 8px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                  <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
+                    <span style="width: 26px; height: 26px; border-radius: 6px; background: #D1FAE5; color: #047857; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
-                    <div>
-                      <div style="font-size: 11px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Workplace Location Shared</span></div>
-                      <div style="font-size: 13px; font-weight: 650; color: #0F172A;">${app.workplace_location || app.location_area || 'Visakhapatnam'}</div>
+                    <div style="min-width: 0;">
+                      <div style="font-size: 10px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em;">Workplace Location Shared</div>
+                      <div style="font-size: 12.5px; font-weight: 650; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(app.workplace_location || app.location_area || 'Visakhapatnam')}</div>
                     </div>
                   </div>
-                  <a href="${app.maps_url || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(app.workplace_location || app.location_area || 'Visakhapatnam'))}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #059669; color: #ffffff; border-radius: 6px; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(5,150,105,0.25);">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  <a href="${escapeAttr(app.maps_url || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(app.workplace_location || app.location_area || 'Visakhapatnam')))}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; background: #059669; color: #ffffff; border-radius: 6px; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(5,150,105,0.2); flex-shrink: 0;">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     <span>Open Google Maps</span>
                   </a>
                 </div>
               ` : ''}
-            </div>
 
-            <div class="action-rail">
-              <div class="action-rail-meta">
-                ${app.status === 'unlocked' || app.unlocked ? `
-                  <span class="status-badge verified" style="background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
-                    UNLOCKED
-                  </span>
-                ` : (app.status === 'shortlisted' ? `
-                  <span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
-                    SHORTLISTED
-                  </span>
-                ` : `
-                  <span class="status-badge pending" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; font-weight: 600; font-size: 11px; padding: 5px 12px; border-radius: 6px; letter-spacing: 0.04em;">
-                    APPLIED
-                  </span>
-                `)}
-              </div>
-
-              <div class="action-rail-actions">
+              <!-- Bottom Action Rail: Boost & Withdraw -->
+              <div class="action-rail-actions" style="display: flex; gap: 8px; align-items: center; width: 100%; margin-top: 12px;">
                 ${app.priority !== 'PRIORITY_ACTIVE' ? `
-                  <button type="button" class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" title="Boost application visibility to verified employers">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <button type="button" class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" title="Boost application visibility to verified employers" style="flex: 1; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; font-weight: 650;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     <span>Boost App (₹149)</span>
                   </button>
                 ` : `
-                  <span class="action-rail-pill">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="action-rail-pill" style="flex: 1; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Top Placement Active</span>
                   </span>
                 `}
 
-                <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${app.job_title || 'Position'}" title="Withdraw this application" style="display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; font-size: 12px; font-weight: 650; border-radius: 8px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #64748B; cursor: pointer; transition: all 0.18s ease;">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${escapeAttr(app.job_title || 'Position')}" title="Withdraw this application" style="display: inline-flex; align-items: center; gap: 4px; height: 38px; padding: 0 14px; font-size: 11.5px; font-weight: 650; border-radius: 8px; background: #FFFFFF; border: 1px solid #E2E8F0; color: #64748B; cursor: pointer; transition: all 0.18s ease; flex-shrink: 0;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   <span>Withdraw</span>
                 </button>
               </div>
             </div>
-          </div>
-        `).join('');
+          </div>`;
+        }).join('');
 
         document.querySelectorAll('.trigger-boost-btn').forEach(b => {
           b.addEventListener('click', (e) => {

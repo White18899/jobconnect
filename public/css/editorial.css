@@ -3204,8 +3204,9 @@ img {
 
   .portal-welcome-info {
     flex: 0 0 auto !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
     gap: 12px !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -3355,6 +3356,29 @@ img {
 
 /* Mobile Viewports (<= 520px, e.g. standard phones 360px - 414px) */
 @media (max-width: 520px) {
+  #auth-logged-in {
+    gap: 6px !important;
+  }
+  #home-logout-btn span,
+  #btn-worker-logout span {
+    display: none !important;
+  }
+  #btn-header-post-vacancy-user {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+  .nav-profile-name {
+    max-width: 48px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  .action-rail-meta:empty {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   .divided-row {
     padding: 14px 12px !important;
   }

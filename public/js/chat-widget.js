@@ -9,7 +9,7 @@
     const link = document.createElement('link');
     link.id = 'jobway-chat-styles';
     link.rel = 'stylesheet';
-    link.href = '/css/chat-widget.css?v=7';
+    link.href = '/css/chat-widget.css?v=8';
     document.head.appendChild(link);
   }
 
