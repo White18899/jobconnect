@@ -70,37 +70,37 @@ INSERT OR REPLACE INTO worker_profiles (
   salary_period, verification_status, digilocker_verified, created_at, updated_at
 )
 VALUES
-  ('cand_01', 'usr_cand_01', 'Ankit Verma', 'Technical Team Leader & System Architect', '', 'assets/trades/teamlead.jpg', '+91 9988776655',
+  ('cand_01', 'usr_cand_01', 'Ankit Verma', 'Technical Team Leader & System Architect', '', '', '+91 9988776655',
    '["System Design", "Microservices", "Agile / Scrum", "Java", "Kubernetes", "AWS"]', 6.5,
    'M.Tech', 'Andhra University', 2019, 'Computer Science',
    'NextWave AI & Automation Labs', '6.5+ years architecting distributed backend platforms and managing cross-functional development squads.',
    'Duvvada VSEZ Corridor', 'Visakhapatnam', 120000, 180000, 'monthly', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
-  ('cand_02', 'usr_cand_02', 'Sneha Kulkarni', 'Senior Technical Recruiter & HR Operations Partner', '', 'assets/trades/hr.jpg', '+91 9766554433',
+  ('cand_02', 'usr_cand_02', 'Sneha Kulkarni', 'Senior Technical Recruiter & HR Operations Partner', '', '', '+91 9766554433',
    '["Tech Talent Sourcing", "ATS / Greenhouse", "Salary Benchmarking", "HR Operations", "Leadership Hiring"]', 5.0,
    'MBA', 'GITAM Institute of Management', 2021, 'Human Resource Management',
    'TalentSprint Systems', '5+ years driving end-to-end technical hiring for high-growth tech companies and specialized software roles.',
    'Auto Nagar Industrial Hub', 'Visakhapatnam', 60000, 85000, 'monthly', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
-  ('cand_03', 'usr_cand_03', 'Karthik Iyer', 'Cloud & DevOps Infrastructure Engineer', '', 'assets/trades/devops.jpg', '+91 9122334412',
+  ('cand_03', 'usr_cand_03', 'Karthik Iyer', 'Cloud & DevOps Infrastructure Engineer', '', '', '+91 9122334412',
    '["Kubernetes (EKS)", "Terraform", "Docker", "AWS", "CI/CD", "Prometheus & Grafana"]', 5.0,
    'B.Tech', 'Andhra University College of Engineering', 2021, 'Information Technology',
    'CloudScale Networks', '5+ years building immutable cloud infrastructure, automated CI/CD pipelines, and high-availability container clusters.',
    'Madhurawada IT SEZ', 'Visakhapatnam', 85000, 140000, 'monthly', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
-  ('cand_04', 'usr_cand_04', 'Pooja Nair', 'SDET & QA Automation Lead', '', 'assets/trades/qa.jpg', '+91 9845012345',
+  ('cand_04', 'usr_cand_04', 'Pooja Nair', 'SDET & QA Automation Lead', '', '', '+91 9845012345',
    '["Playwright", "Cypress", "Selenium", "API Testing", "CI/CD", "k6 Load Testing"]', 4.0,
    'B.E', 'GITAM University Visakhapatnam', 2022, 'Computer Science',
    'FinEdge Fintech Solutions', '4+ years designing robust automated testing frameworks for high-frequency banking APIs and web applications.',
    'Rushikonda Millennium Tech Park', 'Visakhapatnam', 70000, 100000, 'monthly', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
-  ('cand_05', 'usr_cand_05', 'Rohan Sharma', 'Senior Full-Stack Engineer', '', 'assets/trades/software.jpg', '+91 9849123434',
+  ('cand_05', 'usr_cand_05', 'Rohan Sharma', 'Senior Full-Stack Engineer', '', '', '+91 9849123434',
    '["React.js", "Node.js", "TypeScript", "PostgreSQL", "Cloudflare Workers", "Next.js"]', 4.5,
    'B.Tech', 'Andhra University College of Engineering', 2022, 'Computer Science & Engineering',
    'HyperScale Cloud Systems', '4.5+ years building full-stack web platforms, serverless microservices, and high-performance databases.',
    'Madhurawada IT SEZ', 'Visakhapatnam', 85000, 130000, 'monthly', 'verified', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 
-  ('cand_06', 'usr_cand_06', 'Aditya Rao', 'Lead Mobile App Developer (iOS & Android)', '', 'assets/trades/mobile.jpg', '+91 9900112233',
+  ('cand_06', 'usr_cand_06', 'Aditya Rao', 'Lead Mobile App Developer (iOS & Android)', '', '', '+91 9900112233',
    '["React Native", "Flutter", "Swift", "Kotlin", "Mobile Architecture", "Offline First"]', 5.5,
    'B.Tech', 'GITAM University Visakhapatnam', 2020, 'Information Science',
    'AppSphere Technologies', '5.5+ years developing native and cross-platform mobile apps for millions of daily active users.',

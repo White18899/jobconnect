@@ -596,9 +596,18 @@
                 </div>
                 <span id="cover-thumb-filename-display" style="font-size: 11px; color: var(--text-secondary); display: none; margin-top: 4px;"></span>
                 <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 6px; line-height: 1.4;">
-                  Top banner on your candidate pass in the Candidates Directory. Defaults to a clean modern gradient if unselected.
+                  Top banner on your candidate pass in the Candidates Directory. No default stock images—choose a color theme below or upload your custom photo.
                 </span>
               </div>
+            </div>
+
+            <!-- Color Palette Options -->
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-light);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 11.5px; font-weight: 700; color: var(--text-secondary);">Default Banner Color Options:</span>
+                <span id="active-banner-theme-name" style="font-size: 11px; font-weight: 700; color: #10b981;">Emerald Deep</span>
+              </div>
+              <div id="banner-theme-palette" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;"></div>
             </div>
           </div>
         </div>
@@ -1787,35 +1796,10 @@
           updateInitials(profile.full_name || user.name);
         }
 
-        // Cover Thumbnail resolution
-        const existingCover = profile.photo_thumb || profile.cover_image || localStorage.getItem('jc_worker_cover');
-        const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
-        if (existingCover && existingCover !== 'assets/trades/mechanic.jpg' && existingCover !== 'assets/trades/automation.jpg') {
-          activeCoverThumbData = existingCover;
-          if (coverThumbImg) {
-            coverThumbImg.src = existingCover;
-            coverThumbImg.style.display = 'block';
-          }
-          if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'none';
-          if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'inline-block';
-          const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-          if (btnCoverLabel) btnCoverLabel.textContent = 'Change Banner';
-          const filenameDisplay = document.getElementById('cover-thumb-filename-display');
-          if (filenameDisplay && existingCover.startsWith('data:image')) {
-            filenameDisplay.textContent = 'Custom Banner Loaded';
-            filenameDisplay.style.display = 'inline-block';
-          }
-        } else {
-          activeCoverThumbData = '';
-          if (coverThumbImg) {
-            coverThumbImg.src = '';
-            coverThumbImg.style.display = 'none';
-          }
-          if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'flex';
-          if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'none';
-          const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-          if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Custom Banner';
-        }
+        // Banner Color Options Palette & Cover Thumbnail resolution
+        initBannerColorPalette();
+        const existingCover = (profile.photo_thumb || profile.cover_image || localStorage.getItem('jc_worker_cover') || '').trim();
+        applyBannerCoverSetting(existingCover);
 
         // Skills parse - strip non-tech work-type items
         if (profile.skills) {
@@ -1902,6 +1886,127 @@
       // =========================================================
       // WORKSHOP COVER THUMBNAIL HANDLERS
       // =========================================================
+      // =========================================================
+      // BANNER COLOR OPTIONS & CUSTOM COVER CONTROLLER
+      // =========================================================
+      const BANNER_THEMES = [
+        { id: 'emerald', name: 'Emerald Deep', gradient: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)', color: '#047857' },
+        { id: 'navy',    name: 'Midnight Navy', gradient: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)', color: '#1e293b' },
+        { id: 'indigo',  name: 'Royal Indigo',  gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)', color: '#4338ca' },
+        { id: 'violet',  name: 'Deep Violet',   gradient: 'linear-gradient(135deg, #2e1065 0%, #3b0764 50%, #581c87 100%)', color: '#581c87' },
+        { id: 'teal',    name: 'Oceanic Teal',  gradient: 'linear-gradient(135deg, #042f2e 0%, #115e59 50%, #0f766e 100%)', color: '#0f766e' },
+        { id: 'carbon',  name: 'Carbon Steel',  gradient: 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%)', color: '#27272a' },
+        { id: 'crimson', name: 'Crimson Wine',  gradient: 'linear-gradient(135deg, #4c0519 0%, #881337 50%, #9f1239 100%)', color: '#9f1239' },
+        { id: 'amber',   name: 'Sunset Amber',  gradient: 'linear-gradient(135deg, #451a03 0%, #78350f 50%, #92400e 100%)', color: '#92400e' }
+      ];
+
+      let selectedColorTheme = 'emerald';
+
+      function initBannerColorPalette() {
+        const paletteContainer = document.getElementById('banner-theme-palette');
+        if (!paletteContainer) return;
+        paletteContainer.innerHTML = BANNER_THEMES.map(theme => {
+          return `
+            <button type="button" class="banner-color-btn" data-theme="${theme.id}" title="${theme.name}" style="width: 32px; height: 32px; border-radius: 8px; border: 2px solid transparent; background: ${theme.gradient}; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.25);" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="theme-check" style="color: #ffffff; font-size: 13px; font-weight: 900; display: none;">✓</span>
+            </button>
+          `;
+        }).join('');
+
+        paletteContainer.querySelectorAll('.banner-color-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const themeId = e.currentTarget.dataset.theme;
+            selectColorTheme(themeId);
+          });
+        });
+      }
+
+      function selectColorTheme(themeId) {
+        selectedColorTheme = themeId;
+        const theme = BANNER_THEMES.find(t => t.id === themeId) || BANNER_THEMES[0];
+        activeCoverThumbData = 'color:' + themeId;
+
+        // Update active theme indicator in UI
+        const nameLabel = document.getElementById('active-banner-theme-name');
+        if (nameLabel) {
+          nameLabel.textContent = theme.name;
+          nameLabel.style.color = theme.color;
+        }
+
+        // Update palette button active states
+        document.querySelectorAll('#banner-theme-palette .banner-color-btn').forEach(btn => {
+          const isCurrent = btn.dataset.theme === themeId;
+          btn.style.borderColor = isCurrent ? '#ffffff' : 'transparent';
+          btn.style.boxShadow = isCurrent ? '0 0 0 2px var(--primary), 0 4px 10px rgba(0,0,0,0.3)' : '0 2px 5px rgba(0,0,0,0.25)';
+          const check = btn.querySelector('.theme-check');
+          if (check) check.style.display = isCurrent ? 'inline' : 'none';
+        });
+
+        // Update 16:9 box preview
+        if (coverThumbPreview) {
+          coverThumbPreview.style.background = theme.gradient;
+        }
+        if (coverThumbImg) {
+          coverThumbImg.src = '';
+          coverThumbImg.style.display = 'none';
+        }
+        const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
+        if (emptyCoverPlaceholder) {
+          emptyCoverPlaceholder.style.display = 'flex';
+          emptyCoverPlaceholder.innerHTML = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity: 0.85;"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+            <span style="font-size: 10.5px; font-weight: 700; opacity: 0.95; margin-top: 4px; font-family: var(--font-mono);">${theme.name}</span>
+          `;
+        }
+
+        if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'none';
+        const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
+        if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Custom Banner';
+        const filenameDisplay = document.getElementById('cover-thumb-filename-display');
+        if (filenameDisplay) filenameDisplay.style.display = 'none';
+      }
+
+      function applyBannerCoverSetting(coverVal) {
+        if (!coverVal || coverVal.startsWith('assets/trades/')) {
+          // Default to Emerald color option
+          selectColorTheme('emerald');
+          return;
+        }
+
+        if (coverVal.startsWith('color:')) {
+          const themeId = coverVal.replace('color:', '').trim();
+          selectColorTheme(themeId);
+          return;
+        }
+
+        // Custom uploaded image
+        activeCoverThumbData = coverVal;
+        if (coverThumbImg) {
+          coverThumbImg.src = coverVal;
+          coverThumbImg.style.display = 'block';
+        }
+        const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
+        if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'none';
+        if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'inline-block';
+        const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
+        if (btnCoverLabel) btnCoverLabel.textContent = 'Change Banner Photo';
+        const filenameDisplay = document.getElementById('cover-thumb-filename-display');
+        if (filenameDisplay) {
+          filenameDisplay.textContent = 'Custom Banner Active';
+          filenameDisplay.style.display = 'inline-block';
+        }
+
+        // Clear active checkmark from color swatches
+        document.querySelectorAll('#banner-theme-palette .banner-color-btn').forEach(btn => {
+          btn.style.borderColor = 'transparent';
+          btn.style.boxShadow = '0 2px 5px rgba(0,0,0,0.25)';
+          const check = btn.querySelector('.theme-check');
+          if (check) check.style.display = 'none';
+        });
+        const nameLabel = document.getElementById('active-banner-theme-name');
+        if (nameLabel) nameLabel.textContent = 'Custom Upload Active';
+      }
+
       if (coverThumbPreview && fileCoverThumbInput) {
         coverThumbPreview.addEventListener('click', () => fileCoverThumbInput.click());
         coverThumbPreview.addEventListener('dragover', (e) => {
@@ -1936,43 +2041,48 @@
           }
           const reader = new FileReader();
           reader.onload = (event) => {
-            activeCoverThumbData = event.target.result;
-            if (coverThumbImg) {
-              coverThumbImg.src = activeCoverThumbData;
-              coverThumbImg.style.display = 'block';
-            }
-            const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
-            if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'none';
-            if (btnRemoveCoverThumb) btnRemoveCoverThumb.style.display = 'inline-block';
-            const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-            if (btnCoverLabel) btnCoverLabel.textContent = 'Change Banner';
-            const filenameDisplay = document.getElementById('cover-thumb-filename-display');
-            if (filenameDisplay) {
-              filenameDisplay.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
-              filenameDisplay.style.display = 'inline-block';
-            }
-            showToast('Profile banner loaded! Click Save Profile to apply.');
+            const img = new Image();
+            img.onload = () => {
+              // Compress custom banner photo using canvas (max 960x540)
+              const canvas = document.createElement('canvas');
+              const maxWidth = 960;
+              const maxHeight = 540;
+              let width = img.width;
+              let height = img.height;
+              if (width > maxWidth || height > maxHeight) {
+                if (width / height > maxWidth / maxHeight) {
+                  height = Math.round((height * maxWidth) / width);
+                  width = maxWidth;
+                } else {
+                  width = Math.round((width * maxHeight) / height);
+                  height = maxHeight;
+                }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+              activeCoverThumbData = canvas.toDataURL('image/jpeg', 0.84);
+
+              applyBannerCoverSetting(activeCoverThumbData);
+              const filenameDisplay = document.getElementById('cover-thumb-filename-display');
+              if (filenameDisplay) {
+                filenameDisplay.textContent = `${file.name} (Compressed: ${(activeCoverThumbData.length / 1024).toFixed(0)} KB)`;
+                filenameDisplay.style.display = 'inline-block';
+              }
+              showToast('Custom banner photo loaded! Click Save Profile to apply.');
+            };
+            img.src = event.target.result;
           };
           reader.readAsDataURL(file);
         }
 
         if (btnRemoveCoverThumb) {
           btnRemoveCoverThumb.addEventListener('click', () => {
-            activeCoverThumbData = '';
-            if (coverThumbImg) {
-              coverThumbImg.src = '';
-              coverThumbImg.style.display = 'none';
-            }
-            const emptyCoverPlaceholder = document.getElementById('cover-thumb-empty-placeholder');
-            if (emptyCoverPlaceholder) emptyCoverPlaceholder.style.display = 'flex';
-            btnRemoveCoverThumb.style.display = 'none';
-            const btnCoverLabel = document.getElementById('btn-cover-thumb-label');
-            if (btnCoverLabel) btnCoverLabel.textContent = 'Upload Custom Banner';
             fileCoverThumbInput.value = '';
-            const filenameDisplay = document.getElementById('cover-thumb-filename-display');
-            if (filenameDisplay) filenameDisplay.style.display = 'none';
+            selectColorTheme(selectedColorTheme || 'emerald');
             localStorage.removeItem('jc_worker_cover');
-            showToast('Banner reset to clean default.');
+            showToast('Switched to clean color theme.');
           });
         }
       }

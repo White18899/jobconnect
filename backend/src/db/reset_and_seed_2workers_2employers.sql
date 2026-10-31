@@ -88,7 +88,7 @@ INSERT INTO worker_profiles (
   'monthly',
   'verified',
   1,
-  'assets/trades/software.jpg',
+  '',
   CURRENT_TIMESTAMP,
   CURRENT_TIMESTAMP
 ),
@@ -113,7 +113,7 @@ INSERT INTO worker_profiles (
   'monthly',
   'verified',
   1,
-  'assets/trades/qa.jpg',
+  '',
   CURRENT_TIMESTAMP,
   CURRENT_TIMESTAMP
 );

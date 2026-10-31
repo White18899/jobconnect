@@ -416,6 +416,20 @@
       transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
+    .candidate-card-header-box .candidate-header-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.14;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.6) 1.2px, transparent 1.2px);
+      background-size: 16px 16px;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .candidate-card:hover .candidate-card-header-box .candidate-header-pattern {
+      opacity: 0.22;
+    }
+
     .candidate-card:hover .candidate-card-header-box img {
       transform: scale(1.05);
     }
@@ -1866,27 +1880,49 @@
         }
       }
 
-      function resolveCandidateCover(c) {
-        if (c.photo_thumb && !c.photo_thumb.includes('mechanic.jpg') && !c.photo_thumb.includes('automation.jpg')) {
-          return c.photo_thumb;
+      // Curated modern default color options (no stock images)
+      const BANNER_THEMES = {
+        emerald: { name: 'Emerald Deep', gradient: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)' },
+        navy:    { name: 'Midnight Navy', gradient: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)' },
+        indigo:  { name: 'Royal Indigo',  gradient: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)' },
+        violet:  { name: 'Deep Violet',   gradient: 'linear-gradient(135deg, #2e1065 0%, #3b0764 50%, #581c87 100%)' },
+        teal:    { name: 'Oceanic Teal',  gradient: 'linear-gradient(135deg, #042f2e 0%, #115e59 50%, #0f766e 100%)' },
+        carbon:  { name: 'Carbon Steel',  gradient: 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%)' },
+        crimson: { name: 'Crimson Wine',  gradient: 'linear-gradient(135deg, #4c0519 0%, #881337 50%, #9f1239 100%)' },
+        amber:   { name: 'Sunset Amber',  gradient: 'linear-gradient(135deg, #451a03 0%, #78350f 50%, #92400e 100%)' }
+      };
+
+      const BANNER_THEME_KEYS = ['emerald', 'navy', 'indigo', 'violet', 'teal', 'carbon', 'crimson', 'amber'];
+
+      function resolveCandidateBanner(c) {
+        const raw = (c.photo_thumb || '').trim();
+        // Images are ONLY displayed if explicitly uploaded by the user
+        const isUserUploadedImage = raw && 
+          !raw.startsWith('assets/trades/') && 
+          !raw.includes('/trades/') && 
+          (raw.startsWith('data:image/') || raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('/uploads/'));
+
+        if (isUserUploadedImage) {
+          return { isImage: true, url: raw };
         }
-        const text = `${c.trade_title || ''} ${c.category || ''}`.toLowerCase();
-        if (text.includes('devops') || text.includes('cloud') || text.includes('infra') || text.includes('security') || text.includes('sre') || text.includes('cyber')) {
-          return 'assets/trades/devops.jpg';
+
+        // If candidate explicitly chose a default color theme (e.g. 'color:indigo')
+        if (raw.startsWith('color:')) {
+          const key = raw.replace('color:', '').trim().toLowerCase();
+          if (BANNER_THEMES[key]) {
+            return { isImage: false, ...BANNER_THEMES[key] };
+          }
         }
-        if (text.includes('qa') || text.includes('test') || text.includes('automation') || text.includes('quality') || text.includes('sdet')) {
-          return 'assets/trades/qa.jpg';
+
+        // Default: Assign a deterministic modern color gradient based on candidate ID or name
+        const seed = (c.id || c.name || 'cand').toString();
+        let hash = 0;
+        for (let i = 0; i < seed.length; i++) {
+          hash = (hash << 5) - hash + seed.charCodeAt(i);
+          hash |= 0;
         }
-        if (text.includes('mobile') || text.includes('android') || text.includes('ios') || text.includes('flutter') || text.includes('react native')) {
-          return 'assets/trades/mobile.jpg';
-        }
-        if (text.includes('hr') || text.includes('recruit') || text.includes('talent') || text.includes('people') || text.includes('operations')) {
-          return 'assets/trades/hr.jpg';
-        }
-        if (text.includes('lead') || text.includes('manager') || text.includes('architect') || text.includes('director') || text.includes('vp')) {
-          return 'assets/trades/teamlead.jpg';
-        }
-        return 'assets/trades/software.jpg';
+        const key = BANNER_THEME_KEYS[Math.abs(hash) % BANNER_THEME_KEYS.length];
+        return { isImage: false, ...BANNER_THEMES[key] };
       }
 
       function renderCandidatesGrid() {
@@ -1918,10 +1954,14 @@
           const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
           const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
+              const banner = resolveCandidateBanner(c);
           return `
             <article class="candidate-card" data-cand-id="${c.id}" style="position: relative;">
-              <div class="candidate-card-header-box">
-                <img src="${resolveCandidateCover(c)}" alt="${c.name}" loading="lazy">
+              <div class="candidate-card-header-box" style="${banner.isImage ? '' : `background: ${banner.gradient};`}">
+                ${banner.isImage 
+                  ? `<img src="${banner.url}" alt="${escapeHtml(c.name)}" loading="lazy">`
+                  : `<div class="candidate-header-pattern"></div>`
+                }
                 <div class="candidate-floating-badges">
                   <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
                   <!-- Smart Match Badge -->
