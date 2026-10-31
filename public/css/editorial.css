@@ -3753,10 +3753,16 @@ img {
   }
 
   .sheet-item-icon {
-    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #F1F5F9;
+    color: #1E293B;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 12px;
-    width: 22px;
-    text-align: center;
+    flex-shrink: 0;
   }
 
   .sheet-item-text {

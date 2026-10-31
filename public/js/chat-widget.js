@@ -114,15 +114,15 @@
           <!-- Initial Welcome Message -->
           <div class="jobway-chat-msg bot">
             <div class="jobway-chat-bubble">
-              Hello! 👋 I'm your <strong>JobWay AI Assistant</strong>.<br><br>
+              Hello! I'm your <strong>JobWay AI Assistant</strong>.<br><br>
               How can I help you navigate Visakhapatnam's verified tech and engineering hiring network?
             </div>
             <div class="jobway-chat-suggestions" id="jobway-initial-suggestions">
-              <button type="button" class="jobway-chat-pill" data-prompt="How do I find software jobs in Vizag?">🔍 Find Jobs in Vizag</button>
-              <button type="button" class="jobway-chat-pill" data-prompt="How can employers hire candidates?">👥 Hire Candidates</button>
-              <button type="button" class="jobway-chat-pill" data-prompt="What IT corridors are covered in Visakhapatnam?">📍 IT Corridors Covered</button>
-              <button type="button" class="jobway-chat-pill" data-prompt="How does DigiLocker verification work?">🛡️ Verification & DigiLocker</button>
-              <button type="button" class="jobway-chat-pill" data-prompt="What are the unlock credit prices?">💳 Pricing & Credits</button>
+              <button type="button" class="jobway-chat-pill" data-prompt="How do I find software jobs in Vizag?">Find Jobs in Vizag</button>
+              <button type="button" class="jobway-chat-pill" data-prompt="How can employers hire candidates?">Hire Candidates</button>
+              <button type="button" class="jobway-chat-pill" data-prompt="What IT corridors are covered in Visakhapatnam?">IT Corridors Covered</button>
+              <button type="button" class="jobway-chat-pill" data-prompt="How does DigiLocker verification work?">Verification & DigiLocker</button>
+              <button type="button" class="jobway-chat-pill" data-prompt="What are the unlock credit prices?">Pricing & Credits</button>
             </div>
             <div class="jobway-chat-msg-time">Just now</div>
           </div>
@@ -311,7 +311,7 @@
       } catch (err) {
         hideTyping();
         console.warn('Chat request fallback:', err);
-        appendMessage('bot', "Welcome to **JobWay Visakhapatnam**! 🌟\n\n• Browse open positions: **[Find Jobs](/jobs.html)**\n• Hire vetted tech specialists: **[Candidates](/candidates.html)**\n• Manage your profile: **[Edit Profile](/profile-edit.html)**\n• Need help signing in? Visit **[Sign In](/login.html)**");
+        appendMessage('bot', "Welcome to **JobWay Visakhapatnam**!\n\n• Browse open positions: **[Find Jobs](/jobs.html)**\n• Hire vetted tech specialists: **[Candidates](/candidates.html)**\n• Manage your profile: **[Edit Profile](/profile-edit.html)**\n• Need help signing in? Visit **[Sign In](/login.html)**");
       } finally {
         isSending = false;
       }

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=27">
-  <link rel="stylesheet" href="css/editorial.css?v=34">
+  <link rel="stylesheet" href="css/editorial.css?v=36">
   <link rel="stylesheet" href="css/chat-widget.css?v=7">
   <script>
     try {
@@ -666,7 +666,7 @@
                   <span>${app.location_area ? app.location_area + ', ' + (app.location_city || 'Visakhapatnam') : (app.location_city || 'Visakhapatnam')}</span>
                 </span>
                 ${app.salary_min || app.salary_max ? `<span style="color: #64748B;">• ₹${(app.salary_min || 0).toLocaleString('en-IN')} – ₹${(app.salary_max || 0).toLocaleString('en-IN')}/mo</span>` : ''}
-                ${app.maps_url ? `<a href="${app.maps_url}" target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 650; text-decoration: none; font-size: 11.5px; margin-left: 2px;">📍 Maps ↗</a>` : ''}
+                ${app.maps_url ? `<a href="${app.maps_url}" target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 650; text-decoration: none; font-size: 11.5px; margin-left: 2px; display: inline-flex; align-items: center; gap: 3px;" title="Open in Maps"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Maps ↗</span></a>` : ''}
               </div>
               <div style="font-size: 12px; color: #94A3B8; margin-top: 3px;">
                 Experience on file: ${app.worker_experience} Years
@@ -679,7 +679,7 @@
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
                     <div>
-                      <div style="font-size: 11px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em;">📍 Workplace Location Shared</div>
+                      <div style="font-size: 11px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Workplace Location Shared</span></div>
                       <div style="font-size: 13px; font-weight: 650; color: #0F172A;">${app.workplace_location || app.location_area || 'Visakhapatnam'}</div>
                     </div>
                   </div>
@@ -823,7 +823,7 @@
       <div class="footer-box">
         <h4 class="footer-col-title">Worker Support</h4>
         <p class="footer-text">
-          Direct helpline for certified technical and engineering trades. Zero wage brokerage deductions.
+          Direct helpline for certified technical and engineering trades. Direct payroll and verified compensation.
         </p>
       </div>
       <div class="footer-box">
@@ -878,7 +878,7 @@
         if (!notifs || notifs.length === 0) {
           workerNotifsBody.innerHTML = `
             <div style="text-align: center; padding: 36px 18px; color: #64748B;">
-              <div style="font-size: 32px; margin-bottom: 8px;">📍</div>
+              <div style="margin-bottom: 8px; color: #059669; display: flex; justify-content: center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
               <h4 style="font-size: 15px; font-weight: 700; color: #0F172A; margin: 0 0 4px;">No workplace notifications yet</h4>
               <p style="font-size: 12.5px; margin: 0; color: #64748B; line-height: 1.5;">When hiring employers unlock your trade profile, their workplace location and direct Google Maps navigation will appear here.</p>
             </div>
@@ -915,8 +915,9 @@
 
               ${meta.workplace_location || mapsUrl ? `
                 <div style="margin-left: 42px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-                  <div style="font-size: 12px; font-weight: 600; color: #1E293B;">
-                    📍 ${meta.workplace_location || 'Workplace Location'}
+                  <div style="font-size: 12px; font-weight: 600; color: #1E293B; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>${meta.workplace_location || 'Workplace Location'}</span>
                   </div>
                   ${mapsUrl ? `
                     <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px; background: #059669; color: #FFFFFF; border-radius: 6px; padding: 6px 12px; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(5,150,105,0.25);">

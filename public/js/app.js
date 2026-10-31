@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="ios-role-card">
           <div class="ios-role-card-header">
             <div>
-              <div class="ios-role-title">Hello, ${cleanName} 👋</div>
+              <div class="ios-role-title">Hello, ${cleanName}</div>
               <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 1px;">✓ Trade Pass Active</div>
             </div>
             <span class="ios-role-badge">Visakhapatnam</span>
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
             <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
             <div class="ios-stat-col">
-              <div class="ios-stat-val" style="color: #059669;">0%</div>
-              <div class="ios-stat-lbl">Brokerage</div>
+              <div class="ios-stat-val" style="color: #059669;">100%</div>
+              <div class="ios-stat-lbl">Verified</div>
             </div>
             <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
             <div class="ios-stat-col">
@@ -518,7 +518,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
 
           <div class="project-card-meta">
-            🏢 ${escapeHtml(job.business_name || 'Verified Tech Enterprise')} • 📍 ${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Visakhapatnam')}
+            <span style="display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+              <span>${escapeHtml(job.business_name || 'Verified Tech Enterprise')}</span>
+            </span>
+            <span style="color: #CBD5E1;">•</span>
+            <span style="display: inline-flex; align-items: center; gap: 4px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${escapeHtml(job.location_area ? `${job.location_area}, ` : '')}${escapeHtml(job.location_city || 'Visakhapatnam')}</span>
+            </span>
           </div>
         </a>
       `;

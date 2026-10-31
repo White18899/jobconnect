@@ -138,7 +138,10 @@
                 <div class="mobile-sheet-credit-box">
                   <div>
                     <div style="font-size: 11px; text-transform: uppercase; font-weight: 750; color: #065F46; letter-spacing: 0.05em;">Unlock Balance</div>
-                    <div style="font-size: 15px; font-weight: 700; color: #064E3B;">⚡ ${localStorage.getItem('jc_credits') || '3'} Credits Available</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #064E3B; display: flex; align-items: center; gap: 6px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      <span>${localStorage.getItem('jc_credits') || '3'} Credits Available</span>
+                    </div>
                   </div>
                   <a href="/employer.html#applicants-section" class="sheet-action-link" style="background: #059669; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; text-decoration: none;">
                     Roster
@@ -148,25 +151,33 @@
 
               <div class="mobile-sheet-menu-list">
                 <a href="${workspaceUrl}" class="mobile-sheet-menu-item">
-                  <span class="sheet-item-icon">🏢</span>
+                  <span class="sheet-item-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+                  </span>
                   <span class="sheet-item-text">${workspaceLabel}</span>
                   <span class="sheet-item-arrow">→</span>
                 </a>
 
                 <a href="/jobs.html" class="mobile-sheet-menu-item">
-                  <span class="sheet-item-icon">💼</span>
+                  <span class="sheet-item-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  </span>
                   <span class="sheet-item-text">Explore Verified Vacancies</span>
                   <span class="sheet-item-arrow">→</span>
                 </a>
 
                 <a href="${rosterUrl}" class="mobile-sheet-menu-item">
-                  <span class="sheet-item-icon">👥</span>
+                  <span class="sheet-item-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  </span>
                   <span class="sheet-item-text">${rosterLabel}</span>
                   <span class="sheet-item-arrow">→</span>
                 </a>
 
                 <a href="https://wa.me/919849123434?text=Hello%20JobWay%20Support" target="_blank" rel="noopener noreferrer" class="mobile-sheet-menu-item">
-                  <span class="sheet-item-icon">💬</span>
+                  <span class="sheet-item-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  </span>
                   <span class="sheet-item-text">Direct WhatsApp Helpdesk</span>
                   <span class="sheet-item-arrow">↗</span>
                 </a>
@@ -186,8 +197,9 @@
                 <a href="/login.html?mode=login" class="sheet-btn-secondary">
                   <span>Sign In with Email / Google</span>
                 </a>
-                <a href="https://wa.me/919849123434?text=Hello%20JobWay" target="_blank" rel="noopener noreferrer" class="sheet-btn-outline" style="text-decoration: none; margin-top: 6px;">
-                  <span>💬 Contact WhatsApp Support ↗</span>
+                <a href="https://wa.me/919849123434?text=Hello%20JobWay" target="_blank" rel="noopener noreferrer" class="sheet-btn-outline" style="text-decoration: none; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span>Contact WhatsApp Support ↗</span>
                 </a>
               </div>
             `}

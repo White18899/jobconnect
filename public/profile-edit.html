@@ -737,19 +737,19 @@
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;" id="work-type-selector-pills">
           <button type="button" class="work-type-pill active" data-type="full_time">
-            <span>💼</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
             <span>Full Time</span>
           </button>
           <button type="button" class="work-type-pill" data-type="part_time">
-            <span>⏱</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <span>Part Time</span>
           </button>
           <button type="button" class="work-type-pill" data-type="freelancer">
-            <span>🚀</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             <span>Freelancer</span>
           </button>
           <button type="button" class="work-type-pill" data-type="student">
-            <span>🎓</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
             <span>Student</span>
           </button>
         </div>
@@ -1190,17 +1190,7 @@
           `;
         } else {
           currentSkills.forEach((skill, index) => {
-            const icon = skill.toLowerCase().includes('python') || skill.toLowerCase() === 'py' ? '🐍 ' :
-                         skill.toLowerCase().includes('react') ? '⚛️ ' :
-                         skill.toLowerCase().includes('java') && !skill.toLowerCase().includes('javascript') ? '☕ ' :
-                         skill.toLowerCase().includes('js') || skill.toLowerCase().includes('javascript') ? '🟨 ' :
-                         skill.toLowerCase().includes('html') ? '🌐 ' :
-                         skill.toLowerCase().includes('css') ? '🎨 ' :
-                         skill.toLowerCase().includes('docker') ? '🐳 ' :
-                         skill.toLowerCase().includes('aws') || skill.toLowerCase().includes('cloud') ? '☁️ ' :
-                         skill.toLowerCase().includes('git') ? '🐙 ' :
-                         skill.toLowerCase().includes('sql') || skill.toLowerCase().includes('data') || skill.toLowerCase().includes('mongo') ? '🗄️ ' :
-                         skill.toLowerCase().includes('front') || skill.toLowerCase().includes('back') || skill.toLowerCase().includes('stack') ? '💻 ' : '⚡ ';
+            const icon = '';
 
             const tag = document.createElement('span');
             tag.className = 'skill-tag';
@@ -1430,7 +1420,7 @@
           container.innerHTML = `
             <div class="dynamic-fields-card">
               <div class="dynamic-fields-badge">
-                <span>💼</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                 <span>Full-Time Employment • 40h/week dedicated software engineering roles</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
@@ -1458,7 +1448,7 @@
           container.innerHTML = `
             <div class="dynamic-fields-card">
               <div class="dynamic-fields-badge">
-                <span>⏱</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 <span>Part-Time Arrangement • Flexible hours & shift-based engagements</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
@@ -1489,7 +1479,7 @@
           container.innerHTML = `
             <div class="dynamic-fields-card">
               <div class="dynamic-fields-badge">
-                <span>🚀</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 <span>Freelancer / Contractor • Direct project delivery & hourly consultation</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
@@ -1517,7 +1507,7 @@
           container.innerHTML = `
             <div class="dynamic-fields-card">
               <div class="dynamic-fields-badge">
-                <span>🎓</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
                 <span>Student / Fresher • College internships, trainee roles & apprenticeships</span>
               </div>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
