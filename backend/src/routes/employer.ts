@@ -199,7 +199,18 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
 
   const { results } = await c.env.DB.prepare(`
     SELECT
-      a.id as application_id, a.id, a.status as application_status, a.status, a.applied_at,
+      a.id as application_id, a.id,
+      CASE
+        WHEN a.status = 'unlocked' THEN 'unlocked'
+        WHEN EXISTS (
+          SELECT 1 FROM applications a2
+          WHERE (a2.worker_id = a.worker_id OR a2.worker_id = wp.id OR a2.worker_id = wp.user_id)
+            AND (a2.employer_id = a.employer_id OR a2.employer_id = ? OR a2.employer_id = ?)
+            AND a2.status = 'unlocked'
+        ) THEN 'unlocked'
+        ELSE a.status
+      END as application_status,
+      a.status, a.applied_at,
       j.id as job_id, j.title as job_title, j.category as job_category, j.location_area, j.location_city, j.maps_url as job_maps_url,
       wp.id as worker_id, wp.full_name as worker_name, wp.trade_title, wp.skills as worker_skills,
       wp.experience_years as worker_experience, wp.preferred_area as worker_area, wp.city as worker_city,
@@ -215,7 +226,7 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
     LEFT JOIN payments p ON p.application_id = a.id
     WHERE (a.employer_id = ? OR a.employer_id = ? OR a.job_id IN (SELECT id FROM jobs WHERE employer_id = ? OR employer_id = ?))
     ORDER BY a.applied_at DESC
-  `).bind(employer.id, user.userId, employer.id, user.userId).all<any>();
+  `).bind(employer.id, user.userId, employer.id, user.userId, employer.id, user.userId).all<any>();
 
   const applications = (results || []).map((row: any) => {
     const isUnlocked = row.application_status === 'unlocked' || row.status === 'unlocked';
@@ -341,7 +352,11 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
   };
 
   if (app) {
-    await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(app.id).run();
+    await c.env.DB.prepare(`
+      UPDATE applications
+      SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP
+      WHERE id = ? OR (worker_id = ? AND (employer_id = ? OR employer_id = ?))
+    `).bind(app.id, app.worker_id, employer.id, user.userId).run();
     await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
     const workerRow = await c.env.DB.prepare(`
@@ -384,10 +399,14 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
   `).bind(lookupWorkerId, lookupWorkerId).first<any>();
 
   if (worker) {
-    const existing = await c.env.DB.prepare('SELECT id, status FROM applications WHERE worker_id = ? AND employer_id = ?').bind(worker.worker_id, employer.id).first<{ id: string; status: string }>();
-    if (existing) {
-      await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
-    } else {
+    await c.env.DB.prepare(`
+      UPDATE applications
+      SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP
+      WHERE worker_id = ? AND (employer_id = ? OR employer_id = ?)
+    `).bind(worker.worker_id, employer.id, user.userId).run();
+
+    const existing = await c.env.DB.prepare('SELECT id, status FROM applications WHERE worker_id = ? AND (employer_id = ? OR employer_id = ?)').bind(worker.worker_id, employer.id, user.userId).first<{ id: string; status: string }>();
+    if (!existing) {
       const newAppId = (typeof appId === 'string' && appId.startsWith('app_')) ? appId : 'app_' + crypto.randomUUID().replace(/-/g, '').slice(0, 8);
       await c.env.DB.prepare(`
         INSERT INTO applications (id, job_id, worker_id, employer_id, status, created_at, updated_at)
@@ -484,14 +503,21 @@ employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleG
     let targetWorkerUserId = null;
     const app = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE id = ? AND (employer_id = ? OR employer_id = ?)').bind(appId, employer.id, user.userId).first<any>();
     if (app) {
-      await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
+      await c.env.DB.prepare(`
+        UPDATE applications
+        SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP
+        WHERE id = ? OR (worker_id = ? AND (employer_id = ? OR employer_id = ?))
+      `).bind(appId, app.worker_id, employer.id, user.userId).run();
       const wp = await c.env.DB.prepare('SELECT user_id FROM worker_profiles WHERE id = ?').bind(app.worker_id).first<any>();
       targetWorkerUserId = wp?.user_id;
     } else if (workerId) {
+      await c.env.DB.prepare(`
+        UPDATE applications
+        SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP
+        WHERE worker_id = ? AND (employer_id = ? OR employer_id = ?)
+      `).bind(workerId, employer.id, user.userId).run();
       const existing = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE worker_id = ? AND (employer_id = ? OR employer_id = ?)').bind(workerId, employer.id, user.userId).first<any>();
-      if (existing) {
-        await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
-      } else {
+      if (!existing) {
         const newAppId = (typeof appId === 'string' && appId.startsWith('app_')) ? appId : 'app_' + crypto.randomUUID().replace(/-/g, '').slice(0, 8);
         await c.env.DB.prepare(`
           INSERT INTO applications (id, job_id, worker_id, employer_id, status, created_at, updated_at)

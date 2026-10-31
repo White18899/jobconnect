@@ -412,7 +412,7 @@ class JobConnectApi {
             const dirCartApps = localApps.filter(a => (a.source === 'candidate_directory' || a.job_id === 'dir_selected') && !data.applications.some(sa => sa.id === a.id || (sa.worker_id && a.worker_id && sa.worker_id === a.worker_id)));
             // Preserve local unlocked state if already unlocked in cart
             const enrichedServerApps = data.applications.map(sa => {
-              const matchedLocal = localApps.find(la => la.id === sa.id || (la.worker_id && la.worker_id === sa.worker_id));
+              const matchedLocal = localApps.find(la => la.id === sa.id);
               if (matchedLocal && matchedLocal.unlocked) {
                 return {
                   ...sa,

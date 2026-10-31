@@ -680,7 +680,18 @@ workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), 
 
   const { results } = await c.env.DB.prepare(`
     SELECT
-      a.id as application_id, a.status as application_status, a.applied_at, a.updated_at,
+      a.id as application_id,
+      CASE
+        WHEN a.status = 'unlocked' THEN 'unlocked'
+        WHEN EXISTS (
+          SELECT 1 FROM applications a2
+          WHERE (a2.worker_id = a.worker_id OR a2.worker_id = ?)
+            AND a2.employer_id = a.employer_id
+            AND a2.status = 'unlocked'
+        ) THEN 'unlocked'
+        ELSE a.status
+      END as application_status,
+      a.applied_at, a.updated_at,
       j.id as job_id, j.title as job_title, j.category as job_category, j.salary_min, j.salary_max,
       j.salary_period, j.location_area, j.location_city, j.maps_url as job_maps_url,
       ep.id as employer_id, ep.business_name, ep.business_type, ep.area as employer_area, ep.city as employer_city,
@@ -692,7 +703,7 @@ workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), 
     LEFT JOIN payments p ON p.application_id = a.id
     WHERE (a.worker_id = ? OR a.worker_id = ?)
     ORDER BY a.applied_at DESC
-  `).bind(workerId, user.userId).all<any>();
+  `).bind(workerId, workerId, user.userId).all<any>();
 
   const applications = (results || []).map((row: any) => {
     const isUnlocked = row.application_status === 'unlocked';
@@ -739,7 +750,18 @@ workerRoutes.get('/worker/applications/:id', authMiddleware, roleGuard(['worker'
 
   const appRow = await c.env.DB.prepare(`
     SELECT
-      a.id as application_id, a.status as application_status, a.applied_at,
+      a.id as application_id,
+      CASE
+        WHEN a.status = 'unlocked' THEN 'unlocked'
+        WHEN EXISTS (
+          SELECT 1 FROM applications a2
+          WHERE (a2.worker_id = a.worker_id OR a2.worker_id = ?)
+            AND a2.employer_id = a.employer_id
+            AND a2.status = 'unlocked'
+        ) THEN 'unlocked'
+        ELSE a.status
+      END as application_status,
+      a.applied_at,
       j.id as job_id, j.title as job_title, j.description, j.category, j.salary_min, j.salary_max,
       j.salary_period, j.working_hours, j.requirements,
       ep.id as employer_id, ep.business_name, ep.business_type, ep.contact_person, ep.area, ep.city,
@@ -748,9 +770,9 @@ workerRoutes.get('/worker/applications/:id', authMiddleware, roleGuard(['worker'
     FROM applications a
     JOIN jobs j ON a.job_id = j.id
     JOIN employer_profiles ep ON a.employer_id = ep.id
-    JOIN users u ON ep.user_id = u.id
-    WHERE a.id = ? AND a.worker_id = ?
-  `).bind(appId, worker.id).first<any>();
+    LEFT JOIN users u ON ep.user_id = u.id
+    WHERE a.id = ? AND (a.worker_id = ? OR a.worker_id = ?)
+  `).bind(worker.id, appId, worker.id, user.userId).first<any>();
 
   if (!appRow) {
     return c.json({ error: 'Application not found or unauthorized' }, 404);
