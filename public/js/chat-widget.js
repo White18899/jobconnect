@@ -9,24 +9,18 @@
     const link = document.createElement('link');
     link.id = 'jobway-chat-styles';
     link.rel = 'stylesheet';
-    link.href = '/css/chat-widget.css?v=6';
+    link.href = '/css/chat-widget.css?v=7';
     document.head.appendChild(link);
   }
 
-  // Professional SVG Robot Icon
-  const robotSvg = (size = 24) => `
-    <svg class="jobway-robot-svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="12" cy="2" r="1.4" fill="#00D084"/>
-      <rect x="3.5" y="5.5" width="17" height="13.5" rx="4" stroke="currentColor" stroke-width="2" fill="rgba(255,255,255,0.06)"/>
-      <path d="M1.5 10.5V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M22.5 10.5V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <rect x="6.5" y="8.8" width="11" height="4.6" rx="2" fill="currentColor" fill-opacity="0.18"/>
-      <circle cx="9" cy="11.1" r="1.3" fill="#00D084"/>
-      <circle cx="15" cy="11.1" r="1.3" fill="#00D084"/>
-      <path d="M9.5 15.5H14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  // Apple iOS Native Minimalist AI Assistant Sparkle Icon
+  const aiIconSvg = (size = 22) => `
+    <svg class="jobway-ai-svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3C12 7.6 7.6 12 3 12C7.6 12 12 16.4 12 21C12 16.4 16.4 12 21 12C16.4 12 12 7.6 12 3Z" fill="#FFFFFF"/>
+      <path d="M19 2.5C19 3.8 17.8 5 16.5 5C17.8 5 19 6.2 19 7.5C19 6.2 20.2 5 21.5 5C20.2 5 19 3.8 19 2.5Z" fill="#34D399"/>
     </svg>
   `;
+  const robotSvg = aiIconSvg;
 
   // Determine API Base URL
   const getApiBase = () => {
@@ -84,9 +78,9 @@
     const root = document.createElement('div');
     root.id = 'jobway-chat-root';
     root.innerHTML = `
-      <!-- Minimalist Floating Robot Launcher -->
+      <!-- Minimalist Floating AI Assistant Launcher (Apple iOS Native Style) -->
       <button type="button" class="jobway-chat-launcher" id="jobway-chat-launcher" aria-label="Open JobWay AI Guide" title="JobWay AI Guide">
-        <span class="jobway-chat-launcher-robot">${robotSvg(26)}</span>
+        <span class="jobway-chat-launcher-robot">${aiIconSvg(20)}</span>
         <span class="jobway-chat-launcher-pulse"></span>
       </button>
 
@@ -95,7 +89,7 @@
         <!-- Header -->
         <div class="jobway-chat-header">
           <div class="jobway-chat-header-info">
-            <div class="jobway-chat-header-avatar">${robotSvg(22)}</div>
+            <div class="jobway-chat-header-avatar">${aiIconSvg(20)}</div>
             <div>
               <h3 class="jobway-chat-header-title">
                 JobWay AI Guide
