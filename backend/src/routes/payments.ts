@@ -9,7 +9,7 @@ const paymentRoutes = new Hono<{ Bindings: Env; Variables: { user: UserTokenPayl
 
 // 0. Public endpoint: Get Platform Payment & QR Configuration
 paymentRoutes.get('/payment-config', async (c) => {
-  let config = null;
+  let config: any = null;
   try {
     config = await c.env.KV.get('platform_payment_config', 'json');
   } catch (e) {}
@@ -19,8 +19,11 @@ paymentRoutes.get('/payment-config', async (c) => {
       upi_id: c.env.UPI_ID || APP_CONSTANTS.DEFAULT_UPI_ID || 'jobconnect@icici',
       payee_name: APP_CONSTANTS.DEFAULT_PAYEE_NAME || 'JobWay',
       mode: 'dynamic',
-      qr_image_url: ''
+      qr_image_url: '',
+      amount_qrs: {}
     };
+  } else if (!config.amount_qrs || typeof config.amount_qrs !== 'object') {
+    config.amount_qrs = {};
   }
 
   return c.json({ config });

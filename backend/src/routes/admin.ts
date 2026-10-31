@@ -694,7 +694,7 @@ export default adminRoutes;
 
 // 16. Get Platform Payment & QR Configuration
 adminRoutes.get('/admin/payment-config', async (c) => {
-  let config = null;
+  let config: any = null;
   try {
     config = await c.env.KV.get('platform_payment_config', 'json');
   } catch (e) {}
@@ -704,8 +704,11 @@ adminRoutes.get('/admin/payment-config', async (c) => {
       upi_id: c.env.UPI_ID || 'jobconnect@icici',
       payee_name: 'JobWay',
       mode: 'dynamic',
-      qr_image_url: ''
+      qr_image_url: '',
+      amount_qrs: {}
     };
+  } else if (!config.amount_qrs || typeof config.amount_qrs !== 'object') {
+    config.amount_qrs = {};
   }
 
   return c.json({ config });
@@ -719,12 +722,21 @@ adminRoutes.post('/admin/payment-config', async (c) => {
   const payeeName = (body.payee_name || 'JobWay').trim();
   const mode = body.mode === 'custom_image' ? 'custom_image' : 'dynamic';
   const qrImageUrl = (body.qr_image_url || '').trim();
+  const rawAmountQrs = (body.amount_qrs && typeof body.amount_qrs === 'object') ? body.amount_qrs : {};
+
+  const sanitizedAmountQrs: Record<string, string> = {};
+  for (const [key, val] of Object.entries(rawAmountQrs)) {
+    if (typeof val === 'string' && val.trim().length > 0) {
+      sanitizedAmountQrs[key.trim()] = val.trim();
+    }
+  }
 
   const config = {
     upi_id: upiId,
     payee_name: payeeName,
     mode,
     qr_image_url: qrImageUrl,
+    amount_qrs: sanitizedAmountQrs,
     updated_at: new Date().toISOString(),
     updated_by: admin.userId
   };
@@ -743,6 +755,7 @@ adminRoutes.post('/admin/payment-config', async (c) => {
     payee_name: payeeName,
     mode,
     has_custom_image: !!qrImageUrl,
+    custom_amount_count: Object.keys(sanitizedAmountQrs).length,
     updated_at: config.updated_at
   };
   try {

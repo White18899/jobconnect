@@ -943,13 +943,20 @@ class JobConnectApi {
   getPaymentConfig() {
     try {
       const stored = localStorage.getItem('jc_payment_config');
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (!parsed.amount_qrs || typeof parsed.amount_qrs !== 'object') {
+          parsed.amount_qrs = {};
+        }
+        return parsed;
+      }
     } catch (e) {}
     return {
       upi_id: 'jobconnect@icici',
       payee_name: 'JobWay',
       mode: 'dynamic',
-      qr_image_url: ''
+      qr_image_url: '',
+      amount_qrs: {}
     };
   }
 
@@ -959,6 +966,9 @@ class JobConnectApi {
       if (res.ok) {
         const data = await res.json();
         if (data && data.config) {
+          if (!data.config.amount_qrs || typeof data.config.amount_qrs !== 'object') {
+            data.config.amount_qrs = {};
+          }
           localStorage.setItem('jc_payment_config', JSON.stringify(data.config));
           return data.config;
         }
@@ -1005,9 +1015,19 @@ class JobConnectApi {
 
   getPaymentQrUrl(amount = 75) {
     const config = this.getPaymentConfig();
-    if (config.mode === 'custom_image' && config.qr_image_url) {
-      return config.qr_image_url;
+    const amtKey = String(amount);
+
+    if (config.mode === 'custom_image') {
+      // 1. Check if specific custom QR image for this exact amount exists
+      if (config.amount_qrs && config.amount_qrs[amtKey] && config.amount_qrs[amtKey].trim()) {
+        return config.amount_qrs[amtKey].trim();
+      }
+      // 2. Check if a general fallback custom QR image exists
+      if (config.qr_image_url && config.qr_image_url.trim()) {
+        return config.qr_image_url.trim();
+      }
     }
+
     const upiId = config.upi_id || 'jobconnect@icici';
     const payee = config.payee_name || 'JobWay';
     const upiUri = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payee)}&am=${amount}&cu=INR`;
