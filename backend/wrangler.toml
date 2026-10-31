@@ -8,6 +8,7 @@ ENVIRONMENT = "development"
 FRONTEND_URL = "http://localhost:3000"
 UPI_ID = "jobconnect@icici"
 APP_NAME = "JobWay"
+JWT_SECRET = "jobconnect-super-secret-key-change-in-prod"
 
 # SMTP Configuration (Brevo SMTP Relay)
 SMTP_HOST = "smtp-relay.brevo.com"

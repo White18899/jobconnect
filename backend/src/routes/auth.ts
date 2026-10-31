@@ -494,7 +494,7 @@ authRoutes.post('/admin-login', async (c) => {
     };
   }
 
-  const secret = c.env.JWT_SECRET || 'jobconnect_prod_secret_f9a8b7c6d5e4_2026_super_secure_key';
+  const secret = c.env.JWT_SECRET || 'jobconnect-super-secret-key-change-in-prod';
   const token = await signJwt(
     {
       userId: adminUser.id,
