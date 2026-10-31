@@ -43,37 +43,37 @@ document.addEventListener('DOMContentLoaded', async () => {
       const credits = localStorage.getItem('jc_credits') || '3';
 
       container.innerHTML = `
-        <div class="mobile-role-card">
-          <div class="mobile-role-card-header">
+        <div class="ios-role-card">
+          <div class="ios-role-card-header">
             <div>
-              <div class="mobile-role-title">Welcome back, ${cleanName} 👋</div>
-              <div style="font-size: 11.5px; color: #64748B; margin-top: 2px;">Tech Employer Workspace</div>
+              <div class="ios-role-title">Welcome back, ${cleanName} 👋</div>
+              <div style="font-size: 11.5px; color: #8E8E93; margin-top: 1px;">Employer Workspace</div>
             </div>
-            <span class="mobile-role-badge">● Active</span>
+            <span class="ios-role-badge">Active Employer</span>
           </div>
 
-          <div class="mobile-stats-row">
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val">${vacanciesCount}</div>
-              <div class="mobile-stat-lbl">Vacancies</div>
+          <div class="ios-stats-row">
+            <div class="ios-stat-col">
+              <div class="ios-stat-val">${vacanciesCount}</div>
+              <div class="ios-stat-lbl">Vacancies</div>
             </div>
-            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val">${appsCount}</div>
-              <div class="mobile-stat-lbl">Applicants</div>
+            <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
+            <div class="ios-stat-col">
+              <div class="ios-stat-val">${appsCount}</div>
+              <div class="ios-stat-lbl">Applicants</div>
             </div>
-            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val" style="color: #059669;">⚡ ${credits}</div>
-              <div class="mobile-stat-lbl">Credits</div>
+            <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
+            <div class="ios-stat-col">
+              <div class="ios-stat-val" style="color: #059669;">${credits}</div>
+              <div class="ios-stat-lbl">Credits</div>
             </div>
           </div>
 
-          <div class="mobile-actions-row">
-            <a href="/employer.html#applicants-section" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
+          <div class="ios-actions-row">
+            <a href="/employer.html#applicants-section" class="ios-btn-action" style="background: #000000; color: #FFFFFF;">
               <span>+ Post Vacancy</span>
             </a>
-            <a href="/employer.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
+            <a href="/employer.html" class="ios-btn-action" style="background: #059669; color: #FFFFFF;">
               <span>View Applicants (${appsCount}) →</span>
             </a>
           </div>
@@ -85,52 +85,52 @@ document.addEventListener('DOMContentLoaded', async () => {
       const appsCount = localApps.length || 2;
 
       container.innerHTML = `
-        <div class="mobile-role-card">
-          <div class="mobile-role-card-header">
+        <div class="ios-role-card">
+          <div class="ios-role-card-header">
             <div>
-              <div class="mobile-role-title">Hello, ${cleanName} 👋</div>
-              <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 2px;">✓ Verified Trade Pass Active</div>
+              <div class="ios-role-title">Hello, ${cleanName} 👋</div>
+              <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 1px;">✓ Trade Pass Active</div>
             </div>
-            <span class="mobile-role-badge">Visakhapatnam</span>
+            <span class="ios-role-badge">Visakhapatnam</span>
           </div>
 
-          <div class="mobile-stats-row">
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val">${appsCount}</div>
-              <div class="mobile-stat-lbl">Applications</div>
+          <div class="ios-stats-row">
+            <div class="ios-stat-col">
+              <div class="ios-stat-val">${appsCount}</div>
+              <div class="ios-stat-lbl">Applications</div>
             </div>
-            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val" style="color: #059669;">0%</div>
-              <div class="mobile-stat-lbl">Brokerage</div>
+            <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
+            <div class="ios-stat-col">
+              <div class="ios-stat-val" style="color: #059669;">0%</div>
+              <div class="ios-stat-lbl">Brokerage</div>
             </div>
-            <div style="width: 1px; height: 22px; background: #E2E8F0;"></div>
-            <div class="mobile-stat-col">
-              <div class="mobile-stat-val" style="color: #0284C7;">Direct</div>
-              <div class="mobile-stat-lbl">Payroll</div>
+            <div style="width: 1px; height: 20px; background: #E5E5EA;"></div>
+            <div class="ios-stat-col">
+              <div class="ios-stat-val" style="color: #007AFF;">Direct</div>
+              <div class="ios-stat-lbl">Payroll</div>
             </div>
           </div>
 
-          <div class="mobile-actions-row">
-            <a href="/jobs.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
-              <span>🔍 Browse Vacancies</span>
+          <div class="ios-actions-row">
+            <a href="/jobs.html" class="ios-btn-action" style="background: #059669; color: #FFFFFF;">
+              <span>Explore Vacancies</span>
             </a>
-            <a href="/worker.html" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
-              <span>My Applications (${appsCount}) →</span>
+            <a href="/worker.html" class="ios-btn-action" style="background: #000000; color: #FFFFFF;">
+              <span>My Desk (${appsCount}) →</span>
             </a>
           </div>
         </div>
       `;
     } else {
       container.innerHTML = `
-        <div class="mobile-role-card" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
-          <div style="font-size: 13.5px; font-weight: 700; color: #0F172A; margin-bottom: 8px;">Direct hiring & authentic trade pass network</div>
-          <div class="mobile-actions-row">
-            <a href="/jobs.html" class="mobile-btn-action" style="background: #059669; color: #FFFFFF;">
-              <span>👷 Explore Jobs</span>
+        <div class="ios-role-card" style="background: #FAFAFC;">
+          <div style="font-size: 13px; font-weight: 650; color: #1C1C1E; margin-bottom: 8px;">Direct hiring & authentic trade pass network</div>
+          <div class="ios-actions-row">
+            <a href="/jobs.html" class="ios-btn-action" style="background: #059669; color: #FFFFFF;">
+              <span>Find Jobs</span>
             </a>
-            <a href="/candidates.html" class="mobile-btn-action" style="background: #14281D; color: #FFFFFF;">
-              <span>🏢 Hire Talent →</span>
+            <a href="/candidates.html" class="ios-btn-action" style="background: #000000; color: #FFFFFF;">
+              <span>Hire Talent →</span>
             </a>
           </div>
         </div>
@@ -146,7 +146,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
 
-    const chips = document.querySelectorAll('#mobile-hero-chips-container .mobile-chip');
+    // iOS Segmented Control Switch
+    const tabJobs = document.getElementById('ios-tab-jobs');
+    const tabCandidates = document.getElementById('ios-tab-candidates');
+
+    if (tabJobs && tabCandidates) {
+      tabJobs.addEventListener('click', () => {
+        tabJobs.classList.add('active');
+        tabJobs.setAttribute('aria-selected', 'true');
+        tabCandidates.classList.remove('active');
+        tabCandidates.setAttribute('aria-selected', 'false');
+        window.location.href = '/jobs.html';
+      });
+
+      tabCandidates.addEventListener('click', () => {
+        tabCandidates.classList.add('active');
+        tabCandidates.setAttribute('aria-selected', 'true');
+        tabJobs.classList.remove('active');
+        tabJobs.setAttribute('aria-selected', 'false');
+        window.location.href = '/candidates.html';
+      });
+    }
+
+    const chips = document.querySelectorAll('#mobile-hero-chips-container .ios-chip, #mobile-hero-chips-container .mobile-chip');
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
         chips.forEach(c => c.classList.remove('active'));
