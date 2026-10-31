@@ -392,6 +392,39 @@ class JobConnectApi {
           if (app && data.email) {
             app.worker_email = data.email;
           }
+          if (app && data.workplace_location) {
+            app.workplace_location = data.workplace_location;
+          }
+          if (app && data.maps_url) {
+            app.maps_url = data.maps_url;
+          }
+
+          // Create in-app notification for worker desk
+          try {
+            const notifs = JSON.parse(localStorage.getItem('jc_worker_notifs') || '[]');
+            const wpLoc = data.workplace_location || app?.address_unlocked || 'Visakhapatnam';
+            const wpMaps = data.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(wpLoc)}`;
+            const compName = app?.employer_name || 'Hiring Employer';
+            const jTitle = app?.job_title || 'Trade Specialist';
+
+            notifs.unshift({
+              id: `notif_${Date.now().toString().slice(-6)}`,
+              title: `📍 Workplace Location • Unlocked by ${compName}`,
+              message: `🎉 ${compName} has unlocked your contact pass for "${jTitle}"! Workplace Location: ${wpLoc}. Click to navigate via Google Maps.`,
+              type: 'system',
+              is_read: false,
+              metadata: {
+                type: 'location_unlocked',
+                employer_name: compName,
+                job_title: jTitle,
+                workplace_location: wpLoc,
+                maps_url: wpMaps,
+                unlocked_at: new Date().toISOString()
+              },
+              created_at: new Date().toISOString()
+            });
+            localStorage.setItem('jc_worker_notifs', JSON.stringify(notifs));
+          } catch(e) {}
         } else {
           // If server failed for non-credit reasons (e.g. 500, network), fallback to local credits
           if (localCredits <= 0) {
@@ -816,6 +849,66 @@ class JobConnectApi {
       console.warn('Network error syncing unlock credits:', e);
     }
     return this.getUnlockCredits();
+  }
+
+  async getWorkerNotifications() {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/worker/notifications`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.notifications)) {
+            const local = JSON.parse(localStorage.getItem('jc_worker_notifs') || '[]');
+            const serverIds = new Set(data.notifications.map(n => n.id));
+            const localExtra = local.filter(l => !serverIds.has(l.id));
+            const merged = [...data.notifications, ...localExtra];
+            localStorage.setItem('jc_worker_notifs', JSON.stringify(merged));
+            const unreadCount = merged.filter(n => !n.is_read).length;
+            return { notifications: merged, unreadCount };
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Network error fetching worker notifications:', e);
+    }
+    const local = JSON.parse(localStorage.getItem('jc_worker_notifs') || '[]');
+    return { notifications: local, unreadCount: local.filter(n => !n.is_read).length };
+  }
+
+  async markNotificationRead(notifId) {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        await fetch(`${this.baseUrl}/worker/notifications/${encodeURIComponent(notifId)}/read`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+    } catch (e) {}
+    const local = JSON.parse(localStorage.getItem('jc_worker_notifs') || '[]');
+    const found = local.find(n => n.id === notifId);
+    if (found) found.is_read = true;
+    localStorage.setItem('jc_worker_notifs', JSON.stringify(local));
+    return { success: true };
+  }
+
+  async markAllNotificationsRead() {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        await fetch(`${this.baseUrl}/worker/notifications/read-all`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+      }
+    } catch (e) {}
+    const local = JSON.parse(localStorage.getItem('jc_worker_notifs') || '[]');
+    local.forEach(n => n.is_read = true);
+    localStorage.setItem('jc_worker_notifs', JSON.stringify(local));
+    return { success: true };
   }
 
   addUnlockCredits(count) {

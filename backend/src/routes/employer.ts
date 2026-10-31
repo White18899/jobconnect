@@ -106,6 +106,7 @@ const postJobSchema = z.object({
   requirements: z.union([z.array(z.string()), z.string()]).optional(),
   vacancies: z.number().min(1).default(1),
   max_applications: z.number().min(0).default(0),
+  maps_url: z.string().optional().nullable(),
 });
 
 employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), async (c) => {
@@ -125,11 +126,13 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
   const jobId = 'job_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
   const reqJson = typeof d.requirements === 'string' ? d.requirements : (d.requirements ? JSON.stringify(d.requirements) : '[]');
 
+  const workplaceMapsUrl = d.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(d.location_area + ', ' + d.location_city)}`;
+
   await c.env.DB.prepare(`
     INSERT INTO jobs (
       id, employer_id, title, description, category, salary_min, salary_max, salary_period,
-      location_area, location_city, working_hours, requirements, vacancies, max_applications, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')
+      location_area, location_city, working_hours, requirements, vacancies, max_applications, maps_url, status
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')
   `).bind(
     jobId,
     employer.id,
@@ -144,7 +147,8 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
     d.working_hours,
     reqJson,
     d.vacancies,
-    d.max_applications || 0
+    d.max_applications || 0,
+    workplaceMapsUrl
   ).run();
 
   return c.json({ success: true, jobId, message: 'Job posted successfully' });
@@ -256,14 +260,14 @@ employerRoutes.get('/employer/applications', authMiddleware, roleGuard(['employe
 employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
   const appId = c.req.param('id');
-  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
+  let employer = await c.env.DB.prepare('SELECT id, user_id, business_name, city, area, exact_address, maps_url, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<any>();
   if (!employer) {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
       INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
       VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
-    employer = { id: epId, unlock_credits: 3 };
+    employer = { id: epId, unlock_credits: 3, business_name: 'Employer', city: 'Visakhapatnam', area: 'Madhurawada IT SEZ', exact_address: 'Visakhapatnam, Andhra Pradesh' };
   }
 
   const currentCredits = employer.unlock_credits !== undefined && employer.unlock_credits !== null ? Number(employer.unlock_credits) : 3;
@@ -276,7 +280,7 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
   const targetWorkerId = body?.worker_id;
 
   // 1. Check if application already exists in DB
-  const app = await c.env.DB.prepare('SELECT id, status, worker_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<{ id: string; status: string; worker_id: string }>();
+  const app = await c.env.DB.prepare('SELECT id, status, worker_id, job_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<any>();
 
   if (app && app.status === 'unlocked') {
     return c.json({
@@ -297,35 +301,81 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
 
   const newCredits = Math.max(0, currentCredits - 1);
 
+  // Helper: Create workplace location notification for worker
+  const dispatchWorkerLocationNotification = async (targetUserId: string, jobRow?: any) => {
+    if (!targetUserId) return;
+    try {
+      const workplaceText = jobRow?.location_area
+        ? `${jobRow.location_area}, ${jobRow.location_city || 'Visakhapatnam'}`
+        : (employer.exact_address || `${employer.area || 'Madhurawada IT SEZ'}, ${employer.city || 'Visakhapatnam'}`);
+
+      const workplaceMaps = jobRow?.maps_url || employer.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceText)}`;
+      const jobTitle = jobRow?.title || 'Open Vacancy';
+      const companyName = employer.business_name || 'Hiring Employer';
+
+      const notifId = 'notif_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+      const notifTitle = `📍 Workplace Location • Unlocked by ${companyName}`;
+      const notifMessage = `🎉 ${companyName} has unlocked your contact pass for "${jobTitle}"! Workplace Location: ${workplaceText}. Click to navigate via Google Maps.`;
+      const notifMeta = JSON.stringify({
+        type: 'location_unlocked',
+        employer_name: companyName,
+        job_title: jobTitle,
+        workplace_location: workplaceText,
+        maps_url: workplaceMaps,
+        unlocked_at: new Date().toISOString()
+      });
+
+      await c.env.DB.prepare(`
+        INSERT INTO notifications (id, user_id, title, message, type, is_read, metadata_json, created_at)
+        VALUES (?, ?, ?, ?, 'system', 0, ?, CURRENT_TIMESTAMP)
+      `).bind(notifId, targetUserId, notifTitle, notifMessage, notifMeta).run();
+    } catch (e) {
+      console.warn('Failed to insert location notification for worker:', e);
+    }
+  };
+
   if (app) {
     await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(app.id).run();
     await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
     const workerRow = await c.env.DB.prepare(`
-      SELECT wp.id as worker_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+      SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.area
       FROM applications a
       JOIN worker_profiles wp ON a.worker_id = wp.id
       JOIN users u ON wp.user_id = u.id
       WHERE a.id = ?
-    `).bind(app.id).first<{ worker_id: string; full_name: string; phone: string; email: string; city: string; area: string }>();
+    `).bind(app.id).first<any>();
+
+    const jobRow = await c.env.DB.prepare('SELECT id, title, location_area, location_city, maps_url FROM jobs WHERE id = ?').bind(app.job_id).first<any>();
+
+    if (workerRow?.worker_user_id) {
+      await dispatchWorkerLocationNotification(workerRow.worker_user_id, jobRow);
+    }
+
+    const workplaceText = jobRow?.location_area
+      ? `${jobRow.location_area}, ${jobRow.location_city || 'Visakhapatnam'}`
+      : (employer.exact_address || `${employer.area || 'Visakhapatnam'}, ${employer.city || 'Visakhapatnam'}`);
+    const mapsUrl = jobRow?.maps_url || employer.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceText)}`;
 
     return c.json({
       success: true,
       message: 'Applicant contact details unlocked successfully',
       remainingCredits: newCredits,
       phone: workerRow?.phone,
-      email: workerRow?.email
+      email: workerRow?.email,
+      workplace_location: workplaceText,
+      maps_url: mapsUrl
     });
   }
 
   // 2. Directory candidate added to cart or worker profile ID
   const lookupWorkerId = targetWorkerId || appId;
   const worker = await c.env.DB.prepare(`
-    SELECT wp.id as worker_id, wp.full_name, u.phone, u.email, wp.city, wp.area
+    SELECT wp.id as worker_id, wp.user_id as worker_user_id, wp.full_name, u.phone, u.email, wp.city, wp.area
     FROM worker_profiles wp
     JOIN users u ON wp.user_id = u.id
     WHERE wp.id = ? OR wp.user_id = ?
-  `).bind(lookupWorkerId, lookupWorkerId).first<{ worker_id: string; full_name: string; phone: string; email: string; city: string; area: string }>();
+  `).bind(lookupWorkerId, lookupWorkerId).first<any>();
 
   if (worker) {
     const existing = await c.env.DB.prepare('SELECT id, status FROM applications WHERE worker_id = ? AND employer_id = ?').bind(worker.worker_id, employer.id).first<{ id: string; status: string }>();
@@ -341,36 +391,55 @@ employerRoutes.post('/employer/applications/:id/unlock', authMiddleware, roleGua
 
     await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
+    if (worker?.worker_user_id) {
+      await dispatchWorkerLocationNotification(worker.worker_user_id, {
+        title: 'Direct Candidate Shortlist',
+        location_area: employer.area,
+        location_city: employer.city,
+        maps_url: employer.maps_url
+      });
+    }
+
+    const workplaceText = employer.exact_address || `${employer.area || 'Madhurawada IT SEZ'}, ${employer.city || 'Visakhapatnam'}`;
+    const mapsUrl = employer.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceText)}`;
+
     return c.json({
       success: true,
       message: 'Candidate contact details unlocked successfully',
       remainingCredits: newCredits,
       phone: worker.phone,
-      email: worker.email
+      email: worker.email,
+      workplace_location: workplaceText,
+      maps_url: mapsUrl
     });
   }
 
   // 3. Fallback for client mock/localStorage candidates: deduct credit and confirm unlock
   await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
+  const workplaceText = employer.exact_address || `${employer.area || 'Visakhapatnam'}, ${employer.city || 'Visakhapatnam'}`;
+  const mapsUrl = employer.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceText)}`;
+
   return c.json({
     success: true,
     message: 'Candidate contact details unlocked successfully',
-    remainingCredits: newCredits
+    remainingCredits: newCredits,
+    workplace_location: workplaceText,
+    maps_url: mapsUrl
   });
 });
 
 // 4d. Batch Unlock Selected Candidates from Cart
 employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleGuard(['employer']), async (c) => {
   const user = c.get('user');
-  let employer = await c.env.DB.prepare('SELECT id, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string; unlock_credits: number }>();
+  let employer = await c.env.DB.prepare('SELECT id, user_id, business_name, city, area, exact_address, maps_url, unlock_credits FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<any>();
   if (!employer) {
     const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
     await c.env.DB.prepare(`
       INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
       VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(epId, user.userId, user.email?.split('@')[0] || 'Employer', user.email?.split('@')[0] || 'Employer').run();
-    employer = { id: epId, unlock_credits: 3 };
+    employer = { id: epId, unlock_credits: 3, business_name: 'Employer', city: 'Visakhapatnam', area: 'Madhurawada IT SEZ', exact_address: 'Visakhapatnam, Andhra Pradesh' };
   }
 
   const currentCredits = employer.unlock_credits !== undefined && employer.unlock_credits !== null ? Number(employer.unlock_credits) : 3;
@@ -398,15 +467,22 @@ employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleG
   const newCredits = Math.max(0, currentCredits - items.length);
   await c.env.DB.prepare("UPDATE employer_profiles SET unlock_credits = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(newCredits, employer.id).run();
 
+  const workplaceText = employer.exact_address || `${employer.area || 'Madhurawada IT SEZ'}, ${employer.city || 'Visakhapatnam'}`;
+  const mapsUrl = employer.maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceText)}`;
+  const companyName = employer.business_name || 'Hiring Employer';
+
   for (const item of items) {
     const appId = item.id;
     const workerId = item.worker_id;
 
-    const app = await c.env.DB.prepare('SELECT id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first();
+    let targetWorkerUserId = null;
+    const app = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE id = ? AND employer_id = ?').bind(appId, employer.id).first<any>();
     if (app) {
       await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(appId).run();
+      const wp = await c.env.DB.prepare('SELECT user_id FROM worker_profiles WHERE id = ?').bind(app.worker_id).first<any>();
+      targetWorkerUserId = wp?.user_id;
     } else if (workerId) {
-      const existing = await c.env.DB.prepare('SELECT id FROM applications WHERE worker_id = ? AND employer_id = ?').bind(workerId, employer.id).first();
+      const existing = await c.env.DB.prepare('SELECT id, worker_id FROM applications WHERE worker_id = ? AND employer_id = ?').bind(workerId, employer.id).first<any>();
       if (existing) {
         await c.env.DB.prepare("UPDATE applications SET status = 'unlocked', updated_at = CURRENT_TIMESTAMP WHERE id = ?").bind(existing.id).run();
       } else {
@@ -416,6 +492,27 @@ employerRoutes.post('/employer/applications/unlock-batch', authMiddleware, roleG
           VALUES (?, 'dir_selected', ?, ?, 'unlocked', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
         `).bind(newAppId, workerId, employer.id).run();
       }
+      const wp = await c.env.DB.prepare('SELECT user_id FROM worker_profiles WHERE id = ? OR user_id = ?').bind(workerId, workerId).first<any>();
+      targetWorkerUserId = wp?.user_id;
+    }
+
+    if (targetWorkerUserId) {
+      try {
+        const notifId = 'notif_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+        const notifTitle = `📍 Workplace Location • Unlocked by ${companyName}`;
+        const notifMessage = `🎉 ${companyName} has unlocked your contact pass! Workplace Location: ${workplaceText}. Click to navigate via Google Maps.`;
+        const notifMeta = JSON.stringify({
+          type: 'location_unlocked',
+          employer_name: companyName,
+          workplace_location: workplaceText,
+          maps_url: mapsUrl,
+          unlocked_at: new Date().toISOString()
+        });
+        await c.env.DB.prepare(`
+          INSERT INTO notifications (id, user_id, title, message, type, is_read, metadata_json, created_at)
+          VALUES (?, ?, ?, ?, 'system', 0, ?, CURRENT_TIMESTAMP)
+        `).bind(notifId, targetWorkerUserId, notifTitle, notifMessage, notifMeta).run();
+      } catch (err) {}
     }
   }
 

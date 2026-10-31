@@ -670,35 +670,47 @@ workerRoutes.get('/worker/applications', authMiddleware, roleGuard(['worker']), 
     SELECT
       a.id as application_id, a.status as application_status, a.applied_at, a.updated_at,
       j.id as job_id, j.title as job_title, j.category as job_category, j.salary_min, j.salary_max,
-      j.salary_period, j.location_area, j.location_city,
-      ep.id as employer_id, ep.business_name, ep.business_type,
+      j.salary_period, j.location_area, j.location_city, j.maps_url as job_maps_url,
+      ep.id as employer_id, ep.business_name, ep.business_type, ep.area as employer_area, ep.city as employer_city,
+      ep.exact_address as employer_address, ep.maps_url as employer_maps_url,
       p.status as payment_status
     FROM applications a
-    JOIN jobs j ON a.job_id = j.id
-    JOIN employer_profiles ep ON a.employer_id = ep.id
+    LEFT JOIN jobs j ON a.job_id = j.id
+    LEFT JOIN employer_profiles ep ON a.employer_id = ep.id
     LEFT JOIN payments p ON p.application_id = a.id
     WHERE a.worker_id = ?
     ORDER BY a.applied_at DESC
   `).bind(worker.id).all<any>();
 
-  const applications = (results || []).map((row: any) => ({
-    id: row.application_id,
-    application_id: row.application_id,
-    job_id: row.job_id,
-    job_title: row.job_title,
-    job_category: row.job_category,
-    worker_category: row.job_category || 'Technical',
-    employer_name: row.business_name || 'Hiring Employer',
-    employer_id: row.employer_id,
-    applied_date: row.applied_at ? row.applied_at.split('T')[0] : new Date().toISOString().split('T')[0],
-    status: row.application_status || 'applied',
-    priority: 'STANDARD',
-    salary_min: row.salary_min,
-    salary_max: row.salary_max,
-    location_area: row.location_area,
-    location_city: row.location_city,
-    worker_experience: 3,
-  }));
+  const applications = (results || []).map((row: any) => {
+    const isUnlocked = row.application_status === 'unlocked';
+    const workplaceLoc = row.location_area
+      ? `${row.location_area}, ${row.location_city || 'Visakhapatnam'}`
+      : (row.employer_address || `${row.employer_area || 'Visakhapatnam'}, ${row.employer_city || 'Visakhapatnam'}`);
+    const mapsUrl = row.job_maps_url || row.employer_maps_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(workplaceLoc)}`;
+
+    return {
+      id: row.application_id,
+      application_id: row.application_id,
+      job_id: row.job_id,
+      job_title: row.job_title || 'Direct Candidate Shortlist',
+      job_category: row.job_category || 'Technical',
+      worker_category: row.job_category || 'Technical',
+      employer_name: row.business_name || 'Hiring Employer',
+      employer_id: row.employer_id,
+      applied_date: row.applied_at ? row.applied_at.split('T')[0] : new Date().toISOString().split('T')[0],
+      status: row.application_status || 'applied',
+      priority: 'STANDARD',
+      salary_min: row.salary_min,
+      salary_max: row.salary_max,
+      location_area: row.location_area || row.employer_area,
+      location_city: row.location_city || row.employer_city,
+      workplace_location: workplaceLoc,
+      maps_url: mapsUrl,
+      unlocked: isUnlocked,
+      worker_experience: 3,
+    };
+  });
 
   return c.json({ applications });
 });
@@ -765,6 +777,46 @@ workerRoutes.get('/worker/applications/:id', authMiddleware, roleGuard(['worker'
     // Phone of employer only accessible if unlocked
     employerPhone: isUnlocked ? appRow.employer_phone : undefined,
   });
+});
+
+// 8. Get Worker Notifications
+workerRoutes.get('/worker/notifications', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  const { results } = await c.env.DB.prepare(`
+    SELECT id, title, message, type, is_read, metadata_json, created_at
+    FROM notifications
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+    LIMIT 50
+  `).bind(user.userId).all<any>();
+
+  const notifications = (results || []).map((r: any) => ({
+    id: r.id,
+    title: r.title,
+    message: r.message,
+    type: r.type,
+    is_read: Boolean(r.is_read),
+    metadata: r.metadata_json ? (typeof r.metadata_json === 'string' ? JSON.parse(r.metadata_json) : r.metadata_json) : null,
+    created_at: r.created_at
+  }));
+
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+  return c.json({ notifications, unreadCount });
+});
+
+// 9. Mark Worker Notification as Read
+workerRoutes.post('/worker/notifications/:id/read', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  const notifId = c.req.param('id');
+  await c.env.DB.prepare('UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?').bind(notifId, user.userId).run();
+  return c.json({ success: true });
+});
+
+// 10. Mark All Worker Notifications as Read
+workerRoutes.post('/worker/notifications/read-all', authMiddleware, roleGuard(['worker']), async (c) => {
+  const user = c.get('user');
+  await c.env.DB.prepare('UPDATE notifications SET is_read = 1 WHERE user_id = ?').bind(user.userId).run();
+  return c.json({ success: true });
 });
 
 export default workerRoutes;
