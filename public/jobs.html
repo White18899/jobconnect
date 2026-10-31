@@ -2709,11 +2709,16 @@
       });
 
       function openPostVacancyModal() {
-        if (!user || (user.role !== 'employer' && user.role !== 'admin')) {
+        if (!user) {
           showToast("Please log in as an employer to post a vacancy.", "info");
           setTimeout(() => {
             window.location.href = `/login.html?mode=signup&role=employer`;
           }, 1200);
+          return;
+        }
+
+        if (user.role !== 'employer' && user.role !== 'admin') {
+          showToast(`You are currently logged in as a ${user.role}. Only Employer accounts can publish vacancies.`, "warning");
           return;
         }
 
@@ -3011,8 +3016,9 @@
       // Post Vacancy Form Submission
       postVacancyForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const title = document.getElementById('post-job-title').value.trim();
-        
+        const submitBtn = postVacancyForm.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Publish Vacancy';
+
         // Resolve Category (including custom category support)
         let category = document.getElementById('post-job-category').value;
         const customInput = document.getElementById('post-job-custom-cat-input');
@@ -3022,55 +3028,73 @@
             category = window.JobLibrary.saveCustomCategory(customVal) || customVal;
             refreshEmployerCustomCategories();
           } else {
-            alert('Please enter your custom category name before submitting.');
+            showToast('Please enter your custom category name before submitting.', 'error');
             if (customInput) customInput.focus();
             return;
           }
         }
 
-        const salaryMin = Number(document.getElementById('post-job-salary-min').value);
-        const salaryMax = Number(document.getElementById('post-job-salary-max').value);
-        const city = document.getElementById('post-job-city').value;
-        const area = document.getElementById('post-job-area').value.trim();
+        const title = document.getElementById('post-job-title').value.trim();
+        const salaryMin = Number(document.getElementById('post-job-salary-min').value) || 15000;
+        const salaryMax = Number(document.getElementById('post-job-salary-max').value) || 30000;
+        const city = document.getElementById('post-job-city').value || 'Visakhapatnam';
+        const area = document.getElementById('post-job-area').value.trim() || 'Madhurawada IT SEZ';
         const vacancies = Number(document.getElementById('post-job-vacancies').value) || 1;
         const maxApplicants = Number(document.getElementById('post-job-max-applicants').value) || 0;
-        const hours = document.getElementById('post-job-hours').value.trim();
-        const bizName = document.getElementById('post-job-biz-name').value.trim();
-        const bizType = document.getElementById('post-job-biz-type').value.trim();
-        const desc = document.getElementById('post-job-desc').value.trim();
+        const hours = document.getElementById('post-job-hours').value.trim() || '10:00 AM - 7:00 PM (Regular)';
+        const bizName = document.getElementById('post-job-biz-name').value.trim() || (user ? user.name : 'Direct Employer');
+        const bizType = document.getElementById('post-job-biz-type').value.trim() || 'Company';
+        const desc = document.getElementById('post-job-desc').value.trim() || `${title} role at ${bizName}`;
         const reqs = document.getElementById('post-job-reqs').value.trim();
         const perks = document.getElementById('post-job-perks').value.trim();
         const mapsInputEl = document.getElementById('post-job-maps-url');
         const customMapsUrl = mapsInputEl?.value.trim() || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(area + ', ' + city)}`;
 
-        const newJob = await window.jobApi.createJob({
-          title,
-          category,
-          salary_min: salaryMin,
-          salary_max: salaryMax,
-          salary_period: "monthly",
-          location_city: city,
-          location_area: area,
-          maps_url: customMapsUrl,
-          vacancies,
-          max_applications: maxApplicants,
-          working_hours: hours,
-          business_name: bizName,
-          business_type: bizType,
-          description: desc,
-          requirements: reqs,
-          overtime_policy: perks,
-          cover_image: selectedCoverImage,
-          employer_id: user ? (user.id || user.userId) : "emp_manual"
-        });
+        try {
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Publishing Vacancy...</span>';
+          }
 
-        allJobs.unshift(newJob);
-        renderDynamicJobCategoryFilters();
-        render3CardGrid();
-        closePostVacancyModal();
-        postVacancyForm.reset();
-        resetCoverImage();
-        showToast(`Vacancy "${title}" (${category}) published successfully! Visible in directory & workspace.`, 'success');
+          const newJob = await window.jobApi.createJob({
+            title,
+            category,
+            salary_min: salaryMin,
+            salary_max: salaryMax,
+            salary_period: "monthly",
+            location_city: city,
+            location_area: area,
+            maps_url: customMapsUrl,
+            vacancies,
+            max_applications: maxApplicants,
+            working_hours: hours,
+            business_name: bizName,
+            business_type: bizType,
+            description: desc,
+            requirements: reqs,
+            overtime_policy: perks,
+            cover_image: selectedCoverImage,
+            employer_id: user ? (user.id || user.userId) : "emp_manual"
+          });
+
+          allJobs = allJobs.filter(j => j.id !== newJob.id);
+          allJobs.unshift(newJob);
+
+          renderDynamicJobCategoryFilters();
+          render3CardGrid();
+          closePostVacancyModal();
+          postVacancyForm.reset();
+          resetCoverImage();
+          showToast(`Vacancy "${title}" (${category}) published successfully! Visible to all candidates in directory.`, 'success');
+        } catch (err) {
+          console.error("Error publishing vacancy:", err);
+          showToast(err.message || 'Failed to publish vacancy. Please check inputs and try again.', 'error');
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+          }
+        }
       });
 
       // Filter Events

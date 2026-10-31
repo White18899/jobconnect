@@ -141,37 +141,71 @@ class JobConnectApi {
   }
 
   async createJob(jobData) {
+    const token = this.getAuthToken();
+    const user = this.getCurrentUser();
+
+    if (!token || !user) {
+      throw new Error('Please log in with an Employer account to publish a job vacancy.');
+    }
+    if (user.role !== 'employer' && user.role !== 'admin') {
+      throw new Error('Only Employer accounts can publish vacancies. Please sign in with an Employer account.');
+    }
+
     const maxApplications = Number(jobData.max_applications) || 0;
-    const newJob = {
-      ...jobData,
+    const payload = {
+      title: jobData.title,
+      description: jobData.description || 'Direct Employer Vacancy',
+      category: jobData.category,
+      salary_min: Number(jobData.salary_min) || 15000,
+      salary_max: Number(jobData.salary_max) || 30000,
+      salary_period: jobData.salary_period || 'monthly',
+      location_area: jobData.location_area || 'Visakhapatnam',
+      location_city: jobData.location_city || 'Visakhapatnam',
+      working_hours: jobData.working_hours || 'Regular Shift',
+      requirements: jobData.requirements || '',
+      vacancies: Number(jobData.vacancies) || 1,
       max_applications: maxApplications,
-      applications_count: 0,
-      id: `job_${Date.now().toString().slice(-6)}`,
+      maps_url: jobData.maps_url || null,
+      cover_image: jobData.cover_image || null
+    };
+
+    let res;
+    try {
+      res = await fetch(`${this.baseUrl}/employer/jobs`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch (networkErr) {
+      console.warn('Network error posting job to backend:', networkErr);
+      throw new Error('Network connection error. Could not publish vacancy to server.');
+    }
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || `Server error (${res.status}) publishing vacancy.`);
+    }
+
+    const newJob = {
+      ...payload,
+      id: data.jobId || `job_${Date.now().toString().slice(-6)}`,
+      business_name: jobData.business_name || user.name || 'Direct Employer',
+      business_type: jobData.business_type || 'Enterprise',
       created_at: new Date().toISOString().split('T')[0],
       status: 'open',
-      employer_verified: 'verified'
+      employer_verified: 'verified',
+      applications_count: 0,
+      max_applications: maxApplications
     };
 
     const local = JSON.parse(localStorage.getItem('jc_jobs') || '[]');
-    local.unshift(newJob);
-    localStorage.setItem('jc_jobs', JSON.stringify(local));
-
-    // Also attempt post to backend if token exists
+    const updatedLocal = [newJob, ...local.filter(j => j.id !== newJob.id)];
     try {
-      const token = localStorage.getItem('jobconnect_token');
-      if (token) {
-        await fetch(`${this.baseUrl}/employer/jobs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify({
-            ...jobData,
-            max_applications: maxApplications
-          })
-        });
-      }
-    } catch (e) {
-      // Gracefully silent on offline
-    }
+      localStorage.setItem('jc_jobs', JSON.stringify(updatedLocal));
+    } catch (e) {}
 
     return newJob;
   }

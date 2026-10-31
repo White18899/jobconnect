@@ -433,10 +433,13 @@ workerRoutes.get('/jobs', async (c) => {
       j.location_area, j.location_city, j.working_hours, j.requirements, j.vacancies,
       COALESCE(j.max_applications, 0) as max_applications,
       (SELECT COUNT(*) FROM applications WHERE job_id = j.id) as applications_count,
+      j.cover_image, j.maps_url,
       j.status, j.created_at,
-      ep.business_name, ep.business_type, ep.verification_status as employer_verified
+      COALESCE(ep.business_name, 'Direct Employer') as business_name,
+      COALESCE(ep.business_type, 'Enterprise') as business_type,
+      COALESCE(ep.verification_status, 'verified') as employer_verified
     FROM jobs j
-    JOIN employer_profiles ep ON j.employer_id = ep.id
+    LEFT JOIN employer_profiles ep ON j.employer_id = ep.id
     WHERE j.status = 'open'
   `;
 
@@ -543,10 +546,13 @@ workerRoutes.get('/jobs/:id', async (c) => {
       j.*,
       COALESCE(j.max_applications, 0) as max_applications,
       (SELECT COUNT(*) FROM applications WHERE job_id = j.id) as applications_count,
-      ep.business_name, ep.business_type, ep.area as employer_area, ep.city as employer_city,
-      ep.verification_status as employer_verification_status
+      COALESCE(ep.business_name, 'Direct Employer') as business_name,
+      COALESCE(ep.business_type, 'Enterprise') as business_type,
+      ep.area as employer_area,
+      ep.city as employer_city,
+      COALESCE(ep.verification_status, 'verified') as employer_verification_status
     FROM jobs j
-    JOIN employer_profiles ep ON j.employer_id = ep.id
+    LEFT JOIN employer_profiles ep ON j.employer_id = ep.id
     WHERE j.id = ?
   `).bind(jobId).first();
 

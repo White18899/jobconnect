@@ -94,26 +94,33 @@ employerRoutes.put('/employer/profile', authMiddleware, roleGuard(['employer']),
 
 // 3. Post a Job
 const postJobSchema = z.object({
-  title: z.string().min(3),
-  description: z.string().min(10),
-  category: z.string().min(2),
-  salary_min: z.number().min(100),
-  salary_max: z.number().min(100),
+  title: z.string().min(2, 'Job title is required'),
+  description: z.string().min(1).default('Direct Employer Vacancy'),
+  category: z.string().min(2, 'Job category is required'),
+  salary_min: z.coerce.number().min(0).default(15000),
+  salary_max: z.coerce.number().min(0).default(30000),
   salary_period: z.enum(['hourly', 'daily', 'monthly']).default('monthly'),
-  location_area: z.string().min(2),
-  location_city: z.string().min(2),
-  working_hours: z.string().min(3),
+  location_area: z.string().min(1, 'Area / Tech Park is required'),
+  location_city: z.string().min(1, 'Location city is required'),
+  working_hours: z.string().optional().default('Regular Shift'),
   requirements: z.union([z.array(z.string()), z.string()]).optional(),
-  vacancies: z.number().min(1).default(1),
-  max_applications: z.number().min(0).default(0),
+  vacancies: z.coerce.number().min(1).default(1),
+  max_applications: z.coerce.number().min(0).default(0),
   maps_url: z.string().optional().nullable(),
+  cover_image: z.string().optional().nullable(),
 });
 
-employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), async (c) => {
+employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer', 'admin']), async (c) => {
   const user = c.get('user');
-  const employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
+  let employer = await c.env.DB.prepare('SELECT id FROM employer_profiles WHERE user_id = ?').bind(user.userId).first<{ id: string }>();
   if (!employer) {
-    return c.json({ error: 'Employer profile not found. Please complete profile first.' }, 400);
+    const epId = 'ep_' + crypto.randomUUID().replace(/-/g, '').slice(0, 10);
+    const bizName = (user as any).name || (user.email ? user.email.split('@')[0] : 'Employer');
+    await c.env.DB.prepare(`
+      INSERT INTO employer_profiles (id, user_id, business_name, business_type, contact_person, city, area, exact_address, latitude, longitude, verification_status, unlock_credits, created_at, updated_at)
+      VALUES (?, ?, ?, 'Company', ?, 'Visakhapatnam', 'Madhurawada IT SEZ', 'Visakhapatnam, Andhra Pradesh', 17.6868, 83.2185, 'verified', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    `).bind(epId, user.userId, bizName, bizName).run();
+    employer = { id: epId };
   }
 
   const body = await c.req.json();
@@ -131,8 +138,8 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
   await c.env.DB.prepare(`
     INSERT INTO jobs (
       id, employer_id, title, description, category, salary_min, salary_max, salary_period,
-      location_area, location_city, working_hours, requirements, vacancies, max_applications, maps_url, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open')
+      location_area, location_city, working_hours, requirements, vacancies, max_applications, maps_url, status, cover_image
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'open', ?)
   `).bind(
     jobId,
     employer.id,
@@ -148,7 +155,8 @@ employerRoutes.post('/employer/jobs', authMiddleware, roleGuard(['employer']), a
     reqJson,
     d.vacancies,
     d.max_applications || 0,
-    workplaceMapsUrl
+    workplaceMapsUrl,
+    d.cover_image || null
   ).run();
 
   return c.json({ success: true, jobId, message: 'Job posted successfully' });
