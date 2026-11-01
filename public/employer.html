@@ -1666,7 +1666,8 @@
 
         document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
       } else {
-        
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+      }
 
       // Re-render applicants and dynamic heading when language changes
       window.addEventListener('jobway:language-change', () => {
@@ -1674,7 +1675,7 @@
         const heading = document.getElementById('welcome-employer-heading');
         if (heading && currentUser) {
           const bName = currentUser.businessName || currentUser.name || 'Enterprise';
-          heading.textContent = \: \;
+          heading.textContent = prefix + ': ' + bName;
         }
         renderApplicants();
       });
