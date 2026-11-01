@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=27">
-  <link rel="stylesheet" href="css/editorial.css?v=38">
+  <link rel="stylesheet" href="css/editorial.css?v=39">
   <link rel="stylesheet" href="css/chat-widget.css?v=8">
   <script>
     try {
@@ -258,7 +258,7 @@
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 10px !important;
-        padding: 14px 14px !important;
+        padding: 14px !important;
       }
       .employer-col-cand,
       .employer-col-contact {
@@ -268,66 +268,78 @@
       .employer-app-rail {
         width: 100% !important;
         min-width: 0 !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
         border-top: 1px solid #F1F5F9 !important;
         padding-top: 10px !important;
-        margin-top: 4px !important;
+        margin-top: 2px !important;
         gap: 8px !important;
       }
       .employer-app-rail .action-rail-meta {
-        display: inline-flex !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
         align-items: center !important;
-        gap: 6px !important;
-        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .employer-app-rail .action-rail-meta .status-badge {
+        flex: 0 0 auto !important;
         margin: 0 !important;
       }
       .employer-app-rail .action-meta-sub {
         margin: 0 !important;
         font-size: 10.5px !important;
-      }
-      .employer-app-rail .action-rail-actions {
+        color: #94A3B8 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 8px !important;
-      }
-      .employer-app-rail .action-rail-actions button,
-      .employer-app-rail .action-rail-actions a {
-        padding: 6px 12px !important;
-        font-size: 11.5px !important;
-        height: 33px !important;
-        box-sizing: border-box !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        white-space: nowrap !important;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .employer-app-rail {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 8px !important;
-      }
-      .employer-app-rail .action-rail-meta {
-        width: 100% !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
+        gap: 4px !important;
+        flex: 0 0 auto !important;
+        text-align: right !important;
       }
       .employer-app-rail .action-rail-actions {
         width: 100% !important;
         display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
         gap: 8px !important;
+        flex-wrap: nowrap !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
-      .employer-app-rail .action-rail-actions button,
-      .employer-app-rail .action-rail-actions a {
-        flex: 1 1 50% !important;
+      .employer-app-rail .action-rail-actions > button,
+      .employer-app-rail .action-rail-actions > a,
+      .employer-app-rail .action-rail-actions > .trigger-view-pass,
+      .employer-app-rail .action-rail-actions > .trigger-unlock-btn {
+        flex: 1 1 0% !important;
+        min-width: 0 !important;
         width: auto !important;
-        text-align: center !important;
+        height: 38px !important;
+        padding: 0 10px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
         justify-content: center !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+      }
+      .employer-app-rail .action-rail-actions > .trigger-remove-cart {
+        flex: 0 0 38px !important;
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
       }
     }
   </style>

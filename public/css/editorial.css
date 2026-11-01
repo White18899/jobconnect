@@ -3436,14 +3436,24 @@ img {
   .action-rail {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 
   .action-rail-meta {
     width: 100% !important;
     display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: space-between !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .action-rail-meta .action-meta-sub {
+    margin: 0 !important;
+    font-size: 10.5px !important;
+    color: #94A3B8 !important;
+    text-align: right !important;
   }
 
   .action-rail-actions {
