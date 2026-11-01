@@ -67,59 +67,95 @@
         text-overflow: ellipsis !important;
         white-space: nowrap !important;
       }
-      .worker-card-actions .btn-apply-priority {
+      .worker-app-card .btn-apply-priority {
         flex: 1 1 auto !important;
         min-width: 0 !important;
         width: auto !important;
       }
-      .worker-card-actions .action-rail-pill {
+      .worker-app-card .action-rail-pill {
         flex: 1 1 auto !important;
       }
-      .worker-card-actions .btn-withdraw-action {
+      .worker-app-card .btn-withdraw-action {
         flex: 0 0 auto !important;
-      }
-      .worker-location-box {
-        max-width: 100% !important;
       }
     }
 
-    /* Worker Application Cards Layout & Spacing */
-    .worker-card-actions {
+    /* Worker Application Cards (Desktop 3-Column Split & Mobile Responsive) */
+    .worker-app-card {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid #F1F5F9;
-      width: 100%;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 20px 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F1F5F9;
+      transition: background 0.15s ease;
     }
-    .worker-card-actions .btn-apply-priority {
-      height: 38px;
-      padding: 0 20px;
-      font-size: 12px;
+    .worker-app-card:hover {
+      background: #FBFDFB;
+    }
+    .worker-app-card:last-child {
+      border-bottom: none !important;
+    }
+    .worker-col-info {
+      flex: 1.4;
+      min-width: 260px;
+    }
+    .worker-col-location {
+      flex: 1.3;
+      min-width: 240px;
+    }
+    .worker-app-rail {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      min-width: 210px;
+    }
+    .worker-location-box {
+      margin: 0;
+      padding: 9px 12px;
+      background: #ECFDF5;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      max-width: 100%;
+    }
+    .worker-app-rail .btn-apply-priority {
+      height: 35px;
+      padding: 0 14px;
+      font-size: 11.5px;
       font-weight: 650;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       border-radius: 8px;
-      width: auto;
-      min-width: 170px;
-      flex: 0 0 auto;
+      white-space: nowrap;
+      cursor: pointer;
     }
-    .worker-card-actions .action-rail-pill {
-      height: 38px;
-      padding: 0 16px;
-      font-size: 12px;
+    .worker-app-rail .action-rail-pill {
+      height: 35px;
+      padding: 0 12px;
+      font-size: 11px;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      flex: 0 0 auto;
+      gap: 5px;
+      border-radius: 8px;
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      white-space: nowrap;
     }
-    .worker-card-actions .btn-withdraw-action {
-      height: 38px;
-      padding: 0 16px;
+    .worker-app-rail .btn-withdraw-action {
+      height: 35px;
+      padding: 0 12px;
       font-size: 11.5px;
       font-weight: 600;
       border-radius: 8px;
@@ -129,22 +165,9 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      flex: 0 0 auto;
+      gap: 4px;
+      white-space: nowrap;
       transition: all 0.18s ease;
-    }
-    .worker-location-box {
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #ECFDF5;
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-      max-width: 640px;
     }
     .btn-withdraw-action:hover {
       background: #FEF2F2 !important;
@@ -152,6 +175,59 @@
       border-color: #FECACA !important;
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(220, 38, 38, 0.12);
+    }
+
+    @media (max-width: 900px) {
+      .worker-app-card {
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .worker-col-info {
+        flex: 1 1 100%;
+      }
+      .worker-col-location {
+        flex: 1 1 auto;
+      }
+      .worker-app-rail {
+        flex: 1 1 auto;
+        align-items: flex-end;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .worker-app-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 16px 14px !important;
+      }
+      .worker-col-info,
+      .worker-col-location {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+      .worker-app-rail {
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-top: 1px solid #F1F5F9 !important;
+        padding-top: 12px !important;
+        margin-top: 2px !important;
+      }
+      .worker-app-rail .action-rail-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+      .worker-app-rail .btn-apply-priority {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+      }
+      .worker-app-rail .btn-withdraw-action {
+        flex: 0 0 auto !important;
+      }
     }
   </style>
 </head>
@@ -792,27 +868,27 @@
               : '<span class="status-badge pending" style="font-weight: 600; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">APPLIED</span>');
 
           return `
-          <div class="divided-row" style="padding: 22px 0; border-bottom: 1px solid #F1F5F9;">
-            <div style="width: 100%;">
-              <!-- Card Header Row: Title + Category on Left, Status Badge on Right -->
-              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px;">
-                <div style="flex: 1; min-width: 0;">
-                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
-                    <h3 style="font-size: 15.5px; font-weight: 700; color: #0F172A; margin: 0; line-height: 1.3;">${escapeHtml(app.job_title)}</h3>
-                    <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 600;">${escapeHtml(app.worker_category)}</span>
-                    ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="font-size: 10px; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Boosted</span>' : ''}
-                  </div>
-                  <div style="font-size: 12.5px; color: #64748B;">
-                    Employer: <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(app.employer_name)}</strong> • Applied: <span class="mono-tag" style="font-size: 10.5px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 1px 6px; border-radius: 4px;">${escapeHtml(app.applied_date)}</span>
-                  </div>
-                </div>
-                <div style="flex-shrink: 0;">
-                  ${statusBadge}
-                </div>
+          <div class="divided-row worker-app-card" data-id="${app.id}">
+            <!-- Column 1: Role, Category, Employer & Applied Date -->
+            <div class="worker-col-info">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px;">
+                <h3 style="font-size: 16px; font-weight: 750; color: #0F172A; margin: 0; line-height: 1.3;">${escapeHtml(app.job_title)}</h3>
+                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-weight: 600;">${escapeHtml(app.worker_category)}</span>
+                ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="font-size: 10px; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Boosted</span>' : ''}
               </div>
 
-              <!-- Location, Salary & Details -->
-              <div style="font-size: 12px; color: #475569; margin-top: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              <div style="font-size: 12.5px; color: #64748B; margin-bottom: 4px;">
+                Employer: <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(app.employer_name)}</strong> • Applied: <span class="mono-tag" style="font-size: 10.5px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 1px 6px; border-radius: 4px;">${escapeHtml(app.applied_date)}</span>
+              </div>
+
+              <div style="font-size: 11.5px; color: #94A3B8;">
+                Experience on file: <span style="color: #475569; font-weight: 600;">${escapeHtml(app.worker_experience || '0')} Years</span>
+              </div>
+            </div>
+
+            <!-- Column 2: Location, Salary & Workplace Navigation -->
+            <div class="worker-col-location">
+              <div style="font-size: 12px; color: #475569; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <span style="display: inline-flex; align-items: center; gap: 4px; color: #047857; font-weight: 600;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   <span>${escapeHtml(app.location_area ? app.location_area + ', ' + (app.location_city || 'Visakhapatnam') : (app.location_city || 'Visakhapatnam'))}</span>
@@ -820,43 +896,48 @@
                 ${app.salary_min || app.salary_max ? `<span style="color: #64748B;">• ₹${(app.salary_min || 0).toLocaleString('en-IN')} – ₹${(app.salary_max || 0).toLocaleString('en-IN')}/mo</span>` : ''}
                 ${app.maps_url ? `<a href="${escapeAttr(app.maps_url)}" target="_blank" rel="noopener noreferrer" style="color: #059669; font-weight: 650; text-decoration: none; font-size: 11px; display: inline-flex; align-items: center; gap: 3px;" title="Open in Maps"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Maps ↗</span></a>` : ''}
               </div>
-              <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px;">
-                Experience on file: ${escapeHtml(app.worker_experience || '0')} Years
-              </div>
 
-              <!-- Workplace Location Box (Only shown when unlocked) -->
               ${isUnlocked ? `
                 <div class="worker-location-box">
-                  <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
-                    <span style="width: 28px; height: 28px; border-radius: 6px; background: #D1FAE5; color: #047857; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                    <span style="width: 24px; height: 24px; border-radius: 6px; background: #D1FAE5; color: #047857; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
                     <div style="min-width: 0;">
-                      <div style="font-size: 10.5px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em;">Workplace Location Shared</div>
-                      <div style="font-size: 13px; font-weight: 650; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(app.workplace_location || app.location_area || 'Visakhapatnam')}</div>
+                      <div style="font-size: 9.5px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2;">Workplace Shared</div>
+                      <div style="font-size: 12px; font-weight: 650; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;" title="${escapeAttr(app.workplace_location || app.location_area || 'Visakhapatnam')}">${escapeHtml(app.workplace_location || app.location_area || 'Visakhapatnam')}</div>
                     </div>
                   </div>
-                  <a href="${escapeAttr(app.maps_url || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(app.workplace_location || app.location_area || 'Visakhapatnam')))}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #059669; color: #ffffff; border-radius: 6px; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(5,150,105,0.2); flex-shrink: 0;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    <span>Open Google Maps</span>
+                  <a href="${escapeAttr(app.maps_url || ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(app.workplace_location || app.location_area || 'Visakhapatnam')))}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; background: #059669; color: #ffffff; border-radius: 5px; font-size: 10.5px; font-weight: 700; white-space: nowrap; flex-shrink: 0;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    <span>Maps ↗</span>
                   </a>
                 </div>
-              ` : ''}
+              ` : `
+                <div style="display: flex; align-items: center; gap: 7px; color: #64748B; font-size: 11px; padding: 7px 11px; background: #F8FAFC; border: 1px dashed #E2E8F0; border-radius: 8px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span>Workplace shielded until employer review</span>
+                </div>
+              `}
+            </div>
 
-              <!-- Bottom Action Rail: Boost & Withdraw -->
-              <div class="worker-card-actions">
+            <!-- Column 3: Action Rail (Status Badge + Buttons) -->
+            <div class="action-rail worker-app-rail">
+              <div class="action-rail-meta">
+                ${statusBadge}
+              </div>
+              <div class="action-rail-actions">
                 ${app.priority !== 'PRIORITY_ACTIVE' ? `
                   <button type="button" class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" title="Boost application visibility to verified employers">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                     <span>Boost App (₹149)</span>
                   </button>
                 ` : `
                   <span class="action-rail-pill">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>Top Placement Active</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Boosted</span>
                   </span>
                 `}
-
                 <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${escapeAttr(app.job_title || 'Position')}" title="Withdraw this application">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   <span>Withdraw</span>
