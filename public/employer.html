@@ -184,6 +184,152 @@
       color: #3f3f46;
       border: 1px solid var(--border);
     }
+
+    /* Employer Received Applicant Cards (Desktop 3-Column Split & Sleek Mobile Layout) */
+    .employer-applicant-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 22px;
+      background: #FFFFFF;
+      border-bottom: 1px solid #F1F5F9;
+      transition: background 0.15s ease;
+    }
+    .employer-applicant-card:hover {
+      background: #FBFDFB;
+    }
+    .employer-applicant-card:last-child {
+      border-bottom: none !important;
+    }
+    .employer-col-cand {
+      flex: 1.5;
+      min-width: 240px;
+    }
+    .employer-col-contact {
+      flex: 1.2;
+      min-width: 210px;
+    }
+    .employer-app-rail {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      min-width: 210px;
+    }
+    .employer-app-rail .action-rail-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .employer-app-rail .action-rail-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .employer-applicant-card {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .employer-col-cand {
+        flex: 1 1 100%;
+      }
+      .employer-col-contact {
+        flex: 1 1 auto;
+      }
+      .employer-app-rail {
+        flex: 1 1 auto;
+        align-items: flex-end;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .panel-content-body {
+        padding: 12px 14px !important;
+      }
+      .employer-applicant-card {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 14px 14px !important;
+      }
+      .employer-col-cand,
+      .employer-col-contact {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+      .employer-app-rail {
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-top: 1px solid #F1F5F9 !important;
+        padding-top: 10px !important;
+        margin-top: 4px !important;
+        gap: 8px !important;
+      }
+      .employer-app-rail .action-rail-meta {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        margin: 0 !important;
+      }
+      .employer-app-rail .action-meta-sub {
+        margin: 0 !important;
+        font-size: 10.5px !important;
+      }
+      .employer-app-rail .action-rail-actions {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+      .employer-app-rail .action-rail-actions button,
+      .employer-app-rail .action-rail-actions a {
+        padding: 6px 12px !important;
+        font-size: 11.5px !important;
+        height: 33px !important;
+        box-sizing: border-box !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .employer-app-rail {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+      }
+      .employer-app-rail .action-rail-meta {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+      }
+      .employer-app-rail .action-rail-actions {
+        width: 100% !important;
+        display: flex !important;
+        gap: 8px !important;
+      }
+      .employer-app-rail .action-rail-actions button,
+      .employer-app-rail .action-rail-actions a {
+        flex: 1 1 50% !important;
+        width: auto !important;
+        text-align: center !important;
+        justify-content: center !important;
+      }
+    }
   </style>
 </head>
 <body class="editorial-page">
@@ -346,7 +492,7 @@
         </div>
       </div>
 
-      <div style="padding: 24px 28px;">
+      <div class="panel-content-body" style="padding: 20px 24px;">
         <!-- Candidate Selection Cart Banner (Batch Unlock / Clear) -->
         <div id="applicants-cart-banner" style="display: none; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; padding: 14px 20px; margin-bottom: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
@@ -864,75 +1010,73 @@
           const isHighlighted = highlightId && app.id === highlightId;
           const isDirCandidate = app.source === 'candidate_directory' || app.job_id === 'dir_selected';
           return `
-          <div class="divided-row ${isHighlighted ? 'highlighted-applicant' : ''}" data-id="${app.id}" style="padding: 18px 20px; border-bottom: 1px solid #F1F5F9; background: #FFFFFF;">
-            <div style="flex: 1.5; min-width: 250px;">
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
-                <h4 style="font-size: 16px; font-weight: 750; color: #14281D; margin: 0;">${escapeHtml(app.worker_name)}</h4>
+          <div class="divided-row employer-applicant-card ${isHighlighted ? 'highlighted-applicant' : ''}" data-id="${app.id}">
+            <!-- Column 1: Candidate Title, Trade Tag, Experience & Applied Role -->
+            <div class="employer-col-cand">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">
+                <h4 style="font-size: 16px; font-weight: 750; color: #14281D; margin: 0; line-height: 1.3;">${escapeHtml(app.worker_name)}</h4>
                 <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px;">${escapeHtml(app.worker_category)}</span>
-                ${isDirCandidate ? '<span style="background: #F8FAFC; color: #475569; border: 1px solid #CBD5E1; font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px;">Directory Candidate</span>' : ''}
-                ${isHighlighted ? '<span style="background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.25); font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px;">Direct Candidate Pass</span>' : ''}
-                ${app.priority === 'PRIORITY_ACTIVE' && !isHighlighted ? '<span style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-size: 10.5px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Priority Candidate</span>' : ''}
+                ${isDirCandidate ? '<span style="background: #F8FAFC; color: #475569; border: 1px solid #CBD5E1; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px;">Directory</span>' : ''}
+                ${isHighlighted ? '<span style="background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.25); font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px;">Direct Pass</span>' : ''}
+                ${app.priority === 'PRIORITY_ACTIVE' && !isHighlighted ? '<span style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; display: inline-flex; align-items: center; gap: 4px;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Priority</span>' : ''}
               </div>
-              <div class="applicant-meta" style="font-size: 13px; color: #4B5563;">
-                ${app.worker_experience}+ Years Experience • For: <strong style="color: #14281D;">${escapeHtml(app.job_title)}</strong>
+              <div style="font-size: 12.5px; color: #4B5563; line-height: 1.4;">
+                ${app.worker_experience}+ Years Experience • For: <strong style="color: #14281D; font-weight: 650;">${escapeHtml(app.job_title)}</strong>
               </div>
-              <div style="font-size: 12px; color: #64748B; margin-top: 3px;">
+              <div style="font-size: 11.5px; color: #64748B; margin-top: 2px; line-height: 1.35;">
                 ${escapeHtml(app.experience_notes || 'Verified trade professional')}
               </div>
             </div>
 
-            <div style="flex: 1.2; min-width: 200px;">
-              <div style="display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; color: ${app.unlocked ? '#047857' : '#64748B'};">
+            <!-- Column 2: Contact Details & Status -->
+            <div class="employer-col-contact">
+              <div style="display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; color: ${app.unlocked ? '#047857' : '#64748B'};">
                 ${app.unlocked ? `
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                   <span>Contact Unlocked</span>
                 ` : `
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                   <span>Contact Shielded</span>
                 `}
               </div>
-              <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #14281D; letter-spacing: 0.02em;">
+              <div style="font-family: var(--font-mono); font-size: 13.5px; font-weight: 700; color: #14281D; letter-spacing: 0.02em; line-height: 1.3;">
                 ${app.unlocked ? app.phone_unlocked : app.phone_masked}
               </div>
-              <div style="font-size: 11.5px; color: ${app.unlocked ? '#4B5563' : '#94A3B8'}; margin-top: 2px;">
+              <div style="font-size: 11.5px; color: ${app.unlocked ? '#4B5563' : '#94A3B8'}; margin-top: 1px; line-height: 1.3;">
                 ${app.unlocked ? app.address_unlocked : app.address_masked}
               </div>
             </div>
 
-            <div class="action-rail">
+            <!-- Column 3: Action Rail (Badge + Timestamp + Action Buttons) -->
+            <div class="action-rail employer-app-rail">
               <div class="action-rail-meta">
-                <span class="status-badge ${app.unlocked ? 'verified' : (isDirCandidate ? 'pending' : 'pending')}" style="${app.unlocked ? 'background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.25);' : 'background: #F1F5F9; color: #475569;'} font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 8px;">${app.unlocked ? 'UNLOCKED' : (isDirCandidate ? 'IN CART' : app.status.toUpperCase())}</span>
-                <div class="action-meta-sub" style="font-size: 11px; color: #94A3B8; margin-top: 3px;">Added: <span class="mono-tag" style="font-size: 10.5px; padding: 1px 6px; background: #F1F5F9; border-radius: 4px; color: #475569;">${app.applied_date}</span></div>
+                <span class="status-badge ${app.unlocked ? 'verified' : (isDirCandidate ? 'pending' : 'pending')}" style="${app.unlocked ? 'background: rgba(5,150,105,0.1); color: #047857; border: 1px solid rgba(5,150,105,0.25);' : 'background: #F1F5F9; color: #475569;'} font-size: 10.5px; font-weight: 700; border-radius: 5px; padding: 2px 7px;">${app.unlocked ? 'UNLOCKED' : (isDirCandidate ? 'IN CART' : app.status.toUpperCase())}</span>
+                <span class="action-meta-sub" style="font-size: 10.5px; color: #94A3B8;">Added: <span class="mono-tag" style="font-size: 10px; padding: 1px 5px; background: #F1F5F9; border-radius: 4px; color: #475569;">${app.applied_date}</span></span>
               </div>
 
-              ${app.unlocked ? `
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  <button type="button" class="btn-table-action trigger-view-pass" data-id="${app.id}" style="padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: #14281D;">
-                    <span>Pass Details</span>
-                    <span style="font-size: 13px;">→</span>
-                  </button>
-                  <a href="tel:${app.phone_unlocked}" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #059669; color: white; border-radius: 6px; padding: 7px 14px; font-size: 12px; font-weight: 600; box-shadow: 0 2px 6px rgba(5,150,105,0.25);">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <div class="action-rail-actions">
+                <button type="button" class="btn-table-action trigger-view-pass" data-id="${app.id}" style="padding: 6px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: #14281D;">
+                  <span>Pass Details</span>
+                  <span style="font-size: 12px;">→</span>
+                </button>
+
+                ${app.unlocked ? `
+                  <a href="tel:${app.phone_unlocked}" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px; background: #059669; color: white; border-radius: 6px; padding: 6px 12px; font-size: 11.5px; font-weight: 600; box-shadow: 0 2px 6px rgba(5,150,105,0.25);">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     <span>Call Direct</span>
                   </a>
-                </div>
-              ` : `
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  <button type="button" class="btn-table-action trigger-view-pass" data-id="${app.id}" style="padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: #14281D;">
-                    <span>Pass Details</span>
-                    <span style="font-size: 13px;">→</span>
-                  </button>
-                  <button class="trigger-unlock-btn" data-id="${app.id}" style="padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; background: #14281D; color: #ffffff; border: 1px solid #14281D; border-radius: 6px; box-shadow: 0 2px 6px rgba(20,40,29,0.15);">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+                ` : `
+                  <button class="trigger-unlock-btn" data-id="${app.id}" style="padding: 6px 12px; font-size: 11.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; background: #14281D; color: #ffffff; border: 1px solid #14281D; border-radius: 6px; box-shadow: 0 2px 6px rgba(20,40,29,0.15);">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
                     <span>Unlock (1 Credit)</span>
                   </button>
                   ${isDirCandidate ? `
-                    <button type="button" class="trigger-remove-cart" data-id="${app.id}" title="Remove Candidate from Applications Cart" style="padding: 7px 10px; font-size: 11.5px; font-weight: 600; cursor: pointer; border-radius: 6px; background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5;">
-                      ✕ Remove
+                    <button type="button" class="trigger-remove-cart" data-id="${app.id}" title="Remove Candidate from Applications Cart" style="padding: 6px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 6px; background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5;">
+                      ✕
                     </button>
                   ` : ''}
-                </div>
-              `}
+                `}
+              </div>
             </div>
           </div>
         `;
