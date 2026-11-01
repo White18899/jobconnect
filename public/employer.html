@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" href="/assets/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=27">
   <link rel="stylesheet" href="css/editorial.css?v=38">
   <link rel="stylesheet" href="css/chat-widget.css?v=8">
@@ -331,6 +331,7 @@
       }
     }
   </style>
+  <script src="js/i18n.js?v=1"></script>
 </head>
 <body class="editorial-page">
 
@@ -346,19 +347,57 @@
       <!-- Header Center Links -->
       <div class="nav-links-wrapper">
         <a href="/jobs.html" class="nav-link">
-          <span class="link-line">Listed Jobs</span>
+          <span class="link-line" data-i18n="nav_listed_jobs">Listed Jobs</span>
         </a>
         <a href="/candidates.html" class="nav-link">
-          <span class="link-line">Candidates</span>
+          <span class="link-line" data-i18n="nav_candidates">Candidates</span>
         </a>
         <a href="/employer.html" class="nav-link active" style="font-weight: 600; color: #14281D;">
-          <span class="link-line">Employer Workspace</span>
+          <span class="link-line" data-i18n="nav_employer_workspace">Employer Workspace</span>
           <span class="nav-link-count">(<span id="nav-candidate-count">0</span>)</span>
         </a>
       </div>
 
       <!-- Employer Profile, Credits & Logout -->
       <div class="nav-right-actions">
+        <!-- Language Selector Dropdown -->
+        <div class="lang-selector-wrap" id="lang-selector-desktop">
+          <button type="button" class="lang-selector-btn" id="btn-lang-toggle" aria-expanded="false" aria-haspopup="true" title="Change Language / భాషను మార్చండి / भाषा बदलें">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span class="current-lang-text" id="current-lang-label">English</span>
+            <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+            <button type="button" class="lang-option active" data-lang="en">
+              <span class="lang-name-native">English</span>
+              <span class="lang-name-en">EN</span>
+              <svg class="lang-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="lang-option" data-lang="te">
+              <span class="lang-name-native">తెలుగు</span>
+              <span class="lang-name-en">TE</span>
+              <svg class="lang-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="lang-option" data-lang="hi">
+              <span class="lang-name-native">हिन्दी</span>
+              <span class="lang-name-en">HI</span>
+              <svg class="lang-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
         <div id="header-credit-pill" style="display: inline-flex; align-items: center; gap: 6px; background: #F1F5F9; color: #14281D; border: 1px solid #CBD5E1; border-radius: 20px; padding: 4px 12px; font-size: 11.5px; font-weight: 700; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           <span><span id="header-credit-count">0</span> Unlocks Left</span>
@@ -372,7 +411,7 @@
         </a>
         <button id="btn-employer-logout" class="nav-btn-link" title="Sign Out">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          <span>Sign Out</span>
+          <span data-i18n="nav_signout">Sign Out</span>
         </button>
       </div>
     </nav>
