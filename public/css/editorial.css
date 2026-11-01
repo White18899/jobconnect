@@ -1976,8 +1976,7 @@ body.editorial-page a {
   transform: scale(1.03);
 }
 
-.job-card-image-box,
-.candidate-card-header-box {
+.job-card-image-box {
   background: #F1F5F9 !important;
 }
 

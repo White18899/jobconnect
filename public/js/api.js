@@ -608,10 +608,21 @@ class JobConnectApi {
           const serverIds = new Set(data.candidates.map(c => c.id));
           const serverNames = new Set(data.candidates.map(c => (c.name || '').toLowerCase()));
 
+          const user = this.getCurrentUser();
           const enrichedServerCands = data.candidates.map(sc => {
             const existingLocal = localCands.find(lc => lc.id === sc.id || (lc.name && lc.name.toLowerCase() === sc.name.toLowerCase()));
+            const isSelf = user && (
+              (user.name && sc.name && sc.name.toLowerCase() === user.name.toLowerCase()) ||
+              (user.id && (sc.id === user.id || sc.user_id === user.id)) ||
+              (user.email && sc.name && sc.name.toLowerCase() === user.email.split('@')[0].toLowerCase()) ||
+              (user.name && sc.name && (sc.name.toLowerCase().includes(user.name.toLowerCase()) || user.name.toLowerCase().includes(sc.name.toLowerCase())))
+            );
+            const localCover = isSelf ? (localStorage.getItem('jc_worker_cover') || '') : '';
+            const localPhoto = isSelf ? (user.avatar || localStorage.getItem('jc_worker_photo') || '') : '';
             return {
               ...sc,
+              photo_thumb: sc.photo_thumb || existingLocal?.photo_thumb || localCover || '',
+              photo_key: sc.photo_key || existingLocal?.photo_key || localPhoto || '',
               bio: sc.bio || existingLocal?.bio || `${sc.trade_title} with ${sc.experience}+ years experience in technical development and engineering architecture.`,
               education: sc.education || existingLocal?.education || 'B.Tech / Professional Degree in Technical Discipline',
               address_masked: sc.address_masked || existingLocal?.address_masked || `${sc.preferred_area || sc.city || 'Visakhapatnam'} Tech Corridor`,
@@ -1279,7 +1290,13 @@ class JobConnectApi {
     // Sync candidate list so candidate cards immediately display updated cover thumbnail & avatar
     try {
       const candidates = JSON.parse(localStorage.getItem('jc_candidates') || '[]');
-      let cand = candidates.find(c => (user?.name && c.name === user.name) || (user?.id && c.id === user.id));
+      let cand = candidates.find(c => 
+        (user?.name && c.name && c.name.toLowerCase() === user.name.toLowerCase()) || 
+        (user?.id && (c.id === user.id || c.user_id === user.id)) ||
+        (user?.email && c.name && c.name.toLowerCase() === user.email.split('@')[0].toLowerCase()) ||
+        (profileData.full_name && c.name && c.name.toLowerCase() === profileData.full_name.toLowerCase()) ||
+        (user?.name && c.name && (c.name.toLowerCase().includes(user.name.toLowerCase()) || user.name.toLowerCase().includes(c.name.toLowerCase())))
+      );
       if (cand) {
         if (profileData.photo_thumb) cand.photo_thumb = profileData.photo_thumb;
         if (profileData.photo_key) cand.photo_key = profileData.photo_key;

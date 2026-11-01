@@ -1896,7 +1896,19 @@
       const BANNER_THEME_KEYS = ['emerald', 'navy', 'indigo', 'violet', 'teal', 'carbon', 'crimson', 'amber'];
 
       function resolveCandidateBanner(c) {
-        const raw = (c.photo_thumb || '').trim();
+        let raw = (c.photo_thumb || '').trim();
+
+        // Check if current user is this candidate and has a local cover set
+        if (!raw && typeof user !== 'undefined' && user) {
+          const isCurrentWorker = (user.name && c.name && c.name.toLowerCase() === user.name.toLowerCase()) ||
+            (user.id && (c.id === user.id || c.user_id === user.id)) ||
+            (user.email && (c.name && c.name.toLowerCase() === user.email.split('@')[0].toLowerCase())) ||
+            (user.name && c.name && (c.name.toLowerCase().includes(user.name.toLowerCase()) || user.name.toLowerCase().includes(c.name.toLowerCase())));
+          if (isCurrentWorker) {
+            raw = (localStorage.getItem('jc_worker_cover') || '').trim();
+          }
+        }
+
         // Images are ONLY displayed if explicitly uploaded by the user
         const isUserUploadedImage = raw && 
           !raw.startsWith('assets/trades/') && 
@@ -1907,11 +1919,15 @@
           return { isImage: true, url: raw };
         }
 
-        // If candidate explicitly chose a default color theme (e.g. 'color:indigo')
-        if (raw.startsWith('color:')) {
-          const key = raw.replace('color:', '').trim().toLowerCase();
-          if (BANNER_THEMES[key]) {
-            return { isImage: false, ...BANNER_THEMES[key] };
+        // If candidate explicitly chose a default color theme (e.g. 'color:amber' or 'amber')
+        const colorKey = raw.startsWith('color:') ? raw.replace('color:', '').trim().toLowerCase() : raw.toLowerCase();
+        if (BANNER_THEMES[colorKey]) {
+          return { isImage: false, ...BANNER_THEMES[colorKey] };
+        }
+
+        for (const [k, v] of Object.entries(BANNER_THEMES)) {
+          if (k === colorKey || v.name.toLowerCase() === colorKey) {
+            return { isImage: false, ...v };
           }
         }
 
@@ -1958,11 +1974,9 @@
               const banner = resolveCandidateBanner(c);
           return `
             <article class="candidate-card" data-cand-id="${c.id}" style="position: relative;">
-              <div class="candidate-card-header-box" style="${banner.isImage ? '' : `background: ${banner.gradient};`}">
-                ${banner.isImage 
-                  ? `<img src="${banner.url}" alt="${escapeHtml(c.name)}" loading="lazy">`
-                  : `<div class="candidate-header-pattern"></div>`
-                }
+              <div class="candidate-card-header-box" style="${banner.isImage ? '' : `background: ${banner.gradient} !important;`}">
+                ${banner.isImage ? `<img src="${banner.url}" alt="${escapeHtml(c.name)}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">` : `<div class="candidate-header-pattern"></div>`}
+                
                 <div class="candidate-floating-badges">
                   <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
                   <!-- Smart Match Badge -->
