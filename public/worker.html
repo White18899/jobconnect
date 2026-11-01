@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Worker Desk • JobWay (job-way.in)</title>
   <meta name="description" content="Worker Dashboard: Track job applications, view trade profile, and activate priority placement.">
-  <link rel="canonical" href="https://job-way.in/worker.html">
+  <link rel="canonical" href="https://job-way.in/worker.html?v=9">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#14281D">
@@ -93,7 +93,7 @@
         <a href="/jobs.html" class="nav-link">
           <span class="link-line">Find Jobs</span>
         </a>
-        <a href="/worker.html" class="nav-link active" style="font-weight: 700; color: #2E3D28;">
+        <a href="/worker.html?v=9" class="nav-link active" style="font-weight: 700; color: #2E3D28;">
           <span class="link-line">Worker Desk</span>
         </a>
       </div>
@@ -468,7 +468,7 @@
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
-  <script src="js/api.js?v=25"></script>
+  <script src="js/api.js?v=26"></script>
   <script src="js/mobile-nav.js?v=5" defer></script>
   <script src="js/chat-widget.js?v=8"></script>
   <script>
@@ -664,8 +664,25 @@
         setTimeout(() => t.remove(), 3500);
       }
 
+      function escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+      const escapeAttr = escapeHtml;
+
       // Render applications (Live D1 Backend Sync)
       let currentApps = [];
+      let selectedAppId = null;
+      const boostModal = document.getElementById('worker-boost-modal');
+      const closeBoostModal = document.getElementById('close-boost-modal');
+      const boostUtrInput = document.getElementById('boost-utr-input');
+      const btnSubmitBoost = document.getElementById('btn-submit-boost');
+
       renderApplications();
 
       async function renderApplications() {
@@ -802,14 +819,10 @@
         });
       }
 
-      // Boost modal
-      let selectedAppId = null;
-      const boostModal = document.getElementById('worker-boost-modal');
-      const closeBoostModal = document.getElementById('close-boost-modal');
-      const boostUtrInput = document.getElementById('boost-utr-input');
-      const btnSubmitBoost = document.getElementById('btn-submit-boost');
-
-      closeBoostModal.addEventListener('click', () => boostModal.classList.remove('active'));
+      // Boost modal event listeners
+      if (closeBoostModal && boostModal) {
+        closeBoostModal.addEventListener('click', () => boostModal.classList.remove('active'));
+      }
 
       btnSubmitBoost.addEventListener('click', () => {
         const utr = boostUtrInput.value.trim();

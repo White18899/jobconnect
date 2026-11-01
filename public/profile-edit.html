@@ -493,7 +493,7 @@
       </a>
       <div style="display: flex; align-items: center; gap: 14px;">
         <span style="font-size: 12.5px; color: var(--color-text-secondary); font-family: var(--font-mono);" id="user-header-email"></span>
-        <a href="/worker.html" class="nav-btn-solid">
+        <a href="/worker.html?v=9" class="nav-btn-solid">
           <span>Worker Desk →</span>
         </a>
       </div>
@@ -839,7 +839,7 @@
 
     <!-- Save Buttons Footer -->
     <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
-      <a href="/worker.html" style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px;">
+      <a href="/worker.html?v=9" style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 6px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         <span>Back to Worker Desk</span>
       </a>
@@ -856,7 +856,7 @@
 
   <!-- Scripts -->
   <script src="js/job-library.js?v=24"></script>
-  <script src="js/api.js?v=25"></script>
+  <script src="js/api.js?v=26"></script>
   <script src="js/chat-widget.js?v=8"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -2256,7 +2256,7 @@
         if (res.success) {
           showToast('Profile and multiple qualifications saved successfully! Redirecting...');
           setTimeout(() => {
-            window.location.href = '/worker.html';
+            window.location.href = '/worker.html?v=9';
           }, 600);
         } else {
           alert('Failed to save profile. Please check details and try again.');
@@ -2294,7 +2294,7 @@
         <div class="footer-links">
           <a class="footer-link" href="/">Home</a>
           <a class="footer-link" href="/jobs.html">Find Jobs</a>
-          <a class="footer-link" href="/worker.html">Worker Desk</a>
+          <a class="footer-link" href="/worker.html?v=9">Worker Desk</a>
           <a class="footer-link" href="mailto:support@job-way.in">Support Desk</a>
         </div>
       </div>
