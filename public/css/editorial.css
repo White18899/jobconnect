@@ -3146,10 +3146,13 @@ img {
     height: 70px !important;
   }
 
-  .cand-avatar-circle {
-    width: 48px !important;
-    height: 48px !important;
-    font-size: 15px !important;
+  .cand-avatar-circle,
+  .cand-avatar-pill {
+    width: 66px !important;
+    height: 66px !important;
+    border-radius: 14px !important;
+    border: 3.5px solid #ffffff !important;
+    font-size: 23px !important;
   }
 
   .candidate-card-body {
