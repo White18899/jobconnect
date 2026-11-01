@@ -3192,6 +3192,7 @@ img {
 
   .cand-avatar-circle,
   .cand-avatar-pill {
+    top: 92px !important;
     width: 66px !important;
     height: 66px !important;
     border-radius: 14px !important;
@@ -3200,7 +3201,7 @@ img {
   }
 
   .candidate-card-body {
-    padding: 22px 14px 14px !important;
+    padding: 36px 14px 14px !important;
   }
 
   .cand-skills-chips {
