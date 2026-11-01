@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="ios-role-card">
           <div class="ios-role-card-header">
             <div>
-              <div class="ios-role-title">Welcome back, ${cleanName} 👋</div>
+              <div class="ios-role-title">Welcome back, ${cleanName}</div>
               <div style="font-size: 11.5px; color: #8E8E93; margin-top: 1px;">Employer Workspace</div>
             </div>
             <span class="ios-role-badge">Active Employer</span>
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="ios-role-card-header">
             <div>
               <div class="ios-role-title">Hello, ${cleanName}</div>
-              <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 1px;">✓ Trade Pass Active</div>
+              <div style="font-size: 11.5px; color: #059669; font-weight: 600; margin-top: 1px; display: inline-flex; align-items: center; gap: 4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span>Trade Pass Active</span></div>
             </div>
             <span class="ios-role-badge">Visakhapatnam</span>
           </div>

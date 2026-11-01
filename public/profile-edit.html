@@ -1625,7 +1625,8 @@
         if (!c) return;
         const t = document.createElement('div');
         t.className = `toast toast-${type}`;
-        t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
+        const iconSvg = type === 'success' ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display: inline-block; vertical-align: -2px;"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="display: inline-block; vertical-align: -2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+        t.innerHTML = `<span>${iconSvg}</span> <span>${msg}</span>`;
         c.appendChild(t);
         setTimeout(() => t.remove(), 4000);
       }
@@ -2250,8 +2251,8 @@
 
         btn1.disabled = false;
         btn2.disabled = false;
-        btn1.textContent = 'Save Profile ✓';
-        btn2.textContent = 'Save Complete Profile & Enter Desk ✓';
+        btn1.textContent = 'Save Profile';
+        btn2.textContent = 'Save Complete Profile & Enter Desk';
 
         if (res.success) {
           showToast('Profile and multiple qualifications saved successfully! Redirecting...');

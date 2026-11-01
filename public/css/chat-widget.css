@@ -56,32 +56,6 @@
   color: #FFFFFF;
 }
 
-.jobway-chat-launcher-pulse {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 9px;
-  height: 9px;
-  background: #10B981;
-  border: 2px solid #0A140F;
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
-  animation: jobwayPulse 2.4s ease-in-out infinite;
-}
-
-@keyframes jobwayPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.9;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0);
-  }
-}
-
 /* Chat Container Window */
 .jobway-chat-window {
   position: fixed;

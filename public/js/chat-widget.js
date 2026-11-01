@@ -80,8 +80,7 @@
     root.innerHTML = `
       <!-- Minimalist Floating AI Assistant Launcher (Apple iOS Native Style) -->
       <button type="button" class="jobway-chat-launcher" id="jobway-chat-launcher" aria-label="Open JobWay AI Guide" title="JobWay AI Guide">
-        <span class="jobway-chat-launcher-robot">${aiIconSvg(20)}</span>
-        <span class="jobway-chat-launcher-pulse"></span>
+        <span class="jobway-chat-launcher-robot">${aiIconSvg(22)}</span>
       </button>
 
       <!-- Chat Modal Window -->

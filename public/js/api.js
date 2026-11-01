@@ -528,8 +528,8 @@ class JobConnectApi {
 
             notifs.unshift({
               id: `notif_${Date.now().toString().slice(-6)}`,
-              title: `📍 Workplace Location • Unlocked by ${compName}`,
-              message: `🎉 ${compName} has unlocked your contact pass for "${jTitle}"! Workplace Location: ${wpLoc}. Click to navigate via Google Maps.`,
+              title: `Workplace Location • Unlocked by ${compName}`,
+              message: `${compName} has unlocked your contact pass for "${jTitle}"! Workplace Location: ${wpLoc}. Click to navigate via Google Maps.`,
               type: 'system',
               is_read: false,
               metadata: {
