@@ -3,7 +3,7 @@
  * Provides offline shell, static caching, and network pass-through for API.
  */
 
-const CACHE_NAME = 'jobway-shell-v18';
+const CACHE_NAME = 'jobway-shell-v19';
 const PRECACHE_URLS = [
   '/',
   '/index.html',

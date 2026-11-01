@@ -282,7 +282,40 @@
     .filter-list-group {
       display: flex;
       flex-direction: column;
+      flex-wrap: nowrap;
       gap: 4px;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .btn-toggle-see-more {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 7px 10px;
+      margin-top: 4px;
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+      border-radius: var(--radius-xs, 6px);
+      font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-sizing: border-box;
+    }
+
+    .btn-toggle-see-more:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+      border-color: #94A3B8;
+    }
+
+    .btn-toggle-see-more:active {
+      transform: scale(0.99);
     }
 
     .filter-item-btn {
@@ -2091,6 +2124,8 @@
         return false;
       }
 
+      let isJobCategoryExpanded = false;
+
       function renderDynamicJobCategoryFilters() {
         const catListContainer = document.getElementById('filter-category-list');
         if (!catListContainer) return;
@@ -2113,6 +2148,14 @@
 
         if (activeCategory !== 'all' && activeCategory !== '__my_vacancies__' && !map.has(activeCategory.toLowerCase())) {
           activeCategory = 'all';
+        }
+
+        const sorted = Array.from(map.values()).sort((a, b) => b.count - a.count || a.title.localeCompare(b.title));
+
+        const VISIBLE_LIMIT = 5;
+        const extraCategories = sorted.slice(VISIBLE_LIMIT);
+        if (extraCategories.some(item => activeCategory.toLowerCase() === item.title.toLowerCase())) {
+          isJobCategoryExpanded = true;
         }
 
         let html = '';
@@ -2138,9 +2181,8 @@
           </button>
         `;
 
-        const sorted = Array.from(map.values()).sort((a, b) => b.count - a.count || a.title.localeCompare(b.title));
-
-        sorted.forEach(item => {
+        const visibleItems = sorted.slice(0, VISIBLE_LIMIT);
+        visibleItems.forEach(item => {
           const isActive = activeCategory.toLowerCase() === item.title.toLowerCase();
           html += `
             <button type="button" class="filter-item-btn ${isActive ? 'active' : ''}" data-cat="${escapeAttr(item.title)}">
@@ -2150,7 +2192,50 @@
           `;
         });
 
+        if (extraCategories.length > 0) {
+          html += `<div id="filter-extra-categories" style="display: ${isJobCategoryExpanded ? 'flex' : 'none'}; flex-direction: column; gap: 4px; width: 100%;">`;
+          extraCategories.forEach(item => {
+            const isActive = activeCategory.toLowerCase() === item.title.toLowerCase();
+            html += `
+              <button type="button" class="filter-item-btn ${isActive ? 'active' : ''}" data-cat="${escapeAttr(item.title)}">
+                <span>${escapeHtml(item.title)}</span>
+                <span class="filter-item-count">(${String(item.count).padStart(2, '0')})</span>
+              </button>
+            `;
+          });
+          html += `</div>`;
+
+          html += `
+            <button type="button" class="btn-toggle-see-more" id="btn-see-more-categories">
+              <span id="btn-see-more-label">${isJobCategoryExpanded ? 'See Less' : `+ See More (${extraCategories.length})`}</span>
+              <svg id="btn-see-more-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transform: ${isJobCategoryExpanded ? 'rotate(180deg)' : 'rotate(0deg)'}; transition: transform 0.2s ease;">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          `;
+        }
+
         catListContainer.innerHTML = html;
+
+        const seeMoreBtn = document.getElementById('btn-see-more-categories');
+        if (seeMoreBtn) {
+          seeMoreBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isJobCategoryExpanded = !isJobCategoryExpanded;
+            const extraContainer = document.getElementById('filter-extra-categories');
+            const label = document.getElementById('btn-see-more-label');
+            const chevron = document.getElementById('btn-see-more-chevron');
+            if (extraContainer) {
+              extraContainer.style.display = isJobCategoryExpanded ? 'flex' : 'none';
+            }
+            if (label) {
+              label.textContent = isJobCategoryExpanded ? 'See Less' : `+ See More (${extraCategories.length})`;
+            }
+            if (chevron) {
+              chevron.style.transform = isJobCategoryExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+          });
+        }
 
         catListContainer.querySelectorAll('.filter-item-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -3366,6 +3451,7 @@
         salarySelect.value = '0';
         sortSelect.value = 'latest';
         activeCategory = 'all';
+        isJobCategoryExpanded = false;
         renderDynamicJobCategoryFilters();
         render3CardGrid();
       }
