@@ -522,10 +522,10 @@
     /* Candidate Avatar Badge overlaying cover - Apple Engineering Atelier Squircle */
     .cand-avatar-pill {
       position: absolute;
-      top: 92px;
+      top: 76px;
       left: 16px;
-      width: 66px;
-      height: 66px;
+      width: 64px;
+      height: 64px;
       border-radius: 14px;
       background: #0F172A;
       border: 3.5px solid #ffffff;
@@ -561,7 +561,7 @@
 
     /* Candidate Body */
     .candidate-card-body {
-      padding: 38px 18px 16px;
+      padding: 44px 18px 16px;
       display: flex;
       flex-direction: column;
       flex: 1;
@@ -1198,7 +1198,7 @@
       background: #F1F5F9;
     }
   </style>
-  <script src="js/i18n.js?v=1"></script>
+  <script src="js/i18n.js?v=3"></script>
 </head>
 <body class="editorial-page">
 
@@ -1302,24 +1302,24 @@
       <div>
         <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 4px 10px; border-radius: 6px; margin-bottom: 6px; max-width: 100%; white-space: nowrap;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>Talent & Candidates Directory</span>
+          <span data-i18n="talent_candidates_dir_badge">Talent & Candidates Directory</span>
         </div>
-        <h1 class="directory-title-main" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidates Directory</h1>
+        <h1 class="directory-title-main" data-i18n="verified_candidates_directory" style="color: #0F172A; font-weight: 700; font-size: clamp(1.8rem, 2.8vw, 2.6rem); letter-spacing: -0.03em;">Verified Candidates Directory</h1>
       </div>
       <div id="banner-employer-actions" style="display: none; align-items: center; gap: 10px;">
         <a href="/employer.html#applicants-section" class="nav-btn-solid" id="banner-cart-link" style="height: 40px; padding: 0 16px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 8px; white-space: nowrap; box-sizing: border-box;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span>Selected (<span id="banner-cart-count">0</span>)</span>
+          <span><span data-i18n="selected_btn">Selected</span> (<span id="banner-cart-count">0</span>)</span>
         </a>
         <a href="/employer.html#credits-section" id="banner-recharge-link" class="banner-btn-secondary" style="height: 40px; padding: 0 16px; border: 1px solid #FCD34D; background: #FFFBEB; color: #92400E; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; box-sizing: border-box;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Unlock Credits</span>
+          <span data-i18n="unlock_credits">Unlock Credits</span>
         </a>
       </div>
       <div id="banner-viewer-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-        <span style="background: #F1F5F9; color: #475569; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid #E2E8F0;">Public Viewer Mode</span>
+        <span style="background: #F1F5F9; color: #475569; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid #E2E8F0;" data-i18n="public_viewer_mode">Public Viewer Mode</span>
         <a href="/login.html?role=employer&returnUrl=/candidates.html" class="nav-btn-solid" style="padding: 9px 18px; font-size: 13px; font-weight: 600; text-decoration: none; border-radius: 8px;">
-          <span>Sign In to Unlock Contacts →</span>
+          <span data-i18n="signin_unlock_contacts">Sign In to Unlock Contacts →</span>
         </a>
       </div>
     </div>
@@ -1333,7 +1333,7 @@
     <div class="mobile-filter-bar">
       <button type="button" class="btn-open-filter-drawer" id="btn-open-filters" aria-label="Open Filters & Search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M7 12h10m-7 6h4"/></svg>
-        <span>Filters & Search</span>
+        <span data-i18n="filters_search">Filters & Search</span>
         <span class="filter-active-count-badge" id="filter-active-count" style="display: none;">0</span>
       </button>
       <span class="mobile-filter-stats" id="mobile-filter-stats">Showing Candidates</span>
@@ -1349,7 +1349,7 @@
       <div class="filter-drawer-header">
         <div class="filter-drawer-title-group">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M7 12h10m-7 6h4"/></svg>
-          <span>Filters & Search</span>
+          <span data-i18n="filters_search">Filters & Search</span>
         </div>
         <button type="button" class="btn-close-filter-drawer" id="btn-close-filters" aria-label="Close filters">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -1375,7 +1375,7 @@
         <!-- 1. Search Box -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Candidates</span> data-i18n="search_candidates_title"
+            <span data-i18n="search_candidates_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Candidates</span>
           </div>
           <div class="filter-search-box">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1386,7 +1386,7 @@
         <!-- 2. Specialization & Category -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span> data-i18n="category_specialization_title"
+            <span data-i18n="category_specialization_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span>
           </div>
           <div class="filter-list-group" id="cand-category-list">
             <div class="skeleton-shimmer filter-skeleton-item" style="width: 100%;"></div>
@@ -1400,7 +1400,7 @@
         <!-- 3. Experience Filter -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Total Experience</span> data-i18n="total_experience_title"
+            <span data-i18n="total_experience_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Total Experience</span>
           </div>
           <select id="cand-exp-select" class="sidebar-select">
             <option value="0">All Experience Levels</option>
@@ -1413,7 +1413,7 @@
         <!-- 4. Location Hub -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub</span> data-i18n="location_hub_title"
+            <span data-i18n="location_hub_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub</span>
           </div>
           <select id="cand-city-select" class="sidebar-select">
             <option value="all">All Locations (Visakhapatnam)</option>
@@ -1430,7 +1430,7 @@
         <!-- Reset Action -->
         <button type="button" class="btn-reset-filters" id="btn-reset-cands" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
           Reset All Filters
-        </button> data-i18n="reset_all_filters"
+        </button>
       </div>
 
       <!-- Drawer Footer (Mobile Only) -->
@@ -1450,7 +1450,7 @@
         <div class="results-heading-meta">
           <span>Showing <strong id="cand-results-count">08</strong> verified candidates</span>
           <span style="color: var(--color-border); font-weight: 300;">|</span>
-          <span style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Candidate Profiles</span>
+          <span data-i18n="verified_cand_profiles" style="font-family: var(--font-mono); font-size: 11.5px; color: #10b981;">100% Verified Candidate Profiles</span>
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -1458,7 +1458,7 @@
           <div class="match-target-pill" style="display: inline-flex; align-items: center; gap: 7px; background: #FFFFFF; border: 1px solid #CBD5E1; padding: 5px 12px; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
             <span style="font-size: 11px; font-weight: 750; color: #0F172A; text-transform: uppercase; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 5px;">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              <span>Match:</span>
+              <span data-i18n="filter_match">Match:</span>
             </span>
             <select id="cand-match-target-select" class="content-sort-select" style="border: none; background: transparent; padding: 0 4px; font-size: 12px; font-weight: 650; color: #0F172A; outline: none; cursor: pointer; max-width: 250px;">
               <option value="benchmark">General Market Benchmark</option>
@@ -1467,9 +1467,9 @@
 
           <div>
             <select id="cand-sort-select" class="content-sort-select">
-              <option value="match" selected>Sort: Best Match % (Recommended)</option>
-              <option value="exp">Sort: Highest Experience</option>
-              <option value="name">Sort: Candidate Name</option>
+              <option value="match" data-i18n="sort_best_match" selected>Sort: Best Match % (Recommended)</option>
+              <option value="exp" data-i18n="sort_exp_high_low">Sort: Highest Experience</option>
+              <option value="name" data-i18n="sort_name">Sort: Candidate Name</option>
             </select>
           </div>
         </div>
@@ -1843,7 +1843,7 @@
             const isActive = activeCategory.toLowerCase() === item.title.toLowerCase();
             html += `
               <button type="button" class="filter-item-btn ${isActive ? 'active' : ''}" data-cat="${escapeAttr(item.title)}">
-                <span>${escapeHtml(item.title)}</span>
+                <span>${escapeHtml(window.translateCategory ? window.translateCategory(item.title) : item.title)}</span>
                 <span class="filter-item-count">(${String(item.count).padStart(2, '0')})</span>
               </button>
             `;
@@ -2119,13 +2119,13 @@
                 ${banner.isImage ? `<img src="${banner.url}" alt="${escapeHtml(c.name)}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block;">` : `<div class="candidate-header-pattern"></div>`}
                 
                 <div class="candidate-floating-badges">
-                  <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ Yrs Exp</span>
+                  <span class="cand-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">${c.experience}+ ${window.t ? window.t("yrs_exp", "Yrs Exp") : "Yrs Exp"}</span>
                   <!-- Smart Match Badge -->
                   <span class="cand-badge cand-badge-match" data-action="toggle-match" data-cand-id="${c.id}" style="background: ${c._match.badgeColor}; color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 5px; font-weight: 750; font-size: 11px; cursor: pointer;" title="AI Match: ${c._match.score}% - Click to view detailed score breakdown">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                    <strong>${c._match.score}% Match</strong>
+                    <strong>${c._match.score}% ${window.t ? window.t("match", "Match") : "Match"}</strong>
                   </span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>Contact Unlocked</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> <span>Selected</span></span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified Candidate</span></span>')}
+                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("contact_unlocked", "Contact Unlocked") : "Contact Unlocked"}</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> <span>Selected</span></span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("verified_candidate", "Verified Candidate") : "Verified Candidate"}</span></span>')}
                 </div>
 
               </div>
@@ -2212,7 +2212,7 @@
                     <span style="font-family: var(--font-mono); font-size: 11.5px; color: #64748B; font-weight: 600;">${escapeHtml(c.city)}</span>
                   </div>
                   <h3 class="cand-name-title">${escapeHtml(c.name)}</h3>
-                  <div class="cand-trade-subtitle">${escapeHtml(c.trade_title || 'Specialist')}</div>
+                  <div class="cand-trade-subtitle">${escapeHtml(window.translateRole ? window.translateRole(c.trade_title || 'Specialist') : (c.trade_title || 'Specialist'))}</div>
                 </div>
 
                 <div class="cand-skills-chips">
@@ -2223,10 +2223,10 @@
                   <span style="display: flex; align-items: center; gap: 5px;">
                     ${isUnlocked ? `
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                      <span>Direct Contact:</span>
+                      <span>${window.t ? window.t("direct_contact", "Direct Contact:") : "Direct Contact:"}</span>
                     ` : `
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                      <span>Shielded Phone:</span>
+                      <span>${window.t ? window.t("shielded_phone", "Shielded Phone:") : "Shielded Phone:"}</span>
                     `}
                   </span>
                   <strong>${isUnlocked ? c.phone_unlocked : c.phone_masked}</strong>
@@ -2236,7 +2236,7 @@
                   ${isEmployer ? `
                     ${isUnlocked ? `
                       <a href="${workspaceHref}" class="btn-unlock-contact unlocked" data-action="workspace" data-cand-id="${c.id}">
-                        <span>✓ In Workspace</span>
+                        <span>${window.t ? window.t("in_workspace", "✓ In Workspace") : "✓ In Workspace"}</span>
                         <span>→</span>
                       </a>
                     ` : (isSelected ? `
@@ -2248,7 +2248,7 @@
                     ` : `
                       <button type="button" class="btn-unlock-contact" data-action="toggle-cart" data-cand-id="${c.id}">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                        <span>+ Select Candidate</span>
+                        <span>${window.t ? window.t("select_candidate", "+ Select Candidate") : "+ Select Candidate"}</span>
                       </button>
                     `)}
                   ` : `

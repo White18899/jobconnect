@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const allCount = String(allJobs.length).padStart(2, '0');
     let buttonsHtml = `
       <button type="button" class="editorial-filter ${activeCategory === 'all' ? 'active' : ''}" data-category="all">
-        <span>All (${allCount})</span>
+        <span>${window.t ? window.t("filter_all", "All") : "All"} (${allCount})</span>
       </button>
     `;
 
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isActive = activeCategory.toLowerCase() === cat.toLowerCase();
       buttonsHtml += `
         <button type="button" class="editorial-filter ${isActive ? 'active' : ''}" data-category="${escapeHtml(cat)}" title="${apps} candidate application${apps === 1 ? '' : 's'} submitted">
-          <span>${escapeHtml(cat)} (${count})</span>
+          <span>${escapeHtml(window.translateCategory ? window.translateCategory(cat) : cat)} (${count})</span>
         </button>
       `;
     });
@@ -508,15 +508,15 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="project-card-box">
             <img class="project-card-image" src="${coverImg}" alt="${escapeHtml(job.title)}" loading="lazy">
             <div class="project-card-badges">
-              <span class="project-card-badge">₹${minSal} – ₹${maxSal} / mo</span>
-              <span class="project-card-badge project-card-badge-verified">Verified Employer</span>
+              <span class="project-card-badge">₹${minSal} – ₹${maxSal} ${window.t ? window.t("per_month_short", "/ mo") : "/ mo"}</span>
+              <span class="project-card-badge project-card-badge-verified">${window.t ? window.t("verified_employer", "Verified Employer") : "Verified Employer"}</span>
             </div>
           </div>
 
           <div class="project-card-title-box">
             <div class="project-card-title-left">
               <span class="project-card-title-number">${String(index + 1).padStart(2, '0')}</span>
-              <span class="project-card-title">${escapeHtml(job.title)}</span>
+              <span class="project-card-title">${escapeHtml(window.translateRole ? window.translateRole(job.title) : job.title)}</span>
             </div>
             <svg class="project-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -538,6 +538,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }).join('');
   }
+
+  // Re-render showcase grid on language toggle
+  window.addEventListener("jobway:language-change", () => {
+    renderDynamicCategoryFilters();
+    renderFilteredJobs();
+  });
 
   // Fetch jobs immediately
   await fetchAndRenderJobs();

@@ -77,7 +77,7 @@
     html.role-guest .footer-link-employer { display: none !important; }
     html.role-guest .footer-link-guest { display: block !important; }
   </style>
-  <script src="js/i18n.js?v=1"></script>
+  <script src="js/i18n.js?v=3"></script>
 </head>
 <body class="editorial-page">
 
@@ -96,14 +96,14 @@
           <span class="link-line" data-i18n="nav_find_jobs">Find Jobs</span>
         </a>
         <a class="nav-link nav-link-guest" href="#vacancies">
-          <span class="link-line">Vacancies</span>
+          <span class="link-line" data-i18n="nav_vacancies">Vacancies</span>
           <span class="nav-link-count" id="header-vacancies-count">(06)</span>
         </a>
         <a class="nav-link nav-link-guest" href="#approach">
-          <span class="link-line">Approach</span>
+          <span class="link-line" data-i18n="nav_approach">Approach</span>
         </a>
         <a class="nav-link nav-link-guest" href="#pricing">
-          <span class="link-line">Pricing</span>
+          <span class="link-line" data-i18n="nav_pricing">Pricing</span>
         </a>
 
         <!-- Worker Logged In Links -->
@@ -116,7 +116,7 @@
 
         <!-- Employer Logged In Links -->
         <a class="nav-link nav-link-employer" href="/jobs.html" style="display: none;">
-          <span class="link-line">Listed Jobs</span>
+          <span class="link-line" data-i18n="nav_listed_jobs">Listed Jobs</span>
         </a>
         <a class="nav-link nav-link-employer" href="/candidates.html" style="display: none;">
           <span class="link-line" data-i18n="nav_candidates">Candidates</span>
@@ -168,17 +168,17 @@
         </div>
         <!-- Logged Out State -->
         <div id="auth-logged-out" style="display: flex; align-items: center; gap: 1vw;">
-          <a href="/login.html?mode=login" class="nav-btn-link link-line">
+          <a href="/login.html?mode=login" class="nav-btn-link link-line" data-i18n="nav_signin">
             Sign In
           </a>
-          <a href="/login.html?mode=signup" class="nav-btn-solid">
+          <a href="/login.html?mode=signup" class="nav-btn-solid" data-i18n="nav_get_started">
             Get Started →
           </a>
         </div>
 
         <!-- Logged In State (Unified Profile Chip) -->
         <div id="auth-logged-in" style="display: none; align-items: center; gap: 10px;">
-          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer; display: none;">+ Post Job</button>
+          <button type="button" class="nav-btn-solid" id="btn-header-post-vacancy-user" data-i18n="nav_post_job" style="padding: 5px 12px; font-size: 11.5px; cursor: pointer; display: none;">+ Post Job</button>
           <a href="/worker.html?v=9" class="nav-profile-chip" id="nav-profile-link" title="My Workspace">
             <div class="nav-profile-avatar">
               <img id="nav-user-avatar-img" src="" alt="Avatar" style="display: none;">
@@ -188,7 +188,7 @@
           </a>
           <button type="button" class="nav-btn-link" id="home-logout-btn" title="Sign Out" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--color-text-secondary);">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            <span>Sign Out</span>
+            <span data-i18n="nav_signout">Sign Out</span>
           </button>
         </div>
       </div>
@@ -220,21 +220,21 @@
       <!-- Desktop-Only Hero Subtitle & City Brackets -->
       <div class="home-hero-subtitle-wrapper desktop-only-hero">
         <h1 class="home-hero-subtitle">
-          <span class="text-in">India's direct network for verified software, QA & engineering talent</span>
+          <span class="text-in" data-i18n="hero_line_1">India's direct network for verified software, QA & engineering talent</span>
         </h1>
         <h2 class="home-hero-subtitle">
-          <span class="text-in">& high-impact tech teams — direct verified hiring</span>
+          <span class="text-in" data-i18n="hero_line_2">& high-impact tech teams — direct verified hiring</span>
         </h2>
         <p class="home-hero-bracket">
-          <span class="text-in">[ Visakhapatnam ]</span>
+          <span class="text-in" data-i18n="hero_city">[ Visakhapatnam ]</span>
         </p>
       </div>
 
       <!-- Mobile-Only Apple iOS Native Hero Header -->
       <div class="ios-hero-header mobile-only-hero">
-        <div class="ios-caption">VISAKHAPATNAM TECH NETWORK</div>
-        <h1 class="ios-large-title">Explore Vacancies</h1>
-        <p class="ios-subhead">Direct bank payroll • Authenticated trade passes</p>
+        <div class="ios-caption" data-i18n="ios_caption">VISAKHAPATNAM TECH NETWORK</div>
+        <h1 class="ios-large-title" data-i18n="ios_large_title">Explore Vacancies</h1>
+        <p class="ios-subhead" data-i18n="ios_subhead">Direct bank payroll • Authenticated trade passes</p>
       </div>
 
       <!-- Apple iOS Native Soft Gray Search Field -->
@@ -244,7 +244,7 @@
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
-          <span class="ios-search-placeholder">Search roles, skills, or tech stack...</span>
+          <span class="ios-search-placeholder" data-i18n="ios_search_ph">Search roles, skills, or tech stack...</span>
           <span class="ios-search-location">Vizag</span>
         </div>
       </div>
@@ -253,10 +253,10 @@
       <div class="ios-segmented-control-wrapper mobile-only-hero">
         <div class="ios-segmented-control" role="tablist">
           <button type="button" class="ios-segment-tab active" id="ios-tab-jobs" role="tab" aria-selected="true">
-            <span>Find Jobs</span>
+            <span data-i18n="ios_tab_jobs">Find Jobs</span>
           </button>
           <button type="button" class="ios-segment-tab" id="ios-tab-candidates" role="tab" aria-selected="false">
-            <span>Hire Talent</span>
+            <span data-i18n="ios_tab_hire">Hire Talent</span>
           </button>
         </div>
       </div>
@@ -292,21 +292,18 @@
         <div class="border"></div>
         <div class="infos-box-left">
           <p class="text-box">
-            <span class="scroll-in bracket-tag">Platform Approach</span>
+            <span class="scroll-in bracket-tag" data-i18n="platform_approach_tag">Platform Approach</span>
           </p>
         </div>
         <div class="infos-box-right">
           <p class="infos-box-text">
-            <span class="text-box"><span class="scroll-in text-indent text-numb">Direct technical network</span></span>
-            <span class="text-box"><span class="scroll-in">connecting software engineers,</span></span>
-            <span class="text-box"><span class="scroll-in">QA testers, and technical leaders</span></span>
-            <span class="text-box"><span class="scroll-in">with vetted engineering employers.</span></span>
+            <span class="text-box"><span class="scroll-in text-indent text-numb" data-i18n="platform_approach_title">Direct technical network connecting software engineers, QA testers, and technical leaders with vetted engineering employers.</span></span>
           </p>
           <a class="cta text-box anchor" href="/login.html?mode=signup">
             <div class="scroll-in">
               <div class="cta-text">
                 <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                <span class="link-line">Start Direct Hiring</span>
+                <span class="link-line" data-i18n="start_direct_hiring">Start Direct Hiring</span>
               </div>
             </div>
           </a>
@@ -318,10 +315,9 @@
     <section class="home-work" id="vacancies">
       <div class="home-work-header scroll-in-group">
         <div>
-          <div class="bracket-tag" style="margin-bottom: 6px;">Open Positions</div>
+          <div class="bracket-tag" style="margin-bottom: 6px;" data-i18n="open_positions_tag">Open Positions</div>
           <h3 class="home-work-header-title text-box">
-            <span class="scroll-in">Featured </span>
-            <span class="scroll-in">vacancies</span>
+            <span class="scroll-in" data-i18n="featured_vacancies_title">Featured vacancies</span>
           </h3>
         </div>
 
@@ -336,7 +332,7 @@
           <div class="scroll-in">
             <div class="cta-text">
               <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              <span class="link-line">See all jobs</span>
+              <span class="link-line" data-i18n="see_all_jobs">See all jobs</span>
             </div>
           </div>
         </a>
@@ -354,14 +350,14 @@
       
       <div class="pricing-header">
         <div class="pricing-header-top">
-          <div class="bracket-tag">Transparent Pricing</div>
+          <div class="bracket-tag" data-i18n="pricing_tag">Transparent Pricing</div>
           <div class="pricing-free-pill">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            100% Free for Tech Candidates
+            <span data-i18n="pricing_free_pill">100% Free for Tech Candidates</span>
           </div>
         </div>
-        <h2 class="pricing-title">Simple pay-per-unlock hiring with zero agency commissions</h2>
-        <p class="pricing-subtitle">
+        <h2 class="pricing-title" data-i18n="pricing_title">Simple pay-per-unlock hiring with zero agency commissions</h2>
+        <p class="pricing-subtitle" data-i18n="pricing_subtitle">
           Directly reach software engineers, QA testers, and tech leaders via verified WhatsApp &amp; phone without monthly subscription lock-ins.
         </p>
       </div>
@@ -556,7 +552,7 @@
 
   <!-- Scripts -->
   <script src="js/api.js?v=26"></script>
-  <script src="js/app.js?v=4"></script>
+  <script src="js/app.js?v=5"></script>
   <script src="js/mobile-nav.js?v=5"></script>
   <script src="js/chat-widget.js?v=8"></script>
   <script>

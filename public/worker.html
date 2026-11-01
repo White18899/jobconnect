@@ -230,7 +230,7 @@
       }
     }
   </style>
-  <script src="js/i18n.js?v=1"></script>
+  <script src="js/i18n.js?v=3"></script>
 </head>
 <body class="editorial-page">
 
@@ -336,17 +336,17 @@
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
             <span class="portal-welcome-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3);">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Verified Professional</span>
+              <span data-i18n="verified_professional">Verified Professional</span>
             </span>
             <a href="/profile-edit.html" class="nav-btn-link" style="font-size: 11px; padding: 3px 8px; border: 1px solid #E2E8F0; border-radius: 6px; background: #FFFFFF; color: #475569; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              <span>Edit Profile</span>
+              <span data-i18n="edit_profile">Edit Profile</span>
             </a>
           </div>
           <h1 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 0 0 4px; letter-spacing: -0.025em; line-height: 1.25;" id="welcome-worker-heading">
             Worker Desk
           </h1>
-          <p style="color: #64748B; font-size: 13px; max-width: 580px; line-height: 1.45; margin: 0;" class="portal-welcome-desc">
+          <p style="color: #64748B; font-size: 13px; max-width: 580px; line-height: 1.45; margin: 0;" class="portal-welcome-desc" data-i18n="worker_desk_desc">
             Track employer review status, update your verified trade qualifications, and manage priority placement.
           </p>
         </div>
@@ -355,7 +355,7 @@
       <div class="portal-welcome-aside" style="display: flex; flex-direction: column; align-items: flex-end; gap: 14px;">
         <div class="portal-welcome-actions">
           <a href="/jobs.html" class="nav-btn-solid" style="padding: 8px 18px; font-size: 13px; font-weight: 600; gap: 8px; border-radius: 8px;">
-            <span>Find More Jobs</span>
+            <span data-i18n="find_more_jobs">Find More Jobs</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
@@ -366,7 +366,7 @@
           <!-- Stat 1: Applications -->
           <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
-              <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">Applications</span>
+              <span data-i18n="stat_applications" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748B;">Applications</span>
               <div style="width: 22px; height: 22px; border-radius: 6px; background: #F1F5F9; color: #1E293B; display: flex; align-items: center; justify-content: center;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </div>
@@ -378,7 +378,7 @@
           <!-- Stat 2: Shortlisted -->
           <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
-              <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #059669;">Shortlisted</span>
+              <span data-i18n="stat_shortlisted" style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #059669;">Shortlisted</span>
               <div style="width: 22px; height: 22px; border-radius: 6px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
@@ -390,7 +390,7 @@
           <!-- Stat 3: Placement Status with Live Radar Pulse -->
           <div class="portal-stat-pill" style="min-width: 145px; padding: 10px 14px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
-              <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #1E40AF;">Placement</span>
+              <span data-i18n="stat_placement" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #1E40AF;">Placement</span>
               <div style="width: 22px; height: 22px; border-radius: 6px; background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; display: flex; align-items: center; justify-content: center;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               </div>
@@ -412,7 +412,7 @@
     <section id="applications-section" class="panel-card reveal-on-scroll">
       <div class="panel-header">
         <div>
-          <h2 class="panel-title">
+          <h2 class="panel-title" data-i18n="my_submitted_apps_title">
             My Submitted Applications
           </h2>
           <p class="panel-subtitle">
@@ -432,7 +432,7 @@
       <!-- Panel Header with Edit CTA -->
       <div class="panel-header" style="padding: 20px 26px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #FFFFFF;">
         <div>
-          <h2 class="panel-title" style="font-size: 18px; font-weight: 700; color: #0F172A; letter-spacing: -0.02em; margin: 0;">
+          <h2 class="panel-title" data-i18n="trade_profile_details" style="font-size: 18px; font-weight: 700; color: #0F172A; letter-spacing: -0.02em; margin: 0;">
             Trade Profile Details
           </h2>
           <p class="panel-subtitle" style="font-size: 13px; color: #64748B; margin-top: 3px;">
@@ -879,6 +879,16 @@
       const boostUtrInput = document.getElementById('boost-utr-input');
       const btnSubmitBoost = document.getElementById('btn-submit-boost');
 
+      window.addEventListener("jobway:language-change", () => {
+        const prefix = window.t ? window.t("worker_desk_title", "Worker Desk") : "Worker Desk";
+        const heading = document.getElementById("welcome-worker-heading");
+        if (heading && currentUser) {
+          const wName = currentUser.name || "Tradesman";
+          heading.textContent = `${prefix}: ${wName}`;
+        }
+        renderApplications();
+      });
+
       renderApplications();
 
       async function renderApplications() {
@@ -904,27 +914,27 @@
           const isUnlocked = app.status === 'unlocked' || app.unlocked;
           const isShortlisted = app.status === 'shortlisted';
           const statusBadge = isUnlocked
-            ? '<span class="status-badge verified" style="font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">UNLOCKED</span>'
+            ? '<span class="status-badge verified" style="font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("unlocked_badge", "UNLOCKED") : "UNLOCKED"}</span>'
             : (isShortlisted
-              ? '<span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">SHORTLISTED</span>'
-              : '<span class="status-badge pending" style="font-weight: 600; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">APPLIED</span>');
+              ? '<span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("shortlisted_badge", "SHORTLISTED") : "SHORTLISTED"}</span>'
+              : '<span class="status-badge pending" style="font-weight: 600; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("applied_badge", "APPLIED") : "APPLIED"}</span>');
 
           return `
           <div class="divided-row worker-app-card" data-id="${app.id}">
             <!-- Column 1: Role, Category, Employer & Applied Date -->
             <div class="worker-col-info">
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px;">
-                <h3 style="font-size: 16px; font-weight: 750; color: #0F172A; margin: 0; line-height: 1.3;">${escapeHtml(app.job_title)}</h3>
-                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-weight: 600;">${escapeHtml(app.worker_category)}</span>
+                <h3 style="font-size: 16px; font-weight: 750; color: #0F172A; margin: 0; line-height: 1.3;">${escapeHtml(window.translateRole ? window.translateRole(app.job_title) : app.job_title)}</h3>
+                <span class="category-tag" style="background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-weight: 600;">${escapeHtml(window.translateCategory ? window.translateCategory(app.worker_category) : app.worker_category)}</span>
                 ${app.priority === 'PRIORITY_ACTIVE' ? '<span class="status-badge priority" style="font-size: 10px; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Boosted</span>' : ''}
               </div>
 
               <div style="font-size: 12.5px; color: #64748B; margin-bottom: 4px;">
-                Employer: <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(app.employer_name)}</strong> • Applied: <span class="mono-tag" style="font-size: 10.5px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 1px 6px; border-radius: 4px;">${escapeHtml(app.applied_date)}</span>
+                ${window.t ? window.t("employer_label", "Employer:") : "Employer:"} <strong style="color: #0F172A; font-weight: 600;">${escapeHtml(app.employer_name)}</strong> • ${window.t ? window.t("applied_label", "Applied:") : "Applied:"} <span class="mono-tag" style="font-size: 10.5px; background: #F1F5F9; border: 1px solid #E2E8F0; color: #475569; padding: 1px 6px; border-radius: 4px;">${escapeHtml(app.applied_date)}</span>
               </div>
 
               <div style="font-size: 11.5px; color: #94A3B8;">
-                Experience on file: <span style="color: #475569; font-weight: 600;">${escapeHtml(app.worker_experience || '0')} Years</span>
+                ${window.t ? window.t("experience_on_file", "Experience on file:") : "Experience on file:"} <span style="color: #475569; font-weight: 600;">${escapeHtml(app.worker_experience || '0')} ${window.t ? window.t("years_experience", "Years") : "Years"}</span>
               </div>
             </div>
 
@@ -946,7 +956,7 @@
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </span>
                     <div style="min-width: 0;">
-                      <div style="font-size: 9.5px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2;">Workplace Shared</div>
+                      <div style="font-size: 9.5px; font-weight: 750; color: #047857; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2;">${window.t ? window.t("workplace_shared", "Workplace Shared") : "Workplace Shared"}</div>
                       <div style="font-size: 12px; font-weight: 650; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;" title="${escapeAttr(app.workplace_location || app.location_area || 'Visakhapatnam')}">${escapeHtml(app.workplace_location || app.location_area || 'Visakhapatnam')}</div>
                     </div>
                   </div>
@@ -958,7 +968,7 @@
               ` : `
                 <div style="display: flex; align-items: center; gap: 7px; color: #64748B; font-size: 11px; padding: 7px 11px; background: #F8FAFC; border: 1px dashed #E2E8F0; border-radius: 8px;">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  <span>Workplace shielded until employer review</span>
+                  <span>${window.t ? window.t("workplace_shielded", "Workplace shielded until employer review") : "Workplace shielded until employer review"}</span>
                 </div>
               `}
             </div>
@@ -972,12 +982,12 @@
                 ${app.priority !== 'PRIORITY_ACTIVE' ? `
                   <button type="button" class="btn-apply-priority trigger-boost-btn" data-id="${app.id}" title="Boost application visibility to verified employers">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    <span>Boost App (₹149)</span>
+                    <span>${window.t ? window.t("boost_app_btn", "Boost App (₹149)") : "Boost App (₹149)"}</span>
                   </button>
                 ` : `
                   <span class="action-rail-pill">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>Boosted</span>
+                    <span>${window.t ? window.t("boosted_badge", "Boosted") : "Boosted"}</span>
                   </span>
                 `}
                 <button type="button" class="btn-withdraw-action trigger-withdraw-btn" data-id="${app.id}" data-job-id="${app.job_id || ''}" data-title="${escapeAttr(app.job_title || 'Position')}" title="Withdraw this application">

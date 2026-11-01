@@ -1248,7 +1248,7 @@
       display: block;
     }
   </style>
-  <script src="js/i18n.js?v=1"></script>
+  <script src="js/i18n.js?v=3"></script>
 </head>
 <body class="editorial-page">
 
@@ -1431,7 +1431,7 @@
         <!-- 1. Search Box -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Vacancies</span> data-i18n="search_vacancies_title"
+            <span data-i18n="search_vacancies_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Search Vacancies</span>
           </div>
           <div class="filter-search-box">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1442,7 +1442,7 @@
         <!-- 2. Category / Specialization -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span> data-i18n="category_specialization_title"
+            <span data-i18n="category_specialization_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Job Category & Specialization</span>
           </div>
           <div class="filter-list-group" id="filter-category-list">
             <div class="skeleton-shimmer filter-skeleton-item" style="width: 100%;"></div>
@@ -1457,7 +1457,7 @@
         <!-- 3. Location Hub -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub / City</span> data-i18n="location_hub_title"
+            <span data-i18n="location_hub_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Location Hub / City</span>
           </div>
           <select id="filter-city-select" class="sidebar-select">
             <option value="all">All Locations (Visakhapatnam)</option>
@@ -1474,7 +1474,7 @@
         <!-- 4. Minimum Compensation -->
         <div class="filter-section">
           <div class="filter-section-header">
-            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Minimum Salary</span> data-i18n="min_salary_title"
+            <span data-i18n="min_salary_title" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B;">Minimum Salary</span>
           </div>
           <select id="filter-salary-select" class="sidebar-select">
             <option value="0">All Pay Scales</option>
@@ -1487,7 +1487,7 @@
         <!-- Reset Action -->
         <button type="button" class="btn-reset-filters" id="btn-reset-all" style="border-radius: 8px; font-family: var(--font-primary); font-size: 12px; font-weight: 600; padding: 9px 14px;">
           Reset All Filters
-        </button> data-i18n="reset_all_filters"
+        </button>
       </div>
 
       <!-- Drawer Footer (Mobile Only) -->
@@ -2261,7 +2261,7 @@
 
           html += `
             <button type="button" class="btn-toggle-see-more" id="btn-see-more-categories">
-              <span id="btn-see-more-label">${isJobCategoryExpanded ? 'See Less' : `+ See More (${extraCategories.length})`}</span>
+              <span id="btn-see-more-label">${isJobCategoryExpanded ? (window.t ? window.t('see_less', 'See Less') : 'See Less') : `+ ${window.t ? window.t('see_more', 'See More') : 'See More'} (${extraCategories.length})`}</span>
               <svg id="btn-see-more-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transform: ${isJobCategoryExpanded ? 'rotate(180deg)' : 'rotate(0deg)'}; transition: transform 0.2s ease;">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -2484,8 +2484,9 @@
               <div class="job-card-image-box" style="position: relative; width: 100%; height: 180px; overflow: hidden; background: #F1F5F9;">
                 <img src="${coverImg}" alt="${job.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
                 <div class="job-floating-badges" style="position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 2;">
-                  <span class="card-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">₹${minSal} – ₹${maxSal} / mo</span>
-                  ${isOwnJob ? '<span class="card-badge" style="background: #14281D; color: #fff; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <span>Your Vacancy</span></span>' : '<span class="card-badge card-badge-verified" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Verified</span></span>'}
+                  <span class="card-badge" style="background: rgba(20, 40, 29, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); font-family: var(--font-primary), -apple-system, sans-serif; font-size: 11.5px; font-weight: 650; letter-spacing: -0.01em; border-radius: 6px; padding: 4.5px 10px;">₹${minSal} – ₹${maxSal} ${window.t ? window.t("per_month_short", "/ mo") : "/ mo"}</span>
+                  ${isOwnJob ? `<span class="card-badge" style="background: #14281D; color: #fff; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> <span>${window.t ? window.t("your_vacancy", "Your Vacancy") : "Your Vacancy"}</span></span>` : `<span class="card-badge card-badge-verified" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("verified_employer", "Verified") : "Verified"}</span></span>`}
+                  ${!isEmployer && isApplied ? `<span class="card-badge card-badge-applied" style="background: #059669; color: #ffffff; border-radius: 6px; padding: 4.5px 10px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("applied_label", "Applied") : "Applied"}</span></span>` : ''}
                   ${!isEmployer && isApplied ? '<span class="card-badge card-badge-applied" style="background: #059669; color: #ffffff; border-radius: 6px; padding: 4.5px 10px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>Applied</span></span>' : ''}
                   ${maxApps > 0 ? (
                     isLimitReached
@@ -2497,11 +2498,11 @@
 
               <div class="job-card-body" style="padding: 18px; display: flex; flex-direction: column; flex: 1; gap: 10px;">
                 <div class="job-card-serial-row" style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${escapeHtml(job.category)}</span>
+                  <span class="job-card-number" style="font-family: var(--font-mono); font-size: 11px; color: #64748B; font-weight: 600;">${serial} • ${escapeHtml(window.translateCategory ? window.translateCategory(job.category) : job.category)}</span>
                   ${maxApps > 0 ? `<span style="font-size: 11px; font-weight: 650; color: ${isLimitReached ? '#DC2626' : '#64748B'};">${currentApps}/${maxApps} applicants</span>` : ''}
                 </div>
 
-                <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${escapeHtml(job.title)}</h3>
+                <h3 class="job-card-heading" style="font-size: 15.5px; font-weight: 700; color: #0F172A; line-height: 1.35; margin: 0; min-height: 42px;">${escapeHtml(window.translateRole ? window.translateRole(job.title) : job.title)}</h3>
 
                 <div class="job-card-company-line" style="font-size: 12.5px; color: #64748B; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
                   <span>
@@ -2514,17 +2515,17 @@
                   ${isOwnJob ? `
                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;">
                       <button type="button" class="btn-card-specs" data-action="view" data-job-id="${job.id}">
-                        <span>View Specs</span>
+                        <span>${window.t ? window.t("view_specs", "View Specs") : "View Specs"}</span>
                         <span style="font-size: 13px;">→</span>
                       </button>
                       <button type="button" class="btn-card-edit" data-action="edit" data-job-id="${job.id}" style="background: #14281D; color: #FFFFFF; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 650; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s ease;">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                        <span>Edit Vacancy</span>
+                        <span>${window.t ? window.t("edit_vacancy", "Edit Vacancy") : "Edit Vacancy"}</span>
                       </button>
                     </div>
                   ` : isEmployer ? `
                     <button type="button" class="btn-card-specs" data-action="view" data-job-id="${job.id}">
-                      <span>View Specifications</span>
+                      <span>${window.t ? window.t("view_specs", "View Specifications") : "View Specifications"}</span>
                       <span style="font-size: 13px;">→</span>
                     </button>
                   ` : `
@@ -2535,9 +2536,9 @@
                     ` : `
                       <button type="button" class="btn-card-apply ${isApplied ? 'applied' : ''}" data-action="${isApplied ? 'unapply' : 'apply'}" data-job-id="${job.id}" title="${isApplied ? 'Click to withdraw application' : '1-Click Apply'}" style="border-radius: 8px; padding: 7px 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
                         ${isApplied ? `
-                          <span class="btn-applied-default">✓ Applied</span>
-                          <span class="btn-applied-hover">✕ Withdraw</span>
-                        ` : '<span>1-Click Apply</span>'}
+                          <span class="btn-applied-default">✓ ${window.t ? window.t("applied_label", "Applied") : "Applied"}</span>
+                          <span class="btn-applied-hover">✕ ${window.t ? window.t("withdraw_action", "Withdraw") : "Withdraw"}</span>
+                        ` : '<span>${window.t ? window.t('one_click_apply', '1-Click Apply') : '1-Click Apply'}</span>'}
                       </button>
                     `}
 
@@ -3496,12 +3497,6 @@
             }
 
             renderDynamicJobCategoryFilters();
-
-      // Listen for language changes and re-render dynamic content
-      window.addEventListener('jobway:language-change', () => {
-        renderDynamicJobCategoryFilters();
-        render3CardGrid();
-      });
   
             render3CardGrid();
             closePostVacancyModal();
@@ -3640,7 +3635,12 @@
         }
       }
 
-      // Initial Dynamic Filters & 3-Card Grid Render
+      window.addEventListener('jobway:language-change', () => {
+        renderDynamicJobCategoryFilters();
+        render3CardGrid();
+      });
+
+      
       renderDynamicJobCategoryFilters();
       render3CardGrid();
     });

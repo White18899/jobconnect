@@ -4687,3 +4687,273 @@ html[lang="hi"] .job-card-title {
   color: #FFFFFF;
   font-weight: 700;
 }
+
+
+/* ==========================================================================
+   Multi-Language Selector (i18n) - Apple/Linear Minimalist Design
+   ========================================================================== */
+
+/* Typography & Matra Safety for Telugu and Hindi */
+html[lang="te"],
+html[lang="hi"] {
+  line-height: 1.45;
+}
+
+html[lang="te"] .cand-trade-subtitle,
+html[lang="hi"] .cand-trade-subtitle,
+html[lang="te"] .job-card-title,
+html[lang="hi"] .job-card-title {
+  line-height: 1.4;
+}
+
+/* Desktop Language Selector Pill */
+.lang-selector-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+.lang-selector-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.lang-selector-btn:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+  color: #0F172A;
+}
+
+.lang-selector-btn:active {
+  transform: scale(0.98);
+}
+
+.lang-selector-btn .current-lang-text {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.lang-selector-btn .lang-chevron {
+  color: #94A3B8;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lang-selector-btn[aria-expanded="true"] .lang-chevron {
+  transform: rotate(180deg);
+  color: #0F172A;
+}
+
+/* Floating Dropdown Menu */
+.lang-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 170px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12), 0 2px 6px rgba(15, 23, 42, 0.04);
+  padding: 5px;
+  z-index: 10080;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px) scale(0.98);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lang-dropdown-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 13px;
+  font-weight: 550;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  box-sizing: border-box;
+}
+
+.lang-option:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.lang-option.active {
+  background: #ECFDF5;
+  color: #065F46;
+  font-weight: 650;
+}
+
+.lang-option .lang-name-native {
+  font-weight: 600;
+}
+
+.lang-option .lang-name-en {
+  font-size: 10.5px;
+  color: #94A3B8;
+  font-weight: 600;
+  margin-left: auto;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+
+.lang-option.active .lang-name-en {
+  color: #059669;
+}
+
+.lang-option .lang-check {
+  display: none;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.lang-option.active .lang-check {
+  display: block;
+}
+
+/* Mobile Segmented Switch */
+.mobile-lang-segmented-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.mobile-lang-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748B;
+}
+
+.segmented-control {
+  display: flex;
+  background: #E2E8F0;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 3px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.segmented-btn {
+  flex: 1;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.segmented-btn:hover {
+  color: #0F172A;
+}
+
+.segmented-btn.active {
+  background: #FFFFFF;
+  color: #0F172A;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+
+/* Modal On-Demand Listing Translation Bar */
+.modal-translate-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  margin: 12px 0 4px;
+  flex-wrap: wrap;
+}
+
+.modal-translate-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748B;
+  margin-right: 2px;
+}
+
+.btn-translate-lang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-translate-lang:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+  border-color: #94A3B8;
+}
+
+.btn-translate-lang.active {
+  background: #14281D;
+  border-color: #14281D;
+  color: #FFFFFF;
+  font-weight: 700;
+}
