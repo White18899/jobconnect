@@ -981,6 +981,104 @@ class JobConnectApi {
     return this.getUnlockCredits();
   }
 
+  // --- Employer Profile & Management Methods ---
+  async getEmployerProfile() {
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/employer/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.profile) {
+            return data.profile;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Network error fetching employer profile:', e);
+    }
+
+    const user = this.getCurrentUser();
+    const stored = localStorage.getItem(`jc_employer_profile_${user?.id || 'default'}`);
+    if (stored) {
+      try { return JSON.parse(stored); } catch (e) {}
+    }
+
+    return {
+      business_name: user?.employer_business_name || user?.name || 'Hiring Enterprise',
+      business_type: user?.business_type || 'Software / IT Services',
+      contact_person: user?.contact_person || user?.name || 'Hiring Lead',
+      city: user?.employer_city || user?.city || 'Visakhapatnam',
+      area: user?.employer_area || user?.area || 'Madhurawada IT SEZ',
+      exact_address: user?.employer_address || user?.exact_address || 'Visakhapatnam, Andhra Pradesh',
+      latitude: 17.6868,
+      longitude: 83.2185,
+    };
+  }
+
+  async updateEmployerProfile(profileData) {
+    const user = this.getCurrentUser();
+    const payload = {
+      business_name: (profileData.business_name || user?.name || 'Hiring Enterprise').trim(),
+      business_type: profileData.business_type || 'Software / IT Services',
+      contact_person: (profileData.contact_person || user?.name || 'Hiring Lead').trim(),
+      city: (profileData.city || 'Visakhapatnam').trim(),
+      area: (profileData.area || 'Madhurawada IT SEZ').trim(),
+      exact_address: (profileData.exact_address || 'Visakhapatnam, Andhra Pradesh').trim(),
+      latitude: Number(profileData.latitude) || 17.6868,
+      longitude: Number(profileData.longitude) || 83.2185,
+    };
+
+    try {
+      const token = this.getAuthToken();
+      if (token) {
+        const res = await fetch(`${this.baseUrl}/employer/profile`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (user) {
+            user.name = payload.business_name;
+            user.employer_business_name = payload.business_name;
+            user.employer_city = payload.city;
+            user.employer_area = payload.area;
+            user.employer_address = payload.exact_address;
+            user.business_type = payload.business_type;
+            localStorage.setItem('jc_user', JSON.stringify(user));
+          }
+          localStorage.setItem(`jc_employer_profile_${user?.id || 'default'}`, JSON.stringify(data.profile || payload));
+          return { success: true, profile: data.profile || payload };
+        }
+      }
+    } catch (e) {
+      console.warn('Network error updating employer profile, updating local state:', e);
+    }
+
+    // Local fallback update
+    if (user) {
+      user.name = payload.business_name;
+      user.employer_business_name = payload.business_name;
+      user.employer_city = payload.city;
+      user.employer_area = payload.area;
+      user.employer_address = payload.exact_address;
+      user.business_type = payload.business_type;
+      localStorage.setItem('jc_user', JSON.stringify(user));
+    }
+    localStorage.setItem(`jc_employer_profile_${user?.id || 'default'}`, JSON.stringify(payload));
+    return { success: true, profile: payload };
+  }
+
   async getWorkerNotifications() {
     try {
       const token = this.getAuthToken();

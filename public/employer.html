@@ -30,6 +30,44 @@
     } catch(e) {}
   </script>
   <style>
+    @media (max-width: 640px) {
+      main.main-content {
+        padding: 14px 12px calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+      .portal-welcome-banner {
+        padding: 16px 14px !important;
+        gap: 12px !important;
+      }
+      .portal-welcome-info {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px !important;
+      }
+      #banner-avatar-frame {
+        width: 54px !important;
+        height: 54px !important;
+        border-radius: 12px !important;
+      }
+      #banner-employer-avatar-fallback {
+        font-size: 19px !important;
+      }
+      #welcome-employer-heading {
+        font-size: 17px !important;
+        margin: 0 !important;
+      }
+      .portal-welcome-desc {
+        display: none !important;
+      }
+      .portal-welcome-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+      }
+      .portal-welcome-actions a,
+      .portal-welcome-actions button {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+    }
     .divided-row.highlighted-applicant {
       border: 1.5px solid #2E3D28 !important;
       background: rgba(169, 184, 135, 0.16) !important;
@@ -198,18 +236,39 @@
   <main class="main-content" style="max-width: 1400px; margin: 0 auto; padding: 2.5vw;">
     
     <!-- Welcome Banner with Integrated Mini Stats -->
-    <div class="portal-welcome-banner reveal-on-scroll" style="background: #FFFFFF; border: 1px solid rgba(20, 40, 29, 0.08); border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 6px 16px rgba(0,0,0,0.02); padding: 28px 32px;">
-      <div class="portal-welcome-info">
-        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.2); padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; color: #047857; margin-bottom: 8px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>Verified Hiring Business</span>
+    <div class="portal-welcome-banner reveal-on-scroll" style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; box-shadow: 0 1px 3px rgba(15,23,42,0.04), 0 6px 16px rgba(15,23,42,0.02); padding: 26px 30px;">
+      <div class="portal-welcome-info" style="display: flex; align-items: center; gap: 18px; min-width: 0;">
+        <!-- Employer Business Avatar -->
+        <button type="button" id="btn-employer-profile-avatar" class="portal-worker-avatar-wrap" title="Click to view or edit company profile" style="position: relative; flex-shrink: 0; display: block; background: none; border: none; padding: 0; cursor: pointer;">
+          <div id="banner-avatar-frame" style="width: 70px; height: 70px; border-radius: 16px; border: 2px solid #E2E8F0; overflow: hidden; background: #0F172A; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15,23,42,0.08); transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;">
+            <span id="banner-employer-avatar-fallback" style="font-size: 24px; font-weight: 750; color: #ffffff; letter-spacing: -0.02em; font-family: var(--font-sans);">
+              --
+            </span>
+          </div>
+          <!-- Verified Shield Badge -->
+          <div title="Verified Hiring Business" style="position: absolute; bottom: -3px; right: -3px; width: 22px; height: 22px; border-radius: 6px; background: #059669; border: 2px solid #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(5,150,105,0.35);">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </button>
+
+        <div style="flex: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px;">
+            <span class="portal-welcome-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 9999px; background: #ECFDF5; color: #065F46; border: 1px solid rgba(16,185,129,0.3);">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Verified Hiring Business</span>
+            </span>
+            <button type="button" id="btn-open-employer-profile" class="nav-btn-link" style="font-size: 11px; padding: 3px 8px; border: 1px solid #E2E8F0; border-radius: 6px; background: #FFFFFF; color: #475569; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <span>Edit Profile</span>
+            </button>
+          </div>
+          <h1 style="font-size: 22px; font-weight: 700; color: #0F172A; margin: 0 0 4px; letter-spacing: -0.025em; line-height: 1.25;" id="welcome-employer-heading">
+            Employer Desk
+          </h1>
+          <p style="color: #64748B; font-size: 13px; max-width: 580px; line-height: 1.45; margin: 0;" class="portal-welcome-desc">
+            Review applicant profiles and unlock masked direct contact details of certified software engineers, QA testers, and tech leaders across India.
+          </p>
         </div>
-        <h1 style="font-size: 26px; font-weight: 750; color: #14281D; margin-bottom: 6px; letter-spacing: -0.025em;" id="welcome-employer-heading">
-          Employer Workspace
-        </h1>
-        <p style="color: #4B5563; font-size: 14px; max-width: 600px; line-height: 1.55;">
-          Review applicant profiles and unlock masked direct contact details of certified software engineers, QA testers, and tech leaders across India.
-        </p>
       </div>
 
       <div class="portal-welcome-aside">
@@ -531,6 +590,86 @@
     </div>
   </div>
 
+  <!-- Modal: Employer Business Profile Edit -->
+  <div class="modal-overlay" id="employer-profile-modal" role="dialog" aria-modal="true" aria-labelledby="emp-profile-modal-title">
+    <div class="modal-card" style="max-width: 520px; max-height: min(90vh, calc(100dvh - 48px)); display: flex; flex-direction: column; margin: auto; border-radius: 14px;">
+      <div class="modal-header" style="border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 28px; height: 28px; border-radius: 8px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="emp-profile-modal-title" style="margin: 0; font-size: 16px; font-weight: 750; color: #0F172A;">Edit Employer Profile</h3>
+            <div style="font-size: 11.5px; color: #64748B;">Update your business identity and workplace location</div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" id="close-emp-profile-modal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="form-employer-profile" style="display: flex; flex-direction: column; overflow: hidden; margin: 0;">
+        <div class="modal-body" style="overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+          
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" for="emp-edit-business-name" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">Company / Business Name *</label>
+            <input type="text" id="emp-edit-business-name" class="form-input" required placeholder="e.g. Nithin Tech Solutions, Gitam Technologies" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="emp-edit-contact-person" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">Contact Person *</label>
+              <input type="text" id="emp-edit-contact-person" class="form-input" required placeholder="e.g. Nithin (Hiring Lead)" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+            </div>
+
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="emp-edit-business-type" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">Industry Type</label>
+              <select id="emp-edit-business-type" class="form-input" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+                <option value="Software / IT Services">Software & IT Services</option>
+                <option value="Product Startup">Product / Tech Startup</option>
+                <option value="Engineering & Construction">Engineering & Construction</option>
+                <option value="Manufacturing & Industrial">Manufacturing & Industrial</option>
+                <option value="Logistics & Supply Chain">Logistics & Supply Chain</option>
+                <option value="Healthcare & Hospitality">Healthcare & Hospitality</option>
+                <option value="Recruitment Agency">Recruitment Agency</option>
+                <option value="General Enterprise">General Enterprise</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="emp-edit-city" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">City *</label>
+              <input type="text" id="emp-edit-city" class="form-input" required placeholder="e.g. Visakhapatnam" value="Visakhapatnam" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+            </div>
+
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="emp-edit-area" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">Area / Tech Park *</label>
+              <input type="text" id="emp-edit-area" class="form-input" required placeholder="e.g. Madhurawada IT SEZ, Siripuram" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" for="emp-edit-address" style="font-size: 12px; font-weight: 700; color: #1E293B; margin-bottom: 5px; display: block;">Workplace / Office Address *</label>
+            <input type="text" id="emp-edit-address" class="form-input" required placeholder="e.g. Plot 12, Hill 3, IT SEZ, Madhurawada, Visakhapatnam" style="width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 8px; border: 1.5px solid #CBD5E1; font-size: 13.5px;">
+            <span style="font-size: 11px; color: #64748B; margin-top: 4px; display: block;">Shared with unlocked candidates for Google Maps interview navigation.</span>
+          </div>
+
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: #475569;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" style="flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Verified Hiring Business status active on your listings & candidate passes.</span>
+          </div>
+
+        </div>
+
+        <div class="modal-footer" style="border-top: 1px solid #E2E8F0; padding: 14px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #FAFBFB; border-radius: 0 0 14px 14px;">
+          <button type="button" class="btn-signin-header" id="btn-cancel-emp-profile" style="background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer;">Cancel</button>
+          <button type="submit" class="nav-btn-solid" id="btn-save-emp-profile" style="background: #059669; color: #FFFFFF; border-radius: 8px; padding: 8px 20px; font-weight: 700; font-size: 13px; box-shadow: 0 2px 6px rgba(5,150,105,0.25); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <span>Save Profile</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
@@ -554,14 +693,27 @@
         return;
       }
 
-      // Populate user info
-      const cleanName = (user.name || (user.email ? user.email.split('@')[0] : 'Employer')).replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
-      const parts = cleanName.split(/\s+/).filter(Boolean);
-      const initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || '--';
-      const initialsEl = document.getElementById('nav-user-avatar-initials');
-      if (initialsEl) initialsEl.textContent = initials;
-      document.getElementById('employer-display-name').textContent = cleanName;
-      document.getElementById('welcome-employer-heading').textContent = `Employer Desk: ${cleanName}`;
+      // Populate user info & live employer profile
+      let currentEmployerProfile = null;
+      async function loadEmployerInfo() {
+        const user = window.jobApi.getCurrentUser();
+        if (!user) return;
+        currentEmployerProfile = await window.jobApi.getEmployerProfile();
+        const cleanName = (currentEmployerProfile?.business_name || user.employer_business_name || user.name || (user.email ? user.email.split('@')[0] : 'Employer')).replace(/\s*\([^)]*\)/g, '').replace(/[^a-zA-Z0-9\s.&'-]/g, '').trim() || 'Employer';
+        const parts = cleanName.split(/\s+/).filter(Boolean);
+        const initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : cleanName.slice(0, 2).toUpperCase() || 'EM';
+        
+        const initialsEl = document.getElementById('nav-user-avatar-initials');
+        if (initialsEl) initialsEl.textContent = initials;
+        const bannerFallback = document.getElementById('banner-employer-avatar-fallback');
+        if (bannerFallback) bannerFallback.textContent = initials;
+        
+        const empNameEl = document.getElementById('employer-display-name');
+        if (empNameEl) empNameEl.textContent = cleanName;
+        const headingEl = document.getElementById('welcome-employer-heading');
+        if (headingEl) headingEl.textContent = `Employer Desk: ${cleanName}`;
+      }
+      loadEmployerInfo();
 
       // Logout handler
       document.getElementById('btn-employer-logout').addEventListener('click', () => {
@@ -574,10 +726,88 @@
         if (!c) return;
         const t = document.createElement('div');
         t.className = `toast toast-${type}`;
-        t.innerHTML = `<span>${type === 'success' ? '✓' : '⚠️'}</span> <span>${msg}</span>`;
+        const iconSvg = type === 'success'
+          ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display: inline-block; vertical-align: -2px;"><polyline points="20 6 9 17 4 12"/></svg>'
+          : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="display: inline-block; vertical-align: -2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+        t.innerHTML = `<span>${iconSvg}</span> <span>${msg}</span>`;
         c.appendChild(t);
         setTimeout(() => t.remove(), 3500);
       }
+
+      // Employer Profile Modal Handlers
+      const empProfileModal = document.getElementById('employer-profile-modal');
+      const btnOpenEmpProfile = document.getElementById('btn-open-employer-profile');
+      const btnEmpAvatarProfile = document.getElementById('btn-employer-profile-avatar');
+      const closeEmpProfileModal = document.getElementById('close-emp-profile-modal');
+      const btnCancelEmpProfile = document.getElementById('btn-cancel-emp-profile');
+      const formEmpProfile = document.getElementById('form-employer-profile');
+
+      async function openEmployerProfileModal() {
+        if (!empProfileModal) return;
+        const user = window.jobApi.getCurrentUser();
+        const prof = currentEmployerProfile || await window.jobApi.getEmployerProfile();
+        
+        document.getElementById('emp-edit-business-name').value = prof?.business_name || user?.employer_business_name || user?.name || '';
+        document.getElementById('emp-edit-contact-person').value = prof?.contact_person || user?.contact_person || user?.name || '';
+        document.getElementById('emp-edit-business-type').value = prof?.business_type || user?.business_type || 'Software / IT Services';
+        document.getElementById('emp-edit-city').value = prof?.city || user?.employer_city || user?.city || 'Visakhapatnam';
+        document.getElementById('emp-edit-area').value = prof?.area || user?.employer_area || user?.area || 'Madhurawada IT SEZ';
+        document.getElementById('emp-edit-address').value = prof?.exact_address || user?.employer_address || user?.exact_address || '';
+        
+        empProfileModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function hideEmployerProfileModal() {
+        if (!empProfileModal) return;
+        empProfileModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      btnOpenEmpProfile?.addEventListener('click', openEmployerProfileModal);
+      btnEmpAvatarProfile?.addEventListener('click', openEmployerProfileModal);
+      document.getElementById('nav-profile-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openEmployerProfileModal();
+      });
+      closeEmpProfileModal?.addEventListener('click', hideEmployerProfileModal);
+      btnCancelEmpProfile?.addEventListener('click', hideEmployerProfileModal);
+      empProfileModal?.addEventListener('click', (e) => {
+        if (e.target === empProfileModal) hideEmployerProfileModal();
+      });
+
+      formEmpProfile?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btnSave = document.getElementById('btn-save-emp-profile');
+        if (btnSave) {
+          btnSave.disabled = true;
+          btnSave.textContent = 'Saving...';
+        }
+
+        const payload = {
+          business_name: document.getElementById('emp-edit-business-name').value.trim(),
+          contact_person: document.getElementById('emp-edit-contact-person').value.trim(),
+          business_type: document.getElementById('emp-edit-business-type').value,
+          city: document.getElementById('emp-edit-city').value.trim(),
+          area: document.getElementById('emp-edit-area').value.trim(),
+          exact_address: document.getElementById('emp-edit-address').value.trim(),
+        };
+
+        const res = await window.jobApi.updateEmployerProfile(payload);
+        if (btnSave) {
+          btnSave.disabled = false;
+          btnSave.innerHTML = '<span>Save Profile</span>';
+        }
+
+        if (res.success) {
+          currentEmployerProfile = res.profile || payload;
+          await loadEmployerInfo();
+          hideEmployerProfileModal();
+          showToast('Company profile updated successfully!');
+        } else {
+          showToast(res.error || 'Failed to update company profile', 'error');
+        }
+      });
 
       async function updateCredits() {
         let c = window.jobApi.getUnlockCredits();
