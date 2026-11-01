@@ -79,21 +79,24 @@ body.editorial-page a {
    ============================== */
 
 .text-indent {
-  text-indent: 2vw;
+  text-indent: 0;
 }
 
 .text-numb {
   position: relative;
+  display: inline-block;
+  padding-left: 28px;
 }
 
 .text-numb::before {
   content: '01';
   position: absolute;
   top: 0;
-  left: -2vw;
+  left: 0;
   font-size: var(--font-size-xxs);
   font-family: var(--font-mono);
   color: var(--color-text-secondary);
+  line-height: inherit;
 }
 
 .text-box {
