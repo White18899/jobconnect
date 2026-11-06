@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=27">
-  <link rel="stylesheet" href="css/editorial.css?v=38">
+  <link rel="stylesheet" href="css/editorial.css?v=39">
   <link rel="stylesheet" href="css/chat-widget.css?v=8">
   <script>
     try {
@@ -662,7 +662,7 @@
 
   <!-- Scripts -->
   <script src="js/api.js?v=26"></script>
-  <script src="js/mobile-nav.js?v=5" defer></script>
+  <script src="js/mobile-nav.js?v=6" defer></script>
   <script src="js/chat-widget.js?v=8"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -913,11 +913,15 @@
         container.innerHTML = currentApps.map(app => {
           const isUnlocked = app.status === 'unlocked' || app.unlocked;
           const isShortlisted = app.status === 'shortlisted';
+          const unlockedBadgeText = window.t ? window.t("unlocked_badge", "UNLOCKED") : "UNLOCKED";
+          const shortlistedBadgeText = window.t ? window.t("shortlisted_badge", "SHORTLISTED") : "SHORTLISTED";
+          const appliedBadgeText = window.t ? window.t("applied_badge", "APPLIED") : "APPLIED";
+
           const statusBadge = isUnlocked
-            ? '<span class="status-badge verified" style="font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("unlocked_badge", "UNLOCKED") : "UNLOCKED"}</span>'
+            ? `<span class="status-badge verified" style="font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${unlockedBadgeText}</span>`
             : (isShortlisted
-              ? '<span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("shortlisted_badge", "SHORTLISTED") : "SHORTLISTED"}</span>'
-              : '<span class="status-badge pending" style="font-weight: 600; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${window.t ? window.t("applied_badge", "APPLIED") : "APPLIED"}</span>');
+              ? `<span class="status-badge verified" style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; font-weight: 700; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${shortlistedBadgeText}</span>`
+              : `<span class="status-badge pending" style="font-weight: 600; font-size: 10.5px; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.03em;">${appliedBadgeText}</span>`);
 
           return `
           <div class="divided-row worker-app-card" data-id="${app.id}">

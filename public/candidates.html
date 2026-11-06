@@ -18,7 +18,7 @@
 
   <!-- Core Stylesheets -->
   <link rel="stylesheet" href="css/style.css?v=26">
-  <link rel="stylesheet" href="css/editorial.css?v=38">
+  <link rel="stylesheet" href="css/editorial.css?v=39">
   <link rel="stylesheet" href="css/chat-widget.css?v=8">
 
   <script>
@@ -1639,7 +1639,7 @@
   <!-- Scripts -->
   <script src="js/job-library.js?v=24"></script>
   <script src="js/api.js?v=26"></script>
-  <script src="js/mobile-nav.js?v=5" defer></script>
+  <script src="js/mobile-nav.js?v=6" defer></script>
   <script src="js/chat-widget.js?v=8"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -2112,7 +2112,20 @@
           const initials = c.name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
           const workspaceHref = c.appId ? `/employer.html?highlight=${c.appId}#applicants-section` : `/employer.html#applicants-section`;
 
-              const banner = resolveCandidateBanner(c);
+          const unlockedLabel = window.t ? window.t("contact_unlocked", "Contact Unlocked") : "Contact Unlocked";
+          const verifiedLabel = window.t ? window.t("verified_candidate", "Verified Candidate") : "Verified Candidate";
+          const selectedLabel = window.t ? window.t("selected_label", "Selected") : "Selected";
+          
+          let statusBadgeHtml = '';
+          if (isUnlocked) {
+            statusBadgeHtml = `<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>${unlockedLabel}</span></span>`;
+          } else if (isSelected) {
+            statusBadgeHtml = `<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> <span>${selectedLabel}</span></span>`;
+          } else {
+            statusBadgeHtml = `<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>${verifiedLabel}</span></span>`;
+          }
+
+          const banner = resolveCandidateBanner(c);
           return `
             <article class="candidate-card" data-cand-id="${c.id}" style="position: relative;">
               <div class="candidate-card-header-box" style="${banner.isImage ? '' : `background: ${banner.gradient} !important;`}">
@@ -2125,7 +2138,7 @@
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                     <strong>${c._match.score}% ${window.t ? window.t("match", "Match") : "Match"}</strong>
                   </span>
-                  ${isUnlocked ? '<span class="cand-badge cand-badge-unlocked" style="background: #14281D; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("contact_unlocked", "Contact Unlocked") : "Contact Unlocked"}</span></span>' : (isSelected ? '<span class="cand-badge" style="background: #14281D; color: #FFFFFF; border: 1px solid rgba(255,255,255,0.2); font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4.5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> <span>Selected</span></span>' : '<span class="cand-badge cand-badge-kyc" style="background: #059669; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 4.5px 10px; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-primary), -apple-system, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.02em;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="flex-shrink: 0;"><polyline points="20 6 9 17 4 12"/></svg> <span>${window.t ? window.t("verified_candidate", "Verified Candidate") : "Verified Candidate"}</span></span>')}
+                  ${statusBadgeHtml}
                 </div>
 
               </div>

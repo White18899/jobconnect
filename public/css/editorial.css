@@ -3881,10 +3881,14 @@ img {
     cursor: pointer;
   }
 
-  .sheet-btn-primary {
+  .sheet-btn-primary,
+  .sheet-btn-primary:visited,
+  .sheet-btn-primary:hover,
+  .sheet-btn-primary:active,
+  .sheet-btn-primary span {
     background: #059669;
-    color: #FFFFFF;
-    text-decoration: none;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
     height: 44px;
     border-radius: 10px;
     display: flex;
@@ -3894,10 +3898,14 @@ img {
     font-weight: 700;
   }
 
-  .sheet-btn-secondary {
+  .sheet-btn-secondary,
+  .sheet-btn-secondary:visited,
+  .sheet-btn-secondary:hover,
+  .sheet-btn-secondary:active,
+  .sheet-btn-secondary span {
     background: #14281D;
-    color: #FFFFFF;
-    text-decoration: none;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
     height: 44px;
     border-radius: 10px;
     display: flex;
@@ -3907,10 +3915,15 @@ img {
     font-weight: 650;
   }
 
-  .sheet-btn-outline {
+  .sheet-btn-outline,
+  .sheet-btn-outline:visited,
+  .sheet-btn-outline:hover,
+  .sheet-btn-outline:active,
+  .sheet-btn-outline span {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    color: #1E293B;
+    color: #1E293B !important;
+    text-decoration: none !important;
     height: 40px;
     border-radius: 10px;
     display: flex;

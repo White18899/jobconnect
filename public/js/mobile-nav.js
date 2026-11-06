@@ -16,11 +16,16 @@
     const isWorker = user && user.role === 'worker';
     const currentPath = window.location.pathname.toLowerCase();
 
+    const t = window.t || function(k, d) { return d; };
+
     // Determine target URLs and labels based on role
     const workspaceUrl = isEmployer ? '/employer.html' : (isWorker ? '/worker.html' : '/login.html?mode=signup');
-    const workspaceLabel = isEmployer ? 'Workspace' : (isWorker ? 'My Desk' : 'Get Started');
+    const workspaceLabel = isEmployer ? t('mobile_workspace', 'Workspace') : (isWorker ? t('mobile_mydesk', 'My Desk') : t('mobile_getstarted', 'Get Started'));
     const rosterUrl = isWorker ? '/worker.html#applications-section' : '/candidates.html';
-    const rosterLabel = isWorker ? 'Applications' : 'Candidates';
+    const rosterLabel = isWorker ? t('mobile_applications', 'Applications') : t('mobile_candidates', 'Candidates');
+    const homeLabel = t('mobile_home', 'Home');
+    const vacanciesLabel = t('mobile_vacancies', 'Vacancies');
+    const accountLabel = user ? t('mobile_account', 'Account') : t('nav_signin', 'Sign In');
 
     // Active state detection
     const isHomeActive = currentPath === '/' || currentPath === '/index.html' || currentPath === '';
@@ -38,7 +43,7 @@
               <polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
           </span>
-          <span class="mobile-nav-label">Home</span>
+          <span class="mobile-nav-label">${homeLabel}</span>
         </a>
 
         <a href="/jobs.html" class="mobile-nav-item ${isJobsActive ? 'active' : ''}">
@@ -48,7 +53,7 @@
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
             </svg>
           </span>
-          <span class="mobile-nav-label">Vacancies</span>
+          <span class="mobile-nav-label">${vacanciesLabel}</span>
         </a>
 
         <a href="${rosterUrl}" class="mobile-nav-item ${isRosterActive ? 'active' : ''}">
@@ -97,7 +102,7 @@
               </svg>
             `}
           </span>
-          <span class="mobile-nav-label">${user ? 'Account' : 'Sign In'}</span>
+          <span class="mobile-nav-label">${accountLabel}</span>
         </button>
       </nav>
     `;
@@ -125,8 +130,8 @@
               </div>
             ` : `
               <div class="mobile-sheet-guest-row">
-                <div style="font-size: 17px; font-weight: 750; color: #0F172A;">Welcome to JobWay</div>
-                <div style="font-size: 13px; color: #64748B; margin-top: 2px;">Direct hiring & trade pass network</div>
+                <div style="font-size: 17px; font-weight: 750; color: #0F172A;">${t('welcome_jobway', 'Welcome to JobWay')}</div>
+                <div style="font-size: 13px; color: #64748B; margin-top: 2px;">${t('direct_hiring_sub', 'Direct hiring & trade pass network')}</div>
               </div>
             `}
             <button type="button" class="mobile-sheet-close-btn" id="btn-close-profile-sheet" aria-label="Close sheet">✕</button>
@@ -191,15 +196,15 @@
               </div>
             ` : `
               <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
-                <a href="/login.html?mode=signup" class="sheet-btn-primary">
-                  <span>Create Account / Get Started →</span>
+                <a href="/login.html?mode=signup" class="sheet-btn-primary" style="background: #059669 !important; color: #FFFFFF !important; text-decoration: none !important;">
+                  <span style="color: #FFFFFF !important;">${t('create_account_btn', 'Create Account / Get Started →')}</span>
                 </a>
-                <a href="/login.html?mode=login" class="sheet-btn-secondary">
-                  <span>Sign In with Email / Google</span>
+                <a href="/login.html?mode=login" class="sheet-btn-secondary" style="background: #14281D !important; color: #FFFFFF !important; text-decoration: none !important;">
+                  <span style="color: #FFFFFF !important;">${t('signin_email_google_btn', 'Sign In with Email / Google')}</span>
                 </a>
-                <a href="https://wa.me/919849123434?text=Hello%20JobWay" target="_blank" rel="noopener noreferrer" class="sheet-btn-outline" style="text-decoration: none; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                <a href="https://wa.me/919849123434?text=Hello%20JobWay" target="_blank" rel="noopener noreferrer" class="sheet-btn-outline" style="background: #FFFFFF !important; color: #1E293B !important; text-decoration: none !important; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                  <span>Contact WhatsApp Support ↗</span>
+                  <span>${t('contact_whatsapp_btn', 'Contact WhatsApp Support ↗')}</span>
                 </a>
               </div>
             `}
@@ -279,6 +284,15 @@
       });
     }
   }
+
+  // Re-render mobile nav and sheet when language changes
+  window.addEventListener('jobway:languageChanged', function() {
+    const existingNav = document.getElementById('jobway-mobile-bottom-nav');
+    const existingSheet = document.getElementById('jobway-profile-sheet-overlay');
+    if (existingNav) existingNav.remove();
+    if (existingSheet) existingSheet.remove();
+    initMobileNav();
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMobileNav);

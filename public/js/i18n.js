@@ -198,7 +198,23 @@
       translate_to_te: "తెలుగులో చదవండి",
       translate_to_hi: "हिन्दी में पढ़ें",
       show_original_en: "↺ Show English",
-      translating: "Translating..."
+      translating: "Translating...",
+
+      // Mobile Sheet & Bottom Navigation
+      welcome_jobway: "Welcome to JobWay",
+      direct_hiring_sub: "Direct hiring & trade pass network",
+      create_account_btn: "Create Account / Get Started →",
+      signin_email_google_btn: "Sign In with Email / Google",
+      contact_whatsapp_btn: "Contact WhatsApp Support ↗",
+      mobile_home: "Home",
+      mobile_vacancies: "Vacancies",
+      mobile_candidates: "Candidates",
+      mobile_applications: "Applications",
+      mobile_workspace: "Workspace",
+      mobile_mydesk: "My Desk",
+      mobile_getstarted: "Get Started",
+      mobile_account: "Account",
+      selected_label: "Selected"
     },
 
     te: {
@@ -386,9 +402,25 @@
 
       // Modal Listing Translation
       translate_to_te: "తెలుగులో చదవండి",
-      translate_to_hi: "हिन्दी में पढ़ें",
+      translate_to_hi: "హిन्दीలో చదవండి",
       show_original_en: "↺ ఇంగ్లీష్ చూడండి",
-      translating: "అనువదిస్తోంది..."
+      translating: "అనువదిస్తోంది...",
+
+      // Mobile Sheet & Bottom Navigation
+      welcome_jobway: "JobWay కు స్వాగతం",
+      direct_hiring_sub: "ప్రత్యక్ష నియామకం & ట్రేడ్ పాస్ నెట్‌వర్క్",
+      create_account_btn: "ఖాతా సృష్టించండి / ప్రారంభించండి →",
+      signin_email_google_btn: "ఇమెయిల్ / గూగుల్‌తో సైన్ ఇన్ చేయండి",
+      contact_whatsapp_btn: "వాట్సాప్ సపోర్ట్‌ను సంప్రదించండి ↗",
+      mobile_home: "హోమ్",
+      mobile_vacancies: "ఉద్యోగాలు",
+      mobile_candidates: "అభ్యర్థులు",
+      mobile_applications: "దరఖాస్తులు",
+      mobile_workspace: "వర్క్‌స్పేస్",
+      mobile_mydesk: "నా డెస్క్",
+      mobile_getstarted: "ప్రారంభించండి",
+      mobile_account: "ఖాతా",
+      selected_label: "ఎంచుకోబడింది"
     },
 
     hi: {
@@ -578,7 +610,23 @@
       translate_to_te: "తెలుగులో చదవండి",
       translate_to_hi: "हिन्दी में पढ़ें",
       show_original_en: "↺ अंग्रेजी देखें",
-      translating: "अनुवाद हो रहा है..."
+      translating: "अनुवाद हो रहा है...",
+
+      // Mobile Sheet & Bottom Navigation
+      welcome_jobway: "JobWay में आपका स्वागत है",
+      direct_hiring_sub: "प्रत्यक्ष भर्ती और ट्रेड पास नेटवर्क",
+      create_account_btn: "खाता बनाएं / शुरू करें →",
+      signin_email_google_btn: "ईमेल / गूगल से साइन इन करें",
+      contact_whatsapp_btn: "व्हाट्सएप सपोर्ट से संपर्क करें ↗",
+      mobile_home: "होम",
+      mobile_vacancies: "रिक्तियां",
+      mobile_candidates: "उम्मीदवार",
+      mobile_applications: "आवेदन",
+      mobile_workspace: "कार्यक्षेत्र",
+      mobile_mydesk: "मेरा डेस्क",
+      mobile_getstarted: "शुरू करें",
+      mobile_account: "खाता",
+      selected_label: "चयनित"
     }
   };
 
