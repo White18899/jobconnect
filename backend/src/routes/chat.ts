@@ -37,8 +37,8 @@ KEY WEBSITE SECTIONS & LINKS:
 7. Pricing & Unlock Credits:
    - For Employers (Candidate Unlocks):
      • Starter Pack (1 Unlock): ₹75
-     • Growth Bundle (5 Unlocks): ₹249 (₹49/ea) — Most Popular (Save 35%)
-     • Scale Pack (10 Unlocks): ₹475 (₹47/ea)
+     • Growth Bundle (5 Unlocks): ₹300 (₹60/ea) — Most Popular (Save 20%)
+     • Scale Pack (10 Unlocks): ₹580 (₹58/ea)
    - For Tech Candidates: 100% Free to browse jobs, apply, create profile, and get verified. Optional Priority Application Boost is ₹149.
    - Zero recruiter cuts or ongoing salary commissions — direct connection only!
 
@@ -72,7 +72,7 @@ function getLocalKnowledgeReply(message: string, history: Array<{ role: string; 
 
   // Features / Capabilities
   if (q.includes('feature') || q.includes('what can you do') || q.includes('capabilities') || q.includes('what do you do')) {
-    return `Here are the core features available on **JobWay**: ✨\n\n• **[Find Jobs](/jobs.html)**: Search software, DevOps, QA, and tech lead positions with salary transparency.\n• **[Candidate Directory](/candidates.html)**: Filter pre-vetted engineers by tech stack, experience, and Vizag locality.\n• **[Worker Desk](/worker.html)**: Track job application statuses and activate Priority Application Boost.\n• **[Employer Workspace](/employer.html)**: Post openings and manage incoming applicant pipelines.\n• **[DigiLocker Verification](/profile-edit.html)**: Government-backed trust badges for engineers.\n• **[Instant UPI Unlock Credits](/candidates.html)**: Transparent candidate unlock pricing starting at ₹75/unlock (or ₹249 for 5 unlocks) via ICICI UPI without recruiter markups.`;
+    return `Here are the core features available on **JobWay**: ✨\n\n• **[Find Jobs](/jobs.html)**: Search software, DevOps, QA, and tech lead positions with salary transparency.\n• **[Candidate Directory](/candidates.html)**: Filter pre-vetted engineers by tech stack, experience, and Vizag locality.\n• **[Worker Desk](/worker.html)**: Track job application statuses and activate Priority Application Boost.\n• **[Employer Workspace](/employer.html)**: Post openings and manage incoming applicant pipelines.\n• **[DigiLocker Verification](/profile-edit.html)**: Government-backed trust badges for engineers.\n• **[Instant UPI Unlock Credits](/candidates.html)**: Transparent candidate unlock pricing starting at ₹75/unlock (or ₹300 for 5 unlocks) via ICICI UPI without recruiter markups.`;
   }
 
   // Job Search / Applying
@@ -92,7 +92,7 @@ function getLocalKnowledgeReply(message: string, history: Array<{ role: string; 
 
   // Pricing / Credits / Payment
   if (q.includes('price') || q.includes('cost') || q.includes('credit') || q.includes('pay') || q.includes('upi') || q.includes('fee') || q.includes('pricing') || q.includes('rate')) {
-    return `Here is our transparent pricing structure: 💳\n\n**For Employers (Candidate Unlocks):**\n• **Starter Pack**: **₹75** (1 candidate unlock)\n• **Growth Bundle**: **₹249** (5 candidate unlocks • ₹49/ea • *Most Popular • Save 35%*)\n• **Scale Pack**: **₹475** (10 candidate unlocks • ₹47/ea)\n\n**For Tech Candidates & Engineers:**\n• **100% Free**: Search, apply, build profiles, and get verified for free.\n• **Priority Application Boost**: **₹149** (optional visibility boost on your Worker Desk)\n\nAll payments are verified via direct ICICI UPI (**jobconnect@icici**). JobWay never takes salary cuts or recruiter commissions!`;
+    return `Here is our transparent pricing structure: 💳\n\n**For Employers (Candidate Unlocks):**\n• **Starter Pack**: **₹75** (1 candidate unlock)\n• **Growth Bundle**: **₹300** (5 candidate unlocks • ₹60/ea • *Most Popular • Save 20%*)\n• **Scale Pack**: **₹580** (10 candidate unlocks • ₹58/ea)\n\n**For Tech Candidates & Engineers:**\n• **100% Free**: Search, apply, build profiles, and get verified for free.\n• **Priority Application Boost**: **₹149** (optional visibility boost on your Worker Desk)\n\nAll payments are verified via direct ICICI UPI (**jobconnect@icici**). JobWay never takes salary cuts or recruiter commissions!`;
   }
 
   // Location / Vizag corridors

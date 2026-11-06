@@ -656,10 +656,10 @@
             </span>
             <div>
               <div style="font-size: 11.5px; font-weight: 700; color: #14281D; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Growth Bundle</div>
-              <div style="font-size: 36px; font-weight: 850; color: #14281D; margin: 8px 0; letter-spacing: -0.03em;">₹249</div>
-              <div style="font-size: 13.5px; font-weight: 600; color: #047857;">5 Candidate Unlocks (₹49/ea)</div>
+              <div style="font-size: 36px; font-weight: 850; color: #14281D; margin: 8px 0; letter-spacing: -0.03em;">₹300</div>
+              <div style="font-size: 13.5px; font-weight: 600; color: #047857;">5 Candidate Unlocks (₹60/ea)</div>
             </div>
-            <button type="button" class="select-plan-btn" data-plan="5" data-amount="249" data-title="Growth Bundle (5 Unlocks)" style="margin-top: 24px; width: 100%; height: 42px; border-radius: 8px; background: #14281D; border: 1px solid #14281D; color: #ffffff; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: 0 4px 14px rgba(20,40,29,0.25); transition: all 0.2s ease;">
+            <button type="button" class="select-plan-btn" data-plan="5" data-amount="300" data-title="Growth Bundle (5 Unlocks)" style="margin-top: 24px; width: 100%; height: 42px; border-radius: 8px; background: #14281D; border: 1px solid #14281D; color: #ffffff; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: 0 4px 14px rgba(20,40,29,0.25); transition: all 0.2s ease;">
               Select 5 Unlocks
             </button>
           </div>
@@ -667,11 +667,11 @@
           <!-- Pack 3 -->
           <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 38px 22px 26px; text-align: center; background: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
             <div>
-              <div style="font-size: 11.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Bulk Workshop</div>
-              <div style="font-size: 34px; font-weight: 800; color: #14281D; margin: 8px 0; letter-spacing: -0.03em;">₹475</div>
-              <div style="font-size: 13.5px; font-weight: 600; color: #059669;">10 Candidate Unlocks (₹47/ea)</div>
+              <div style="font-size: 11.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Scale Pack</div>
+              <div style="font-size: 34px; font-weight: 800; color: #14281D; margin: 8px 0; letter-spacing: -0.03em;">₹580</div>
+              <div style="font-size: 13.5px; font-weight: 600; color: #059669;">10 Candidate Unlocks (₹58/ea)</div>
             </div>
-            <button type="button" class="select-plan-btn" data-plan="10" data-amount="475" data-title="Bulk Workshop (10 Unlocks)" style="margin-top: 24px; width: 100%; height: 42px; border-radius: 8px; background: #F8FAFC; border: 1px solid #CBD5E1; color: #14281D; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s ease;">
+            <button type="button" class="select-plan-btn" data-plan="10" data-amount="580" data-title="Scale Pack (10 Unlocks)" style="margin-top: 24px; width: 100%; height: 42px; border-radius: 8px; background: #F8FAFC; border: 1px solid #CBD5E1; color: #14281D; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s ease;">
               Select 10 Unlocks
             </button>
           </div>
@@ -715,7 +715,7 @@
             <div style="font-size: 15px; font-weight: 700; color: var(--text-primary);" id="modal-plan-title">Growth Bundle (5 Unlocks)</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;" id="modal-plan-amount">₹249</div>
+            <div style="font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;" id="modal-plan-amount">₹300</div>
             <div style="font-size: 11.5px; color: var(--primary); font-weight: 600;" id="modal-plan-credits">5 Credits</div>
           </div>
         </div>
@@ -1152,7 +1152,7 @@
               await renderApplicants();
             } else if (res.needCredits) {
               showToast(res.message || 'You have 0 credits remaining! Please recharge below.', 'error');
-              openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+              openCheckoutModal({ plan: 5, amount: 300, title: "Growth Bundle (5 Unlocks)", credits: 5 });
             } else {
               showToast(res.message, 'error');
             }
@@ -1187,7 +1187,7 @@
           await renderApplicants();
         } else if (res.needCredits) {
           showToast(res.message || 'Insufficient unlock credits. Please recharge below.', 'error');
-          openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+          openCheckoutModal({ plan: 5, amount: 300, title: "Growth Bundle (5 Unlocks)", credits: 5 });
         } else {
           showToast(res.message, 'info');
         }
@@ -1373,7 +1373,7 @@
             openApplicantPassDrawer(app.id);
           } else if (res.needCredits) {
             showToast(res.message || 'You have 0 credits remaining! Please recharge below.', 'error');
-            openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+            openCheckoutModal({ plan: 5, amount: 300, title: "Growth Bundle (5 Unlocks)", credits: 5 });
           }
         });
 
@@ -1405,7 +1405,7 @@
 
 
       // --- Payment & Checkout Modal Logic ---
-      let currentModalPlan = { plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 };
+      let currentModalPlan = { plan: 5, amount: 300, title: "Growth Bundle (5 Unlocks)", credits: 5 };
       let uploadedScreenshotDataUrl = null;
 
       const checkoutModal = document.getElementById('unlock-pack-modal');
@@ -1476,7 +1476,7 @@
       const bannerBuyBtn = document.getElementById('btn-banner-buy-credits');
       if (bannerBuyBtn) {
         bannerBuyBtn.addEventListener('click', () => {
-          openCheckoutModal({ plan: 5, amount: 249, title: "Growth Bundle (5 Unlocks)", credits: 5 });
+          openCheckoutModal({ plan: 5, amount: 300, title: "Growth Bundle (5 Unlocks)", credits: 5 });
         });
       }
 

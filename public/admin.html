@@ -669,7 +669,7 @@
             UPI Settlements Ledger
           </h2>
           <p class="panel-subtitle">
-            All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹475). Audit payment screenshot proofs and approve credits.
+            All transactions logged from Worker Priority Boosts (₹149) and Employer Unlock Bundles (₹75 - ₹580). Audit payment screenshot proofs and approve credits.
           </p>
         </div>
         <div>
@@ -1140,8 +1140,8 @@
               <div style="display: flex; gap: 4px; justify-content: center; flex-wrap: wrap;">
                 <button type="button" class="btn-test-qr-amount" data-amt="75" style="padding: 3px 6px; font-size: 10.5px; border: 1.5px solid #047857; background: #ECFDF5; color: #047857; border-radius: 4px; cursor: pointer; font-weight: 700;">₹75</button>
                 <button type="button" class="btn-test-qr-amount" data-amt="149" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹149</button>
-                <button type="button" class="btn-test-qr-amount" data-amt="249" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹249</button>
-                <button type="button" class="btn-test-qr-amount" data-amt="475" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹475</button>
+                <button type="button" class="btn-test-qr-amount" data-amt="300" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹300</button>
+                <button type="button" class="btn-test-qr-amount" data-amt="580" style="padding: 3px 6px; font-size: 10.5px; border: 1px solid #CBD5E1; background: #FFFFFF; border-radius: 4px; cursor: pointer; font-weight: 600;">₹580</button>
               </div>
             </div>
           </div>
@@ -1198,13 +1198,13 @@
                   <span>₹149</span>
                   <span class="qr-status-dot" id="dot-149" style="width: 7px; height: 7px; border-radius: 50%; background: #94A3B8; display: inline-block;"></span>
                 </button>
-                <button type="button" class="admin-qr-tab-btn" data-plan="249" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                  <span>₹249</span>
-                  <span class="qr-status-dot" id="dot-249" style="width: 7px; height: 7px; border-radius: 50%; background: #94A3B8; display: inline-block;"></span>
+                <button type="button" class="admin-qr-tab-btn" data-plan="300" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <span>₹300</span>
+                  <span class="qr-status-dot" id="dot-300" style="width: 7px; height: 7px; border-radius: 50%; background: #94A3B8; display: inline-block;"></span>
                 </button>
-                <button type="button" class="admin-qr-tab-btn" data-plan="475" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                  <span>₹475</span>
-                  <span class="qr-status-dot" id="dot-475" style="width: 7px; height: 7px; border-radius: 50%; background: #94A3B8; display: inline-block;"></span>
+                <button type="button" class="admin-qr-tab-btn" data-plan="580" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                  <span>₹580</span>
+                  <span class="qr-status-dot" id="dot-580" style="width: 7px; height: 7px; border-radius: 50%; background: #94A3B8; display: inline-block;"></span>
                 </button>
                 <button type="button" class="admin-qr-tab-btn" data-plan="default" style="padding: 4px 8px; font-size: 11px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #475569; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
                   <span>Fallback / Other</span>
@@ -1752,8 +1752,10 @@
       const planDisplayNames = {
         '75': 'Starter Pack (₹75 - 1 Unlock)',
         '149': 'Worker Boost (₹149 - 7 Days)',
-        '249': 'Growth Bundle (₹249 - 5 Unlocks)',
-        '475': 'Bulk Workshop (₹475 - 10 Unlocks)',
+        '300': 'Growth Bundle (₹300 - 5 Unlocks)',
+        '249': 'Growth Bundle (Legacy ₹249)',
+        '580': 'Scale Pack (₹580 - 10 Unlocks)',
+        '475': 'Scale Pack (Legacy ₹475)',
         'default': 'Default / Fallback QR Code'
       };
 
