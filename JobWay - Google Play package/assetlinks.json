@@ -1,8 +1,13 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "in.jobway.app",
-        "sha256_cert_fingerprints": ["CB:EE:F0:96:8C:8A:06:0C:5B:89:01:FC:E4:34:DE:F6:AB:9E:E8:70:5B:60:73:FF:64:37:29:CB:0A:46:E1:BA"]
-      }
-    }]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "in.jobway.app",
+      "sha256_cert_fingerprints": [
+        "34:94:AB:72:66:F1:18:E4:14:07:82:8C:02:49:DF:3B:BF:5B:62:E3:1E:C2:C7:E0:8A:91:C6:19:B1:1C:79:D5",
+        "CB:EE:F0:96:8C:8A:06:0C:5B:89:01:FC:E4:34:DE:F6:AB:9E:E8:70:5B:60:73:FF:64:37:29:CB:0A:46:E1:BA"
+      ]
+    }
+  }
+]
